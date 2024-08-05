@@ -12,9 +12,9 @@ const Landing = () => {
   mb.setParams({
     bgColor: '#aa1388',
     text: 'Go to the moon',
+    isVisible: true,
+    isEnabled: true,
   });
-
-  mb.show();
 
   mb.on('click', () => {
     navigate('profile');
@@ -27,9 +27,10 @@ const Landing = () => {
         <Heading size='3'>Welcome to Kattana broker</Heading>
       </Flex>
       <About />
+      <Separator size='4' mt='auto' my='1' />
       <Advantages />
+      <Separator size='4' mt='auto' my='1' />
       <WhyUs />
-      <Separator size='4' mt='auto' mb='3' />
       {/* <Flex justify='center'>
         <Button asChild size='2'>
           <Box asChild width='200px'>
