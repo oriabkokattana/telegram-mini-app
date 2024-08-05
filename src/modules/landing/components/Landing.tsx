@@ -1,17 +1,24 @@
-import { Box, Button, Flex, Heading, Separator } from '@radix-ui/themes';
+import { useNavigate } from 'react-router-dom';
+import { Flex, Heading, Separator } from '@radix-ui/themes';
 import { useMainButton } from '@telegram-apps/sdk-react';
-import Link from '@/modules/core/components/Link';
 import About from './About';
 import Advantages from './Advantages';
 import WhyUs from './WhyUs';
 
 const Landing = () => {
   const mb = useMainButton();
+  const navigate = useNavigate();
 
   mb.setParams({
     bgColor: '#aa1388',
     text: 'Go to the moon',
-    isVisible: true,
+  });
+
+  mb.show();
+
+  mb.on('click', () => {
+    navigate('profile');
+    mb.hide();
   });
 
   return (
@@ -23,13 +30,13 @@ const Landing = () => {
       <Advantages />
       <WhyUs />
       <Separator size='4' mt='auto' mb='3' />
-      <Flex justify='center'>
+      {/* <Flex justify='center'>
         <Button asChild size='2'>
           <Box asChild width='200px'>
             <Link to='profile'>Go to the moon</Link>
           </Box>
         </Button>
-      </Flex>
+      </Flex> */}
     </Flex>
   );
 };
