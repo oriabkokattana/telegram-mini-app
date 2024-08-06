@@ -71,9 +71,12 @@ function Root() {
 
 function Layout() {
   const bm = useBiometryManager();
-  bm?.authenticate({ reason: 'Authorize to unlock the storage' }).then((token) => {
-    console.log('Token received', token);
-  });
+  bm
+    ?.requestAccess({ reason: 'Authorize to start using biometry' })
+    .then(() => bm.authenticate({ reason: 'Authorize to unlock the storage' }))
+    .then((token) => {
+      console.log('Token received', token);
+    });
 
   return (
     <Flex
