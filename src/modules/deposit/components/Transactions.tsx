@@ -1,9 +1,9 @@
 import { Section, Table, Text } from '@radix-ui/themes';
 
-const Trades = () => {
+const Transactions = () => {
   return (
-    <Section py='2' px='2' style={{ border: '1px solid var(--gray-6)' }}>
-      <Text>Label</Text>
+    <Section py='6'>
+      <Text>Transactions</Text>
       <Table.Root variant='surface' size='1' mt='2'>
         <Table.Body>
           <Table.Row>
@@ -20,4 +20,4 @@ const Trades = () => {
   );
 };
 
-export default Trades;
+export default Transactions;

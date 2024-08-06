@@ -6,10 +6,10 @@ const UserActions = () => {
     <Section pb='0' mt='auto'>
       <Flex direction='column' gap='2'>
         <Button asChild variant='surface'>
-          <Link to='trading'>Deposit</Link>
+          <Link to='deposit'>Deposit</Link>
         </Button>
         <Button asChild variant='surface'>
-          <Link to='trading'>Withdraw</Link>
+          <Link to='withdraw'>Withdraw</Link>
         </Button>
         <Button asChild variant='surface'>
           <Link to='trading'>History</Link>

@@ -12,9 +12,12 @@ import {
   useViewport,
 } from '@telegram-apps/sdk-react';
 import Link from '@/modules/core/components/Link';
-import Landing from '@/modules/landing/components/Landing';
-import Profile from '@/modules/profile/components/Profile';
-import Trading from '@/modules/trading/components/Trading';
+import Deposit from './modules/deposit/components/Deposit';
+import History from './modules/history/components/History';
+import Landing from './modules/landing/components/Landing';
+import Profile from './modules/profile/components/Profile';
+import Trading from './modules/trading/components/Trading';
+import Withdraw from './modules/withdraw/components/Withdraw';
 
 import '@radix-ui/themes/styles.css';
 
@@ -54,6 +57,9 @@ function Root() {
           <Route index element={<Landing />} />
           <Route path='profile' element={<Profile />} />
           <Route path='trading' element={<Trading />} />
+          <Route path='deposit' element={<Deposit />} />
+          <Route path='withdraw' element={<Withdraw />} />
+          <Route path='history' element={<History />} />
 
           <Route path='*' element={<NoMatch />} />
         </Route>
@@ -65,8 +71,8 @@ function Root() {
 function Layout() {
   return (
     <Flex
-      width='100vw'
-      minHeight='100vh'
+      width='var(--tg-viewport-width)'
+      minHeight='var(--tg-viewport-height)'
       justify='center'
       align='center'
       style={{ backgroundColor: 'var(--gray-2)' }}
