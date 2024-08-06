@@ -17,7 +17,7 @@ const Withdraw = () => {
     <Flex width='100%' minHeight='var(--tg-viewport-height)' px='4' py='4' direction='column'>
       <Flex gap='2' align='center' mb='2'>
         <IconButton asChild>
-          <Link to='profile'>
+          <Link to='/profile'>
             <ChevronLeftIcon />
           </Link>
         </IconButton>
@@ -36,7 +36,7 @@ const Withdraw = () => {
             <TextField.Root size='3' placeholder='0' id='amount' />
           </Flex>
           <Button asChild>
-            <Link to='history'>Send</Link>
+            <Link to='/history'>Send</Link>
           </Button>
         </Flex>
       </Section>
@@ -49,7 +49,7 @@ const Withdraw = () => {
             <TextField.Root size='3' placeholder='0' id='amount' />
           </Flex>
           <Button asChild>
-            <Link to='history'>Withdraw</Link>
+            <Link to='/history'>Withdraw</Link>
           </Button>
         </Flex>
       </Section>

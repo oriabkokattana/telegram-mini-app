@@ -27,7 +27,7 @@ const Deposit = () => {
   });
 
   mb.on('click', () => {
-    navigate('#withdraw');
+    navigate('/withdraw');
     mb.hide();
   });
 
@@ -35,7 +35,7 @@ const Deposit = () => {
     <Flex width='100%' minHeight='var(--tg-viewport-height)' px='4' py='4' direction='column'>
       <Flex gap='2' align='center' mb='2'>
         <IconButton asChild>
-          <Link to='profile'>
+          <Link to='/profile'>
             <ChevronLeftIcon />
           </Link>
         </IconButton>
