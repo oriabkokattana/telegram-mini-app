@@ -7,6 +7,7 @@ import {
   bindThemeParamsCSSVars,
   bindViewportCSSVars,
   initNavigator,
+  useBiometryManager,
   useMiniApp,
   useThemeParams,
   useViewport,
@@ -69,6 +70,11 @@ function Root() {
 }
 
 function Layout() {
+  const bm = useBiometryManager();
+  bm?.authenticate({ reason: 'Authorize to unlock the storage' }).then((token) => {
+    console.log('Token received', token);
+  });
+
   return (
     <Flex
       width='var(--tg-viewport-width)'
