@@ -57,17 +57,19 @@ const Authorization = () => {
         )}
       </Flex>
       <Flex width='100%' my='auto' direction='column' gap='6'>
-        <SegmentedControl.Root defaultValue='Email&Password'>
-          {tabs.map((item) => (
-            <SegmentedControl.Item
-              key={item}
-              value={item}
-              onClick={() => setTab(item as AuthMethod)}
-            >
-              {item}
-            </SegmentedControl.Item>
-          ))}
-        </SegmentedControl.Root>
+        <Flex justify='center'>
+          <SegmentedControl.Root size='1' defaultValue='Email&Password'>
+            {tabs.map((item) => (
+              <SegmentedControl.Item
+                key={item}
+                value={item}
+                onClick={() => setTab(item as AuthMethod)}
+              >
+                {item}
+              </SegmentedControl.Item>
+            ))}
+          </SegmentedControl.Root>
+        </Flex>
         {tab === 'Email&Password' && (
           <Section py='6'>
             <Flex direction='column' gap='4'>
