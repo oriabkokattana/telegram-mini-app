@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ChevronLeftIcon } from '@radix-ui/react-icons';
 import * as Label from '@radix-ui/react-label';
 import {
+  Box,
   Button,
   Flex,
   Heading,
@@ -29,6 +30,8 @@ const Authorization = () => {
       const accessGranted = await bm.requestAccess({ reason: 'Authorize to start using biometry' });
       if (accessGranted) {
         const token = await bm.authenticate({ reason: 'Authorize to unlock the storage' });
+        console.log('token: ', token);
+
         setToken(token);
       }
     } catch (error) {
@@ -106,7 +109,9 @@ const Authorization = () => {
         )}
         {tab === 'Biometry' && (
           <Section py='6'>
-            <Button onClick={onBiometry}>Login with Google</Button>
+            <Box asChild width='100%'>
+              <Button onClick={onBiometry}>Login with Biometry</Button>
+            </Box>
           </Section>
         )}
       </Flex>
