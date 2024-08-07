@@ -12,7 +12,7 @@ const Profile = () => {
     <Flex width='100%' minHeight='var(--tg-viewport-height)' px='4' py='4' direction='column'>
       <Flex gap='2' align='center' mb='2'>
         <IconButton asChild>
-          <Link to='/'>
+          <Link to='/auth'>
             <ChevronLeftIcon />
           </Link>
         </IconButton>

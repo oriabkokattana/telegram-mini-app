@@ -18,7 +18,7 @@ const Landing = () => {
   });
 
   mb.on('click', () => {
-    navigate('/profile');
+    navigate('/auth');
     mb.hide();
   });
 
