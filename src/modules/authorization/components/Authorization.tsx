@@ -37,7 +37,7 @@ const Authorization = () => {
   };
 
   const tabs =
-    lp.platform === 'IOS' || lp.platform === 'Android'
+    lp.platform === 'ios' || lp.platform === 'android'
       ? ['Email&Password', 'OAuth', 'Biometry']
       : ['Email&Password', 'OAuth'];
 
