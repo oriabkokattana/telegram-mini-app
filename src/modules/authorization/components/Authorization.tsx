@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ChevronLeftIcon } from '@radix-ui/react-icons';
 import * as Label from '@radix-ui/react-label';
 import {
@@ -21,6 +22,7 @@ const Authorization = () => {
   const [token, setToken] = useState<string>();
   const [tab, setTab] = useState<AuthMethod>('Email&Password');
 
+  const navigate = useNavigate();
   const lp = useLaunchParams();
 
   const onBiometry = async () => {
@@ -33,6 +35,7 @@ const Authorization = () => {
         console.log('token: ', token);
 
         setToken(token);
+        navigate('/profile');
       }
     } catch (error) {
       console.log(error);
