@@ -7,12 +7,12 @@ import {
   bindThemeParamsCSSVars,
   bindViewportCSSVars,
   initNavigator,
-  useBiometryManager,
   useMiniApp,
   useThemeParams,
   useViewport,
 } from '@telegram-apps/sdk-react';
 import Link from '@/modules/core/components/Link';
+import Authorization from './modules/authorization/components/Authorization';
 import Deposit from './modules/deposit/components/Deposit';
 import History from './modules/history/components/History';
 import Landing from './modules/landing/components/Landing';
@@ -61,6 +61,7 @@ function Root() {
           <Route path='deposit' element={<Deposit />} />
           <Route path='withdraw' element={<Withdraw />} />
           <Route path='history' element={<History />} />
+          <Route path='auth' element={<Authorization />} />
 
           <Route path='*' element={<NoMatch />} />
         </Route>
@@ -70,14 +71,6 @@ function Root() {
 }
 
 function Layout() {
-  const bm = useBiometryManager();
-  bm
-    ?.requestAccess({ reason: 'Authorize to start using biometry' })
-    .then(() => bm.authenticate({ reason: 'Authorize to unlock the storage' }))
-    .then((token) => {
-      console.log('Token received', token);
-    });
-
   return (
     <Flex
       width='var(--tg-viewport-width)'

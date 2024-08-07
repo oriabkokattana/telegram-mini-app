@@ -36,7 +36,7 @@ const Landing = () => {
         <Flex justify='center'>
           <Button asChild size='2'>
             <Box asChild width='200px'>
-              <Link to='/profile'>Go to the moon</Link>
+              <Link to='/auth'>Go to the moon</Link>
             </Box>
           </Button>
         </Flex>
