@@ -31,6 +31,7 @@ const Authorization = () => {
     onSuccess: (codeResponse) => toast(codeResponse.code),
     flow: 'auth-code',
     redirect_uri: import.meta.env.VITE_REDIRECT_URI,
+    scope: 'openid',
   });
 
   const onBiometry = async () => {
