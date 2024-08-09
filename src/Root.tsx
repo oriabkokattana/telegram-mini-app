@@ -13,6 +13,8 @@ import {
 } from '@telegram-apps/sdk-react';
 import Link from '@/modules/core/components/Link';
 import Authorization from './modules/authorization/components/Authorization';
+import { PrivateRoute } from './modules/core/components/PrivateRoute';
+import { PublicRoute } from './modules/core/components/PublicRoute';
 import Deposit from './modules/deposit/components/Deposit';
 import History from './modules/history/components/History';
 import Landing from './modules/landing/components/Landing';
@@ -56,12 +58,54 @@ function Root() {
       <Routes>
         <Route path='/' element={<Layout />}>
           <Route index element={<Landing />} />
-          <Route path='profile' element={<Profile />} />
-          <Route path='trading' element={<Trading />} />
-          <Route path='deposit' element={<Deposit />} />
-          <Route path='withdraw' element={<Withdraw />} />
-          <Route path='history' element={<History />} />
-          <Route path='auth' element={<Authorization />} />
+          <Route
+            path='profile'
+            element={
+              <PrivateRoute>
+                <Profile />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='trading'
+            element={
+              <PrivateRoute>
+                <Trading />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='deposit'
+            element={
+              <PrivateRoute>
+                <Deposit />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='withdraw'
+            element={
+              <PrivateRoute>
+                <Withdraw />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='history'
+            element={
+              <PrivateRoute>
+                <History />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='auth'
+            element={
+              <PublicRoute>
+                <Authorization />
+              </PublicRoute>
+            }
+          />
 
           <Route path='*' element={<NoMatch />} />
         </Route>

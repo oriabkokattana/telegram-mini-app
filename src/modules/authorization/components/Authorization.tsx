@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 import { ChevronLeftIcon } from '@radix-ui/react-icons';
 import * as Label from '@radix-ui/react-label';
 import {
@@ -13,6 +14,7 @@ import {
   Text,
   TextField,
 } from '@radix-ui/themes';
+import { useGoogleLogin } from '@react-oauth/google';
 import { initBiometryManager, useLaunchParams } from '@telegram-apps/sdk-react';
 import Link from '@/modules/core/components/Link';
 
@@ -24,6 +26,11 @@ const Authorization = () => {
 
   const navigate = useNavigate();
   const lp = useLaunchParams();
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: (tokenResponse) => toast(tokenResponse.access_token),
+    flow: 'implicit',
+  });
 
   const onBiometry = async () => {
     try {
@@ -98,9 +105,7 @@ const Authorization = () => {
         {tab === 'OAuth' && (
           <Section py='6'>
             <Flex direction='column' gap='4'>
-              <Button asChild>
-                <Link to='/profile'>Login with Google</Link>
-              </Button>
+              <Button onClick={() => googleLogin()}>Login with Google</Button>
               <Button asChild>
                 <Link to='/profile'>Login with Apple</Link>
               </Button>
