@@ -19,6 +19,7 @@ module.exports = {
       },
     ],
     'simple-import-sort/imports': 'error',
+    'react-hooks/exhaustive-deps': 'off',
     quotes: ['error', 'single', { avoidEscape: true }],
   },
   overrides: [

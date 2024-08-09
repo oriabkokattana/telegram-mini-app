@@ -28,8 +28,9 @@ const Authorization = () => {
   const lp = useLaunchParams();
 
   const googleLogin = useGoogleLogin({
-    onSuccess: (tokenResponse) => toast(tokenResponse.access_token),
-    flow: 'implicit',
+    onSuccess: (codeResponse) => toast(codeResponse.code),
+    flow: 'auth-code',
+    redirect_uri: import.meta.env.VITE_REDIRECT_URI,
   });
 
   const onBiometry = async () => {
