@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'sonner';
+// import { toast } from 'sonner';
 import { ChevronLeftIcon } from '@radix-ui/react-icons';
 import * as Label from '@radix-ui/react-label';
 import {
@@ -14,8 +14,8 @@ import {
   Text,
   TextField,
 } from '@radix-ui/themes';
-import { useGoogleLogin } from '@react-oauth/google';
-import { initBiometryManager, useLaunchParams } from '@telegram-apps/sdk-react';
+// import { useGoogleLogin } from '@react-oauth/google';
+import { initBiometryManager, useLaunchParams, useUtils } from '@telegram-apps/sdk-react';
 import Link from '@/modules/core/components/Link';
 
 type AuthMethod = 'Email&Password' | 'OAuth' | 'Biometry';
@@ -26,12 +26,16 @@ const Authorization = () => {
 
   const navigate = useNavigate();
   const lp = useLaunchParams();
+  const utils = useUtils();
 
-  const googleLogin = useGoogleLogin({
-    onSuccess: (codeResponse) => toast(codeResponse.code),
-    flow: 'auth-code',
-    ux_mode: 'popup',
-  });
+  const googleLogin = () => {
+    utils.openLink('https://redirect-to-bot.vercel.app/');
+  };
+  // useGoogleLogin({
+  //   onSuccess: (codeResponse) => toast(codeResponse.code),
+  //   flow: 'auth-code',
+  //   ux_mode: 'popup',
+  // });
 
   const onBiometry = async () => {
     try {
