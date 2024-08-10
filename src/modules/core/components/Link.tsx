@@ -27,7 +27,7 @@ const Link: FC<LinkProps> = ({ onClick: propsOnClick, to, ...rest }) => {
 
       if (isExternal) {
         e.preventDefault();
-        utils.openLink(targetUrl.toString());
+        utils.openLink(targetUrl.toString(), { tryBrowser: true });
       }
     },
     [to, propsOnClick, utils]
