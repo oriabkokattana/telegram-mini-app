@@ -29,7 +29,7 @@ const Authorization = () => {
   const utils = useUtils();
 
   const googleLogin = () => {
-    utils.openLink('https://redirect-to-bot.vercel.app/', { tryBrowser: true });
+    utils.openLink('https://kattana.io/', { tryBrowser: true });
   };
   // useGoogleLogin({
   //   onSuccess: (codeResponse) => toast(codeResponse.code),
