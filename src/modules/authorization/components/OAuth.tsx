@@ -1,14 +1,12 @@
 import { Button, Flex, Section } from '@radix-ui/themes';
-import { useUtils } from '@telegram-apps/sdk-react';
 import {
   useFacebookOauth,
   useGoogleOauth,
   useTwitterOauth,
 } from '@/services/auth/oauth-provider/api';
+import { openLink } from '@/utils/open-link';
 
 const OAuth = () => {
-  const utils = useUtils();
-
   const { data: googleOAuth, isSuccess: isGoogleOauthSuccess, error } = useGoogleOauth();
   const { data: twitterOAuth, isSuccess: isTwitterOauthSuccess, error: er1 } = useTwitterOauth();
   const { data: facebookOAuth, isSuccess: isFacebookOauthSuccess } = useFacebookOauth();
@@ -20,19 +18,13 @@ const OAuth = () => {
     <Section py='6'>
       <Flex direction='column' gap='4'>
         {isGoogleOauthSuccess && (
-          <Button onClick={() => utils.openLink(googleOAuth.redirect_url, { tryBrowser: true })}>
-            Login with Google
-          </Button>
+          <Button onClick={() => openLink(googleOAuth.redirect_url)}>Login with Google</Button>
         )}
         {isTwitterOauthSuccess && (
-          <Button onClick={() => utils.openLink(twitterOAuth.redirect_url, { tryBrowser: true })}>
-            Login with X
-          </Button>
+          <Button onClick={() => openLink(twitterOAuth.redirect_url)}>Login with X</Button>
         )}
         {isFacebookOauthSuccess && (
-          <Button onClick={() => utils.openLink(facebookOAuth.redirect_url, { tryBrowser: true })}>
-            Login with Facebook
-          </Button>
+          <Button onClick={() => openLink(facebookOAuth.redirect_url)}>Login with Facebook</Button>
         )}
       </Flex>
     </Section>
