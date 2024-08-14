@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ChevronLeftIcon } from '@radix-ui/react-icons';
 import { Flex, Heading, IconButton, SegmentedControl } from '@radix-ui/themes';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+// import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { BiometryManager, initBiometryManager } from '@telegram-apps/sdk-react';
 import Link from '@/modules/core/components/Link';
 import Biometry from './Biometry';
@@ -50,7 +50,7 @@ const Authorization = () => {
         {tab === 'Email&Password' && <EmailPassword />}
         {tab === 'OAuth' && <OAuth />}
         {tab === 'Biometry' && <Biometry biometryManager={bm!} />}
-        <ConnectButton />
+        {/* <ConnectButton /> */}
       </Flex>
     </Flex>
   );
