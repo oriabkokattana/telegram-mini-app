@@ -21,6 +21,8 @@ import Landing from './modules/landing/components/Landing';
 import Profile from './modules/profile/components/Profile';
 import Trading from './modules/trading/components/Trading';
 import Withdraw from './modules/withdraw/components/Withdraw';
+import { useOauthLogin } from './services/auth/oauth-login/api';
+import { useUserStoreHydration } from './store/user-store';
 
 import '@radix-ui/themes/styles.css';
 
@@ -52,6 +54,16 @@ function Root() {
     navigator.attach();
     return () => navigator.detach();
   }, [navigator]);
+
+  const hydrated = useUserStoreHydration();
+
+  if (!hydrated) {
+    return (
+      <Flex justify='center' align='center'>
+        Loading...
+      </Flex>
+    );
+  }
 
   return (
     <Router location={location} navigator={reactNavigator}>
@@ -115,6 +127,8 @@ function Root() {
 }
 
 function Layout() {
+  useOauthLogin();
+
   return (
     <Flex
       width='var(--tg-viewport-width)'

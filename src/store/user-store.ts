@@ -1,8 +1,11 @@
+import { useEffect, useState } from 'react';
 import { create, StateCreator } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { createJSONStorage, persist } from 'zustand/middleware';
+import { customStorage } from '@/utils/cloud-storage';
 
 interface User {
   accessToken: string;
+  refreshToken: string;
 }
 
 interface UserState {
@@ -19,6 +22,23 @@ const userStoreSlice: StateCreator<UserState> = (set) => ({
 
 const persistedUserStore = persist<UserState>(userStoreSlice, {
   name: 'user',
+  storage: createJSONStorage(() => customStorage),
 });
 
 export const useUserStore = create(persistedUserStore);
+
+export const useUserStoreHydration = () => {
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    const unsubFinishHydration = useUserStore.persist.onFinishHydration(() => setHydrated(true));
+
+    setHydrated(useUserStore.persist.hasHydrated());
+
+    return () => {
+      unsubFinishHydration();
+    };
+  }, []);
+
+  return hydrated;
+};

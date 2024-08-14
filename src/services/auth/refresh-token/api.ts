@@ -1,10 +1,7 @@
 import { z } from 'zod';
-import {
-  RefreshTokenAPIRequestSchema,
-  RefreshTokenAPIResponseSchema,
-} from '@/services/refresh-token/schema';
 import { api } from '@/utils/api';
-import { API_ENDPOINT } from '@/utils/endpoints-constants';
+import { Endpoints } from '@/utils/endpoints-constants';
+import { RefreshTokenAPIRequestSchema, RefreshTokenAPIResponseSchema } from './schema';
 
 const RefreshTokenRequest = RefreshTokenAPIRequestSchema;
 
@@ -15,7 +12,7 @@ export const getRefreshToken = api<
   z.infer<typeof RefreshTokenResponse>
 >({
   method: 'GET',
-  path: API_ENDPOINT.REFRESH_TOKEN,
+  path: Endpoints.REFRESH_TOKEN,
   requestSchema: RefreshTokenRequest,
   responseSchema: RefreshTokenResponse,
   type: 'public',

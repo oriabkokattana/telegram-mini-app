@@ -17,9 +17,6 @@ importers:
       '@radix-ui/themes':
         specifier: ^3.1.1
         version: 3.1.1(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@react-oauth/google':
-        specifier: ^0.12.1
-        version: 0.12.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@tanstack/react-query':
         specifier: ^5.51.23
         version: 5.51.23(react@18.3.1)
@@ -897,12 +894,6 @@ packages:
         optional: true
       '@types/react-dom':
         optional: true
-
-  '@react-oauth/google@0.12.1':
-    resolution: {integrity: sha512-qagsy22t+7UdkYAiT5ZhfM4StXi9PPNvw0zuwNmabrWyMKddczMtBIOARflbaIj+wHiQjnMAsZmzsUYuXeyoSg==}
-    peerDependencies:
-      react: '>=16.8.0'
-      react-dom: '>=16.8.0'
 
   '@remix-run/router@1.19.0':
     resolution: {integrity: sha512-zDICCLKEwbVYTS6TjYaWtHXxkdoUvD/QXvyVZjGCsWz5vyH7aFeONlPffPdW+Y/t6KT0MgXb2Mfjun9YpWN1dA==}
@@ -2786,11 +2777,6 @@ snapshots:
     optionalDependencies:
       '@types/react': 18.3.3
       '@types/react-dom': 18.3.0
-
-  '@react-oauth/google@0.12.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
-    dependencies:
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
 
   '@remix-run/router@1.19.0': {}
 

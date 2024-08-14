@@ -1,12 +1,10 @@
-export const API_ENDPOINT = {
-  SIGN_IN: 'v1/auth/email',
-  SIGN_UP: 'v1/auth/email',
+export const Endpoints = {
+  EMAIL_PASSWORD: 'v1/auth/email',
+  GOOGLE_OAUTH: 'v1/auth/google/oauth',
   TWITTER_OAUTH: 'v1/auth/twitter2/oauth',
   FACEBOOK_OAUTH: 'v1/auth/facebook/oauth',
-  GOOGLE_OAUTH_CALLBACK: 'v1/auth/google/callback',
-  TWITTER_OAUTH_CALLBACK: 'v1/auth/twitter/callback',
-  FACEBOOK_OAUTH_CALLBACK: 'v1/auth/facebook/callback',
-  SIGN_OUT: 'v1/auth/logout',
+  OAUTH_LOGIN: 'v1/auth/tokens?session_id=',
+  LOGOUT: 'v1/auth/logout?token=',
   REFRESH_TOKEN: 'v1/auth/refresh',
   EMAIL_EXISTS: 'v1/auth/exists',
 };

@@ -17,7 +17,7 @@ export function api<Request, Response>({
   requestSchema,
   responseSchema,
 }: APICallPayload<Request, Response>) {
-  return async (requestData: Request) => {
+  return async (requestData: Request, isQuery?: boolean) => {
     // Validate request data
     requestSchema.parse(requestData);
 
@@ -26,7 +26,7 @@ export function api<Request, Response>({
     let data = null;
 
     if (requestData) {
-      if (method === 'GET' || method === 'DELETE') {
+      if (method === 'GET' || method === 'DELETE' || isQuery) {
         url += `${requestData}`;
       } else {
         data = requestData;

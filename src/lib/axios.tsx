@@ -1,7 +1,6 @@
 import axios, { AxiosError, CreateAxiosDefaults, InternalAxiosRequestConfig } from 'axios';
-import { getRefreshToken } from '@/services/refresh-token/api';
+import { getRefreshToken } from '@/services/auth/refresh-token/api';
 import { useUserStore } from '@/store/user-store';
-import { StorageKeys } from '@/utils/local-storage-constants';
 
 interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
   _retry?: boolean;
@@ -41,12 +40,13 @@ instance.interceptors.response.use(
     if (error.response?.status === 401 && originalRequest && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
-        const response = await getRefreshToken();
+        const response = await getRefreshToken(useUserStore.getState().user?.refreshToken);
 
-        const { payload } = response;
+        const payload = response;
 
-        useUserStore.setState({ user: { accessToken: payload.accessToken } });
-        window.localStorage.setItem(StorageKeys.TOKEN, payload.refreshToken);
+        useUserStore.setState({
+          user: { accessToken: payload.accessToken, refreshToken: payload.refreshToken },
+        });
 
         originalRequest.headers.Authorization = `Bearer ${payload.accessToken}`;
 
@@ -54,7 +54,6 @@ instance.interceptors.response.use(
       } catch (error) {
         if (error instanceof AxiosError && error.response?.status === 403) {
           useUserStore.getState().removeCredentials();
-          window.localStorage.removeItem(StorageKeys.TOKEN);
           return;
         }
       }

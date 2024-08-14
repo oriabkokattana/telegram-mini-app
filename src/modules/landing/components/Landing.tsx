@@ -1,39 +1,33 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'sonner';
 import { Box, Button, Flex, Heading, Separator } from '@radix-ui/themes';
-import { useInitData, useMainButton } from '@telegram-apps/sdk-react';
+import { useMainButton } from '@telegram-apps/sdk-react';
 import Link from '@/modules/core/components/Link';
-import { parseStartappParam } from '../utils/startappParam';
 import About from './About';
 import Advantages from './Advantages';
 import WhyUs from './WhyUs';
 
 const Landing = () => {
   const mb = useMainButton();
-  const initData = useInitData();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const param = initData?.startParam;
-    if (!import.meta.env.DEV && param?.includes('code=')) {
-      const oauth = parseStartappParam(param);
-      toast(JSON.stringify(oauth));
-      navigate('/profile');
-    } else {
-      mb.setParams({
-        bgColor: '#aa1388',
-        text: 'Go to the moon',
-        isVisible: true,
-        isEnabled: true,
-      });
+    mb.setParams({
+      bgColor: '#aa1388',
+      text: 'Go to the moon',
+      isVisible: true,
+      isEnabled: true,
+    });
 
-      mb.on('click', () => {
-        navigate('/auth');
-        mb.hide();
-      });
-    }
-  }, [initData?.startParam]);
+    mb.on('click', () => {
+      navigate('/auth');
+      mb.hide();
+    });
+
+    return () => {
+      mb.hide();
+    };
+  }, []);
 
   return (
     <Flex width='100%' minHeight='var(--tg-viewport-height)' px='4' py='4' direction='column'>
