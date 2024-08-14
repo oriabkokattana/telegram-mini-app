@@ -9,9 +9,12 @@ import {
 const OAuth = () => {
   const utils = useUtils();
 
-  const { data: googleOAuth, isSuccess: isGoogleOauthSuccess } = useGoogleOauth();
-  const { data: twitterOAuth, isSuccess: isTwitterOauthSuccess } = useTwitterOauth();
+  const { data: googleOAuth, isSuccess: isGoogleOauthSuccess, error } = useGoogleOauth();
+  const { data: twitterOAuth, isSuccess: isTwitterOauthSuccess, error: er1 } = useTwitterOauth();
   const { data: facebookOAuth, isSuccess: isFacebookOauthSuccess } = useFacebookOauth();
+
+  console.log(error);
+  console.log(er1);
 
   return (
     <Section py='6'>
