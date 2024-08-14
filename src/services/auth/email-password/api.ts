@@ -40,8 +40,8 @@ export function useEmailPassword() {
   >({
     mutationFn: (payload) => emailPassword(payload),
     onSuccess: (resp) => {
-      const { accessToken, refreshToken } = resp;
-      setCredentials({ accessToken, refreshToken });
+      const { access_token, refresh_token } = resp;
+      setCredentials({ accessToken: access_token, refreshToken: refresh_token });
       toast.success('Successfully logged in!');
       navigate(Routes.PROFILE);
     },

@@ -42,8 +42,8 @@ export function useOauthLogin() {
 
   useEffect(() => {
     if (query.isSuccess) {
-      const { accessToken, refreshToken } = query.data;
-      setCredentials({ accessToken, refreshToken });
+      const { access_token, refresh_token } = query.data;
+      setCredentials({ accessToken: access_token, refreshToken: refresh_token });
       toast.success('Successfully logged in!');
       navigate(Routes.PROFILE);
     } else if (query.isError) {

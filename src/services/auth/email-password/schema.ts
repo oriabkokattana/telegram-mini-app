@@ -6,6 +6,6 @@ export const EmailPasswordAPIRequestSchema = z.object({
 });
 
 export const EmailPasswordAPIResponseSchema = z.object({
-  accessToken: z.string(),
-  refreshToken: z.string(),
+  access_token: z.string(),
+  refresh_token: z.string(),
 });
