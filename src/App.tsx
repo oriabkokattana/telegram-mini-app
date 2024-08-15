@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { Toaster } from 'sonner';
-// import { WagmiProvider } from 'wagmi';
-// import { arbitrum, base, mainnet, optimism, polygon } from 'wagmi/chains';
+import { WagmiProvider } from 'wagmi';
+import { arbitrum, base, mainnet, optimism, polygon } from 'wagmi/chains';
 import { Theme } from '@radix-ui/themes';
-// import { getDefaultConfig, RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import { getDefaultConfig, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { SDKProvider, useLaunchParams } from '@telegram-apps/sdk-react';
@@ -15,11 +15,13 @@ import '@radix-ui/themes/styles.css';
 
 const queryClient = new QueryClient();
 
-// const config = getDefaultConfig({
-//   appName: 'Kattana Broker',
-//   projectId: '1feba9274f57a2b9d18578ca7ef5c715',
-//   chains: [mainnet, polygon, optimism, arbitrum, base],
-// });
+const config = getDefaultConfig({
+  appName: 'Kattana Broker',
+  appUrl: 'https://telegram-mini-app-delta-sooty.vercel.app/',
+  appDescription: 'broker',
+  projectId: '1feba9274f57a2b9d18578ca7ef5c715',
+  chains: [mainnet, polygon, optimism, arbitrum, base],
+});
 
 function App() {
   const debug = useLaunchParams().startParam === 'debug';
@@ -34,17 +36,17 @@ function App() {
   return (
     <ErrorBoundaryPlaceholder>
       <SDKProvider acceptCustomStyles debug={debug}>
-        {/* <WagmiProvider config={config}> */}
-        <QueryClientProvider client={queryClient}>
-          {/* <RainbowKitProvider> */}
-          <Theme appearance='dark' radius='medium'>
-            <Root />
-            <Toaster richColors position='top-center' />
-            <ReactQueryDevtools initialIsOpen={false} position='bottom' />
-          </Theme>
-          {/* </RainbowKitProvider> */}
-        </QueryClientProvider>
-        {/* </WagmiProvider> */}
+        <WagmiProvider config={config}>
+          <QueryClientProvider client={queryClient}>
+            <RainbowKitProvider>
+              <Theme appearance='dark' radius='medium'>
+                <Root />
+                <Toaster richColors position='top-center' />
+                <ReactQueryDevtools initialIsOpen={false} position='bottom' />
+              </Theme>
+            </RainbowKitProvider>
+          </QueryClientProvider>
+        </WagmiProvider>
       </SDKProvider>
     </ErrorBoundaryPlaceholder>
   );

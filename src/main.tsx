@@ -8,6 +8,12 @@ import App from './App.tsx';
 import './mockEnv.ts';
 import './index.css';
 
+window.open = (function (open) {
+  return function (url, _, features) {
+    return open.call(window, url, '_blank', features);
+  };
+})(window.open);
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <App />
