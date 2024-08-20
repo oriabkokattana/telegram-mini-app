@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 import { Address } from 'viem';
 import { useAccount, useDisconnect, useSignTypedData } from 'wagmi';
 import { z } from 'zod';
-import { usePopup } from '@telegram-apps/sdk-react';
+import { useLaunchParams, usePopup } from '@telegram-apps/sdk-react';
 import { useWalletAuth } from '@/services/auth/wallet/api';
 import { WalletAuthPayloadSchema } from '@/services/auth/wallet/schema';
 import { openExternalLink } from '@/utils/open-link';
@@ -30,6 +30,7 @@ const primaryType = 'Auth';
 
 export const useSignAuth = () => {
   const popup = usePopup();
+  const lp = useLaunchParams();
   const authPayloadRef = useRef<z.infer<typeof WalletAuthPayloadSchema>>();
 
   const { connector, address, chain, isConnected } = useAccount();
@@ -87,7 +88,7 @@ export const useSignAuth = () => {
 
     authPayloadRef.current = { ...message, chainId };
     signTypedData({ domain, types, primaryType, message });
-    if (connector?.id === 'metamask') {
+    if (connector?.id === 'metamask' && (lp.platform === 'ios' || lp.platform === 'android')) {
       openExternalLink('https://metamask.app.link/wc');
     }
   };
