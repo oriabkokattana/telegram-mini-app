@@ -3,7 +3,11 @@ import { z } from 'zod';
 import { Button, Flex, Section } from '@radix-ui/themes';
 import { useQueryClient } from '@tanstack/react-query';
 import { useMiniApp } from '@telegram-apps/sdk-react';
-import { getGoogleOAuth, getTwitterOAuth } from '@/services/auth/oauth-provider/api';
+import {
+  getFacebookOAuth,
+  getGoogleOAuth,
+  getTwitterOAuth,
+} from '@/services/auth/oauth-provider/api';
 import { OAuthProviderAPIResponseSchema } from '@/services/auth/oauth-provider/schema';
 import { openExternalLink } from '@/utils/open-link';
 
@@ -46,7 +50,7 @@ const OAuth = () => {
       const uri = await queryClient.ensureQueryData<z.infer<typeof OAuthProviderAPIResponseSchema>>(
         {
           queryKey: ['auth', 'oauth', 'facebook'],
-          queryFn: () => getGoogleOAuth(),
+          queryFn: () => getFacebookOAuth(),
         }
       );
       openExternalLink(uri.redirect_url);
