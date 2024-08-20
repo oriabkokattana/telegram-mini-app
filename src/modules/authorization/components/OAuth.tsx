@@ -20,6 +20,7 @@ const OAuth = () => {
         }
       );
       openExternalLink(uri.redirect_url);
+      miniApp.close();
     } catch (error) {
       toast.error('Oops! Something went wrong...');
     }
@@ -34,6 +35,7 @@ const OAuth = () => {
         }
       );
       openExternalLink(uri.redirect_url);
+      miniApp.close();
     } catch (error) {
       toast.error('Oops! Something went wrong...');
     }
@@ -48,6 +50,7 @@ const OAuth = () => {
         }
       );
       openExternalLink(uri.redirect_url);
+      miniApp.close();
     } catch (error) {
       toast.error('Oops! Something went wrong...');
     }
@@ -55,7 +58,7 @@ const OAuth = () => {
 
   return (
     <Section py='6'>
-      <Flex direction='column' gap='4' onClick={() => miniApp.close()}>
+      <Flex direction='column' gap='4'>
         <Button onClick={onGoogleOAuth}>Login with Google</Button>
 
         <Button onClick={onTwitterOAuth}>Login with X</Button>
