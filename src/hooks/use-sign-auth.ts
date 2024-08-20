@@ -42,8 +42,8 @@ export const useSignAuth = () => {
         }
       },
       onError: async (error) => {
+        toast.warning(error.message);
         await disconnectAsync();
-        toast.error(error.message);
       },
     },
   });
