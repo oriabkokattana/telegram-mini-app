@@ -2,9 +2,11 @@
  * A hook that is responsible for generating the user's signature so that he can log in
  */
 import { useEffect, useRef } from 'react';
+import { toast } from 'sonner';
 import { Address } from 'viem';
-import { useAccount, useSignTypedData } from 'wagmi';
+import { useAccount, useDisconnect, useSignTypedData } from 'wagmi';
 import { z } from 'zod';
+import { usePopup } from '@telegram-apps/sdk-react';
 import { useWalletAuth } from '@/services/auth/wallet/api';
 import { WalletAuthPayloadSchema } from '@/services/auth/wallet/schema';
 
@@ -26,9 +28,11 @@ const types = {
 const primaryType = 'Auth';
 
 export const useSignAuth = () => {
+  const popup = usePopup();
   const authPayloadRef = useRef<z.infer<typeof WalletAuthPayloadSchema>>();
 
   const { address, chain, isConnected } = useAccount();
+  const { disconnectAsync } = useDisconnect();
   const { mutate } = useWalletAuth();
   const { signTypedData, isPending } = useSignTypedData({
     mutation: {
@@ -37,15 +41,31 @@ export const useSignAuth = () => {
           mutate({ payload: authPayloadRef.current, signature });
         }
       },
+      onError: (error) => {
+        toast.error(error.message);
+      },
     },
   });
 
-  const onSignAuth = (network: string, chainId: number, address: Address, device: string) => {
+  const onSignAuth = async (network: string, chainId: number, address: Address, device: string) => {
     if (isPending) {
       console.log('provider doesn`t ready');
       return;
     }
 
+    const data = await popup.open({
+      title: 'Broker message sign request!',
+      message: 'Please sign a message to get authorized',
+      buttons: [
+        { id: 'open', type: 'ok' },
+        { id: 'cancel', type: 'cancel' },
+      ],
+    });
+    if (!data || data === 'cancel') {
+      toast.warning('Action was canceled');
+      await disconnectAsync();
+      return;
+    }
     const expiredAt = Math.floor(new Date().getTime() / 1000) + TWO_WEEKS_IN_SEC;
     const ipRestricted = false;
     const message: Omit<z.infer<typeof WalletAuthPayloadSchema>, 'chainId'> = {
