@@ -39,6 +39,8 @@ export function useLogout() {
       }
     },
     onError: (error) => {
+      removeCredentials();
+      navigate(Routes.AUTH);
       const errorMessage = error.response?.data.error;
       toast.error(errorMessage);
     },
