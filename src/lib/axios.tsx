@@ -42,19 +42,19 @@ instance.interceptors.response.use(
     if (error.response?.status === 401 && originalRequest && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
-        const response = await getRefreshToken(useUserStore.getState().user?.refreshToken);
+        const response = await getRefreshToken(useUserStore.getState().user?.refreshToken, true);
 
         const payload = response;
 
         useUserStore.setState({
-          user: { accessToken: payload.accessToken, refreshToken: payload.refreshToken },
+          user: { accessToken: payload.access_token, refreshToken: payload.refresh_token },
         });
 
-        originalRequest.headers.Authorization = `Bearer ${payload.accessToken}`;
+        originalRequest.headers.Authorization = `Bearer ${payload.access_token}`;
 
         return instance(originalRequest);
       } catch (error) {
-        if (error instanceof AxiosError && error.response?.status === 403) {
+        if (error instanceof AxiosError && error.response?.status === 400) {
           useUserStore.getState().removeCredentials();
           const { connector, isConnected } = getAccount(config);
           if (isConnected) {

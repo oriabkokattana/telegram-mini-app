@@ -19,7 +19,7 @@ const getProfile = api<z.infer<typeof ProfileAPIRequest>, z.infer<typeof Profile
 
 export function useProfile() {
   return useQuery<z.infer<typeof ProfileAPIResponseSchema>, AxiosError<string>>({
-    queryKey: ['profile'],
+    queryKey: ['profile', 'info'],
     queryFn: () => getProfile(),
   });
 }

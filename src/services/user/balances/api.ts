@@ -19,7 +19,7 @@ const getBalances = api<z.infer<typeof BalancesAPIRequest>, z.infer<typeof Balan
 
 export function useBalances() {
   return useQuery<z.infer<typeof BalancesAPIResponseSchema>, AxiosError<string>>({
-    queryKey: ['profile'],
+    queryKey: ['profile', 'balances'],
     queryFn: () => getBalances(),
   });
 }
