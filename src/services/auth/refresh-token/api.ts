@@ -15,5 +15,5 @@ export const getRefreshToken = api<
   path: Endpoints.REFRESH_TOKEN,
   requestSchema: RefreshTokenRequest,
   responseSchema: RefreshTokenResponse,
-  type: 'public',
+  type: 'private',
 });
