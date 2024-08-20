@@ -41,7 +41,8 @@ export const useSignAuth = () => {
           mutate({ payload: authPayloadRef.current, signature });
         }
       },
-      onError: (error) => {
+      onError: async (error) => {
+        await disconnectAsync();
         toast.error(error.message);
       },
     },
