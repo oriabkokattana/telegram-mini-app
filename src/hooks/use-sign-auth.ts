@@ -9,6 +9,7 @@ import { z } from 'zod';
 import { usePopup } from '@telegram-apps/sdk-react';
 import { useWalletAuth } from '@/services/auth/wallet/api';
 import { WalletAuthPayloadSchema } from '@/services/auth/wallet/schema';
+import { openExternalLink } from '@/utils/open-link';
 
 const TWO_WEEKS_IN_SEC = 1209600;
 const DESCRIPTION =
@@ -31,7 +32,7 @@ export const useSignAuth = () => {
   const popup = usePopup();
   const authPayloadRef = useRef<z.infer<typeof WalletAuthPayloadSchema>>();
 
-  const { address, chain, isConnected } = useAccount();
+  const { connector, address, chain, isConnected } = useAccount();
   const { disconnectAsync } = useDisconnect();
   const { mutate } = useWalletAuth();
   const { signTypedData, isPending } = useSignTypedData({
@@ -43,7 +44,7 @@ export const useSignAuth = () => {
       },
       onError: async (error) => {
         toast.warning(error.message);
-        await disconnectAsync();
+        await disconnectAsync({ connector });
       },
     },
   });
@@ -64,7 +65,7 @@ export const useSignAuth = () => {
     });
     if (!data || data === 'cancel') {
       toast.warning('Action was canceled');
-      await disconnectAsync();
+      await disconnectAsync({ connector });
       return;
     }
     const expiredAt = Math.floor(new Date().getTime() / 1000) + TWO_WEEKS_IN_SEC;
@@ -86,6 +87,9 @@ export const useSignAuth = () => {
 
     authPayloadRef.current = { ...message, chainId };
     signTypedData({ domain, types, primaryType, message });
+    if (connector?.id === 'metamask') {
+      openExternalLink('https://metamask.app.link/wc');
+    }
   };
 
   useEffect(() => {

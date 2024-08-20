@@ -8,8 +8,10 @@ import {
   bindViewportCSSVars,
   initNavigator,
   useMiniApp,
+  useSwipeBehaviorRaw,
   useThemeParams,
   useViewport,
+  useViewportRaw,
 } from '@telegram-apps/sdk-react';
 import Link from '@/modules/core/components/Link';
 import { useSignAuth } from './hooks/use-sign-auth';
@@ -120,6 +122,16 @@ function Layout() {
   useSignAuth();
 
   const hydrated = useUserStoreHydration();
+
+  const swipeBehavior = useSwipeBehaviorRaw();
+  const viewport = useViewportRaw();
+
+  useEffect(() => {
+    if (swipeBehavior.result && viewport.result) {
+      swipeBehavior.result.disableVerticalSwipe();
+      viewport.result.expand();
+    }
+  }, [swipeBehavior.result, viewport.result]);
 
   return (
     <Flex
