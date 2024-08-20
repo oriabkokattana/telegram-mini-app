@@ -11,7 +11,7 @@ export const getRefreshToken = api<
   z.infer<typeof RefreshTokenRequest>,
   z.infer<typeof RefreshTokenResponse>
 >({
-  method: 'GET',
+  method: 'POST',
   path: Endpoints.REFRESH_TOKEN,
   requestSchema: RefreshTokenRequest,
   responseSchema: RefreshTokenResponse,

@@ -22,7 +22,7 @@ const logout = api<z.infer<typeof LogoutRequest>, z.infer<typeof LogoutResponse>
   path: Endpoints.LOGOUT,
   requestSchema: LogoutRequest,
   responseSchema: LogoutResponse,
-  type: 'public',
+  type: 'private',
 });
 
 export function useLogout() {
@@ -39,8 +39,6 @@ export function useLogout() {
       }
     },
     onError: (error) => {
-      removeCredentials();
-      navigate(Routes.AUTH);
       const errorMessage = error.response?.data.error;
       toast.error(errorMessage);
     },

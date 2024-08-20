@@ -1,44 +1,46 @@
 import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
+import { useDisconnect } from 'wagmi';
 import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
 import { useUserStore } from '@/store/user-store';
 import { api } from '@/utils/api';
 import { Endpoints } from '@/utils/endpoints-constants';
 import { Routes } from '@/utils/routes-constants';
-import { EmailPasswordAPIRequestSchema, EmailPasswordAPIResponseSchema } from './schema';
+import { WalletAuthAPIRequestSchema, WalletAuthAPIResponseSchema } from './schema';
 
-const EmailPasswordRequest = EmailPasswordAPIRequestSchema;
+const WalletAuthRequest = WalletAuthAPIRequestSchema;
 
-const EmailPasswordResponse = EmailPasswordAPIResponseSchema;
+const WalletAuthResponse = WalletAuthAPIResponseSchema;
 
 interface ErrorResponse {
   error: string;
 }
 
-export const emailPassword = api<
-  z.infer<typeof EmailPasswordRequest>,
-  z.infer<typeof EmailPasswordResponse>
+export const walletAuth = api<
+  z.infer<typeof WalletAuthRequest>,
+  z.infer<typeof WalletAuthResponse>
 >({
   method: 'POST',
-  path: Endpoints.EMAIL_PASSWORD,
-  requestSchema: EmailPasswordRequest,
-  responseSchema: EmailPasswordResponse,
+  path: Endpoints.WALLET_AUTH,
+  requestSchema: WalletAuthRequest,
+  responseSchema: WalletAuthResponse,
   type: 'public',
 });
 
-export function useEmailPassword() {
+export function useWalletAuth() {
   const navigate = useNavigate();
 
+  const { disconnect } = useDisconnect();
   const { setCredentials } = useUserStore();
 
   return useMutation<
-    z.infer<typeof EmailPasswordAPIResponseSchema>,
+    z.infer<typeof WalletAuthAPIResponseSchema>,
     AxiosError<ErrorResponse>,
-    z.infer<typeof EmailPasswordAPIRequestSchema>
+    z.infer<typeof WalletAuthAPIRequestSchema>
   >({
-    mutationFn: emailPassword,
+    mutationFn: walletAuth,
     onSuccess: (resp) => {
       const { access_token, refresh_token } = resp;
       setCredentials({ accessToken: access_token, refreshToken: refresh_token });
@@ -48,6 +50,7 @@ export function useEmailPassword() {
     onError: (error) => {
       const errorMessage = error.response?.data.error;
       toast.error(errorMessage);
+      disconnect();
     },
   });
 }

@@ -12,7 +12,7 @@ const UserActions = () => {
           <Link to='/withdraw'>Withdraw</Link>
         </Button>
         <Button asChild variant='surface'>
-          <Link to='/trading'>History</Link>
+          <Link to='/history'>History</Link>
         </Button>
         <Button asChild variant='surface'>
           <Link to='/trading'>Trading</Link>

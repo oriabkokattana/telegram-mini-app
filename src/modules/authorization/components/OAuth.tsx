@@ -1,31 +1,66 @@
+import { toast } from 'sonner';
+import { z } from 'zod';
 import { Button, Flex, Section } from '@radix-ui/themes';
-import {
-  useFacebookOauth,
-  useGoogleOauth,
-  useTwitterOauth,
-} from '@/services/auth/oauth-provider/api';
-import { openLink } from '@/utils/open-link';
+import { useQueryClient } from '@tanstack/react-query';
+import { useMiniApp } from '@telegram-apps/sdk-react';
+import { getGoogleOAuth, getTwitterOAuth } from '@/services/auth/oauth-provider/api';
+import { OAuthProviderAPIResponseSchema } from '@/services/auth/oauth-provider/schema';
+import { openExternalLink } from '@/utils/open-link';
 
 const OAuth = () => {
-  const { data: googleOAuth, isSuccess: isGoogleOauthSuccess, error } = useGoogleOauth();
-  const { data: twitterOAuth, isSuccess: isTwitterOauthSuccess, error: er1 } = useTwitterOauth();
-  const { data: facebookOAuth, isSuccess: isFacebookOauthSuccess } = useFacebookOauth();
+  const miniApp = useMiniApp();
+  const queryClient = useQueryClient();
 
-  console.log(error);
-  console.log(er1);
+  const onGoogleOAuth = async () => {
+    try {
+      const uri = await queryClient.ensureQueryData<z.infer<typeof OAuthProviderAPIResponseSchema>>(
+        {
+          queryKey: ['auth', 'oauth', 'google'],
+          queryFn: () => getGoogleOAuth(),
+        }
+      );
+      openExternalLink(uri.redirect_url);
+    } catch (error) {
+      toast.error('Oops! Something went wrong...');
+    }
+  };
+
+  const onTwitterOAuth = async () => {
+    try {
+      const uri = await queryClient.ensureQueryData<z.infer<typeof OAuthProviderAPIResponseSchema>>(
+        {
+          queryKey: ['auth', 'oauth', 'twitter'],
+          queryFn: () => getTwitterOAuth(),
+        }
+      );
+      openExternalLink(uri.redirect_url);
+    } catch (error) {
+      toast.error('Oops! Something went wrong...');
+    }
+  };
+
+  const onFacebookOAuth = async () => {
+    try {
+      const uri = await queryClient.ensureQueryData<z.infer<typeof OAuthProviderAPIResponseSchema>>(
+        {
+          queryKey: ['auth', 'oauth', 'facebook'],
+          queryFn: () => getGoogleOAuth(),
+        }
+      );
+      openExternalLink(uri.redirect_url);
+    } catch (error) {
+      toast.error('Oops! Something went wrong...');
+    }
+  };
 
   return (
     <Section py='6'>
-      <Flex direction='column' gap='4'>
-        {isGoogleOauthSuccess && (
-          <Button onClick={() => openLink(googleOAuth.redirect_url)}>Login with Google</Button>
-        )}
-        {isTwitterOauthSuccess && (
-          <Button onClick={() => openLink(twitterOAuth.redirect_url)}>Login with X</Button>
-        )}
-        {isFacebookOauthSuccess && (
-          <Button onClick={() => openLink(facebookOAuth.redirect_url)}>Login with Facebook</Button>
-        )}
+      <Flex direction='column' gap='4' onClick={() => miniApp.close()}>
+        <Button onClick={onGoogleOAuth}>Login with Google</Button>
+
+        <Button onClick={onTwitterOAuth}>Login with X</Button>
+
+        <Button onClick={onFacebookOAuth}>Login with Facebook</Button>
       </Flex>
     </Section>
   );

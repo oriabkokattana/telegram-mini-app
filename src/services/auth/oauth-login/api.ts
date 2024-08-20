@@ -37,7 +37,7 @@ export function useOauthLogin() {
 
   const query = useQuery<z.infer<typeof OAuthLoginAPIResponseSchema>, AxiosError<ErrorResponse>>({
     queryKey: ['auth', 'oauth', sessionId],
-    queryFn: sessionId ? () => oauthLogin(sessionId) : skipToken,
+    queryFn: sessionId && sessionId !== 'debug' ? () => oauthLogin(sessionId) : skipToken,
   });
 
   useEffect(() => {

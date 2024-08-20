@@ -1,6 +1,4 @@
-import { AxiosError } from 'axios';
 import { z } from 'zod';
-import { useQuery } from '@tanstack/react-query';
 import { api } from '@/utils/api';
 import { Endpoints } from '@/utils/endpoints-constants';
 import { OAuthProviderAPIRequestSchema, OAuthProviderAPIResponseSchema } from './schema';
@@ -9,11 +7,7 @@ const OAuthProviderRequest = OAuthProviderAPIRequestSchema;
 
 const OAuthProviderResponse = OAuthProviderAPIResponseSchema;
 
-interface ErrorResponse {
-  error: string;
-}
-
-const getGoogleOAuth = api<
+export const getGoogleOAuth = api<
   z.infer<typeof OAuthProviderRequest>,
   z.infer<typeof OAuthProviderResponse>
 >({
@@ -24,7 +18,7 @@ const getGoogleOAuth = api<
   type: 'public',
 });
 
-const getTwitterOAuth = api<
+export const getTwitterOAuth = api<
   z.infer<typeof OAuthProviderRequest>,
   z.infer<typeof OAuthProviderResponse>
 >({
@@ -35,7 +29,7 @@ const getTwitterOAuth = api<
   type: 'public',
 });
 
-const getFacebookOAuth = api<
+export const getFacebookOAuth = api<
   z.infer<typeof OAuthProviderRequest>,
   z.infer<typeof OAuthProviderResponse>
 >({
@@ -45,24 +39,3 @@ const getFacebookOAuth = api<
   responseSchema: OAuthProviderResponse,
   type: 'public',
 });
-
-export function useGoogleOauth() {
-  return useQuery<z.infer<typeof OAuthProviderAPIResponseSchema>, AxiosError<ErrorResponse>>({
-    queryKey: ['auth', 'oauth', 'google'],
-    queryFn: () => getGoogleOAuth(),
-  });
-}
-
-export function useTwitterOauth() {
-  return useQuery<z.infer<typeof OAuthProviderAPIResponseSchema>, AxiosError<ErrorResponse>>({
-    queryKey: ['auth', 'oauth', 'twitter'],
-    queryFn: () => getTwitterOAuth(),
-  });
-}
-
-export function useFacebookOauth() {
-  return useQuery<z.infer<typeof OAuthProviderAPIResponseSchema>, AxiosError<ErrorResponse>>({
-    queryKey: ['auth', 'oauth', 'facebook'],
-    queryFn: () => getFacebookOAuth(),
-  });
-}

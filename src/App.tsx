@@ -1,54 +1,147 @@
-import { useEffect } from 'react';
-import { Toaster } from 'sonner';
-import { WagmiProvider } from 'wagmi';
-import { arbitrum, base, mainnet, optimism, polygon } from 'wagmi/chains';
-import { Theme } from '@radix-ui/themes';
-import { getDefaultConfig, RainbowKitProvider } from '@rainbow-me/rainbowkit';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { SDKProvider, useLaunchParams } from '@telegram-apps/sdk-react';
-import ErrorBoundaryPlaceholder from './modules/core/components/ErrorBoundary';
-import Root from './Root';
-
-import '@rainbow-me/rainbowkit/styles.css';
-import '@radix-ui/themes/styles.css';
-
-const queryClient = new QueryClient();
-
-const config = getDefaultConfig({
-  appName: 'Kattana Broker',
-  appUrl: 'https://telegram-mini-app-delta-sooty.vercel.app/',
-  appDescription: 'broker',
-  projectId: '1feba9274f57a2b9d18578ca7ef5c715',
-  chains: [mainnet, polygon, optimism, arbitrum, base],
-});
+import { useEffect, useMemo } from 'react';
+import { Outlet, Route, Router, Routes } from 'react-router-dom';
+import { Box, Flex, Heading, Text } from '@radix-ui/themes';
+import { useIntegration } from '@telegram-apps/react-router-integration';
+import {
+  bindMiniAppCSSVars,
+  bindThemeParamsCSSVars,
+  bindViewportCSSVars,
+  initNavigator,
+  useMiniApp,
+  useThemeParams,
+  useViewport,
+} from '@telegram-apps/sdk-react';
+import Link from '@/modules/core/components/Link';
+import { useSignAuth } from './hooks/use-sign-auth';
+import Authorization from './modules/authorization/components/Authorization';
+import { PrivateRoute } from './modules/core/components/PrivateRoute';
+import { PublicRoute } from './modules/core/components/PublicRoute';
+import Deposit from './modules/deposit/components/Deposit';
+import History from './modules/history/components/History';
+import Landing from './modules/landing/components/Landing';
+import Profile from './modules/profile/components/Profile';
+import Trading from './modules/trading/components/Trading';
+import Withdraw from './modules/withdraw/components/Withdraw';
+import { useOauthLogin } from './services/auth/oauth-login/api';
+import { useUserStoreHydration } from './store/user-store';
 
 function App() {
-  const debug = useLaunchParams().startParam === 'debug';
+  const miniApp = useMiniApp();
+  const themeParams = useThemeParams();
+  const viewport = useViewport();
 
-  // Enable debug mode to see all the methods sent and events received.
   useEffect(() => {
-    if (debug) {
-      import('eruda').then((lib) => lib.default.init());
-    }
-  }, [debug]);
+    return bindMiniAppCSSVars(miniApp, themeParams);
+  }, [miniApp, themeParams]);
+
+  useEffect(() => {
+    return bindThemeParamsCSSVars(themeParams);
+  }, [themeParams]);
+
+  useEffect(() => {
+    return viewport && bindViewportCSSVars(viewport);
+  }, [viewport]);
+
+  // Create a new application navigator and attach it to the browser history, so it could modify
+  // it and listen to its changes.
+  const navigator = useMemo(() => initNavigator('app-navigation-state'), []);
+  const [location, reactNavigator] = useIntegration(navigator);
+
+  // Don't forget to attach the navigator to allow it to control the BackButton state as well
+  // as browser history.
+  useEffect(() => {
+    navigator.attach();
+    return () => navigator.detach();
+  }, [navigator]);
 
   return (
-    <ErrorBoundaryPlaceholder>
-      <SDKProvider acceptCustomStyles debug={debug}>
-        <WagmiProvider config={config}>
-          <QueryClientProvider client={queryClient}>
-            <RainbowKitProvider>
-              <Theme appearance='dark' radius='medium'>
-                <Root />
-                <Toaster richColors position='top-center' />
-                <ReactQueryDevtools initialIsOpen={false} position='bottom' />
-              </Theme>
-            </RainbowKitProvider>
-          </QueryClientProvider>
-        </WagmiProvider>
-      </SDKProvider>
-    </ErrorBoundaryPlaceholder>
+    <Router location={location} navigator={reactNavigator}>
+      <Routes>
+        <Route path='/' element={<Layout />}>
+          <Route index element={<Landing />} />
+          <Route
+            path='profile'
+            element={
+              <PrivateRoute>
+                <Profile />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='trading'
+            element={
+              <PrivateRoute>
+                <Trading />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='deposit'
+            element={
+              <PrivateRoute>
+                <Deposit />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='withdraw'
+            element={
+              <PrivateRoute>
+                <Withdraw />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='history'
+            element={
+              <PrivateRoute>
+                <History />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='auth'
+            element={
+              <PublicRoute>
+                <Authorization />
+              </PublicRoute>
+            }
+          />
+
+          <Route path='*' element={<NoMatch />} />
+        </Route>
+      </Routes>
+    </Router>
+  );
+}
+
+function Layout() {
+  useOauthLogin();
+  useSignAuth();
+
+  const hydrated = useUserStoreHydration();
+
+  return (
+    <Flex
+      width='var(--tg-viewport-width)'
+      minHeight='var(--tg-viewport-height)'
+      justify='center'
+      align='center'
+      style={{ backgroundColor: 'var(--gray-2)' }}
+    >
+      {hydrated ? <Outlet /> : <Text>Loading...</Text>}
+    </Flex>
+  );
+}
+
+function NoMatch() {
+  return (
+    <Box>
+      <Heading as='h2'>Nothing to see here!</Heading>
+      <Text as='p'>
+        <Link to='/'>Go to the home page</Link>
+      </Text>
+    </Box>
   );
 }
 

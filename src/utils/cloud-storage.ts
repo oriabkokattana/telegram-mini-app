@@ -1,10 +1,12 @@
 import { StateStorage } from 'zustand/middleware';
 import { initCloudStorage } from '@telegram-apps/sdk-react';
+import { getIsMocked } from './get-is-mocked';
 
 const getCustomStorage = (): StateStorage => {
-  if (import.meta.env.DEV) {
+  if (getIsMocked()) {
     return window.localStorage;
   }
+
   const cloudStorage = initCloudStorage();
 
   // Custom storage object based on Telegram Cloud Storage

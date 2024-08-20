@@ -9,5 +9,5 @@ interface PublicRouteProps {
 
 export const PublicRoute: FC<PublicRouteProps> = ({ children }) => {
   const { user } = useUserStore();
-  return user ? <Navigate to={Routes.PROFILE} /> : children;
+  return user ? <Navigate to={Routes.PROFILE} replace /> : children;
 };

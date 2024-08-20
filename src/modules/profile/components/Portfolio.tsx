@@ -1,39 +1,31 @@
+import { z } from 'zod';
 import { Heading, Section, Table } from '@radix-ui/themes';
+import { ProfileAPIResponseSchema } from '@/services/user/profile/schema';
 
-const Portfolio = () => {
+interface PortfolioProps {
+  data?: z.infer<typeof ProfileAPIResponseSchema>;
+}
+
+const Portfolio = ({ data }: PortfolioProps) => {
   return (
-    <Section>
+    <Section pb='1'>
       <Heading mb='2'>Portfolio</Heading>
       <Table.Root variant='surface'>
         <Table.Header>
           <Table.Row>
-            <Table.ColumnHeaderCell>Coin</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Count</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>PnL</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Swap</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Github</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Public Info</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Telegram</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Twitter</Table.ColumnHeaderCell>
           </Table.Row>
         </Table.Header>
 
         <Table.Body>
           <Table.Row>
-            <Table.RowHeaderCell>BTC</Table.RowHeaderCell>
-            <Table.Cell>12</Table.Cell>
-            <Table.Cell>15%</Table.Cell>
-            <Table.Cell>20$</Table.Cell>
-          </Table.Row>
-
-          <Table.Row>
-            <Table.RowHeaderCell>ETH</Table.RowHeaderCell>
-            <Table.Cell>12</Table.Cell>
-            <Table.Cell>15%</Table.Cell>
-            <Table.Cell>20$</Table.Cell>
-          </Table.Row>
-
-          <Table.Row>
-            <Table.RowHeaderCell>SOL</Table.RowHeaderCell>
-            <Table.Cell>12</Table.Cell>
-            <Table.Cell>15%</Table.Cell>
-            <Table.Cell>20$</Table.Cell>
+            <Table.RowHeaderCell>{data?.github_profile}</Table.RowHeaderCell>
+            <Table.Cell>{data?.public_info}</Table.Cell>
+            <Table.Cell>{data?.telegram_profile}</Table.Cell>
+            <Table.Cell>{data?.twitter_profile}</Table.Cell>
           </Table.Row>
         </Table.Body>
       </Table.Root>

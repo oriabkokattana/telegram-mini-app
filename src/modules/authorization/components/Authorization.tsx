@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ChevronLeftIcon } from '@radix-ui/react-icons';
-import { Flex, Heading, IconButton, SegmentedControl } from '@radix-ui/themes';
+import { Flex, Heading, IconButton, Section, SegmentedControl } from '@radix-ui/themes';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { BiometryManager, initBiometryManager } from '@telegram-apps/sdk-react';
 import Link from '@/modules/core/components/Link';
@@ -8,7 +8,7 @@ import Biometry from './Biometry';
 import EmailPassword from './EmailPassword';
 import OAuth from './OAuth';
 
-type AuthMethod = 'Email&Password' | 'OAuth' | 'Biometry';
+type AuthMethod = 'Email&Password' | 'OAuth' | 'Biometry' | 'Wallet';
 
 const Authorization = () => {
   const [tab, setTab] = useState<AuthMethod>('Email&Password');
@@ -20,8 +20,8 @@ const Authorization = () => {
   }, []);
 
   const tabs = bm?.available
-    ? ['Email&Password', 'OAuth', 'Biometry']
-    : ['Email&Password', 'OAuth'];
+    ? ['Email&Password', 'OAuth', 'Wallet', 'Biometry']
+    : ['Email&Password', 'OAuth', 'Wallet'];
 
   return (
     <Flex width='100%' minHeight='var(--tg-viewport-height)' px='4' py='4' direction='column'>
@@ -50,7 +50,13 @@ const Authorization = () => {
         {tab === 'Email&Password' && <EmailPassword />}
         {tab === 'OAuth' && <OAuth />}
         {tab === 'Biometry' && <Biometry biometryManager={bm!} />}
-        <ConnectButton />
+        {tab === 'Wallet' && (
+          <Section py='6'>
+            <Flex justify='center'>
+              <ConnectButton />
+            </Flex>
+          </Section>
+        )}
       </Flex>
     </Flex>
   );

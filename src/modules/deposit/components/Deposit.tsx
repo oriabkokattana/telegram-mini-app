@@ -1,3 +1,4 @@
+import { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeftIcon, CopyIcon } from '@radix-ui/react-icons';
 import * as Label from '@radix-ui/react-label';
@@ -11,25 +12,26 @@ import {
   Text,
   TextField,
 } from '@radix-ui/themes';
-import { useMainButton } from '@telegram-apps/sdk-react';
+import { MainButtonParams } from '@telegram-apps/sdk-react';
+import { useShowMainButton } from '@/hooks/use-show-main-button';
 import Link from '@/modules/core/components/Link';
 import Transactions from './Transactions';
 
 const Deposit = () => {
-  const mb = useMainButton();
   const navigate = useNavigate();
 
-  mb.setParams({
-    bgColor: '#aa1388',
-    text: 'Deposit',
-    isVisible: true,
-    isEnabled: true,
-  });
+  const mainButtonParams = useMemo<Partial<MainButtonParams>>(
+    () => ({
+      bgColor: '#aa1388',
+      text: 'Deposit',
+      isVisible: true,
+      isEnabled: true,
+    }),
+    []
+  );
+  const mainButtonCallback = useCallback(() => navigate('/withdraw'), [navigate]);
 
-  mb.on('click', () => {
-    navigate('/withdraw');
-    mb.hide();
-  });
+  useShowMainButton(mainButtonCallback, mainButtonParams);
 
   return (
     <Flex width='100%' minHeight='var(--tg-viewport-height)' px='4' py='4' direction='column'>

@@ -1,26 +1,28 @@
+import { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeftIcon } from '@radix-ui/react-icons';
 import { Flex, Heading, IconButton, Separator } from '@radix-ui/themes';
-import { useMainButton } from '@telegram-apps/sdk-react';
+import { MainButtonParams } from '@telegram-apps/sdk-react';
+import { useShowMainButton } from '@/hooks/use-show-main-button';
 import Link from '@/modules/core/components/Link';
 import PreviousDeposits from './PreviousDeposits';
 import PreviousWithdrawals from './PreviousWithdrawals';
 
 const History = () => {
-  const mb = useMainButton();
   const navigate = useNavigate();
 
-  mb.setParams({
-    bgColor: '#aa1388',
-    text: 'Start Trading',
-    isVisible: true,
-    isEnabled: true,
-  });
+  const mainButtonParams = useMemo<Partial<MainButtonParams>>(
+    () => ({
+      bgColor: '#aa1388',
+      text: 'Start Trading',
+      isVisible: true,
+      isEnabled: true,
+    }),
+    []
+  );
+  const mainButtonCallback = useCallback(() => navigate('/trading'), [navigate]);
 
-  mb.on('click', () => {
-    navigate('/trading');
-    mb.hide();
-  });
+  useShowMainButton(mainButtonCallback, mainButtonParams);
 
   return (
     <Flex width='100%' minHeight='var(--tg-viewport-height)' px='4' py='4' direction='column'>
