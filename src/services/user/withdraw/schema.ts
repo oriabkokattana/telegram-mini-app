@@ -8,5 +8,5 @@ export const WithdrawAPIRequestSchema = z.object({
 });
 
 export const WithdrawAPIResponseSchema = z.object({
-  address: z.string(),
+  message: z.string(),
 });
