@@ -11,4 +11,5 @@ export const Endpoints = {
   PROFILE: '/private/profile',
   BALANCES: '/private/balances',
   CUSTODIAL_WALLET: '/private/wallet',
+  WITHDRAW: '/private/withdraw',
 };

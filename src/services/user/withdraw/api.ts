@@ -10,9 +10,13 @@ const WithdrawAPIRequest = WithdrawAPIRequestSchema;
 
 const WithdrawAPIResponse = WithdrawAPIResponseSchema;
 
+interface ErrorResponse {
+  error: string;
+}
+
 const withdraw = api<z.infer<typeof WithdrawAPIRequest>, z.infer<typeof WithdrawAPIResponse>>({
   method: 'POST',
-  path: Endpoints.PROFILE,
+  path: Endpoints.WITHDRAW,
   requestSchema: WithdrawAPIRequest,
   responseSchema: WithdrawAPIResponse,
   type: 'private',
@@ -21,7 +25,7 @@ const withdraw = api<z.infer<typeof WithdrawAPIRequest>, z.infer<typeof Withdraw
 export function useWithdraw() {
   return useMutation<
     z.infer<typeof WithdrawAPIResponseSchema>,
-    AxiosError<string>,
+    AxiosError<ErrorResponse>,
     z.infer<typeof WithdrawAPIRequestSchema>
   >({
     mutationFn: (payload) => withdraw(payload),
@@ -29,8 +33,8 @@ export function useWithdraw() {
       toast.success('Withdrawl successful');
     },
     onError: (error) => {
-      const errorMessage = error.response?.data;
-      console.error(errorMessage);
+      const errorMessage = error.response?.data.error;
+      toast.error(errorMessage);
     },
   });
 }

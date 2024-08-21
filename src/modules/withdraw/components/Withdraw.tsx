@@ -16,18 +16,29 @@ import Link from '@/modules/core/components/Link';
 import { useWithdraw } from '@/services/user/withdraw/api';
 
 const Withdraw = () => {
-  const [address, setAddress] = useState('');
-  const [amount, setAmount] = useState('');
+  const [remoteAddress, setRemoteAddress] = useState('');
+  const [amountToRemote, setAmountToRemote] = useState('');
+  const [amountToCurrent, setAmountToCurrent] = useState('');
 
   const withdraw = useWithdraw();
-  const { isConnected } = useAccount();
+  const { address, isConnected } = useAccount();
 
   const onWithdraw = () => {
-    const addr = address || '0x0000000000000000000000000000000000000000';
-    const amnt = amount ? Number(amount) : 0;
-    const token = 'WBNB';
+    const addr = remoteAddress;
+    const amnt = amountToRemote ? Number(amountToRemote) : 0;
+    const token = 'ETH';
 
     withdraw.mutate({ amount: amnt, wallet: addr, token });
+  };
+
+  const onWithdrawToCurrent = () => {
+    if (address) {
+      const addr = address;
+      const amnt = amountToCurrent ? Number(amountToCurrent) : 0;
+      const token = 'ETH';
+
+      withdraw.mutate({ amount: amnt, wallet: addr, token });
+    }
   };
 
   return (
@@ -49,8 +60,8 @@ const Withdraw = () => {
                 size='3'
                 placeholder='0x00...0000'
                 id='amount'
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
+                value={remoteAddress}
+                onChange={(e) => setRemoteAddress(e.target.value)}
               />
             </Flex>
           </Flex>
@@ -61,11 +72,13 @@ const Withdraw = () => {
               type='number'
               placeholder='0'
               id='amount'
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              value={amountToRemote}
+              onChange={(e) => setAmountToRemote(e.target.value)}
             />
           </Flex>
-          <Button onClick={onWithdraw}>Send</Button>
+          <Button onClick={onWithdraw} disabled={!remoteAddress || !amountToRemote}>
+            Send
+          </Button>
         </Flex>
       </Section>
       <Separator size='4' />
@@ -76,13 +89,14 @@ const Withdraw = () => {
             <Label.Root htmlFor='amount'>Amount:</Label.Root>
             <TextField.Root
               size='3'
+              type='number'
               placeholder='0'
               id='amount'
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              value={amountToCurrent}
+              onChange={(e) => setAmountToCurrent(e.target.value)}
             />
           </Flex>
-          <Button onClick={onWithdraw} disabled={!isConnected}>
+          <Button onClick={onWithdrawToCurrent} disabled={!isConnected || !amountToCurrent}>
             Withdraw
           </Button>
         </Flex>
