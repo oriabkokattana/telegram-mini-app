@@ -36,7 +36,7 @@ export function useLogout() {
   return useMutation<z.infer<typeof LogoutAPIResponseSchema>, AxiosError<ErrorResponse>>({
     mutationFn: async () => {
       if (isConnected) {
-        disconnectAsync({ connector });
+        await disconnectAsync({ connector });
       }
       return logout(user?.refreshToken, true);
     },
