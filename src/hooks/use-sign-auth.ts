@@ -55,6 +55,7 @@ export const useSignAuth = () => {
       console.log('provider doesn`t ready');
       return;
     }
+    console.log('signing');
 
     const data = await popup.open({
       title: 'Broker message sign request!',
@@ -88,7 +89,15 @@ export const useSignAuth = () => {
 
     authPayloadRef.current = { ...message, chainId };
     signTypedData({ domain, types, primaryType, message });
-    if (connector?.id === 'metamask' && (lp.platform === 'ios' || lp.platform === 'android')) {
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const provider = (await connector?.getProvider?.()) as any;
+
+    if (
+      connector?.id === 'walletConnect' &&
+      provider?.signer?.session?.peer?.metadata?.name === 'MetaMask Wallet' &&
+      (lp.platform === 'ios' || lp.platform === 'android')
+    ) {
       openExternalLink('https://metamask.app.link/wc');
     }
   };
