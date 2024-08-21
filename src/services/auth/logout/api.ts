@@ -30,7 +30,7 @@ export function useLogout() {
   const navigate = useNavigate();
 
   const { connector, isConnected } = useAccount();
-  const { disconnectAsync } = useDisconnect();
+  const { disconnect } = useDisconnect();
   const { user, removeCredentials } = useUserStore();
 
   return useMutation<z.infer<typeof LogoutAPIResponseSchema>, AxiosError<ErrorResponse>>({
@@ -40,7 +40,7 @@ export function useLogout() {
         removeCredentials();
         navigate(Routes.AUTH);
         if (isConnected) {
-          disconnectAsync({ connector });
+          disconnect({ connector });
         }
       }
     },
