@@ -10,15 +10,16 @@ const WithdrawChainSelect = () => {
   const navigate = useNavigate();
   const setChain = useWithdrawStore((state) => state.setChain);
   const token = useWithdrawStore((state) => state.token);
+  const chain = useWithdrawStore((state) => state.chain);
 
   const mainButtonParams = useMemo<Partial<MainButtonParams>>(
     () => ({
       bgColor: '#1c93e3',
       text: 'Proceed',
       isVisible: true,
-      isEnabled: true,
+      isEnabled: !!chain,
     }),
-    []
+    [chain]
   );
   const mainButtonCallback = useCallback(() => navigate('/withdraw'), [navigate]);
 
@@ -32,7 +33,7 @@ const WithdrawChainSelect = () => {
         </Heading>
       </Flex>
       <Section>
-        <ChainSelect token={token} onSelect={setChain} />
+        <ChainSelect defaultValue={chain} token={token} onSelect={setChain} />
       </Section>
     </Flex>
   );

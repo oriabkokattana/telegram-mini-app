@@ -12,4 +12,5 @@ export const Endpoints = {
   BALANCES: '/private/balances',
   CUSTODIAL_WALLET: '/private/wallet',
   WITHDRAW: '/private/withdraw',
+  SWAP: '/private/swap',
 };

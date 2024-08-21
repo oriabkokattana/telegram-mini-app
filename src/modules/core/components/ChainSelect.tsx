@@ -4,15 +4,16 @@ import { useBalances } from '@/services/user/balances/api';
 const CHAINS = ['Ethereum', 'BSC', 'Polygon'];
 
 interface ChainSelectProps {
+  defaultValue: string | null;
   token: string | null;
   onSelect(chain: string): void;
 }
 
-const ChainSelect = ({ token, onSelect }: ChainSelectProps) => {
+const ChainSelect = ({ defaultValue, token, onSelect }: ChainSelectProps) => {
   const { data, isSuccess } = useBalances(!!token);
 
   return (
-    <RadioCards.Root defaultValue={CHAINS[0]} columns='1' gap='3'>
+    <RadioCards.Root defaultValue={defaultValue || undefined} columns='1' gap='3'>
       {CHAINS.map((chain) => {
         const balance = token ? data?.[token].network_balances[chain] : undefined;
         return (

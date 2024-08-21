@@ -31,7 +31,7 @@ function Root() {
               <Theme appearance='dark' radius='medium'>
                 <App />
                 <Toaster richColors position='top-center' closeButton duration={5000} />
-                <ReactQueryDevtools initialIsOpen={false} position='bottom' />
+                {/* <ReactQueryDevtools initialIsOpen={false} position='bottom' /> */}
               </Theme>
             </RainbowKitProvider>
           </QueryClientProvider>

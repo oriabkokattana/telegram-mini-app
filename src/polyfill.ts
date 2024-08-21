@@ -1,4 +1,3 @@
-/* eslint-disable no-redeclare, no-var */
 import { Buffer } from 'buffer';
 
 window.open = (function (open) {

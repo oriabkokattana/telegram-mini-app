@@ -9,15 +9,16 @@ import { useDepositStore } from '@/store/deposit-store';
 const DepositTokenSelect = () => {
   const navigate = useNavigate();
   const setToken = useDepositStore((state) => state.setToken);
+  const token = useDepositStore((state) => state.token);
 
   const mainButtonParams = useMemo<Partial<MainButtonParams>>(
     () => ({
       bgColor: '#1c93e3',
       text: 'Proceed',
       isVisible: true,
-      isEnabled: true,
+      isEnabled: !!token,
     }),
-    []
+    [token]
   );
   const mainButtonCallback = useCallback(() => navigate('/deposit-chain-select'), [navigate]);
 
@@ -31,7 +32,7 @@ const DepositTokenSelect = () => {
         </Heading>
       </Flex>
       <Section>
-        <TokenSelect onSelect={setToken} />
+        <TokenSelect defaultValue={token} onSelect={setToken} />
       </Section>
     </Flex>
   );

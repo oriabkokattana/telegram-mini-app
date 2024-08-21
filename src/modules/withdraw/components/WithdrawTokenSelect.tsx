@@ -9,15 +9,16 @@ import { useWithdrawStore } from '@/store/withdraw-store';
 const WithdrawTokenSelect = () => {
   const navigate = useNavigate();
   const setToken = useWithdrawStore((state) => state.setToken);
+  const token = useWithdrawStore((state) => state.token);
 
   const mainButtonParams = useMemo<Partial<MainButtonParams>>(
     () => ({
       bgColor: '#1c93e3',
       text: 'Proceed',
       isVisible: true,
-      isEnabled: true,
+      isEnabled: !!token,
     }),
-    []
+    [token]
   );
   const mainButtonCallback = useCallback(() => navigate('/withdraw-chain-select'), [navigate]);
 
@@ -31,7 +32,7 @@ const WithdrawTokenSelect = () => {
         </Heading>
       </Flex>
       <Section>
-        <TokenSelect onSelect={setToken} showBalance />
+        <TokenSelect defaultValue={token} onSelect={setToken} showBalance />
       </Section>
     </Flex>
   );

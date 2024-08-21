@@ -2,11 +2,12 @@ import { Flex, RadioCards, Text } from '@radix-ui/themes';
 import { useBalances } from '@/services/user/balances/api';
 
 interface TokenSelectProps {
+  defaultValue: string | null;
   showBalance?: boolean;
   onSelect(token: string): void;
 }
 
-const TokenSelect = ({ showBalance, onSelect }: TokenSelectProps) => {
+const TokenSelect = ({ defaultValue, showBalance, onSelect }: TokenSelectProps) => {
   const { data, error, isError, isLoading } = useBalances();
 
   if (isLoading) {
@@ -28,7 +29,7 @@ const TokenSelect = ({ showBalance, onSelect }: TokenSelectProps) => {
   const tokens = Object.keys(data || {});
 
   return (
-    <RadioCards.Root defaultValue={tokens[0]} columns='1' gap='3'>
+    <RadioCards.Root defaultValue={defaultValue || undefined} columns='1' gap='3'>
       {tokens?.map((token) => (
         <RadioCards.Item key={token} value={token} onClick={() => onSelect(token)}>
           <Flex justify='between' align='center' width='100%'>

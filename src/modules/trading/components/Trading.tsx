@@ -1,10 +1,34 @@
+import { useCallback, useMemo, useState } from 'react';
 import { ChevronLeftIcon } from '@radix-ui/react-icons';
-import { Button, Flex, Heading, IconButton, Section } from '@radix-ui/themes';
+import { Flex, Heading, IconButton, Section } from '@radix-ui/themes';
+import { MainButtonParams } from '@telegram-apps/sdk-react';
+import { useShowMainButton } from '@/hooks/use-show-main-button';
 import Link from '@/modules/core/components/Link';
+import { useSwap } from '@/services/user/swap/api';
 import SwapInput from './SwapInput';
 import Trades from './Trades';
 
 const Trading = () => {
+  const [amount, setAmount] = useState('');
+
+  const { mutate } = useSwap();
+
+  const mainButtonParams = useMemo<Partial<MainButtonParams>>(
+    () => ({
+      bgColor: '#1c93e3',
+      text: 'Swap',
+      isVisible: true,
+      isEnabled: !!amount,
+    }),
+    [amount]
+  );
+  const mainButtonCallback = useCallback(
+    () => mutate({ amountA: Number(amount || 0), tokenA: 'USDT', tokenB: 'WBNB' }),
+    [mutate, amount]
+  );
+
+  useShowMainButton(mainButtonCallback, mainButtonParams);
+
   return (
     <Flex width='100%' minHeight='var(--tg-viewport-height)' px='4' py='4' direction='column'>
       <Flex gap='2' align='center' mb='2'>
@@ -18,27 +42,26 @@ const Trading = () => {
       <Section py='6'>
         <Flex direction='column' gap='3'>
           <SwapInput
-            coin='ETH'
+            coin='USDT'
             price={4000}
             priceChange={15.123}
             priceChangePercent={0.005}
             balance={300}
             action='Send'
+            onChange={setAmount}
           />
           <SwapInput
-            coin='USDT'
+            coin='WBNB'
             price={0.991}
             priceChange={0.012}
             priceChangePercent={0.005}
             balance={3000}
             action='Receive'
+            onChange={setAmount}
           />
         </Flex>
       </Section>
       <Trades />
-      <Button asChild size='3' mt='auto'>
-        <Link to='/'>Swap</Link>
-      </Button>
     </Flex>
   );
 };

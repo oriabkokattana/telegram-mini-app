@@ -8,6 +8,7 @@ interface SwapInputProps {
   priceChangePercent: number;
   balance: number;
   action: 'Send' | 'Receive';
+  onChange(amount: string): void;
 }
 
 const SwapInput = ({
@@ -17,6 +18,7 @@ const SwapInput = ({
   priceChangePercent,
   balance,
   action,
+  onChange,
 }: SwapInputProps) => {
   return (
     <Box>
@@ -42,7 +44,13 @@ const SwapInput = ({
       <Flex mt='2' justify='between' align='center'>
         <Text size='2'>{action}</Text>
         <Box width='100px'>
-          <TextField.Root color='gray' variant='soft' size='1' placeholder='0'>
+          <TextField.Root
+            color='gray'
+            variant='soft'
+            size='1'
+            placeholder='0'
+            onChange={(e) => onChange(e.target.value)}
+          >
             <TextField.Slot />
             <TextField.Slot>
               <IconButton size='1' variant='ghost'>
