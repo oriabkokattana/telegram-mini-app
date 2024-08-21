@@ -9,6 +9,7 @@ import { z } from 'zod';
 import { useLaunchParams, usePopup } from '@telegram-apps/sdk-react';
 import { useWalletAuth } from '@/services/auth/wallet/api';
 import { WalletAuthPayloadSchema } from '@/services/auth/wallet/schema';
+import { useUserStore } from '@/store/user-store';
 import { openExternalLink } from '@/utils/open-link';
 
 const TWO_WEEKS_IN_SEC = 1209600;
@@ -33,6 +34,7 @@ export const useSignAuth = () => {
   const lp = useLaunchParams();
   const authPayloadRef = useRef<z.infer<typeof WalletAuthPayloadSchema>>();
 
+  const user = useUserStore();
   const { connector, address, chain, isConnected } = useAccount();
   const { disconnectAsync } = useDisconnect();
   const { mutate } = useWalletAuth();
@@ -103,8 +105,8 @@ export const useSignAuth = () => {
   };
 
   useEffect(() => {
-    if (address && chain?.id && isConnected) {
+    if (address && chain?.id && isConnected && !user) {
       onSignAuth('EVM', chain.id, address, window.navigator.userAgent);
     }
-  }, [address, isConnected]);
+  }, [address, isConnected, user]);
 };
