@@ -30,18 +30,20 @@ export function useLogout() {
   const navigate = useNavigate();
 
   const { connector, isConnected } = useAccount();
-  const { disconnect } = useDisconnect();
+  const { disconnectAsync } = useDisconnect();
   const { user, removeCredentials } = useUserStore();
 
   return useMutation<z.infer<typeof LogoutAPIResponseSchema>, AxiosError<ErrorResponse>>({
-    mutationFn: () => logout(user?.refreshToken, true),
+    mutationFn: async () => {
+      if (isConnected) {
+        disconnectAsync({ connector });
+      }
+      return logout(user?.refreshToken, true);
+    },
     onSuccess: (success) => {
       if (success) {
         removeCredentials();
         navigate(Routes.AUTH);
-        if (isConnected) {
-          disconnect({ connector });
-        }
       }
     },
     onError: (error) => {
