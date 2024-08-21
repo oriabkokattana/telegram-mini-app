@@ -3,7 +3,7 @@ import Link from '@/modules/core/components/Link';
 
 const UserActions = () => {
   return (
-    <Section pb='0' mt='auto'>
+    <Section pb='0' pt='5'>
       <Flex direction='column' gap='2'>
         <Button asChild variant='surface'>
           <Link to='/deposit'>Deposit</Link>

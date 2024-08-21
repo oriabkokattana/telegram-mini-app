@@ -4,6 +4,7 @@ import { Box, Button, Flex, Heading, Separator } from '@radix-ui/themes';
 import { MainButtonParams } from '@telegram-apps/sdk-react';
 import { useShowMainButton } from '@/hooks/use-show-main-button';
 import Link from '@/modules/core/components/Link';
+import { useUserStore } from '@/store/user-store';
 import { getIsMocked } from '@/utils/get-is-mocked';
 import About from './About';
 import Advantages from './Advantages';
@@ -11,6 +12,7 @@ import WhyUs from './WhyUs';
 
 const Landing = () => {
   const navigate = useNavigate();
+  const user = useUserStore();
 
   const mainButtonParams = useMemo<Partial<MainButtonParams>>(
     () => ({
@@ -21,7 +23,10 @@ const Landing = () => {
     }),
     []
   );
-  const mainButtonCallback = useCallback(() => navigate('/auth'), [navigate]);
+  const mainButtonCallback = useCallback(
+    () => navigate(user ? '/profile' : '/auth'),
+    [user, navigate]
+  );
 
   useShowMainButton(mainButtonCallback, mainButtonParams);
 

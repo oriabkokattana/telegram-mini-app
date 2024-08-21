@@ -7,9 +7,9 @@ import Portfolio from './Portfolio';
 import UserActions from './UserActions';
 
 const Profile = () => {
-  const logoutMutation = useLogout();
-  const { data: profileData } = useProfile();
   const { data: balancesData } = useBalances(true);
+  const { data: profileData } = useProfile();
+  const { mutate } = useLogout();
 
   return (
     <Flex width='100%' minHeight='var(--tg-viewport-height)' px='4' py='4' direction='column'>
@@ -18,7 +18,7 @@ const Profile = () => {
           <Avatar src={profileData?.avatar_image} fallback='A' />
           <Heading size='5'>Username: {profileData?.nickname}</Heading>
         </Flex>
-        <Button onClick={() => logoutMutation.mutate()}>Logout</Button>
+        <Button onClick={() => mutate()}>Logout</Button>
       </Flex>
       <Portfolio data={profileData} />
       <Balances data={balancesData} />

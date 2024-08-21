@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { z } from 'zod';
 import { Heading, Section, Table } from '@radix-ui/themes';
 import { BalancesAPIResponseSchema } from '@/services/user/balances/schema';
@@ -8,13 +7,7 @@ interface BalancesProps {
 }
 
 const Balances = ({ data }: BalancesProps) => {
-  const [balances, setBalances] = useState<z.infer<typeof BalancesAPIResponseSchema>>();
-
-  useEffect(() => {
-    setBalances(data);
-  }, [data]);
-
-  const tokens = Object.keys(balances || {});
+  const tokens = Object.keys(data || {});
 
   return (
     <Section py='6'>
@@ -28,12 +21,12 @@ const Balances = ({ data }: BalancesProps) => {
           </Table.Row>
         </Table.Header>
 
-        <Table.Body>
+        <Table.Body key={tokens.toString()}>
           {tokens?.map((token) => (
-            <Table.Row key={Date.now()}>
+            <Table.Row key={token}>
               <Table.RowHeaderCell>{token}</Table.RowHeaderCell>
-              <Table.Cell>{balances?.[token].total_balance.balance}</Table.Cell>
-              <Table.Cell>{balances?.[token].total_balance.reserved_balance}</Table.Cell>
+              <Table.Cell>{data?.[token].total_balance.balance}</Table.Cell>
+              <Table.Cell>{data?.[token].total_balance.reserved_balance}</Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
