@@ -34,7 +34,7 @@ export const useSignAuth = () => {
   const lp = useLaunchParams();
   const authPayloadRef = useRef<z.infer<typeof WalletAuthPayloadSchema>>();
 
-  const user = useUserStore();
+  const { user } = useUserStore();
   const { connector, address, chain, isConnected } = useAccount();
   const { disconnectAsync } = useDisconnect();
   const { mutate } = useWalletAuth();
