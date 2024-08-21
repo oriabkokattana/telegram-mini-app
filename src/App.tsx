@@ -18,7 +18,10 @@ import { useSignAuth } from './hooks/use-sign-auth';
 import Authorization from './modules/authorization/components/Authorization';
 import { PrivateRoute } from './modules/core/components/PrivateRoute';
 import { PublicRoute } from './modules/core/components/PublicRoute';
+import CreateDeposit from './modules/deposit/components/CreateDeposit';
 import Deposit from './modules/deposit/components/Deposit';
+import DepositChainSelect from './modules/deposit/components/DepositChainSelect';
+import DepositTokenSelect from './modules/deposit/components/DepositTokenSelect';
 import History from './modules/history/components/History';
 import Landing from './modules/landing/components/Landing';
 import Profile from './modules/profile/components/Profile';
@@ -86,6 +89,30 @@ function App() {
             }
           />
           <Route
+            path='deposit-token-select'
+            element={
+              <PrivateRoute>
+                <DepositTokenSelect />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='deposit-chain-select'
+            element={
+              <PrivateRoute>
+                <DepositChainSelect />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='deposit-create'
+            element={
+              <PrivateRoute>
+                <CreateDeposit />
+              </PrivateRoute>
+            }
+          />
+          <Route
             path='withdraw'
             element={
               <PrivateRoute>
@@ -128,7 +155,9 @@ function Layout() {
 
   useEffect(() => {
     if (swipeBehavior.result && viewport.result) {
-      swipeBehavior.result.disableVerticalSwipe();
+      if (swipeBehavior.result.supports('disableVerticalSwipe')) {
+        swipeBehavior.result.disableVerticalSwipe();
+      }
       viewport.result.expand();
     }
   }, [swipeBehavior.result, viewport.result]);

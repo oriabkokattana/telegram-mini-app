@@ -33,8 +33,6 @@ export function useLogout() {
   const { disconnectAsync } = useDisconnect();
   const { user, removeCredentials } = useUserStore();
 
-  console.log(user?.refreshToken);
-
   return useMutation<z.infer<typeof LogoutAPIResponseSchema>, AxiosError<ErrorResponse>>({
     mutationFn: () => logout(user?.refreshToken, true),
     onSuccess: (success) => {
