@@ -27,6 +27,8 @@ import Landing from './modules/landing/components/Landing';
 import Profile from './modules/profile/components/Profile';
 import Trading from './modules/trading/components/Trading';
 import Withdraw from './modules/withdraw/components/Withdraw';
+import WithdrawChainSelect from './modules/withdraw/components/WithdrawChainSelect';
+import WithdrawTokenSelect from './modules/withdraw/components/WithdrawTokenSelect';
 import { useOauthLogin } from './services/auth/oauth-login/api';
 import { useUserStoreHydration } from './store/user-store';
 
@@ -109,6 +111,22 @@ function App() {
             element={
               <PrivateRoute>
                 <CreateDeposit />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='withdraw-token-select'
+            element={
+              <PrivateRoute>
+                <WithdrawTokenSelect />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='withdraw-chain-select'
+            element={
+              <PrivateRoute>
+                <WithdrawChainSelect />
               </PrivateRoute>
             }
           />

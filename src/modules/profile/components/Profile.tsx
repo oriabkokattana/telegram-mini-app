@@ -13,17 +13,19 @@ const Profile = () => {
   const { data: profileData } = useProfile();
   const { data: balancesData } = useBalances();
 
+  console.log(balancesData);
+
   return (
     <Flex width='100%' minHeight='var(--tg-viewport-height)' px='4' py='4' direction='column'>
       <Flex align='center' justify='between' mb='2'>
         <Flex gap='2' align='center'>
           <IconButton asChild>
-            <Link to='/auth'>
+            <Link to='/'>
               <ChevronLeftIcon />
             </Link>
           </IconButton>
           <Avatar src={profileData?.avatar_image} fallback='A' />
-          <Heading>Username: {profileData?.nickname}</Heading>
+          <Heading size='5'>Username: {profileData?.nickname}</Heading>
         </Flex>
         <Button onClick={() => logoutMutation.mutate()}>Logout</Button>
       </Flex>

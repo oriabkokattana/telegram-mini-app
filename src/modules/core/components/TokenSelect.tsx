@@ -19,7 +19,7 @@ const TokenSelect = ({ showBalance }: TokenSelectProps) => {
   if (isError) {
     return (
       <Flex width='100%' height='100%' justify='center' align='center'>
-        <Text color='tomato'>{error.response?.data}</Text>
+        <Text color='tomato'>{error.response?.data.error}</Text>
       </Flex>
     );
   }

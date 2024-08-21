@@ -9,6 +9,10 @@ const BalancesAPIRequest = BalancesAPIRequestSchema;
 
 const BalancesAPIResponse = BalancesAPIResponseSchema;
 
+interface ErrorResponse {
+  error: string;
+}
+
 const getBalances = api<z.infer<typeof BalancesAPIRequest>, z.infer<typeof BalancesAPIResponse>>({
   method: 'GET',
   path: Endpoints.BALANCES,
@@ -18,7 +22,7 @@ const getBalances = api<z.infer<typeof BalancesAPIRequest>, z.infer<typeof Balan
 });
 
 export function useBalances() {
-  return useQuery<z.infer<typeof BalancesAPIResponseSchema>, AxiosError<string>>({
+  return useQuery<z.infer<typeof BalancesAPIResponseSchema>, AxiosError<ErrorResponse>>({
     queryKey: ['profile', 'balances'],
     queryFn: () => getBalances(),
   });

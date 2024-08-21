@@ -9,7 +9,7 @@ const UserActions = () => {
           <Link to='/deposit'>Deposit</Link>
         </Button>
         <Button asChild variant='surface'>
-          <Link to='/withdraw'>Withdraw</Link>
+          <Link to='/withdraw-token-select'>Withdraw</Link>
         </Button>
         <Button asChild variant='surface'>
           <Link to='/history'>History</Link>

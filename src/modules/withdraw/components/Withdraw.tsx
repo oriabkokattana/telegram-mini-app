@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useAccount } from 'wagmi';
 import { ChevronLeftIcon } from '@radix-ui/react-icons';
 import * as Label from '@radix-ui/react-label';
 import {
@@ -19,6 +20,7 @@ const Withdraw = () => {
   const [amount, setAmount] = useState('');
 
   const withdraw = useWithdraw();
+  const { isConnected } = useAccount();
 
   const onWithdraw = () => {
     const addr = address || '0x0000000000000000000000000000000000000000';
@@ -69,7 +71,7 @@ const Withdraw = () => {
       <Separator size='4' />
       <Section>
         <Flex direction='column' gap='5'>
-          <Text>Withdraw to current:</Text>
+          <Text>Withdraw to connected wallet:</Text>
           <Flex maxWidth='300px' align='center' gap='2'>
             <Label.Root htmlFor='amount'>Amount:</Label.Root>
             <TextField.Root
@@ -80,7 +82,9 @@ const Withdraw = () => {
               onChange={(e) => setAmount(e.target.value)}
             />
           </Flex>
-          <Button onClick={onWithdraw}>Withdraw</Button>
+          <Button onClick={onWithdraw} disabled={!isConnected}>
+            Withdraw
+          </Button>
         </Flex>
       </Section>
     </Flex>
