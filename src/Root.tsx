@@ -4,7 +4,7 @@ import { WagmiProvider } from 'wagmi';
 import { Theme } from '@radix-ui/themes';
 import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { SDKProvider, useLaunchParams } from '@telegram-apps/sdk-react';
 import ErrorBoundaryPlaceholder from './modules/core/components/ErrorBoundary';
 import { config } from './utils/config';
