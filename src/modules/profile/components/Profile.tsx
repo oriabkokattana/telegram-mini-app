@@ -9,7 +9,7 @@ import UserActions from './UserActions';
 const Profile = () => {
   const logoutMutation = useLogout();
   const { data: profileData } = useProfile();
-  const { data: balancesData } = useBalances();
+  const { data: balancesData } = useBalances(true);
 
   return (
     <Flex width='100%' minHeight='var(--tg-viewport-height)' px='4' py='4' direction='column'>

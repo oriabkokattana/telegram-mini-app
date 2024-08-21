@@ -17,11 +17,14 @@ import {
 import { MainButtonParams } from '@telegram-apps/sdk-react';
 import { useShowMainButton } from '@/hooks/use-show-main-button';
 import { useCustodialWallet } from '@/services/user/custodial-wallet/api';
+import { useDepositStore } from '@/store/deposit-store';
 
 const CreateDeposit = () => {
   const navigate = useNavigate();
   const { isLoading } = useCustodialWallet();
   const { isConnected } = useAccount();
+  const chain = useDepositStore((state) => state.chain);
+  const token = useDepositStore((state) => state.token);
 
   const mainButtonParams = useMemo<Partial<MainButtonParams>>(
     () => ({
@@ -41,6 +44,12 @@ const CreateDeposit = () => {
       <Flex gap='2' align='center' mb='2'>
         <Heading>Create Deposit</Heading>
       </Flex>
+      <Section py='4'>
+        <Flex direction='column' gap='3'>
+          <Text>Token: {token}</Text>
+          <Text>Chain: {chain}</Text>
+        </Flex>
+      </Section>
       <Section>
         <Flex justify={isLoading ? 'center' : 'between'} align='center'>
           {isLoading ? (

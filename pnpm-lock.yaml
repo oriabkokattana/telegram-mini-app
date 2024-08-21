@@ -35,6 +35,9 @@ importers:
       axios:
         specifier: ^1.7.3
         version: 1.7.4
+      buffer:
+        specifier: ^6.0.3
+        version: 6.0.3
       eruda:
         specifier: ^3.2.1
         version: 3.2.3

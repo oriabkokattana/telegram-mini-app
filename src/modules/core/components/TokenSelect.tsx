@@ -3,9 +3,10 @@ import { useBalances } from '@/services/user/balances/api';
 
 interface TokenSelectProps {
   showBalance?: boolean;
+  onSelect(token: string): void;
 }
 
-const TokenSelect = ({ showBalance }: TokenSelectProps) => {
+const TokenSelect = ({ showBalance, onSelect }: TokenSelectProps) => {
   const { data, error, isError, isLoading } = useBalances();
 
   if (isLoading) {
@@ -24,18 +25,25 @@ const TokenSelect = ({ showBalance }: TokenSelectProps) => {
     );
   }
 
+  const tokens = Object.keys(data || {});
+
   return (
-    <RadioCards.Root defaultValue={data?.[0].token} columns={{ initial: '1', sm: '3' }} gap='3'>
-      {data?.map((item) => (
-        <RadioCards.Item key={item.token} value={item.token}>
+    <RadioCards.Root defaultValue={tokens[0]} columns='1' gap='3'>
+      {tokens?.map((token) => (
+        <RadioCards.Item key={token} value={token} onClick={() => onSelect(token)}>
           <Flex justify='between' align='center' width='100%'>
-            <Flex direction='column' width='100%'>
+            <Flex direction='column'>
               <Text weight='bold' style={{ textTransform: 'capitalize' }}>
-                {item.token.toLowerCase()}
+                {token.toLowerCase()}
               </Text>
-              <Text>{item.token.toUpperCase()}</Text>
+              <Text>{token.toUpperCase()}</Text>
             </Flex>
-            {showBalance && <Text>{item.balance}</Text>}
+            {showBalance && (
+              <Flex direction='column' align='end'>
+                <Text>Balance: {data?.[token].total_balance.balance}</Text>
+                <Text>Reserved: {data?.[token].total_balance.reserved_balance}</Text>
+              </Flex>
+            )}
           </Flex>
         </RadioCards.Item>
       ))}

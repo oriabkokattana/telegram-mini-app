@@ -3,24 +3,27 @@ import { create, StateCreator } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { customStorage } from '@/utils/cloud-storage';
 
-interface User {
+type User = {
   accessToken: string;
   refreshToken: string;
-}
+};
 
-interface UserState {
+type UserState = {
   user: User | null;
-  setCredentials: (user: User) => void;
-  removeCredentials: () => void;
-}
+};
 
-const userStoreSlice: StateCreator<UserState> = (set) => ({
+type UserAction = {
+  setCredentials: (user: UserState['user']) => void;
+  removeCredentials: () => void;
+};
+
+const userStoreSlice: StateCreator<UserState & UserAction> = (set) => ({
   user: null,
   setCredentials: (user) => set({ user }),
   removeCredentials: () => set({ user: null }),
 });
 
-const persistedUserStore = persist<UserState>(userStoreSlice, {
+const persistedUserStore = persist<UserState & UserAction>(userStoreSlice, {
   name: 'user',
   storage: createJSONStorage(() => customStorage),
 });

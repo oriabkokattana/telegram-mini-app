@@ -4,9 +4,12 @@ import { Flex, Heading, Section } from '@radix-ui/themes';
 import { MainButtonParams } from '@telegram-apps/sdk-react';
 import { useShowMainButton } from '@/hooks/use-show-main-button';
 import ChainSelect from '@/modules/core/components/ChainSelect';
+import { useDepositStore } from '@/store/deposit-store';
 
 const DepositChainSelect = () => {
   const navigate = useNavigate();
+  const setChain = useDepositStore((state) => state.setChain);
+  const token = useDepositStore((state) => state.token);
 
   const mainButtonParams = useMemo<Partial<MainButtonParams>>(
     () => ({
@@ -29,7 +32,7 @@ const DepositChainSelect = () => {
         </Heading>
       </Flex>
       <Section>
-        <ChainSelect />
+        <ChainSelect token={token} onSelect={setChain} />
       </Section>
     </Flex>
   );

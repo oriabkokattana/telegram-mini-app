@@ -2,8 +2,11 @@ import { z } from 'zod';
 
 export const WithdrawAPIRequestSchema = z.object({
   amount: z.number(),
+  destination_address: z.string(),
+  network: z.string(),
   token: z.string(),
-  wallet: z.string(),
 });
 
-export const WithdrawAPIResponseSchema = z.string();
+export const WithdrawAPIResponseSchema = z.object({
+  address: z.string(),
+});

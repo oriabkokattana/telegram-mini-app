@@ -4,9 +4,11 @@ import { Flex, Heading, Section } from '@radix-ui/themes';
 import { MainButtonParams } from '@telegram-apps/sdk-react';
 import { useShowMainButton } from '@/hooks/use-show-main-button';
 import TokenSelect from '@/modules/core/components/TokenSelect';
+import { useWithdrawStore } from '@/store/withdraw-store';
 
 const WithdrawTokenSelect = () => {
   const navigate = useNavigate();
+  const setToken = useWithdrawStore((state) => state.setToken);
 
   const mainButtonParams = useMemo<Partial<MainButtonParams>>(
     () => ({
@@ -29,7 +31,7 @@ const WithdrawTokenSelect = () => {
         </Heading>
       </Flex>
       <Section>
-        <TokenSelect showBalance />
+        <TokenSelect onSelect={setToken} showBalance />
       </Section>
     </Flex>
   );

@@ -3,6 +3,7 @@ import { useAccount } from 'wagmi';
 import * as Label from '@radix-ui/react-label';
 import { Button, Flex, Heading, Section, Separator, Text, TextField } from '@radix-ui/themes';
 import { useWithdraw } from '@/services/user/withdraw/api';
+import { useWithdrawStore } from '@/store/withdraw-store';
 
 const Withdraw = () => {
   const [remoteAddress, setRemoteAddress] = useState('');
@@ -10,23 +11,27 @@ const Withdraw = () => {
   const [amountToCurrent, setAmountToCurrent] = useState('');
 
   const withdraw = useWithdraw();
+  const chain = useWithdrawStore((state) => state.chain);
+  const token = useWithdrawStore((state) => state.token);
   const { address, isConnected } = useAccount();
 
   const onWithdraw = () => {
     const addr = remoteAddress;
     const amnt = amountToRemote ? Number(amountToRemote) : 0;
-    const token = 'ETH';
+    const tkn = token || 'USDT';
+    const network = chain || 'BSC';
 
-    withdraw.mutate({ amount: amnt, wallet: addr, token });
+    withdraw.mutate({ amount: amnt, destination_address: addr, token: tkn, network });
   };
 
   const onWithdrawToCurrent = () => {
     if (address) {
       const addr = address;
       const amnt = amountToCurrent ? Number(amountToCurrent) : 0;
-      const token = 'ETH';
+      const tkn = token || 'USDT';
+      const network = chain || 'BSC';
 
-      withdraw.mutate({ amount: amnt, wallet: addr, token });
+      withdraw.mutate({ amount: amnt, destination_address: addr, token: tkn, network });
     }
   };
 
@@ -35,7 +40,13 @@ const Withdraw = () => {
       <Flex gap='2' align='center' mb='2'>
         <Heading>Withdraw</Heading>
       </Flex>
-      <Section mt='auto'>
+      <Section py='4'>
+        <Flex direction='column' gap='3'>
+          <Text>Token: {token}</Text>
+          <Text>Chain: {chain}</Text>
+        </Flex>
+      </Section>
+      <Section py='6'>
         <Flex direction='column' gap='4'>
           <Flex direction='column' gap='5'>
             <Text>Withdraw to remote wallet:</Text>
@@ -67,7 +78,7 @@ const Withdraw = () => {
         </Flex>
       </Section>
       <Separator size='4' />
-      <Section>
+      <Section py='6'>
         <Flex direction='column' gap='5'>
           <Text>Withdraw to connected wallet:</Text>
           <Flex maxWidth='300px' align='center' gap='2'>

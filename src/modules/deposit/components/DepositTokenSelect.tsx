@@ -4,9 +4,11 @@ import { Flex, Heading, Section } from '@radix-ui/themes';
 import { MainButtonParams } from '@telegram-apps/sdk-react';
 import { useShowMainButton } from '@/hooks/use-show-main-button';
 import TokenSelect from '@/modules/core/components/TokenSelect';
+import { useDepositStore } from '@/store/deposit-store';
 
 const DepositTokenSelect = () => {
   const navigate = useNavigate();
+  const setToken = useDepositStore((state) => state.setToken);
 
   const mainButtonParams = useMemo<Partial<MainButtonParams>>(
     () => ({
@@ -29,7 +31,7 @@ const DepositTokenSelect = () => {
         </Heading>
       </Flex>
       <Section>
-        <TokenSelect />
+        <TokenSelect onSelect={setToken} />
       </Section>
     </Flex>
   );

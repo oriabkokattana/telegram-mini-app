@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import { z } from 'zod';
-import { useQuery } from '@tanstack/react-query';
+import { skipToken, useQuery } from '@tanstack/react-query';
 import { api } from '@/utils/api';
 import { Endpoints } from '@/utils/endpoints-constants';
 import { BalancesAPIRequestSchema, BalancesAPIResponseSchema } from './schema';
@@ -21,9 +21,9 @@ const getBalances = api<z.infer<typeof BalancesAPIRequest>, z.infer<typeof Balan
   type: 'private',
 });
 
-export function useBalances() {
+export function useBalances(enabled?: boolean) {
   return useQuery<z.infer<typeof BalancesAPIResponseSchema>, AxiosError<ErrorResponse>>({
     queryKey: ['profile', 'balances'],
-    queryFn: () => getBalances(),
+    queryFn: enabled ? () => getBalances() : skipToken,
   });
 }
