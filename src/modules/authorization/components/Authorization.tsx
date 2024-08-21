@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
-import { ChevronLeftIcon } from '@radix-ui/react-icons';
-import { Flex, Heading, IconButton, Section, SegmentedControl } from '@radix-ui/themes';
+import { Flex, Heading, Section, SegmentedControl } from '@radix-ui/themes';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { BiometryManager, initBiometryManager } from '@telegram-apps/sdk-react';
-import Link from '@/modules/core/components/Link';
 import Biometry from './Biometry';
 import EmailPassword from './EmailPassword';
 import OAuth from './OAuth';
@@ -26,11 +24,6 @@ const Authorization = () => {
   return (
     <Flex width='100%' minHeight='var(--tg-viewport-height)' px='4' py='4' direction='column'>
       <Flex gap='2' align='center' mb='2'>
-        <IconButton asChild>
-          <Link to='/'>
-            <ChevronLeftIcon />
-          </Link>
-        </IconButton>
         <Heading>Sign in/up</Heading>
       </Flex>
       <Flex width='100%' my='auto' direction='column' gap='6'>

@@ -14,7 +14,7 @@ const Landing = () => {
 
   const mainButtonParams = useMemo<Partial<MainButtonParams>>(
     () => ({
-      bgColor: '#aa1388',
+      bgColor: '#1c93e3',
       text: 'Go to the moon',
       isVisible: true,
       isEnabled: true,

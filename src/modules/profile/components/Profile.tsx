@@ -1,6 +1,4 @@
-import { ChevronLeftIcon } from '@radix-ui/react-icons';
-import { Avatar, Button, Flex, Heading, IconButton } from '@radix-ui/themes';
-import Link from '@/modules/core/components/Link';
+import { Avatar, Button, Flex, Heading } from '@radix-ui/themes';
 import { useLogout } from '@/services/auth/logout/api';
 import { useBalances } from '@/services/user/balances/api';
 import { useProfile } from '@/services/user/profile/api';
@@ -13,17 +11,10 @@ const Profile = () => {
   const { data: profileData } = useProfile();
   const { data: balancesData } = useBalances();
 
-  console.log(balancesData);
-
   return (
     <Flex width='100%' minHeight='var(--tg-viewport-height)' px='4' py='4' direction='column'>
       <Flex align='center' justify='between' mb='2'>
         <Flex gap='2' align='center'>
-          <IconButton asChild>
-            <Link to='/'>
-              <ChevronLeftIcon />
-            </Link>
-          </IconButton>
           <Avatar src={profileData?.avatar_image} fallback='A' />
           <Heading size='5'>Username: {profileData?.nickname}</Heading>
         </Flex>

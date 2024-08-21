@@ -1,10 +1,8 @@
 import { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronLeftIcon } from '@radix-ui/react-icons';
-import { Flex, Heading, IconButton } from '@radix-ui/themes';
+import { Flex, Heading } from '@radix-ui/themes';
 import { MainButtonParams } from '@telegram-apps/sdk-react';
 import { useShowMainButton } from '@/hooks/use-show-main-button';
-import Link from '@/modules/core/components/Link';
 import Transactions from './Transactions';
 
 const Deposit = () => {
@@ -12,7 +10,7 @@ const Deposit = () => {
 
   const mainButtonParams = useMemo<Partial<MainButtonParams>>(
     () => ({
-      bgColor: '#aa1388',
+      bgColor: '#1c93e3',
       text: 'Deposit',
       isVisible: true,
       isEnabled: true,
@@ -26,11 +24,6 @@ const Deposit = () => {
   return (
     <Flex width='100%' minHeight='var(--tg-viewport-height)' px='4' py='4' direction='column'>
       <Flex gap='2' align='center' mb='2'>
-        <IconButton asChild>
-          <Link to='/profile'>
-            <ChevronLeftIcon />
-          </Link>
-        </IconButton>
         <Heading>Deposit</Heading>
       </Flex>
       <Transactions />

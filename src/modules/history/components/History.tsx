@@ -1,10 +1,8 @@
 import { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronLeftIcon } from '@radix-ui/react-icons';
-import { Flex, Heading, IconButton, Separator } from '@radix-ui/themes';
+import { Flex, Heading, Separator } from '@radix-ui/themes';
 import { MainButtonParams } from '@telegram-apps/sdk-react';
 import { useShowMainButton } from '@/hooks/use-show-main-button';
-import Link from '@/modules/core/components/Link';
 import PreviousDeposits from './PreviousDeposits';
 import PreviousWithdrawals from './PreviousWithdrawals';
 
@@ -13,7 +11,7 @@ const History = () => {
 
   const mainButtonParams = useMemo<Partial<MainButtonParams>>(
     () => ({
-      bgColor: '#aa1388',
+      bgColor: '#1c93e3',
       text: 'Start Trading',
       isVisible: true,
       isEnabled: true,
@@ -27,11 +25,6 @@ const History = () => {
   return (
     <Flex width='100%' minHeight='var(--tg-viewport-height)' px='4' py='4' direction='column'>
       <Flex gap='2' align='center' mb='2'>
-        <IconButton asChild>
-          <Link to='/profile'>
-            <ChevronLeftIcon />
-          </Link>
-        </IconButton>
         <Heading>History</Heading>
       </Flex>
       <Flex my='auto' direction='column' gap='8'>

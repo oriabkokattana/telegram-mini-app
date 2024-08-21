@@ -1,18 +1,7 @@
 import { useState } from 'react';
 import { useAccount } from 'wagmi';
-import { ChevronLeftIcon } from '@radix-ui/react-icons';
 import * as Label from '@radix-ui/react-label';
-import {
-  Button,
-  Flex,
-  Heading,
-  IconButton,
-  Section,
-  Separator,
-  Text,
-  TextField,
-} from '@radix-ui/themes';
-import Link from '@/modules/core/components/Link';
+import { Button, Flex, Heading, Section, Separator, Text, TextField } from '@radix-ui/themes';
 import { useWithdraw } from '@/services/user/withdraw/api';
 
 const Withdraw = () => {
@@ -44,16 +33,12 @@ const Withdraw = () => {
   return (
     <Flex width='100%' minHeight='var(--tg-viewport-height)' px='4' py='4' direction='column'>
       <Flex gap='2' align='center' mb='2'>
-        <IconButton asChild>
-          <Link to='/profile'>
-            <ChevronLeftIcon />
-          </Link>
-        </IconButton>
         <Heading>Withdraw</Heading>
       </Flex>
       <Section mt='auto'>
         <Flex direction='column' gap='4'>
           <Flex direction='column' gap='5'>
+            <Text>Withdraw to remote wallet:</Text>
             <Flex maxWidth='300px' align='center' gap='2'>
               <Label.Root htmlFor='amount'>Address:</Label.Root>
               <TextField.Root

@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAccount } from 'wagmi';
-import { ChevronLeftIcon, CopyIcon } from '@radix-ui/react-icons';
+import { CopyIcon } from '@radix-ui/react-icons';
 import * as Label from '@radix-ui/react-label';
 import {
   Flex,
@@ -16,7 +16,6 @@ import {
 } from '@radix-ui/themes';
 import { MainButtonParams } from '@telegram-apps/sdk-react';
 import { useShowMainButton } from '@/hooks/use-show-main-button';
-import Link from '@/modules/core/components/Link';
 import { useCustodialWallet } from '@/services/user/custodial-wallet/api';
 
 const CreateDeposit = () => {
@@ -26,7 +25,7 @@ const CreateDeposit = () => {
 
   const mainButtonParams = useMemo<Partial<MainButtonParams>>(
     () => ({
-      bgColor: '#aa1388',
+      bgColor: '#1c93e3',
       text: 'Deposit from connected wallet',
       isVisible: true,
       isEnabled: isConnected,
@@ -40,11 +39,6 @@ const CreateDeposit = () => {
   return (
     <Flex width='100%' minHeight='var(--tg-viewport-height)' px='4' py='4' direction='column'>
       <Flex gap='2' align='center' mb='2'>
-        <IconButton asChild>
-          <Link to='/deposit-chain-select'>
-            <ChevronLeftIcon />
-          </Link>
-        </IconButton>
         <Heading>Create Deposit</Heading>
       </Flex>
       <Section>
