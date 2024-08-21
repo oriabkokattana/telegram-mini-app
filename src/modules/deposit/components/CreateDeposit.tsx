@@ -35,7 +35,7 @@ const CreateDeposit = () => {
     }),
     [isConnected]
   );
-  const mainButtonCallback = useCallback(() => navigate('/withdraw'), [navigate]);
+  const mainButtonCallback = useCallback(() => navigate('/profile'), [navigate]);
 
   useShowMainButton(mainButtonCallback, mainButtonParams);
 
@@ -76,7 +76,7 @@ const CreateDeposit = () => {
           <Text>Deposit from current wallet:</Text>
           <Flex maxWidth='300px' align='center' gap='2'>
             <Label.Root htmlFor='amount'>Amount:</Label.Root>
-            <TextField.Root size='3' placeholder='0' id='amount' disabled={true} />
+            <TextField.Root size='3' placeholder='0' id='amount' disabled={!isConnected} />
           </Flex>
         </Flex>
       </Section>
