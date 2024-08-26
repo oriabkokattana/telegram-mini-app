@@ -98,7 +98,7 @@ export const useSignAuth = () => {
     if (
       connector?.id === 'walletConnect' &&
       provider?.signer?.session?.peer?.metadata?.name === 'MetaMask Wallet' &&
-      (lp.platform === 'ios' || lp.platform === 'android')
+      lp.platform === 'ios'
     ) {
       openExternalLink('https://metamask.app.link/wc');
     }
