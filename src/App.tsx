@@ -24,6 +24,7 @@ import DepositChainSelect from './modules/deposit/components/DepositChainSelect'
 import DepositTokenSelect from './modules/deposit/components/DepositTokenSelect';
 import History from './modules/history/components/History';
 import Landing from './modules/landing/components/Landing';
+import Main from './modules/main/components/Main';
 import Profile from './modules/profile/components/Profile';
 import Trading from './modules/trading/components/Trading';
 import Withdraw from './modules/withdraw/components/Withdraw';
@@ -146,6 +147,7 @@ function App() {
               </PrivateRoute>
             }
           />
+
           <Route
             path='auth'
             element={
@@ -154,6 +156,17 @@ function App() {
               </PublicRoute>
             }
           />
+
+          <Route
+            path='ux'
+            element={
+              <div style={{ width: 'inherit', minHeight: 'inherit', backgroundColor: 'white' }}>
+                <Outlet />
+              </div>
+            }
+          >
+            <Route path='main' element={<Main />} />
+          </Route>
 
           <Route path='*' element={<NoMatch />} />
         </Route>

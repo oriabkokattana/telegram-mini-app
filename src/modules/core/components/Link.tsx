@@ -1,6 +1,5 @@
 import { type FC, type MouseEventHandler, useCallback } from 'react';
 import { Link as RouterLink, LinkProps } from 'react-router-dom';
-import { Link as UILink } from '@radix-ui/themes';
 import { useUtils } from '@telegram-apps/sdk-react';
 
 const Link: FC<LinkProps> = ({ onClick: propsOnClick, to, ...rest }) => {
@@ -34,9 +33,12 @@ const Link: FC<LinkProps> = ({ onClick: propsOnClick, to, ...rest }) => {
   );
 
   return (
-    <UILink asChild>
-      <RouterLink {...rest} to={to} onClick={onClick} />
-    </UILink>
+    <RouterLink
+      {...rest}
+      to={to}
+      style={{ ...rest.style, textDecoration: 'none' }}
+      onClick={onClick}
+    />
   );
 };
 
