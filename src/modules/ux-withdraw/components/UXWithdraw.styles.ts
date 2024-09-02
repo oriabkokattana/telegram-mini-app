@@ -22,6 +22,7 @@ export const styles = stylex.create({
     width: '100%',
     display: 'flex',
     alignItems: 'center',
+    paddingLeft: '24px',
   },
   header: {
     margin: '0 auto',
