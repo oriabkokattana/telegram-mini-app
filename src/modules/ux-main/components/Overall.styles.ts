@@ -55,12 +55,12 @@ export const styles = stylex.create({
     width: '100%',
     height: '219px',
   },
-  amount: {
+  amountWrapper: {
     color: colors.nativeTextColor,
     fontFamily: fontFamilies.roobertPro,
     fontSize: fontSizes.headingH1,
   },
-  amountValue: {
+  amount: {
     color: colors.grey1000,
     fontWeight: fontWeights.bold,
     textShadow: shadows.shadow2,
@@ -69,14 +69,14 @@ export const styles = stylex.create({
     color: colors.grey600,
     fontWeight: fontWeights.medium,
   },
-  growthInfo: {
+  growthWrapper: {
     display: 'flex',
     alignItems: 'center',
     gap: '8px',
     position: 'relative',
     zIndex: '1',
   },
-  growthInfoText: {
+  growth: {
     color: colors.grey1000,
     fontFamily: fontFamilies.roboto,
     fontSize: fontSizes.text2,

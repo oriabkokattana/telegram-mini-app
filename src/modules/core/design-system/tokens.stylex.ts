@@ -38,12 +38,12 @@ export const fontFamilies = stylex.defineVars({
 
 // Font Sizes
 export const fontSizes = stylex.defineVars({
-  headingH1: '40px',
-  headingH6: '18px',
   caption1: '12px',
   caption2: '13px',
   text1: '14px',
   text2: '16px',
+  headingH6: '18px',
+  headingH1: '40px',
 });
 
 // Font Weights

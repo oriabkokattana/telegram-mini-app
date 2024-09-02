@@ -18,15 +18,20 @@ import { useSignAuth } from './hooks/use-sign-auth';
 import Authorization from './modules/authorization/components/Authorization';
 import { PrivateRoute } from './modules/core/components/PrivateRoute';
 import { PublicRoute } from './modules/core/components/PublicRoute';
+import ScanQrCode from './modules/core/components/ScanQrCode';
 import CreateDeposit from './modules/deposit/components/CreateDeposit';
 import Deposit from './modules/deposit/components/Deposit';
 import DepositChainSelect from './modules/deposit/components/DepositChainSelect';
 import DepositTokenSelect from './modules/deposit/components/DepositTokenSelect';
 import History from './modules/history/components/History';
 import Landing from './modules/landing/components/Landing';
-import Main from './modules/main/components/Main';
 import Profile from './modules/profile/components/Profile';
 import Trading from './modules/trading/components/Trading';
+import UXDeposit from './modules/ux-deposit/components/UXDeposit';
+import UXDepositTokenSelect from './modules/ux-deposit/components/UXDepositTokenSelect';
+import UXMain from './modules/ux-main/components/UXMain';
+import UXWithdraw from './modules/ux-withdraw/components/UXWithdraw';
+import UXWithdrawTokenSelect from './modules/ux-withdraw/components/UXWithdrawTokenSelect';
 import Withdraw from './modules/withdraw/components/Withdraw';
 import WithdrawChainSelect from './modules/withdraw/components/WithdrawChainSelect';
 import WithdrawTokenSelect from './modules/withdraw/components/WithdrawTokenSelect';
@@ -165,7 +170,12 @@ function App() {
               </div>
             }
           >
-            <Route path='main' element={<Main />} />
+            <Route path='main' element={<UXMain />} />
+            <Route path='deposit-token-select' element={<UXDepositTokenSelect />} />
+            <Route path='deposit' element={<UXDeposit />} />
+            <Route path='withdraw-token-select' element={<UXWithdrawTokenSelect />} />
+            <Route path='withdraw' element={<UXWithdraw />} />
+            <Route path='qr-code' element={<ScanQrCode />} />
           </Route>
 
           <Route path='*' element={<NoMatch />} />

@@ -1,4 +1,4 @@
-import { HTMLAttributes, ReactNode } from 'react';
+import { forwardRef, HTMLAttributes, ReactNode } from 'react';
 import * as Avatar from '@radix-ui/react-avatar';
 import * as stylex from '@stylexjs/stylex';
 
@@ -17,31 +17,29 @@ export type TokenIconProps = {
   children?: ReactNode;
 } & HTMLAttributes<HTMLSpanElement>;
 
-export const TokenIcon = ({
-  asChild,
-  name,
-  size = 'sm',
-  variant = 'default',
-  customSize,
-  children,
-  ...props
-}: TokenIconProps) => {
-  const src = '';
+export const TokenIcon = forwardRef<HTMLSpanElement, TokenIconProps>(
+  (
+    { asChild, name, size = 'sm', variant = 'default', customSize, children, ...props },
+    forwardedRef
+  ) => {
+    const src = '';
 
-  return (
-    <Avatar.Root
-      asChild={asChild}
-      {...props}
-      {...stylex.props(
-        styles.base,
-        styles[size],
-        styles[variant],
-        customSize ? styles.size(customSize) : undefined
-      )}
-    >
-      {children}
-      <Avatar.Image {...stylex.props(styles.image)} src={src} alt={name} />
-      <Avatar.Fallback {...stylex.props(styles.fallback)}>{name[0]}</Avatar.Fallback>
-    </Avatar.Root>
-  );
-};
+    return (
+      <Avatar.Root
+        asChild={asChild}
+        {...stylex.props(
+          styles.base,
+          styles[size],
+          styles[variant],
+          customSize ? styles.size(customSize) : undefined
+        )}
+        {...props}
+        ref={forwardedRef}
+      >
+        {children}
+        <Avatar.Image {...stylex.props(styles.image)} src={src} alt={name} />
+        <Avatar.Fallback {...stylex.props(styles.fallback)}>{name[0]}</Avatar.Fallback>
+      </Avatar.Root>
+    );
+  }
+);

@@ -38,12 +38,12 @@ const Overall = (): JSX.Element => {
         value={Tab.balance.toString()}
         onClick={onPeriodChange}
       >
-        <div {...stylex.props(styles.amount)}>
-          <span {...stylex.props(styles.amountValue)}>32,455</span>{' '}
+        <div {...stylex.props(styles.amountWrapper)}>
+          <span {...stylex.props(styles.amount)}>32,455</span>{' '}
           <span {...stylex.props(styles.currency)}>USDT</span>
         </div>
-        <div {...stylex.props(styles.growthInfo)}>
-          <span {...stylex.props(styles.growthInfoText)}>
+        <div {...stylex.props(styles.growthWrapper)}>
+          <span {...stylex.props(styles.growth)}>
             {period === Period.daily ? '+ 1,400.90 $ (+2%)' : '+ 100,400.90 $ (+2%)'}
           </span>
           <span {...stylex.props(styles.badge)}>{period}</span>
@@ -61,8 +61,8 @@ const Overall = (): JSX.Element => {
         value={Tab.fees.toString()}
         onClick={() => utils.shareURL('google.com', 'A lot of money were saved')}
       >
-        <div {...stylex.props(styles.amount)}>
-          <span {...stylex.props(styles.amountValue)}>2,455</span>{' '}
+        <div {...stylex.props(styles.amountWrapper)}>
+          <span {...stylex.props(styles.amount)}>2,455</span>{' '}
           <span {...stylex.props(styles.currency)}>USD</span>
         </div>
         <span {...stylex.props(styles.badge)}>Share</span>

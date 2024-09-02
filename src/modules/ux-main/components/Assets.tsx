@@ -1,5 +1,5 @@
 import * as stylex from '@stylexjs/stylex';
-import { TokenIcon } from '@/modules/core/design-system/token-icon/TokenIcon';
+import { TokenIcon } from '@/modules/core/design-system/token-icon';
 import { formatNumberToWhiteSpaces } from '@/utils/numbers';
 
 import { styles } from './Assets.styles';

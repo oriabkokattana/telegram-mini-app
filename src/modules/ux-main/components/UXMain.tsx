@@ -13,9 +13,9 @@ import Footer from './Footer';
 import Overall from './Overall';
 import Tables from './Tables';
 
-import { styles } from './Main.styles';
+import { styles } from './UXMain.styles';
 
-const Main = () => {
+const UXMain = () => {
   const miniApp = useMiniApp();
 
   useEffect(() => {
@@ -45,28 +45,25 @@ const Main = () => {
           label='Deposit'
           Icon={ImportIcon}
         >
-          <Link to='' />
+          <Link to='/ux/deposit-token-select' />
         </IconButton>
         <IconButton
           asChild
           size='md'
           variant='gray'
           w='calc(100% / 3)'
-          label='Widthdraw'
+          label='Withdraw'
           Icon={ExportIcon}
         >
-          <Link to='' />
+          <Link to='/ux/withdraw-token-select' />
         </IconButton>
         <IconButton
-          asChild
           size='md'
           variant='outline'
           w='calc(100% / 3)'
           label='Add a label'
           Icon={AddIcon}
-        >
-          <Link to='' />
-        </IconButton>
+        />
       </div>
       <Tables />
       <Footer />
@@ -74,4 +71,4 @@ const Main = () => {
   );
 };
 
-export default Main;
+export default UXMain;
