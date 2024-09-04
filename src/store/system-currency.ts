@@ -22,7 +22,7 @@ const systemCurrencySlice: StateCreator<SystemCurrencyState & SystemCurrencyActi
 ) => ({
   currency: 'USDT',
   currencyRate: 1,
-  rates: { BTC: 50000, ETH: 4000, USDT: 1 },
+  rates: { BTC: 0.00002, ETH: 0.00025, USDT: 1 },
   setCurrency: (currency) => set({ currency, currencyRate: get().rates[currency] }),
   setRates: (rates) => set({ rates }),
 });

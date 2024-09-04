@@ -67,9 +67,6 @@ export const styles = stylex.create({
     transition: 'background-color 0.15s',
     cursor: 'pointer',
   },
-  tagSelected: {
-    backgroundColor: colors.grey300,
-  },
   tag: {
     color: colors.grey1000,
     fontFamily: fontFamilies.roobertPro,
@@ -126,6 +123,7 @@ export const styles = stylex.create({
     fontWeight: fontWeights.normal,
     lineHeight: lineHeights.small,
     textTransform: 'uppercase',
+    cursor: 'pointer',
   },
   symbolSelected: {
     color: colors.grey300,

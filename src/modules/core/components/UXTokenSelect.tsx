@@ -15,7 +15,14 @@ export type TokenItem = {
 };
 
 const SEARCH_HISTORY = ['BTC'];
-const POPULAR_ASSETS = ['USDT', 'BTC', 'ETH', 'SOL', 'TON', 'ARB'];
+const POPULAR_ASSETS = [
+  { name: 'USD Tether', amount: '0,00', currency: 'USDT' },
+  { name: 'Bitcoin', amount: '0,00', currency: 'BTC' },
+  { name: 'Solana', amount: '0,00', currency: 'SOL' },
+  { name: 'Ethereum', amount: '0,00', currency: 'ETH' },
+  { name: 'Toncoin', amount: '0,00', currency: 'TON' },
+  { name: 'Arbitrum', amount: '0,00', currency: 'ARB' },
+];
 const SEARCH_LIST: TokenItem[] = [
   { name: 'Aave', amount: '0,00', currency: 'AAVE' },
   { name: 'Acala', amount: '0,00', currency: 'ACA' },
@@ -68,8 +75,6 @@ export interface UXTokenSelectProps {
 const UXTokenSelect = ({ extended, onSelect }: UXTokenSelectProps) => {
   const miniApp = useMiniApp();
   const [search, setSearch] = useState('');
-  const [history, setHistory] = useState('');
-  const [popular, setPopular] = useState('');
   const [symbol, setSymbol] = useState('');
 
   useEffect(() => {
@@ -80,11 +85,9 @@ const UXTokenSelect = ({ extended, onSelect }: UXTokenSelectProps) => {
   const tokens = SEARCH_LIST.filter((token) => {
     const tokenName = token.name.toLowerCase() + '&' + token.currency.toLowerCase();
     const isSearch = tokenName.includes(search.toLowerCase());
-    const isHistory = history && tokenName.includes(history.toLowerCase());
-    const isPopular = popular && tokenName.includes(popular.toLowerCase());
     const isSymbol =
       symbol === '1' ? /\d/.test(tokenName) : tokenName.startsWith(symbol.toLowerCase());
-    return isSearch && (isHistory || isPopular || (!history && !popular)) && isSymbol;
+    return isSearch && isSymbol;
   });
 
   return (
@@ -109,9 +112,9 @@ const UXTokenSelect = ({ extended, onSelect }: UXTokenSelectProps) => {
             <div {...stylex.props(styles.tagList)}>
               {SEARCH_HISTORY.map((tag) => (
                 <div
-                  {...stylex.props(styles.tagWrapper, history === tag && styles.tagSelected)}
+                  {...stylex.props(styles.tagWrapper, search === tag)}
                   key={tag}
-                  onClick={() => setHistory(history === tag ? '' : tag)}
+                  onClick={() => setSearch(tag)}
                 >
                   <span {...stylex.props(styles.tag)}>{tag}</span>
                 </div>
@@ -125,11 +128,11 @@ const UXTokenSelect = ({ extended, onSelect }: UXTokenSelectProps) => {
             <div {...stylex.props(styles.tagList)}>
               {POPULAR_ASSETS.map((tag) => (
                 <div
-                  {...stylex.props(styles.tagWrapper, popular === tag && styles.tagSelected)}
-                  key={tag}
-                  onClick={() => setPopular(popular === tag ? '' : tag)}
+                  {...stylex.props(styles.tagWrapper)}
+                  key={tag.name}
+                  onClick={() => onSelect(tag)}
                 >
-                  <span {...stylex.props(styles.tag)}>{tag}</span>
+                  <span {...stylex.props(styles.tag)}>{tag.currency}</span>
                 </div>
               ))}
             </div>

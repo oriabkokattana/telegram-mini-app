@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 import * as stylex from '@stylexjs/stylex';
 import { useMiniApp } from '@telegram-apps/sdk-react';
 import ChevronDownIcon from '@/assets/chevron-down.svg?react';
@@ -32,6 +33,16 @@ const UXDeposit = () => {
     setChain(chain);
   };
 
+  const onCopyAddress = () => {
+    if (data?.address) {
+      navigator.clipboard
+        .writeText(data?.address)
+        .then(() => toast.success('Copied to clipboard!'));
+    } else {
+      toast.error('Custody wallet address not defined');
+    }
+  };
+
   return (
     <div {...stylex.props(styles.base)}>
       <div {...stylex.props(styles.headerWrapper)}>
@@ -43,7 +54,7 @@ const UXDeposit = () => {
       </div>
       <span {...stylex.props(styles.address)}>{transformAddress(data?.address)}</span>
       <div {...stylex.props(styles.actions)}>
-        <Button size='sm'>
+        <Button size='sm' onClick={onCopyAddress}>
           <CopyIcon />
           <span>Copy Address</span>
         </Button>

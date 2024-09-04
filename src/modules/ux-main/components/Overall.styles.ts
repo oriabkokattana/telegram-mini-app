@@ -47,8 +47,16 @@ export const styles = stylex.create({
       ":is([data-state='active'])": colors.grey100Background,
     },
   },
+  swipeContainer: {
+    overflow: 'hidden',
+  },
+  tabContentWrapper: {
+    display: 'flex',
+    transition: 'translate 0.3s ease-in-out',
+  },
   tabContent: {
-    display: { default: 'flex', ":is([data-state='inactive'])": 'none' },
+    display: { default: 'flex', ":is([data-state='inactive'])": 'flex' },
+    flex: '0 0 var(--tg-viewport-width)',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
@@ -116,4 +124,5 @@ export const styles = stylex.create({
     zIndex: 0,
     objectFit: 'cover',
   },
+  tx: (index) => ({ translate: `calc(-${index} * var(--tg-viewport-width))` }),
 });
