@@ -206,9 +206,7 @@ function Layout() {
   }, [swipeBehavior.result, viewport.result]);
 
   return (
-    <div
-      style={{ width: 'var(--tg-viewport-width)', minHeight: 'var(--tg-viewport-stable-height)' }}
-    >
+    <div style={{ width: 'var(--tg-viewport-width)', minHeight: 'var(--tg-viewport-height)' }}>
       {userHydrated && systemCurrencyHydrated ? <Outlet /> : <span>Loading...</span>}
     </div>
   );

@@ -7,7 +7,10 @@ export const styles = stylex.create({
     flexDirection: 'column',
     gap: '4px',
   },
-  label: {
+  labelWrapper: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'space-between',
     color: colors.grey900Text,
     fontFamily: fontFamilies.roobertPro,
     fontSize: fontSizes.text1,
@@ -15,8 +18,8 @@ export const styles = stylex.create({
     lineHeight: lineHeights.normal,
   },
   inputWrapper: {
-    flex: '1 0 0',
-    display: 'flex',
+    flex: '1',
+    display: 'inline-flex',
     alignItems: 'center',
     borderRadius: '100px',
     backgroundColor: colors.grey200,
@@ -29,7 +32,8 @@ export const styles = stylex.create({
     '-webkit-box-shadow': 'none',
     '-moz-box-shadow': 'none',
     boxShadow: 'none',
-    flex: '1 0 0',
+    padding: '0',
+    flex: '1',
     color: colors.grey1000,
     fontFamily: fontFamilies.roobertPro,
     '::placeholder': {
@@ -37,7 +41,7 @@ export const styles = stylex.create({
     },
   },
   readOnly: {
-    flex: '1 0 0',
+    flex: '1',
     color: colors.grey1000,
     fontFamily: fontFamilies.roobertPro,
   },
@@ -55,6 +59,7 @@ export const styles = stylex.create({
     padding: '12px 6px 12px 16px',
   },
   'input-sm': {
+    height: '20px',
     fontSize: fontSizes.text2,
     fontWeight: fontWeights.medium,
     lineHeight: lineHeights.big,
@@ -64,6 +69,7 @@ export const styles = stylex.create({
     padding: '16px',
   },
   'input-md': {
+    height: '16px',
     fontSize: fontSizes.text1,
     fontWeight: fontWeights.normal,
     lineHeight: lineHeights.normal,

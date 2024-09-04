@@ -38,7 +38,7 @@ const UXMain = () => {
           size='sm'
           variant='grey100'
           leftElement={<SearchIcon />}
-          w='100%'
+          w='calc(100% - 120px)'
           placeholder='Search'
         />
         <IconButton size='sm' variant='light-gray' Icon={StatsChartIcon} />

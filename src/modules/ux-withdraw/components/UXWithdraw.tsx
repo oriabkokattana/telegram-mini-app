@@ -81,6 +81,7 @@ const UXWithdraw = () => {
         variant='grey300'
         w='100%'
         label='Amount'
+        extraLabel={<span>Balance: $2,000</span>}
         rightElement={
           <div {...stylex.props(styles.amountAction)}>
             <span>{token}</span>

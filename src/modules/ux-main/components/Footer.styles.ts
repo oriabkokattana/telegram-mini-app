@@ -27,7 +27,7 @@ export const styles = stylex.create({
     padding: '0',
   },
   link: {
-    flex: '1 0 0',
+    flex: '1',
     display: 'flex',
     padding: '0px 20px',
     flexDirection: 'column',

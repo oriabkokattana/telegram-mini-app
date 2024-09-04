@@ -12,19 +12,24 @@ export type InputProps = {
   variant: InputVariants;
   w?: number | string;
   label?: string;
+  extraLabel?: ReactNode;
   leftElement?: ReactNode;
   rightElement?: ReactNode;
   readOnly?: boolean;
 } & Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'readOnly'>;
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ size, variant, w, label, leftElement, rightElement, readOnly, ...props }, forwardedRef) => {
+  (
+    { size, variant, w, label, extraLabel, leftElement, rightElement, readOnly, ...props },
+    forwardedRef
+  ) => {
     return (
       <div {...stylex.props(styles.base, styles.w(w))} ref={forwardedRef}>
         {label && (
-          <Label.Root {...stylex.props(styles.label)} htmlFor={label}>
-            {label}
-          </Label.Root>
+          <div {...stylex.props(styles.labelWrapper)}>
+            <Label.Root htmlFor={label}>{label}</Label.Root>
+            {extraLabel}
+          </div>
         )}
         <div
           {...stylex.props(

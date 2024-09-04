@@ -16,6 +16,7 @@ export const styles = stylex.create({
     backgroundColor: colors.grey0,
   },
   header: {
+    width: '100%',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -27,7 +28,6 @@ export const styles = stylex.create({
     alignItems: 'center',
     justifyContent: 'center',
     verticalAlign: 'middle',
-    flex: '0 0 44px',
     width: '44px',
     height: '44px',
     borderRadius: '100px',

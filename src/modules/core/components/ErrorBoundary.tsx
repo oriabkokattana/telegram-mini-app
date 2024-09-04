@@ -48,8 +48,8 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 const ErrorBoundaryError: FC<{ error: unknown }> = ({ error }) => (
   <div
     style={{
-      width: '100vw',
-      height: '100vh',
+      width: 'var(--tg-viewport-width)',
+      height: 'var(--tg-viewport-height)',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',

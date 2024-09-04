@@ -29,7 +29,7 @@ export const styles = stylex.create({
     },
   },
   token: {
-    flex: '1 0 0',
+    flex: '1',
     display: 'flex',
     alignItems: 'center',
     gap: '8px',
@@ -42,7 +42,7 @@ export const styles = stylex.create({
     lineHeight: lineHeights.big,
   },
   amount: {
-    flex: '1 0 0',
+    flex: '1',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -57,7 +57,7 @@ export const styles = stylex.create({
     lineHeight: lineHeights.normal,
   },
   badgeWrapper: {
-    flex: '1 0 0',
+    flex: '1',
     display: 'flex',
     justifyContent: 'flex-end',
     alignItems: 'center',
