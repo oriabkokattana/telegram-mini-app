@@ -10,7 +10,7 @@ export const Endpoints = {
   EMAIL_EXISTS: '/auth/exists',
   PROFILE: '/private/profile',
   BALANCES: '/private/balances',
-  CUSTODIAL_WALLET: '/private/wallet',
+  CUSTODIAL_WALLET: '/private/wallet?network=',
   WITHDRAW: '/private/withdraw',
   SWAP: '/private/swap',
 };

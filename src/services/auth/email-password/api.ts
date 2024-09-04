@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -6,7 +5,6 @@ import { useMutation } from '@tanstack/react-query';
 import { useUserStore } from '@/store/user-store';
 import { api } from '@/utils/api';
 import { Endpoints } from '@/utils/endpoints-constants';
-import { Routes } from '@/utils/routes-constants';
 import { EmailPasswordAPIRequestSchema, EmailPasswordAPIResponseSchema } from './schema';
 
 const EmailPasswordRequest = EmailPasswordAPIRequestSchema;
@@ -29,8 +27,6 @@ export const emailPassword = api<
 });
 
 export function useEmailPassword() {
-  const navigate = useNavigate();
-
   const { setCredentials } = useUserStore();
 
   return useMutation<
@@ -43,7 +39,6 @@ export function useEmailPassword() {
       const { access_token, refresh_token } = resp;
       setCredentials({ accessToken: access_token, refreshToken: refresh_token });
       toast.success('Successfully logged in!');
-      navigate(Routes.PROFILE);
     },
     onError: (error) => {
       const errorMessage = error.response?.data.error;

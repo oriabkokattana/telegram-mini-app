@@ -10,12 +10,12 @@ import {
 export const styles = stylex.create({
   base: {
     width: '100%',
-    minHeight: 'var(--tg-viewport-height)',
+    minHeight: '100dvh',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     gap: '24px',
-    padding: '8px 16px 0 16px',
+    padding: '16px 16px 0 16px',
     backgroundColor: colors.grey100Background,
   },
   header: {
@@ -64,6 +64,11 @@ export const styles = stylex.create({
     padding: '6px 10px',
     borderRadius: '8px',
     backgroundColor: colors.grey200,
+    transition: 'background-color 0.3s',
+    cursor: 'pointer',
+  },
+  tagSelected: {
+    backgroundColor: colors.grey300,
   },
   tag: {
     color: colors.grey1000,
@@ -114,12 +119,16 @@ export const styles = stylex.create({
   },
   symbol: {
     textAlign: 'center',
+    transition: 'color 0.3s',
     color: colors.grey1000,
     fontFamily: fontFamilies.roobertPro,
     fontSize: fontSizes.caption1,
     fontWeight: fontWeights.normal,
     lineHeight: lineHeights.small,
     textTransform: 'uppercase',
+  },
+  symbolSelected: {
+    color: colors.grey300,
   },
   sm: {
     gap: '8px',

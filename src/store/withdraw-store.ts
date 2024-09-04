@@ -6,8 +6,8 @@ type WithdrawState = {
 };
 
 type WithdrawAction = {
-  setToken: (firstName: WithdrawState['token']) => void;
-  setChain: (lastName: WithdrawState['chain']) => void;
+  setToken: (token: WithdrawState['token']) => void;
+  setChain: (chain: WithdrawState['chain']) => void;
 };
 
 const withdrawStoreSlice: StateCreator<WithdrawState & WithdrawAction> = (set) => ({

@@ -9,4 +9,5 @@ export const Routes = {
   WITHDRAW: '/withdraw',
   HISTORY: '/history',
   AUTH: '/auth',
+  UX_MAIN: '/ux/main',
 };

@@ -2,6 +2,9 @@ import { useState } from 'react';
 import * as TabsPrimitive from '@radix-ui/react-tabs';
 import * as stylex from '@stylexjs/stylex';
 import { useUtils } from '@telegram-apps/sdk-react';
+import ChevronDownIcon from '@/assets/chevron-down.svg?react';
+import { Dropdown } from '@/modules/core/design-system/dropdown/Dropdown';
+import { useSystemCurrencyStore } from '@/store/system-currency';
 import allTimeChart from '../media/all-time.svg';
 import dailyChart from '../media/daily.png';
 
@@ -19,6 +22,9 @@ enum Period {
 const Overall = (): JSX.Element => {
   const utils = useUtils();
   const [period, setPeriod] = useState(Period.daily);
+
+  const currency = useSystemCurrencyStore((state) => state.currency);
+  const setCurrency = useSystemCurrencyStore((state) => state.setCurrency);
 
   const onPeriodChange = () => setPeriod(period === Period.daily ? Period.allTime : Period.daily);
 
@@ -38,9 +44,14 @@ const Overall = (): JSX.Element => {
         value={Tab.balance.toString()}
         onClick={onPeriodChange}
       >
-        <div {...stylex.props(styles.amountWrapper)}>
-          <span {...stylex.props(styles.amount)}>32,455</span>{' '}
-          <span {...stylex.props(styles.currency)}>USDT</span>
+        <div {...stylex.props(styles.analytics)}>
+          <div {...stylex.props(styles.amountWrapper)}>
+            <span {...stylex.props(styles.amount)}>32,455</span>{' '}
+            <span {...stylex.props(styles.currency)}>{currency}</span>
+          </div>
+          <Dropdown items={['BTC', 'USDT', 'ETH']} selected={currency} onSelect={setCurrency}>
+            <ChevronDownIcon {...stylex.props(styles.chevronDownIcon)} />
+          </Dropdown>
         </div>
         <div {...stylex.props(styles.growthWrapper)}>
           <span {...stylex.props(styles.growth)}>

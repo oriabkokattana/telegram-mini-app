@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { useSwipeable } from 'react-swipeable';
 import * as Dialog from '@radix-ui/react-dialog';
 import * as stylex from '@stylexjs/stylex';
@@ -8,19 +8,39 @@ import CollapseIcon from '@/assets/collapse.svg?react';
 import { styles } from './UXChainSelect.styles';
 
 type Animation = 'appear' | 'hide';
+export type ChainItem = {
+  name: string;
+  prefix?: string;
+  value: string;
+  time: string;
+  minimum: string;
+};
 
-const NETWORK_LIST = [
-  { name: 'Tron (TRC20)', time: '4 minutes', minimum: '>0.01 USDT minimum' },
-  { name: 'Ethereum (ERC20)', time: '4 minutes', minimum: '>0.01 USDT minimum' },
-  { name: 'Toncoin', time: '5 minutes', minimum: '>0.01 USDT minimum' },
-  { name: 'Polygon', time: '6 minutes', minimum: '>0.01 USDT minimum' },
+const NETWORK_LIST: ChainItem[] = [
+  {
+    name: 'Tron',
+    prefix: '(TRC20)',
+    value: 'TRON',
+    time: '4 minutes',
+    minimum: '>0.01 USDT minimum',
+  },
+  {
+    name: 'Ethereum',
+    prefix: '(ERC20)',
+    value: 'ETH',
+    time: '4 minutes',
+    minimum: '>0.01 USDT minimum',
+  },
+  { name: 'Toncoin', value: 'TON', time: '5 minutes', minimum: '>0.01 USDT minimum' },
+  { name: 'Polygon', value: 'POLYGON', time: '6 minutes', minimum: '>0.01 USDT minimum' },
 ];
 
 interface UXChainSelectProps {
   children: ReactNode;
+  onSelect(network: ChainItem): void;
 }
 
-const UXChainSelect = ({ children }: UXChainSelectProps) => {
+const UXChainSelect = ({ onSelect, children }: UXChainSelectProps) => {
   const [animation, setAnimation] = useState<Animation>('appear');
   const [open, setOpen] = useState(false);
 
@@ -34,11 +54,20 @@ const UXChainSelect = ({ children }: UXChainSelectProps) => {
     }
   };
 
+  const handleSelect = (chain: ChainItem) => {
+    onSelect(chain);
+    onOpenChange(false);
+  };
+
   const swipeHandlers = useSwipeable({
     onSwipedDown: () => onOpenChange(false),
     trackMouse: true,
     preventScrollOnSwipe: true,
   });
+
+  useEffect(() => {
+    onSelect(NETWORK_LIST[0]);
+  }, []);
 
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
@@ -66,9 +95,11 @@ const UXChainSelect = ({ children }: UXChainSelectProps) => {
             <div
               {...stylex.props(styles.chainWrapper)}
               key={chain.name}
-              onClick={() => onOpenChange(false)}
+              onClick={() => handleSelect(chain)}
             >
-              <span {...stylex.props(styles.chain)}>{chain.name}</span>
+              <span
+                {...stylex.props(styles.chain)}
+              >{`${chain.name}${chain.prefix ? ` ${chain.prefix}` : ''}`}</span>
               <span {...stylex.props(styles.description)}>{chain.time}</span>
               <span {...stylex.props(styles.description)}>{chain.minimum}</span>
             </div>

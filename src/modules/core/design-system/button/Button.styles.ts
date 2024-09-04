@@ -7,7 +7,10 @@ export const styles = stylex.create({
     margin: '0px',
     padding: '0px',
     border: 'none',
-    backgroundColor: colors.grey900Text,
+    backgroundColor: {
+      default: colors.grey900Text,
+      ':hover': colors.grey800,
+    },
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -16,6 +19,7 @@ export const styles = stylex.create({
     fontFamily: fontFamilies.roobertPro,
     fontSize: fontSizes.text2,
     lineHeight: lineHeights.big,
+    transition: 'background-color 0.3s',
   },
   sm: {
     gap: '4px',

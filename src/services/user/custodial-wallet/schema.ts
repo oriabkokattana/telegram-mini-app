@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const CustodialWalletAPIRequestSchema = z.void();
+export const CustodialWalletAPIRequestSchema = z.string();
 
 export const CustodialWalletAPIResponseSchema = z.object({
   address: z.string(),
@@ -9,5 +9,6 @@ export const CustodialWalletAPIResponseSchema = z.object({
       balance: z.number(),
       token: z.string(),
     })
-    .array(),
+    .array()
+    .optional(),
 });

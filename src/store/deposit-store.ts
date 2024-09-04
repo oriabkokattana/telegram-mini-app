@@ -6,8 +6,8 @@ type DepositState = {
 };
 
 type DepositAction = {
-  setToken: (firstName: DepositState['token']) => void;
-  setChain: (lastName: DepositState['chain']) => void;
+  setToken: (token: DepositState['token']) => void;
+  setChain: (chain: DepositState['chain']) => void;
 };
 
 const withdrawStoreSlice: StateCreator<DepositState & DepositAction> = (set) => ({

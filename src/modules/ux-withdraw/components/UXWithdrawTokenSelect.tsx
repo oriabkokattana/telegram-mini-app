@@ -1,10 +1,17 @@
 import { useNavigate } from 'react-router-dom';
-import UXTokenSelect from '@/modules/core/components/UXTokenSelect';
+import UXTokenSelect, { TokenItem } from '@/modules/core/components/UXTokenSelect';
+import { useWithdrawStore } from '@/store/withdraw-store';
 
 const UXWithdrawTokenSelect = () => {
   const navigate = useNavigate();
+  const setToken = useWithdrawStore((state) => state.setToken);
 
-  return <UXTokenSelect onSubmit={() => navigate('/ux/withdraw')} />;
+  const onSelect = (token: TokenItem) => {
+    setToken(token.currency);
+    navigate('/ux/withdraw');
+  };
+
+  return <UXTokenSelect onSelect={onSelect} />;
 };
 
 export default UXWithdrawTokenSelect;

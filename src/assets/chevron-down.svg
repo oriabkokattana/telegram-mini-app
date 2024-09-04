@@ -1,5 +1,5 @@
-<svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="20" height="20" viewBox="0 0 20 20" fill="black" xmlns="http://www.w3.org/2000/svg">
 <g id="chevron-down">
-<path id="Vector" fill-rule="evenodd" clip-rule="evenodd" d="M4.87523 5.86188L10.5002 11.4869L16.1252 5.86188L17.4511 7.1877L10.5002 14.1385L3.54941 7.1877L4.87523 5.86188Z" fill="#1F1F1F"/>
+<path id="Vector" fill-rule="evenodd" clip-rule="evenodd" d="M3.71209 6.52459C4.0782 6.15847 4.6718 6.15847 5.03791 6.52459L10 11.4867L14.9621 6.52459C15.3282 6.15847 15.9218 6.15847 16.2879 6.52459C16.654 6.8907 16.654 7.4843 16.2879 7.85041L10.6629 13.4754C10.2968 13.8415 9.7032 13.8415 9.33709 13.4754L3.71209 7.85041C3.34597 7.4843 3.34597 6.8907 3.71209 6.52459Z"/>
 </g>
 </svg>

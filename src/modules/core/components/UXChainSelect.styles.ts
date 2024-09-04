@@ -30,7 +30,7 @@ export const styles = stylex.create({
     flexDirection: 'column',
     alignItems: 'center',
     gap: '16px',
-    padding: '0 16px 0px 16px',
+    padding: '0 16px 0 16px',
     overflow: 'auto',
     borderRadius: '10px 10px 0px 0px',
     backgroundColor: colors.grey0,

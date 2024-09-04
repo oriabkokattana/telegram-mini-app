@@ -36,6 +36,7 @@ import Withdraw from './modules/withdraw/components/Withdraw';
 import WithdrawChainSelect from './modules/withdraw/components/WithdrawChainSelect';
 import WithdrawTokenSelect from './modules/withdraw/components/WithdrawTokenSelect';
 import { useOauthLogin } from './services/auth/oauth-login/api';
+import { useSystemCurrencyStoreHydration } from './store/system-currency';
 import { useUserStoreHydration } from './store/user-store';
 
 function App() {
@@ -165,9 +166,11 @@ function App() {
           <Route
             path='ux'
             element={
-              <div style={{ width: 'inherit', minHeight: 'inherit', backgroundColor: 'white' }}>
-                <Outlet />
-              </div>
+              <PrivateRoute>
+                <div style={{ width: '100%', minHeight: '100dvh' }}>
+                  <Outlet />
+                </div>
+              </PrivateRoute>
             }
           >
             <Route path='main' element={<UXMain />} />
@@ -189,7 +192,8 @@ function Layout() {
   useOauthLogin();
   useSignAuth();
 
-  const hydrated = useUserStoreHydration();
+  const userHydrated = useUserStoreHydration();
+  const systemCurrencyHydrated = useSystemCurrencyStoreHydration();
 
   const swipeBehavior = useSwipeBehaviorRaw();
   const viewport = useViewportRaw();
@@ -204,14 +208,8 @@ function Layout() {
   }, [swipeBehavior.result, viewport.result]);
 
   return (
-    <Flex
-      width='var(--tg-viewport-width)'
-      minHeight='var(--tg-viewport-height)'
-      justify='center'
-      align='center'
-      style={{ backgroundColor: 'var(--gray-2)' }}
-    >
-      {hydrated ? <Outlet /> : <Text>Loading...</Text>}
+    <Flex width='var(--tg-viewport-width)' minHeight='100dvh' justify='center' align='center'>
+      {userHydrated && systemCurrencyHydrated ? <Outlet /> : <Text>Loading...</Text>}
     </Flex>
   );
 }

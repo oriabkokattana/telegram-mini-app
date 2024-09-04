@@ -10,12 +10,13 @@ import {
 
 export const styles = stylex.create({
   base: {
+    width: '100%',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    paddingTop: '8px',
     position: 'relative',
-    width: '100%',
   },
   tabList: {
     display: 'flex',
@@ -55,6 +56,11 @@ export const styles = stylex.create({
     width: '100%',
     height: '219px',
   },
+  analytics: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12px',
+  },
   amountWrapper: {
     color: colors.nativeTextColor,
     fontFamily: fontFamilies.roobertPro,
@@ -68,6 +74,11 @@ export const styles = stylex.create({
   currency: {
     color: colors.grey600,
     fontWeight: fontWeights.medium,
+  },
+  chevronDownIcon: {
+    width: '24px',
+    height: '24px',
+    fill: colors.grey600,
   },
   growthWrapper: {
     display: 'flex',

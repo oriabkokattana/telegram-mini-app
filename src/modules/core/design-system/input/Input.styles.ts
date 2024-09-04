@@ -68,4 +68,13 @@ export const styles = stylex.create({
     fontWeight: fontWeights.normal,
     lineHeight: lineHeights.normal,
   },
+  grey100: {
+    backgroundColor: colors.grey100Background,
+  },
+  grey200: {
+    backgroundColor: colors.grey200,
+  },
+  grey300: {
+    backgroundColor: colors.grey300,
+  },
 });

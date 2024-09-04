@@ -45,7 +45,7 @@ export function useOauthLogin() {
       const { access_token, refresh_token } = query.data;
       setCredentials({ accessToken: access_token, refreshToken: refresh_token });
       toast.success('Successfully logged in!');
-      navigate(Routes.PROFILE);
+      navigate(Routes.UX_MAIN);
     } else if (query.isError) {
       const errorMessage = query.error.response?.data.error;
       toast.error(errorMessage);

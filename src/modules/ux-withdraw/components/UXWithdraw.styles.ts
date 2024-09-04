@@ -10,12 +10,12 @@ import {
 export const styles = stylex.create({
   base: {
     width: '100%',
-    minHeight: 'var(--tg-viewport-height)',
+    minHeight: '100dvh',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     gap: '16px',
-    padding: '0 16px',
+    padding: '16px 16px 0 16px',
     backgroundColor: colors.grey100Background,
   },
   headerWrapper: {

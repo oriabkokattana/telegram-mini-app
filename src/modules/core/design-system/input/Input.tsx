@@ -5,9 +5,11 @@ import * as stylex from '@stylexjs/stylex';
 import { styles } from './Input.styles';
 
 export type InputSizes = 'sm' | 'md';
+export type InputVariants = 'grey100' | 'grey200' | 'grey300';
 
 export type InputProps = {
   size: InputSizes;
+  variant: InputVariants;
   w?: number | string;
   label?: string;
   leftElement?: ReactNode;
@@ -16,7 +18,7 @@ export type InputProps = {
 } & Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'readOnly'>;
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ size, w, label, leftElement, rightElement, readOnly, ...props }, forwardedRef) => {
+  ({ size, variant, w, label, leftElement, rightElement, readOnly, ...props }, forwardedRef) => {
     return (
       <div {...stylex.props(styles.base, styles.w(w))} ref={forwardedRef}>
         {label && (
@@ -28,6 +30,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           {...stylex.props(
             styles.inputWrapper,
             styles[size],
+            styles[variant],
             readOnly && !!props.onClick ? styles.pointer : undefined
           )}
           {...(readOnly ? props : {})}

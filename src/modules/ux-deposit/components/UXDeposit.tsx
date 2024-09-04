@@ -1,23 +1,35 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import * as stylex from '@stylexjs/stylex';
 import { useMiniApp } from '@telegram-apps/sdk-react';
-import ChevronDownRoundedIcon from '@/assets/chevron-down-rounded.svg?react';
+import ChevronDownIcon from '@/assets/chevron-down.svg?react';
 import CopyIcon from '@/assets/copy.svg?react';
 import qrCode from '@/assets/qr-code.png';
 import ReceiptIcon from '@/assets/receipt.svg?react';
 import ThreeDotsIcon from '@/assets/three-dots.svg?react';
-import UXChainSelect from '@/modules/core/components/UXChainSelect';
+import UXChainSelect, { ChainItem } from '@/modules/core/components/UXChainSelect';
 import { Button } from '@/modules/core/design-system/button';
+import { useCustodialWallet } from '@/services/user/custodial-wallet/api';
+import { useDepositStore } from '@/store/deposit-store';
+import { transformAddress } from '@/utils/address';
 
 import { styles } from './UXDeposit.styles';
 
 const UXDeposit = () => {
+  const [chain, setChain] = useState<ChainItem>();
+
   const miniApp = useMiniApp();
+  const { data } = useCustodialWallet(chain?.value);
+  const setStoreChain = useDepositStore((state) => state.setChain);
 
   useEffect(() => {
     miniApp.setHeaderColor('#F7F7F7');
     miniApp.setBgColor('#F7F7F7');
   }, []);
+
+  const onSetChain = (chain: ChainItem) => {
+    setStoreChain(chain.value);
+    setChain(chain);
+  };
 
   return (
     <div {...stylex.props(styles.base)}>
@@ -28,7 +40,7 @@ const UXDeposit = () => {
       <div {...stylex.props(styles.qrCodeWrapper)}>
         <img {...stylex.props(styles.qrCode)} src={qrCode} alt='QR Code' />
       </div>
-      <span {...stylex.props(styles.address)}>1A1zP1eP5Q...SLmv7DivfNa</span>
+      <span {...stylex.props(styles.address)}>{transformAddress(data?.address)}</span>
       <div {...stylex.props(styles.actions)}>
         <Button size='sm'>
           <CopyIcon />
@@ -41,13 +53,15 @@ const UXDeposit = () => {
       <div {...stylex.props(styles.descriptionWrapper)}>
         <div {...stylex.props(styles.row)}>
           <span {...stylex.props(styles.label)}>Deposit Network</span>
-          <UXChainSelect>
+          <UXChainSelect onSelect={onSetChain}>
             <div {...stylex.props(styles.networkWrapper)}>
-              <div {...stylex.props(styles.valueWrapper)}>
-                <span {...stylex.props(styles.value)}>ERC20</span>
-              </div>
-              <span {...stylex.props(styles.network)}>Ethereum (ETH)</span>
-              <ChevronDownRoundedIcon />
+              {chain?.prefix && (
+                <div {...stylex.props(styles.valueWrapper)}>
+                  <span {...stylex.props(styles.value)}>{chain.prefix}</span>
+                </div>
+              )}
+              <span {...stylex.props(styles.network)}>{chain?.name}</span>
+              <ChevronDownIcon />
             </div>
           </UXChainSelect>
         </div>

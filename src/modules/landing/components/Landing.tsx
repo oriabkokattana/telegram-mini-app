@@ -31,7 +31,7 @@ const Landing = () => {
   useShowMainButton(mainButtonCallback, mainButtonParams);
 
   return (
-    <Flex width='100%' minHeight='var(--tg-viewport-height)' px='4' py='4' direction='column'>
+    <Flex width='100%' minHeight='100dvh' px='4' py='4' direction='column'>
       <Flex justify='center' mb='2'>
         <Heading size='3'>Welcome to Kattana broker</Heading>
       </Flex>
