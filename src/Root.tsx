@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Toaster } from 'sonner';
 import { WagmiProvider } from 'wagmi';
-// import { Theme } from '@radix-ui/themes';
+import { Theme } from '@radix-ui/themes';
 import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -28,11 +28,11 @@ function Root() {
         <WagmiProvider config={config}>
           <QueryClientProvider client={queryClient}>
             <RainbowKitProvider>
-              {/* <Theme appearance='dark' radius='medium'> */}
-              <App />
-              <Toaster richColors position='top-center' closeButton duration={5000} />
-              {/* <ReactQueryDevtools initialIsOpen={false} position='bottom' /> */}
-              {/* </Theme> */}
+              <Theme appearance='dark' radius='medium'>
+                <App />
+                <Toaster richColors position='top-center' closeButton duration={5000} />
+                {/* <ReactQueryDevtools initialIsOpen={false} position='bottom' /> */}
+              </Theme>
             </RainbowKitProvider>
           </QueryClientProvider>
         </WagmiProvider>
