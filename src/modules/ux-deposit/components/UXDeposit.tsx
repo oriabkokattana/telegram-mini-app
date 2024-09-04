@@ -19,6 +19,7 @@ const UXDeposit = () => {
 
   const miniApp = useMiniApp();
   const { data } = useCustodialWallet(chain?.value);
+  const token = useDepositStore((state) => state.token);
   const setStoreChain = useDepositStore((state) => state.setChain);
 
   useEffect(() => {
@@ -69,14 +70,14 @@ const UXDeposit = () => {
           <span {...stylex.props(styles.label)}>Fee</span>
           <div {...stylex.props(styles.valueWrapper)}>
             <span {...stylex.props(styles.value)}>0</span>{' '}
-            <span {...stylex.props(styles.currency)}>USDT</span>
+            <span {...stylex.props(styles.currency)}>{token}</span>
           </div>
         </div>
         <div {...stylex.props(styles.row)}>
           <span {...stylex.props(styles.label)}>Minimum deposit</span>
           <div {...stylex.props(styles.valueWrapper)}>
             <span {...stylex.props(styles.value)}>&gt;0.01</span>{' '}
-            <span {...stylex.props(styles.currency)}>USDT</span>
+            <span {...stylex.props(styles.currency)}>{token}</span>
           </div>
         </div>
         <div {...stylex.props(styles.row)}>

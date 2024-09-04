@@ -83,7 +83,7 @@ const UXWithdraw = () => {
         label='Amount'
         rightElement={
           <div {...stylex.props(styles.amountAction)}>
-            <span>USDT</span>
+            <span>{token}</span>
             <Separator.Root {...stylex.props(styles.separator)} orientation='vertical' />
             <span>MAX</span>
           </div>
