@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import { Outlet, Route, Router, Routes } from 'react-router-dom';
-import { Box, Flex, Heading, Text } from '@radix-ui/themes';
+import { Box, Heading, Text } from '@radix-ui/themes';
 import { useIntegration } from '@telegram-apps/react-router-integration';
 import {
   bindMiniAppCSSVars,
@@ -167,9 +167,7 @@ function App() {
             path='ux'
             element={
               <PrivateRoute>
-                <div style={{ width: '100%', minHeight: '100dvh' }}>
-                  <Outlet />
-                </div>
+                <Outlet />
               </PrivateRoute>
             }
           >
@@ -208,9 +206,11 @@ function Layout() {
   }, [swipeBehavior.result, viewport.result]);
 
   return (
-    <Flex width='var(--tg-viewport-width)' minHeight='100dvh' justify='center' align='center'>
-      {userHydrated && systemCurrencyHydrated ? <Outlet /> : <Text>Loading...</Text>}
-    </Flex>
+    <div
+      style={{ width: 'var(--tg-viewport-width)', minHeight: 'var(--tg-viewport-stable-height)' }}
+    >
+      {userHydrated && systemCurrencyHydrated ? <Outlet /> : <span>Loading...</span>}
+    </div>
   );
 }
 

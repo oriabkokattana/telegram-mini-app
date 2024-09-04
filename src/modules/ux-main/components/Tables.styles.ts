@@ -12,7 +12,7 @@ export const styles = stylex.create({
   base: {
     display: 'flex',
     flexDirection: 'column',
-    minHeight: '100dvh',
+    minHeight: 'var(--tg-viewport-stable-height)',
   },
   tabListWrapper: {
     width: '100%',

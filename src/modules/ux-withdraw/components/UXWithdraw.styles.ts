@@ -10,7 +10,7 @@ import {
 export const styles = stylex.create({
   base: {
     width: '100%',
-    minHeight: '100dvh',
+    minHeight: '100vh',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',

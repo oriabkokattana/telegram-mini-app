@@ -59,7 +59,7 @@ export const styles = stylex.create({
   analytics: {
     display: 'flex',
     alignItems: 'center',
-    gap: '12px',
+    gap: '10px',
   },
   amountWrapper: {
     color: colors.nativeTextColor,
@@ -69,13 +69,14 @@ export const styles = stylex.create({
   amount: {
     color: colors.grey1000,
     fontWeight: fontWeights.bold,
-    textShadow: shadows.shadow2,
+    textShadow: shadows.textShadow,
   },
   currency: {
     color: colors.grey600,
     fontWeight: fontWeights.medium,
   },
   chevronDownIcon: {
+    marginLeft: '12px',
     width: '24px',
     height: '24px',
     fill: colors.grey600,

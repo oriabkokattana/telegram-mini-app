@@ -45,11 +45,9 @@ const Overall = (): JSX.Element => {
         onClick={onPeriodChange}
       >
         <div {...stylex.props(styles.analytics)}>
-          <div {...stylex.props(styles.amountWrapper)}>
-            <span {...stylex.props(styles.amount)}>32,455</span>{' '}
-            <span {...stylex.props(styles.currency)}>{currency}</span>
-          </div>
+          <span {...stylex.props(styles.amountWrapper, styles.amount)}>32,455</span>
           <Dropdown items={['BTC', 'USDT', 'ETH']} selected={currency} onSelect={setCurrency}>
+            <span {...stylex.props(styles.amountWrapper, styles.currency)}>{currency}</span>
             <ChevronDownIcon {...stylex.props(styles.chevronDownIcon)} />
           </Dropdown>
         </div>

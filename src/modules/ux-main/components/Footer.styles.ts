@@ -42,7 +42,7 @@ export const styles = stylex.create({
     },
   },
   icon: {
-    transition: 'all 0.3s',
+    transition: 'all 0.15s',
   },
   label: {
     fontFamily: fontFamilies.roobertPro,

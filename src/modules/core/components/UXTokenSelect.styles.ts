@@ -10,7 +10,7 @@ import {
 export const styles = stylex.create({
   base: {
     width: '100%',
-    minHeight: '100dvh',
+    minHeight: '100vh',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -64,7 +64,7 @@ export const styles = stylex.create({
     padding: '6px 10px',
     borderRadius: '8px',
     backgroundColor: colors.grey200,
-    transition: 'background-color 0.3s',
+    transition: 'background-color 0.15s',
     cursor: 'pointer',
   },
   tagSelected: {
@@ -119,7 +119,7 @@ export const styles = stylex.create({
   },
   symbol: {
     textAlign: 'center',
-    transition: 'color 0.3s',
+    transition: 'color 0.15s',
     color: colors.grey1000,
     fontFamily: fontFamilies.roobertPro,
     fontSize: fontSizes.caption1,

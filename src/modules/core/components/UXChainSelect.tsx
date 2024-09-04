@@ -42,7 +42,7 @@ interface UXChainSelectProps {
 
 const UXChainSelect = ({ onSelect, children }: UXChainSelectProps) => {
   const [animation, setAnimation] = useState<Animation>('appear');
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   const onOpenChange = (value: boolean) => {
     if (!value) {

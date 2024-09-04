@@ -35,7 +35,7 @@ const UXDeposit = () => {
   return (
     <div {...stylex.props(styles.base)}>
       <div {...stylex.props(styles.headerWrapper)}>
-        <span {...stylex.props(styles.header)}>Deposit USDT</span>
+        <span {...stylex.props(styles.header)}>Deposit {token}</span>
         <ReceiptIcon />
       </div>
       <div {...stylex.props(styles.qrCodeWrapper)}>

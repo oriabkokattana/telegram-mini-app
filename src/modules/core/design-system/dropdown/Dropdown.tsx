@@ -20,7 +20,7 @@ export const Dropdown = ({ items, selected, onSelect, children }: DropdownProps)
       <DropdownMenu.Portal>
         <DropdownMenu.Content
           {...stylex.props(styles.base)}
-          sideOffset={14}
+          sideOffset={8}
           onClick={(e) => e.stopPropagation()}
         >
           {items.map((item) => (

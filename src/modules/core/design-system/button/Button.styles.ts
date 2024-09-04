@@ -19,7 +19,7 @@ export const styles = stylex.create({
     fontFamily: fontFamilies.roobertPro,
     fontSize: fontSizes.text2,
     lineHeight: lineHeights.big,
-    transition: 'background-color 0.3s',
+    transition: 'background-color 0.15s',
   },
   sm: {
     gap: '4px',

@@ -57,6 +57,7 @@ export const fontWeights = stylex.defineVars({
 export const shadows = stylex.defineVars({
   dropShadow: '0px -10px 10px 0px rgba(34, 34, 34, 0.03)',
   shadow2: '0px 4px 20px 0px rgba(0, 0, 0, 0.25)',
+  textShadow: '0px 4px 20px rgba(0, 0, 0, 0.20)',
   token:
     '0px 2px 4px 0px rgba(0, 0, 0, 0.1), 0px 7px 7px 0px rgba(0, 0, 0, 0.09), 0px 16px 10px 0px rgba(0, 0, 0, 0.05), 0px 29px 12px 0px rgba(0, 0, 0, 0.01), 0px 45px 13px 0px rgba(0, 0, 0, 0)',
   token2:

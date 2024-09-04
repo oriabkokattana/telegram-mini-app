@@ -38,7 +38,7 @@ export const styles = stylex.create({
       ':last-child': 'none',
     },
     borderBottomColor: colors.grey200,
-    transition: 'background-color 0.3s',
+    transition: 'background-color 0.15s',
     backgroundColor: {
       default: colors.grey0,
       ':is([data-highlighted])': colors.grey200,

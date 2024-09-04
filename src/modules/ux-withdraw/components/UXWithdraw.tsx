@@ -47,7 +47,7 @@ const UXWithdraw = () => {
   return (
     <div {...stylex.props(styles.base)}>
       <div {...stylex.props(styles.headerWrapper)}>
-        <span {...stylex.props(styles.header)}>Deposit USDT</span>
+        <span {...stylex.props(styles.header)}>Withdraw {token}</span>
         <ReceiptIcon />
       </div>
       <Input

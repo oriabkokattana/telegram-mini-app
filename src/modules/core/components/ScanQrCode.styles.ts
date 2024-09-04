@@ -10,7 +10,7 @@ import {
 export const styles = stylex.create({
   base: {
     width: '100%',
-    height: '100dvh',
+    height: 'var(--tg-viewport-stable-height)',
     position: 'relative',
     display: 'flex',
     justifyContent: 'center',

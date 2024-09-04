@@ -80,11 +80,11 @@ const UXTokenSelect = ({ extended, onSelect }: UXTokenSelectProps) => {
   const tokens = SEARCH_LIST.filter((token) => {
     const tokenName = token.name.toLowerCase() + '&' + token.currency.toLowerCase();
     const isSearch = tokenName.includes(search.toLowerCase());
-    const isHistory = tokenName.includes(history.toLowerCase());
-    const isPopular = tokenName.includes(popular.toLowerCase());
+    const isHistory = history && tokenName.includes(history.toLowerCase());
+    const isPopular = popular && tokenName.includes(popular.toLowerCase());
     const isSymbol =
       symbol === '1' ? /\d/.test(tokenName) : tokenName.startsWith(symbol.toLowerCase());
-    return isSearch && isHistory && isPopular && isSymbol;
+    return isSearch && (isHistory || isPopular || (!history && !popular)) && isSymbol;
   });
 
   return (
@@ -121,9 +121,7 @@ const UXTokenSelect = ({ extended, onSelect }: UXTokenSelectProps) => {
         )}
         {extended && (
           <div {...stylex.props(styles.column, styles.sm)}>
-            <div {...stylex.props(styles.labelWrapper)}>
-              <span {...stylex.props(styles.label)}>Popular Assets</span>
-            </div>
+            <span {...stylex.props(styles.label)}>Popular Assets</span>
             <div {...stylex.props(styles.tagList)}>
               {POPULAR_ASSETS.map((tag) => (
                 <div
