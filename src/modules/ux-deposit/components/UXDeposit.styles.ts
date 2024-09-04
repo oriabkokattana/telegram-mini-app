@@ -43,6 +43,7 @@ export const styles = stylex.create({
     borderRadius: '24px',
   },
   address: {
+    height: '23px',
     color: colors.grey1000,
     fontFamily: fontFamilies.roobertPro,
     fontSize: fontSizes.headingH6,
