@@ -39,6 +39,7 @@ export const styles = stylex.create({
     padding: '8px 10px',
     cursor: 'pointer',
     borderRadius: {
+      default: null,
       ':first-child': '100px 0px 0px 100px',
       ':last-child': '0px 100px 100px 0px',
     },
@@ -89,14 +90,14 @@ export const styles = stylex.create({
     height: '24px',
     fill: colors.grey600,
   },
-  growthWrapper: {
+  changeWrapper: {
     display: 'flex',
     alignItems: 'center',
     gap: '8px',
     position: 'relative',
     zIndex: '1',
   },
-  growth: {
+  change: {
     color: colors.grey1000,
     fontFamily: fontFamilies.roboto,
     fontSize: fontSizes.text2,

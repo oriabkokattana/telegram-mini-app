@@ -24,11 +24,14 @@ export const colors = stylex.defineVars({
   grey1000: 'rgba(0, 0, 0, 1)',
   grey200: 'rgba(234, 234, 234, 1)',
   grey300: 'rgba(222, 222, 222, 1)',
+  grey500Muted: 'rgba(169, 169, 169, 1)',
   grey600: 'rgba(125, 125, 125, 1)',
   grey700: 'rgba(104, 104, 104, 1)',
   grey800: 'rgba(67, 67, 67, 1)',
   grey900Text: 'rgba(31, 31, 31, 1)',
 });
+
+export type Colors = keyof typeof colors.__tokens;
 
 // Font Families
 export const fontFamilies = stylex.defineVars({
@@ -43,6 +46,10 @@ export const fontSizes = stylex.defineVars({
   text1: '14px',
   text2: '16px',
   headingH6: '18px',
+  headingH5: '20px',
+  headingH4: '24px',
+  headingH3: '28px',
+  headingH2: '32px',
   headingH1: '40px',
 });
 

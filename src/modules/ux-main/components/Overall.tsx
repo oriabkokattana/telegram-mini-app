@@ -83,8 +83,8 @@ const Overall = (): JSX.Element => {
                 <ChevronDownIcon {...stylex.props(styles.chevronDownIcon)} />
               </Dropdown>
             </div>
-            <div {...stylex.props(styles.growthWrapper)}>
-              <span {...stylex.props(styles.growth)}>
+            <div {...stylex.props(styles.changeWrapper)}>
+              <span {...stylex.props(styles.change)}>
                 {period === Period.daily ? '+ 1,400.90 $ (+2%)' : '+ 100,400.90 $ (+2%)'}
               </span>
               <span {...stylex.props(styles.badge)}>{period}</span>

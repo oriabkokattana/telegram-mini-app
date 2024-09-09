@@ -1,6 +1,7 @@
 import { ButtonHTMLAttributes, FC, forwardRef, ReactNode, SVGProps } from 'react';
 import { Slot, Slottable } from '@radix-ui/react-slot';
 import * as stylex from '@stylexjs/stylex';
+import { Colors } from '../tokens.stylex';
 
 import { styles } from './IconButton.styles';
 
@@ -13,12 +14,18 @@ export type IconButtonProps = {
   variant: IconButtonVariants;
   w?: number | string;
   label?: string;
+  fill?: Colors;
+  stroke?: Colors;
+  iconSize?: number | string;
   Icon: FC<SVGProps<SVGSVGElement>>;
   children?: ReactNode;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
-  ({ asChild, size, variant, w, label, Icon, children, ...props }, forwardedRef) => {
+  (
+    { asChild, size, variant, w, label, fill, stroke, iconSize, Icon, children, ...props },
+    forwardedRef
+  ) => {
     const Comp = asChild ? Slot : 'button';
 
     return (
@@ -27,7 +34,15 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
         {...props}
         ref={forwardedRef}
       >
-        <div {...stylex.props(styles.icon, styles[variant], styles[size])}>{<Icon />}</div>
+        <div {...stylex.props(styles.icon, styles[variant], styles[size])}>
+          <Icon
+            {...stylex.props(
+              fill ? styles.fill(fill) : undefined,
+              stroke ? styles.stroke(stroke) : undefined,
+              iconSize ? styles.iconSize(iconSize) : undefined
+            )}
+          />
+        </div>
         <Slottable>{children}</Slottable>
         {label && <span {...stylex.props(styles.label)}>{label}</span>}
       </Comp>

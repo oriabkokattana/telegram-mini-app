@@ -27,17 +27,21 @@ import History from './modules/history/components/History';
 import Landing from './modules/landing/components/Landing';
 import Profile from './modules/profile/components/Profile';
 import Trading from './modules/trading/components/Trading';
+import UXAsset from './modules/ux-asset/components/UXAsset';
 import UXDeposit from './modules/ux-deposit/components/UXDeposit';
 import UXDepositTokenSelect from './modules/ux-deposit/components/UXDepositTokenSelect';
 import UXMain from './modules/ux-main/components/UXMain';
+import UXProfile from './modules/ux-profile/components/UXProfile';
 import UXWithdraw from './modules/ux-withdraw/components/UXWithdraw';
 import UXWithdrawTokenSelect from './modules/ux-withdraw/components/UXWithdrawTokenSelect';
 import Withdraw from './modules/withdraw/components/Withdraw';
 import WithdrawChainSelect from './modules/withdraw/components/WithdrawChainSelect';
 import WithdrawTokenSelect from './modules/withdraw/components/WithdrawTokenSelect';
 import { useOauthLogin } from './services/auth/oauth-login/api';
+import { useDepositStore } from './store/deposit-store';
 import { useSystemCurrencyStoreHydration } from './store/system-currency';
 import { useUserStoreHydration } from './store/user-store';
+import { useWithdrawStore } from './store/withdraw-store';
 
 function App() {
   const miniApp = useMiniApp();
@@ -172,10 +176,28 @@ function App() {
             }
           >
             <Route path='main' element={<UXMain />} />
+            <Route path='profile' element={<UXProfile />} />
+            <Route path='asset/:asset' element={<UXAsset />} />
             <Route path='deposit-token-select' element={<UXDepositTokenSelect />} />
             <Route path='deposit' element={<UXDeposit />} />
+            <Route
+              path='deposit/:asset'
+              element={<UXDeposit />}
+              loader={({ params }) => {
+                useDepositStore.getState().setToken(params.asset || '');
+                return null;
+              }}
+            />
             <Route path='withdraw-token-select' element={<UXWithdrawTokenSelect />} />
             <Route path='withdraw' element={<UXWithdraw />} />
+            <Route
+              path='withdraw/:asset'
+              element={<UXDeposit />}
+              loader={({ params }) => {
+                useWithdrawStore.getState().setToken(params.asset || '');
+                return null;
+              }}
+            />
             <Route path='qr-code' element={<ScanQrCode />} />
           </Route>
 

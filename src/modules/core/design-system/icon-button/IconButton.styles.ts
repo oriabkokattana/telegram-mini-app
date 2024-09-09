@@ -1,4 +1,5 @@
 import * as stylex from '@stylexjs/stylex';
+import type { Colors } from '../tokens.stylex';
 import { colors, fontFamilies, fontSizes, fontWeights, lineHeights } from '../tokens.stylex';
 
 export const styles = stylex.create({
@@ -19,6 +20,16 @@ export const styles = stylex.create({
     justifyContent: 'center',
     borderRadius: '100px',
   },
+  fill: (color: Colors) => ({
+    fill: colors[color],
+  }),
+  stroke: (color: keyof typeof colors) => ({
+    stroke: colors[color],
+  }),
+  iconSize: (iconSize: number | string) => ({
+    width: iconSize,
+    height: iconSize,
+  }),
   label: {
     color: colors.grey900Text,
     fontFamily: fontFamilies.roobertPro,
@@ -26,7 +37,7 @@ export const styles = stylex.create({
     fontWeight: fontWeights.normal,
     lineHeight: lineHeights.normal,
   },
-  w: (width) => ({
+  w: (width: number | string) => ({
     width,
   }),
   sm: {

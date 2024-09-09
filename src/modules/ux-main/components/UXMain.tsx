@@ -41,7 +41,9 @@ const UXMain = () => {
           w='calc(100% - 120px)'
           placeholder='Search'
         />
-        <IconButton size='sm' variant='light-gray' Icon={StatsChartIcon} />
+        <IconButton asChild size='sm' variant='light-gray' Icon={StatsChartIcon}>
+          <Link to='/ux/profile' />
+        </IconButton>
       </div>
       <Overall />
       <div {...stylex.props(styles.actions)}>

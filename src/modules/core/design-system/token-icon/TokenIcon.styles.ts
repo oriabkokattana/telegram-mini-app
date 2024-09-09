@@ -46,8 +46,8 @@ export const styles = stylex.create({
     fontSize: fontSizes.headingH6,
   },
   lg: {
-    width: '60px',
-    height: '60px',
+    width: '64px',
+    height: '64px',
     fontSize: fontSizes.headingH1,
   },
   default: {
