@@ -63,7 +63,7 @@ const UXWithdraw = () => {
         size='md'
         variant='grey300'
         w='100%'
-        label='Address USDT'
+        label={`Address ${token}`}
         rightElement={
           <Link {...stylex.props(styles.addressAction)} to='/ux/qr-code'>
             <QrCodeIcon />
