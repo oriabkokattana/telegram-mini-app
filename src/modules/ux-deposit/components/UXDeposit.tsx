@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import * as stylex from '@stylexjs/stylex';
 import { useMiniApp } from '@telegram-apps/sdk-react';
@@ -18,15 +19,23 @@ import { styles } from './UXDeposit.styles';
 const UXDeposit = () => {
   const [chain, setChain] = useState<ChainItem>();
 
+  const params = useParams();
   const miniApp = useMiniApp();
   const { data } = useCustodialWallet(chain?.value);
   const token = useDepositStore((state) => state.token);
+  const setStoreToken = useDepositStore((state) => state.setToken);
   const setStoreChain = useDepositStore((state) => state.setChain);
 
   useEffect(() => {
     miniApp.setHeaderColor('#F7F7F7');
     miniApp.setBgColor('#F7F7F7');
   }, []);
+
+  useEffect(() => {
+    if (params.asset) {
+      setStoreToken(params.asset);
+    }
+  }, [params]);
 
   const onSetChain = (chain: ChainItem) => {
     setStoreChain(chain.value);

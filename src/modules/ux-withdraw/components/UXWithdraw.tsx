@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import * as Separator from '@radix-ui/react-separator';
 import * as stylex from '@stylexjs/stylex';
@@ -20,15 +21,23 @@ const UXWithdraw = () => {
   const [address, setAddress] = useState('');
   const [amount, setAmount] = useState('');
 
+  const params = useParams();
   const miniApp = useMiniApp();
   const { mutate } = useWithdraw();
   const token = useWithdrawStore((state) => state.token);
+  const setStoreToken = useWithdrawStore((state) => state.setToken);
   const setStoreChain = useWithdrawStore((state) => state.setChain);
 
   useEffect(() => {
     miniApp.setHeaderColor('#F7F7F7');
     miniApp.setBgColor('#F7F7F7');
   }, []);
+
+  useEffect(() => {
+    if (params.asset) {
+      setStoreToken(params.asset);
+    }
+  }, [params]);
 
   const onSetChain = (chain: ChainItem) => {
     setStoreChain(chain.value);

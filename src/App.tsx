@@ -38,10 +38,8 @@ import Withdraw from './modules/withdraw/components/Withdraw';
 import WithdrawChainSelect from './modules/withdraw/components/WithdrawChainSelect';
 import WithdrawTokenSelect from './modules/withdraw/components/WithdrawTokenSelect';
 import { useOauthLogin } from './services/auth/oauth-login/api';
-import { useDepositStore } from './store/deposit-store';
 import { useSystemCurrencyStoreHydration } from './store/system-currency';
 import { useUserStoreHydration } from './store/user-store';
-import { useWithdrawStore } from './store/withdraw-store';
 
 function App() {
   const miniApp = useMiniApp();
@@ -180,24 +178,10 @@ function App() {
             <Route path='asset/:asset' element={<UXAsset />} />
             <Route path='deposit-token-select' element={<UXDepositTokenSelect />} />
             <Route path='deposit' element={<UXDeposit />} />
-            <Route
-              path='deposit/:asset'
-              element={<UXDeposit />}
-              loader={({ params }) => {
-                useDepositStore.setState({ token: params.asset || '' });
-                return null;
-              }}
-            />
+            <Route path='deposit/:asset' element={<UXDeposit />} />
             <Route path='withdraw-token-select' element={<UXWithdrawTokenSelect />} />
             <Route path='withdraw' element={<UXWithdraw />} />
-            <Route
-              path='withdraw/:asset'
-              element={<UXWithdraw />}
-              loader={({ params }) => {
-                useWithdrawStore.setState({ token: params.asset || '' });
-                return null;
-              }}
-            />
+            <Route path='withdraw/:asset' element={<UXWithdraw />} />
             <Route path='qr-code' element={<ScanQrCode />} />
           </Route>
 

@@ -73,7 +73,7 @@ export const styles = stylex.create({
   },
   primary: {
     gap: '16px',
-    padding: '24px',
+    padding: '24px 24px 24px 0',
     gridColumn: '1',
   },
   'primary-amount': {
@@ -84,7 +84,7 @@ export const styles = stylex.create({
   },
   secondary: {
     gap: '8px',
-    padding: '16px 24px',
+    padding: '16px 24px 16px 0',
     gridColumn: '2',
   },
   'secondary-amount': {
