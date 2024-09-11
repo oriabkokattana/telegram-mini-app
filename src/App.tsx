@@ -192,7 +192,7 @@ function App() {
             <Route path='withdraw' element={<UXWithdraw />} />
             <Route
               path='withdraw/:asset'
-              element={<UXDeposit />}
+              element={<UXWithdraw />}
               loader={({ params }) => {
                 useWithdrawStore.getState().setToken(params.asset || '');
                 return null;
