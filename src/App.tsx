@@ -184,7 +184,7 @@ function App() {
               path='deposit/:asset'
               element={<UXDeposit />}
               loader={({ params }) => {
-                useDepositStore.getState().setToken(params.asset || '');
+                useDepositStore.setState({ token: params.asset || '' });
                 return null;
               }}
             />
@@ -194,7 +194,7 @@ function App() {
               path='withdraw/:asset'
               element={<UXWithdraw />}
               loader={({ params }) => {
-                useWithdrawStore.getState().setToken(params.asset || '');
+                useWithdrawStore.setState({ token: params.asset || '' });
                 return null;
               }}
             />
