@@ -98,6 +98,7 @@ export const styles = stylex.create({
     gap: '8px',
     borderRadius: '16px',
     backgroundColor: colors.grey100Background,
+    cursor: 'pointer',
   },
   savings: {
     width: 'max-content',
@@ -126,7 +127,6 @@ export const styles = stylex.create({
     height: '100%',
     flex: '1',
     position: 'relative',
-    overflow: 'hidden',
   },
   graph: {
     height: '100%',

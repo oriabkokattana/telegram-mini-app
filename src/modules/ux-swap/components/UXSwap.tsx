@@ -122,15 +122,14 @@ const UXSwap = () => {
     [isPending]
   );
 
-  const onSend = useCallback(async () => {
+  const onSend = useCallback(() => {
     const amount = Number(baseAmount);
     if (!amount || !base || !quote) {
       toast.error('Please check if parameters are valid');
       return;
     }
 
-    await mutateAsync({ amountA: amount, tokenA: base, tokenB: quote });
-    navigate('/ux/token-graph');
+    mutateAsync({ amountA: amount, tokenA: base, tokenB: quote });
   }, [baseAmount, base, quote]);
 
   useShowMainButton(onSend, mainButtonParams);
@@ -181,7 +180,7 @@ const UXSwap = () => {
         </span>
         <ProgressIcon />
       </div>
-      <div {...stylex.props(styles.savingsWrapper)}>
+      <div {...stylex.props(styles.savingsWrapper)} onClick={() => navigate('/ux/token-graph')}>
         <div {...stylex.props(styles.savings)}>
           <span {...stylex.props(styles.title)}>Savings on this trade</span>
           <span {...stylex.props(styles.amount)}>1,000 $</span>
