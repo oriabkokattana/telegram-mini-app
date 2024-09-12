@@ -6,9 +6,9 @@ import ExportIcon from '@/assets/export.svg?react';
 import ImportIcon from '@/assets/import.svg?react';
 import NotificationsIcon from '@/assets/notifications.svg?react';
 import SwapIcon from '@/assets/swap.svg?react';
-import ChartWithTimeframes from '@/modules/core/components/ChartWithTimeframes';
 import Link from '@/modules/core/components/Link';
 import TransactionHistory from '@/modules/core/components/TransactionHistory';
+import UXChartWithTimeframes from '@/modules/core/components/UXChartWithTimeframes';
 import { IconButton } from '@/modules/core/design-system/icon-button';
 import { TokenIcon } from '@/modules/core/design-system/token-icon';
 import PriceInfo from './PriceInfo';
@@ -47,7 +47,7 @@ const UXAsset = () => {
           </div>
           <NotificationsIcon />
         </div>
-        <ChartWithTimeframes />
+        <UXChartWithTimeframes />
         <div {...stylex.props(styles.actions)}>
           <IconButton
             asChild

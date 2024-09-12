@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import UXTokenSelect, { TokenItem } from '@/modules/core/components/UXTokenSelect';
+import UXTokenSelectScreen, { TokenItem } from '@/modules/core/components/UXTokenSelectScreen';
 import { useWithdrawStore } from '@/store/withdraw-store';
 
 const UXWithdrawTokenSelect = () => {
@@ -11,7 +11,7 @@ const UXWithdrawTokenSelect = () => {
     navigate('/ux/withdraw');
   };
 
-  return <UXTokenSelect onSelect={onSelect} />;
+  return <UXTokenSelectScreen onSelect={onSelect} />;
 };
 
 export default UXWithdrawTokenSelect;

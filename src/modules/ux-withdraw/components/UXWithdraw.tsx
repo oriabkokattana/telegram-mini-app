@@ -8,7 +8,7 @@ import ChevronDownIcon from '@/assets/chevron-down.svg?react';
 import QrCodeIcon from '@/assets/qr-code.svg?react';
 import ReceiptIcon from '@/assets/receipt.svg?react';
 import Link from '@/modules/core/components/Link';
-import UXChainSelect, { ChainItem } from '@/modules/core/components/UXChainSelect';
+import UXChainSelectDialog, { ChainItem } from '@/modules/core/components/UXChainSelectDialog';
 import { Button } from '@/modules/core/design-system/button';
 import { Input } from '@/modules/core/design-system/input';
 import { useWithdraw } from '@/services/user/withdraw/api';
@@ -73,7 +73,7 @@ const UXWithdraw = () => {
         value={address}
         onChange={(e) => setAddress(e.target.value)}
       />
-      <UXChainSelect onSelect={onSetChain}>
+      <UXChainSelectDialog onSelect={onSetChain}>
         <Input
           size='md'
           variant='grey300'
@@ -84,7 +84,7 @@ const UXWithdraw = () => {
           value={`${chain?.prefix ? `${chain.prefix} ` : ''}${chain?.name || ''}`}
           readOnly
         />
-      </UXChainSelect>
+      </UXChainSelectDialog>
       <Input
         size='md'
         variant='grey300'

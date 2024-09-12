@@ -8,7 +8,7 @@ import CopyIcon from '@/assets/copy.svg?react';
 import qrCode from '@/assets/qr-code.png';
 import ReceiptIcon from '@/assets/receipt.svg?react';
 import ThreeDotsIcon from '@/assets/three-dots.svg?react';
-import UXChainSelect, { ChainItem } from '@/modules/core/components/UXChainSelect';
+import UXChainSelectDialog, { ChainItem } from '@/modules/core/components/UXChainSelectDialog';
 import { Button } from '@/modules/core/design-system/button';
 import { useCustodialWallet } from '@/services/user/custodial-wallet/api';
 import { useDepositStore } from '@/store/deposit-store';
@@ -74,7 +74,7 @@ const UXDeposit = () => {
       <div {...stylex.props(styles.descriptionWrapper)}>
         <div {...stylex.props(styles.row)}>
           <span {...stylex.props(styles.label)}>Deposit Network</span>
-          <UXChainSelect onSelect={onSetChain}>
+          <UXChainSelectDialog onSelect={onSetChain}>
             <div {...stylex.props(styles.networkWrapper)}>
               {chain?.prefix && (
                 <div {...stylex.props(styles.valueWrapper)}>
@@ -84,7 +84,7 @@ const UXDeposit = () => {
               <span {...stylex.props(styles.network)}>{chain?.name}</span>
               <ChevronDownIcon />
             </div>
-          </UXChainSelect>
+          </UXChainSelectDialog>
         </div>
         <div {...stylex.props(styles.row)}>
           <span {...stylex.props(styles.label)}>Fee</span>

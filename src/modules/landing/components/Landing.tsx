@@ -1,7 +1,7 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Button, Flex, Heading, Separator } from '@radix-ui/themes';
-import { MainButtonParams } from '@telegram-apps/sdk-react';
+import { MainButtonParams, useMiniApp } from '@telegram-apps/sdk-react';
 import { useShowMainButton } from '@/hooks/use-show-main-button';
 import Link from '@/modules/core/components/Link';
 import { useUserStore } from '@/store/user-store';
@@ -13,6 +13,13 @@ import WhyUs from './WhyUs';
 const Landing = () => {
   const navigate = useNavigate();
   const user = useUserStore();
+
+  const miniApp = useMiniApp();
+
+  useEffect(() => {
+    miniApp.setHeaderColor('#FFFFFF');
+    miniApp.setBgColor('#FFFFFF');
+  }, []);
 
   const mainButtonParams = useMemo<Partial<MainButtonParams>>(
     () => ({

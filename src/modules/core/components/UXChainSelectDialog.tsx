@@ -5,7 +5,7 @@ import * as stylex from '@stylexjs/stylex';
 import AlertCircleIcon from '@/assets/alert-circle.svg?react';
 import CollapseIcon from '@/assets/collapse.svg?react';
 
-import { styles } from './UXChainSelect.styles';
+import { styles } from './UXChainSelectDialog.styles';
 
 type Animation = 'appear' | 'hide';
 export type ChainItem = {
@@ -35,12 +35,12 @@ const NETWORK_LIST: ChainItem[] = [
   { name: 'Polygon', value: 'POLYGON', time: '6 minutes', minimum: '>0.01 USDT minimum' },
 ];
 
-interface UXChainSelectProps {
+interface UXChainSelectDialogProps {
   children: ReactNode;
   onSelect(network: ChainItem): void;
 }
 
-const UXChainSelect = ({ onSelect, children }: UXChainSelectProps) => {
+const UXChainSelectDialog = ({ onSelect, children }: UXChainSelectDialogProps) => {
   const [animation, setAnimation] = useState<Animation>('appear');
   const [open, setOpen] = useState(true);
 
@@ -110,4 +110,4 @@ const UXChainSelect = ({ onSelect, children }: UXChainSelectProps) => {
   );
 };
 
-export default UXChainSelect;
+export default UXChainSelectDialog;

@@ -9,7 +9,7 @@ export const styles = stylex.create({
     border: 'none',
     backgroundColor: {
       default: colors.grey900Text,
-      ':hover': colors.grey800,
+      ':active': colors.grey800,
     },
     display: 'flex',
     justifyContent: 'center',

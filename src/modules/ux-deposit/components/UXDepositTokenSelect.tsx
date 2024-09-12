@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import UXTokenSelect, { TokenItem } from '@/modules/core/components/UXTokenSelect';
+import UXTokenSelectScreen, { TokenItem } from '@/modules/core/components/UXTokenSelectScreen';
 import { useDepositStore } from '@/store/deposit-store';
 
 const UXDepositTokenSelect = () => {
@@ -11,7 +11,7 @@ const UXDepositTokenSelect = () => {
     navigate('/ux/deposit');
   };
 
-  return <UXTokenSelect extended onSelect={onSelect} />;
+  return <UXTokenSelectScreen extended onSelect={onSelect} />;
 };
 
 export default UXDepositTokenSelect;

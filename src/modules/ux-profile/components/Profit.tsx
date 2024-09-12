@@ -1,5 +1,5 @@
 import * as stylex from '@stylexjs/stylex';
-import ChartWithTimeframes from '@/modules/core/components/ChartWithTimeframes';
+import UXChartWithTimeframes from '@/modules/core/components/UXChartWithTimeframes';
 
 import { styles } from './Profit.styles';
 
@@ -7,7 +7,7 @@ const Profit = () => {
   return (
     <div {...stylex.props(styles.base)}>
       <span {...stylex.props(styles.header)}>Profit</span>
-      <ChartWithTimeframes />
+      <UXChartWithTimeframes />
       <div {...stylex.props(styles.statistics)}>
         <div {...stylex.props(styles.stat)}>
           <span {...stylex.props(styles.text)}>Deposits</span>

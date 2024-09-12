@@ -3,7 +3,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import * as stylex from '@stylexjs/stylex';
 import ChevronUpIcon from '@/assets/chevron-up.svg?react';
 import CloseIcon from '@/assets/close.svg?react';
-import ChartWithTimeframes from '@/modules/core/components/ChartWithTimeframes';
+import UXChartWithTimeframes from '@/modules/core/components/UXChartWithTimeframes';
 import chartGraphic from '../media/chart-graphic.svg';
 import chartPrice from '../media/chart-price.svg';
 
@@ -59,7 +59,7 @@ const PriceInfo = ({ asset }: PriceInfoProps) => {
             <span {...stylex.props(styles.price)}>58 228,70 $</span>
             <span {...stylex.props(styles.change)}>+4.19%</span>
           </Dialog.Description>
-          <ChartWithTimeframes chartImage={chartPrice} />
+          <UXChartWithTimeframes chartImage={chartPrice} />
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>

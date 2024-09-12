@@ -32,6 +32,8 @@ import UXDeposit from './modules/ux-deposit/components/UXDeposit';
 import UXDepositTokenSelect from './modules/ux-deposit/components/UXDepositTokenSelect';
 import UXMain from './modules/ux-main/components/UXMain';
 import UXProfile from './modules/ux-profile/components/UXProfile';
+import TokenGraph from './modules/ux-swap/components/TokenGraph';
+import UXSwap from './modules/ux-swap/components/UXSwap';
 import UXWithdraw from './modules/ux-withdraw/components/UXWithdraw';
 import UXWithdrawTokenSelect from './modules/ux-withdraw/components/UXWithdrawTokenSelect';
 import Withdraw from './modules/withdraw/components/Withdraw';
@@ -182,6 +184,9 @@ function App() {
             <Route path='withdraw-token-select' element={<UXWithdrawTokenSelect />} />
             <Route path='withdraw' element={<UXWithdraw />} />
             <Route path='withdraw/:asset' element={<UXWithdraw />} />
+            <Route path='swap' element={<UXSwap />} />
+            <Route path='swap/:asset' element={<UXSwap />} />
+            <Route path='token-graph' element={<TokenGraph />} />
             <Route path='qr-code' element={<ScanQrCode />} />
           </Route>
 

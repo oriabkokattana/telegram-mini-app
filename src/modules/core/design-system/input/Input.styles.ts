@@ -33,6 +33,7 @@ export const styles = stylex.create({
     '-moz-box-shadow': 'none',
     boxShadow: 'none',
     padding: '0',
+    minWidth: '0',
     flex: '1',
     color: colors.grey1000,
     fontFamily: fontFamilies.roobertPro,

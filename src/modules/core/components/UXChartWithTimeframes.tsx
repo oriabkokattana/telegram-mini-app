@@ -3,7 +3,7 @@ import * as ToggleGroup from '@radix-ui/react-toggle-group';
 import * as stylex from '@stylexjs/stylex';
 import chart from '@/assets/chart.svg';
 
-import { styles } from './ChartWithTimeframes.styles';
+import { styles } from './UXChartWithTimeframes.styles';
 
 enum ChartTimeframe {
   hour = '1H',
@@ -23,11 +23,11 @@ const TIMEFRAMES = [
   ChartTimeframe.year,
 ];
 
-interface ChartWithTimeframesProps {
+interface UXChartWithTimeframesProps {
   chartImage?: string;
 }
 
-const ChartWithTimeframes = ({ chartImage }: ChartWithTimeframesProps) => {
+const UXChartWithTimeframes = ({ chartImage }: UXChartWithTimeframesProps) => {
   const [timeframe, setTimeframe] = useState(ChartTimeframe.hour);
 
   const onChangeTimframe = (value?: string) => {
@@ -35,6 +35,7 @@ const ChartWithTimeframes = ({ chartImage }: ChartWithTimeframesProps) => {
       setTimeframe(value as ChartTimeframe);
     }
   };
+
   return (
     <div {...stylex.props(styles.base)}>
       <img {...stylex.props(styles.chart)} src={chartImage || chart} alt='chart' />
@@ -55,4 +56,4 @@ const ChartWithTimeframes = ({ chartImage }: ChartWithTimeframesProps) => {
   );
 };
 
-export default ChartWithTimeframes;
+export default UXChartWithTimeframes;

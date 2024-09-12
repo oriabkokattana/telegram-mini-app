@@ -6,7 +6,7 @@ import TrashIcon from '@/assets/trash.svg?react';
 import { Input } from '../design-system/input';
 import { TokenIcon } from '../design-system/token-icon';
 
-import { styles } from './UXTokenSelect.styles';
+import { styles } from './UXTokenSelectScreen.styles';
 
 export type TokenItem = {
   name: string;
@@ -67,12 +67,12 @@ const SYMBOL_LIST = [
   'Z',
 ];
 
-export interface UXTokenSelectProps {
+export interface UXTokenSelectScreenProps {
   extended?: boolean;
   onSelect(token: TokenItem): void;
 }
 
-const UXTokenSelect = ({ extended, onSelect }: UXTokenSelectProps) => {
+const UXTokenSelectScreen = ({ extended, onSelect }: UXTokenSelectScreenProps) => {
   const miniApp = useMiniApp();
   const [search, setSearch] = useState('');
   const [symbol, setSymbol] = useState('');
@@ -172,4 +172,4 @@ const UXTokenSelect = ({ extended, onSelect }: UXTokenSelectProps) => {
   );
 };
 
-export default UXTokenSelect;
+export default UXTokenSelectScreen;
