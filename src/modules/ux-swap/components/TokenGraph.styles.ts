@@ -10,6 +10,7 @@ import {
 export const styles = stylex.create({
   base: {
     width: '100%',
+    maxWidth: '100%',
     minHeight: 'var(--tg-viewport-height)',
     display: 'flex',
     flexDirection: 'column',
@@ -18,6 +19,7 @@ export const styles = stylex.create({
     gap: '48px',
     padding: '21px 17px 23px',
     backgroundColor: colors.grey0,
+    overflow: 'hidden',
   },
   headerWrapper: {
     width: '100%',
