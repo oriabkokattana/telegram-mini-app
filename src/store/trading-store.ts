@@ -26,10 +26,10 @@ const tradingStoreSlice: StateCreator<TradingState & TradingAction> = (set, get)
   quote: 'USDT',
   quoteBalance: 2800,
   quoteAmount: '',
-  setBase: (base) => (get().quote && get().quote === base ? undefined : set({ base })),
+  setBase: (base) => set({ base }),
   setBaseBalance: (baseBalance) => set({ baseBalance }),
   setBaseAmount: (baseAmount) => set({ baseAmount }),
-  setQuote: (quote) => (get().base && get().base === quote ? undefined : set({ quote })),
+  setQuote: (quote) => set({ quote }),
   setQuoteBalance: (quoteBalance) => set({ quoteBalance }),
   setQuoteAmount: (quoteAmount) => set({ quoteAmount }),
   rotate: () =>

@@ -131,7 +131,7 @@ const UXSwap = () => {
           coin={base}
           value={baseAmount}
           onChange={setBaseAmount}
-          onSetCoin={setBase}
+          onSetCoin={(coin) => (coin === quote ? rotate() : setBase(coin))}
           onFocus={() => setBaseInputFocused(true)}
           onBlur={() => setBaseInputFocused(false)}
         />
@@ -144,7 +144,7 @@ const UXSwap = () => {
           coin={quote}
           value={quoteAmount}
           onChange={setQuoteAmount}
-          onSetCoin={setQuote}
+          onSetCoin={(coin) => (coin === base ? rotate() : setQuote(coin))}
           onFocus={() => setQuoteInputFocused(true)}
           onBlur={() => setQuoteInputFocused(false)}
         />
