@@ -53,9 +53,25 @@ const UXSwap = () => {
 
   useSetAppBg('white');
 
+  const onSetBase = (coin: string) => {
+    if (coin === quote) {
+      rotate();
+    } else {
+      setBase(coin);
+    }
+  };
+
+  const onSetQuote = (coin: string) => {
+    if (coin === base) {
+      rotate();
+    } else {
+      setQuote(coin);
+    }
+  };
+
   useEffect(() => {
     if (params.asset) {
-      setBase(params.asset);
+      onSetBase(params.asset);
     }
   }, [params]);
 
@@ -131,7 +147,7 @@ const UXSwap = () => {
           coin={base}
           value={baseAmount}
           onChange={setBaseAmount}
-          onSetCoin={(coin) => (coin === quote ? rotate() : setBase(coin))}
+          onSetCoin={onSetBase}
           onFocus={() => setBaseInputFocused(true)}
           onBlur={() => setBaseInputFocused(false)}
         />
@@ -144,7 +160,7 @@ const UXSwap = () => {
           coin={quote}
           value={quoteAmount}
           onChange={setQuoteAmount}
-          onSetCoin={(coin) => (coin === base ? rotate() : setQuote(coin))}
+          onSetCoin={onSetQuote}
           onFocus={() => setQuoteInputFocused(true)}
           onBlur={() => setQuoteInputFocused(false)}
         />
