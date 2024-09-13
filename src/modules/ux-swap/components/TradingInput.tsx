@@ -5,6 +5,19 @@ import UXCoinSelect from '@/modules/core/components/UXCoinSelect';
 
 import { styles } from './TradingInput.styles';
 
+const formatNumber = (input: string): string => {
+  // Remove all commas first
+  let noCommas = input.replace(/,/g, '');
+
+  // Replace the last comma with a dot if a comma exists
+  if (input.includes(',')) {
+    const parts = input.split(',');
+    noCommas = parts.slice(0, -1).join('') + '.' + parts[parts.length - 1];
+  }
+
+  return noCommas;
+};
+
 type TradingInputProps = {
   type: 'base' | 'quote';
   balance: number;
@@ -23,6 +36,18 @@ const TradingInput = ({
   onSetCoin,
   ...props
 }: TradingInputProps) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target.value;
+
+    // Allow only numbers, commas, and dots
+    const cleanedInput = input.replace(/[^0-9.,]/g, '');
+
+    // Format the cleaned input: remove all commas except the last one and replace it with a dot
+    const formattedValue = formatNumber(cleanedInput);
+
+    onChange(formattedValue);
+  };
+
   return (
     <div {...stylex.props(styles.base)}>
       <span {...stylex.props(styles.label)}>
@@ -46,7 +71,7 @@ const TradingInput = ({
           id={type}
           placeholder='0.0'
           value={value}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={handleChange}
         />
         {type === 'quote' && <span {...stylex.props(styles.fee)}>after 0% fee</span>}
       </div>
