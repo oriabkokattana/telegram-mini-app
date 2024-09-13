@@ -192,7 +192,7 @@ const UXSwap = () => {
         </div>
       </div>
       <div {...stylex.props(styles.benefitWrapper)}>
-        <span {...stylex.props(styles.benefit)}>50% more more beneficial than</span>
+        <span {...stylex.props(styles.benefit)}>50% more beneficial than</span>
         <LogoBinanceIcon />
       </div>
       <Button size='md' style={{ marginTop: 'auto' }} onClick={onSwap}>

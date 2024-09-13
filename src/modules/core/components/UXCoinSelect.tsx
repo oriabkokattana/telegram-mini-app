@@ -32,7 +32,7 @@ const UXCoinSelect = ({ id, coin = 'X', onSelectCoin }: UXCoinSelectProps) => {
         </Select.Icon>
       </Select.Trigger>
       <Select.Portal>
-        <Select.Content {...stylex.props(styles.base)} onClick={(e) => e.stopPropagation()}>
+        <Select.Content {...stylex.props(styles.base)}>
           <Select.ScrollUpButton {...stylex.props(styles.scrollButtonWrapper)}>
             <ChevronUpIcon {...stylex.props(styles.scrollButton)} />
           </Select.ScrollUpButton>

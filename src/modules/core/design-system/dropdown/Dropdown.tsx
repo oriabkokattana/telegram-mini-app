@@ -21,7 +21,8 @@ export const Dropdown = ({ items, selected, onSelect, children }: DropdownProps)
         <DropdownMenu.Content
           {...stylex.props(styles.base)}
           sideOffset={8}
-          onClick={(e) => e.stopPropagation()}
+          avoidCollisions
+          onClick={(e) => e.preventDefault()}
         >
           {items.map((item) => (
             <DropdownMenu.Item
