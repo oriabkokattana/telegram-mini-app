@@ -40,7 +40,9 @@ const TradingInput = ({
         <input
           {...stylex.props(styles.input)}
           {...props}
-          type='number'
+          type='text'
+          inputMode='decimal'
+          pattern='[0-9,.]*'
           id={type}
           placeholder='0.0'
           value={value}
