@@ -1,7 +1,6 @@
-import { useEffect } from 'react';
 import * as stylex from '@stylexjs/stylex';
-import { useMiniApp } from '@telegram-apps/sdk-react';
 import ChevronDownIcon from '@/assets/chevron-down.svg?react';
+import { useSetAppBg } from '@/hooks/use-set-app-bg';
 import { Dropdown } from '@/modules/core/design-system/dropdown/Dropdown';
 import { useSystemCurrencyStore } from '@/store/system-currency';
 import { formatNumberWithCommas } from '@/utils/numbers';
@@ -12,13 +11,9 @@ import Profit from './Profit';
 import { styles } from './UXProfile.styles';
 
 const UXProfile = () => {
-  const miniApp = useMiniApp();
   const { currency, currencyRate, setCurrency } = useSystemCurrencyStore();
 
-  useEffect(() => {
-    miniApp.setHeaderColor('#FFFFFF');
-    miniApp.setBgColor('#FFFFFF');
-  }, []);
+  useSetAppBg('white');
 
   return (
     <div {...stylex.props(styles.base)}>

@@ -3,10 +3,10 @@ import { useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import * as Separator from '@radix-ui/react-separator';
 import * as stylex from '@stylexjs/stylex';
-import { useMiniApp } from '@telegram-apps/sdk-react';
 import ChevronDownIcon from '@/assets/chevron-down.svg?react';
 import QrCodeIcon from '@/assets/qr-code.svg?react';
 import ReceiptIcon from '@/assets/receipt.svg?react';
+import { useSetAppBg } from '@/hooks/use-set-app-bg';
 import Link from '@/modules/core/components/Link';
 import UXChainSelectDialog, { ChainItem } from '@/modules/core/components/UXChainSelectDialog';
 import { Button } from '@/modules/core/design-system/button';
@@ -22,16 +22,12 @@ const UXWithdraw = () => {
   const [amount, setAmount] = useState('');
 
   const params = useParams();
-  const miniApp = useMiniApp();
   const { mutate } = useWithdraw();
   const token = useWithdrawStore((state) => state.token);
   const setStoreToken = useWithdrawStore((state) => state.setToken);
   const setStoreChain = useWithdrawStore((state) => state.setChain);
 
-  useEffect(() => {
-    miniApp.setHeaderColor('#F7F7F7');
-    miniApp.setBgColor('#F7F7F7');
-  }, []);
+  useSetAppBg('gray');
 
   useEffect(() => {
     if (params.asset) {

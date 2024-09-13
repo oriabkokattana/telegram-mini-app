@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Button, Flex, Heading, Separator } from '@radix-ui/themes';
-import { MainButtonParams, useMiniApp } from '@telegram-apps/sdk-react';
+import { useSetAppBg } from '@/hooks/use-set-app-bg';
 import { useShowMainButton } from '@/hooks/use-show-main-button';
 import Link from '@/modules/core/components/Link';
 import { useUserStore } from '@/store/user-store';
@@ -14,28 +14,18 @@ const Landing = () => {
   const navigate = useNavigate();
   const user = useUserStore();
 
-  const miniApp = useMiniApp();
+  useSetAppBg('white');
 
-  useEffect(() => {
-    miniApp.setHeaderColor('#FFFFFF');
-    miniApp.setBgColor('#FFFFFF');
-  }, []);
-
-  const mainButtonParams = useMemo<Partial<MainButtonParams>>(
-    () => ({
-      bgColor: '#1c93e3',
-      text: 'Go to the moon',
-      isVisible: true,
-      isEnabled: true,
-    }),
-    []
-  );
   const mainButtonCallback = useCallback(
     () => navigate(user ? '/ux/main' : '/auth'),
     [user, navigate]
   );
 
-  useShowMainButton(mainButtonCallback, mainButtonParams);
+  useShowMainButton({
+    variant: 'light',
+    text: 'Go to the moon',
+    callback: mainButtonCallback,
+  });
 
   return (
     <Flex width='100%' minHeight='var(--tg-viewport-height)' px='4' py='4' direction='column'>

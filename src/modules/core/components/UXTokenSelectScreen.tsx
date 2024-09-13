@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import * as stylex from '@stylexjs/stylex';
-import { useMiniApp } from '@telegram-apps/sdk-react';
 import SearchIcon from '@/assets/search.svg?react';
 import TrashIcon from '@/assets/trash.svg?react';
+import { useSetAppBg } from '@/hooks/use-set-app-bg';
 import { Input } from '../design-system/input';
 import { TokenIcon } from '../design-system/token-icon';
 
@@ -73,14 +73,10 @@ export interface UXTokenSelectScreenProps {
 }
 
 const UXTokenSelectScreen = ({ extended, onSelect }: UXTokenSelectScreenProps) => {
-  const miniApp = useMiniApp();
   const [search, setSearch] = useState('');
   const [symbol, setSymbol] = useState('');
 
-  useEffect(() => {
-    miniApp.setHeaderColor('#F7F7F7');
-    miniApp.setBgColor('#F7F7F7');
-  }, []);
+  useSetAppBg('white');
 
   const tokens = SEARCH_LIST.filter((token) => {
     const tokenName = token.name.toLowerCase() + '&' + token.currency.toLowerCase();

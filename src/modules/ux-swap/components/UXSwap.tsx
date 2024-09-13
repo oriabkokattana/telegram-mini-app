@@ -1,11 +1,11 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import * as ToggleGroup from '@radix-ui/react-toggle-group';
 import * as stylex from '@stylexjs/stylex';
-import { MainButtonParams, useMiniApp } from '@telegram-apps/sdk-react';
 import ArrowSwapHorizontal from '@/assets/arrow-swap-horizontal.svg?react';
 import ProgressIcon from '@/assets/progress.svg?react';
+import { useSetAppBg } from '@/hooks/use-set-app-bg';
 import { useShowMainButton } from '@/hooks/use-show-main-button';
 import { useSwap } from '@/services/user/swap/api';
 import { useTradingStore } from '@/store/trading-store';
@@ -37,7 +37,6 @@ const UXSwap = () => {
   const [percent, setPercent] = useState<BalancePercent>();
 
   const params = useParams();
-  const miniApp = useMiniApp();
   const navigate = useNavigate();
   const { mutateAsync, isPending } = useSwap();
   const {
@@ -51,10 +50,7 @@ const UXSwap = () => {
     setQuoteBalance,
   } = useTradingStore();
 
-  useEffect(() => {
-    miniApp.setHeaderColor('#FFFFFF');
-    miniApp.setBgColor('#FFFFFF');
-  }, []);
+  useSetAppBg('white');
 
   useEffect(() => {
     if (params.asset) {
@@ -111,18 +107,7 @@ const UXSwap = () => {
     setQuoteAmount(baseAmount);
   };
 
-  const mainButtonParams = useMemo<Partial<MainButtonParams>>(
-    () => ({
-      bgColor: '#1F1F1F',
-      textColor: '#FFFFFF',
-      isVisible: true,
-      text: 'Swap',
-      isLoaderVisible: isPending,
-    }),
-    [isPending]
-  );
-
-  const onSend = useCallback(() => {
+  const mainButtonCallback = useCallback(() => {
     const amount = Number(baseAmount);
     if (!amount || !base || !quote) {
       toast.error('Please check if parameters are valid');
@@ -132,7 +117,12 @@ const UXSwap = () => {
     mutateAsync({ amountA: amount, tokenA: base, tokenB: quote });
   }, [baseAmount, base, quote]);
 
-  useShowMainButton(onSend, mainButtonParams);
+  useShowMainButton({
+    variant: 'dark',
+    text: 'Swap',
+    loading: isPending,
+    callback: mainButtonCallback,
+  });
 
   return (
     <div {...stylex.props(styles.base, styles.smallGap)}>

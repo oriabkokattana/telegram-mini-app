@@ -1,12 +1,11 @@
-import { useEffect } from 'react';
 import * as Avatar from '@radix-ui/react-avatar';
 import * as stylex from '@stylexjs/stylex';
-import { useMiniApp } from '@telegram-apps/sdk-react';
 import AddIcon from '@/assets/add.svg?react';
 import ExportIcon from '@/assets/export.svg?react';
 import ImportIcon from '@/assets/import.svg?react';
 import SearchIcon from '@/assets/search.svg?react';
 import StatsChartIcon from '@/assets/stats-chart.svg?react';
+import { useSetAppBg } from '@/hooks/use-set-app-bg';
 import Link from '@/modules/core/components/Link';
 import { IconButton } from '@/modules/core/design-system/icon-button';
 import { Input } from '@/modules/core/design-system/input';
@@ -19,13 +18,9 @@ import Tables from './Tables';
 import { styles } from './UXMain.styles';
 
 const UXMain = () => {
-  const miniApp = useMiniApp();
   const { mutate } = useLogout();
 
-  useEffect(() => {
-    miniApp.setHeaderColor('#FFFFFF');
-    miniApp.setBgColor('#FFFFFF');
-  }, []);
+  useSetAppBg('white');
 
   return (
     <div {...stylex.props(styles.base)}>

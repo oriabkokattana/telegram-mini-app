@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import * as stylex from '@stylexjs/stylex';
-import { useMiniApp } from '@telegram-apps/sdk-react';
 import ExportIcon from '@/assets/export.svg?react';
 import ImportIcon from '@/assets/import.svg?react';
 import NotificationsIcon from '@/assets/notifications.svg?react';
 import SwapIcon from '@/assets/swap.svg?react';
+import { useSetAppBg } from '@/hooks/use-set-app-bg';
 import Link from '@/modules/core/components/Link';
 import TransactionHistory from '@/modules/core/components/TransactionHistory';
 import UXChartWithTimeframes from '@/modules/core/components/UXChartWithTimeframes';
@@ -17,14 +17,9 @@ import { styles } from './UXAsset.styles';
 
 const UXAsset = () => {
   const [asset, setAsset] = useState('');
-
   const params = useParams();
-  const miniApp = useMiniApp();
 
-  useEffect(() => {
-    miniApp.setHeaderColor('#FFFFFF');
-    miniApp.setBgColor('#FFFFFF');
-  }, []);
+  useSetAppBg('white');
 
   useEffect(() => {
     setAsset(params.asset || '');

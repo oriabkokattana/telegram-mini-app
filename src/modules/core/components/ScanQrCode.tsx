@@ -1,18 +1,12 @@
-import { useEffect } from 'react';
 import * as stylex from '@stylexjs/stylex';
-import { useMiniApp } from '@telegram-apps/sdk-react';
 import ImagePlaceholderIcon from '@/assets/image-placeholder.svg?react';
 import qrCode from '@/assets/qr-code.png';
+import { useSetAppBg } from '@/hooks/use-set-app-bg';
 
 import { styles } from './ScanQrCode.styles';
 
 const ScanQrCode = () => {
-  const miniApp = useMiniApp();
-
-  useEffect(() => {
-    miniApp.setHeaderColor('#F7F7F7');
-    miniApp.setBgColor('#F7F7F7');
-  }, []);
+  useSetAppBg('gray');
 
   return (
     <div {...stylex.props(styles.base)}>

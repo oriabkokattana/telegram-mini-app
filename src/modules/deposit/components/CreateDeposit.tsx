@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAccount } from 'wagmi';
 import { CopyIcon } from '@radix-ui/react-icons';
@@ -14,7 +14,6 @@ import {
   Text,
   TextField,
 } from '@radix-ui/themes';
-import { MainButtonParams } from '@telegram-apps/sdk-react';
 import { useShowMainButton } from '@/hooks/use-show-main-button';
 import { useCustodialWallet } from '@/services/user/custodial-wallet/api';
 import { useDepositStore } from '@/store/deposit-store';
@@ -26,18 +25,14 @@ const CreateDeposit = () => {
   const chain = useDepositStore((state) => state.chain);
   const token = useDepositStore((state) => state.token);
 
-  const mainButtonParams = useMemo<Partial<MainButtonParams>>(
-    () => ({
-      bgColor: '#1c93e3',
-      text: 'Deposit from connected wallet',
-      isVisible: true,
-      isEnabled: isConnected,
-    }),
-    [isConnected]
-  );
   const mainButtonCallback = useCallback(() => navigate('/profile'), [navigate]);
 
-  useShowMainButton(mainButtonCallback, mainButtonParams);
+  useShowMainButton({
+    variant: 'light',
+    text: 'Deposit from connected wallet',
+    enabled: isConnected,
+    callback: mainButtonCallback,
+  });
 
   return (
     <Flex width='100%' minHeight='var(--tg-viewport-height)' px='4' py='4' direction='column'>

@@ -1,19 +1,13 @@
-import { useEffect } from 'react';
 import * as stylex from '@stylexjs/stylex';
-import { useMiniApp } from '@telegram-apps/sdk-react';
 import OpenIcon from '@/assets/open.svg?react';
+import { useSetAppBg } from '@/hooks/use-set-app-bg';
 import { Button } from '@/modules/core/design-system/button';
 import tokenGraph from '../media/token-graph.svg';
 
 import { styles } from './TokenGraph.styles';
 
 const TokenGraph = () => {
-  const miniApp = useMiniApp();
-
-  useEffect(() => {
-    miniApp.setHeaderColor('#FFFFFF');
-    miniApp.setBgColor('#FFFFFF');
-  }, []);
+  useSetAppBg('white');
 
   return (
     <div {...stylex.props(styles.base)}>

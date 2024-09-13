@@ -1,7 +1,6 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { ChevronLeftIcon } from '@radix-ui/react-icons';
 import { Flex, Heading, IconButton, Section } from '@radix-ui/themes';
-import { MainButtonParams } from '@telegram-apps/sdk-react';
 import { useShowMainButton } from '@/hooks/use-show-main-button';
 import Link from '@/modules/core/components/Link';
 import { useSwap } from '@/services/user/swap/api';
@@ -13,21 +12,17 @@ const Trading = () => {
 
   const { mutate } = useSwap();
 
-  const mainButtonParams = useMemo<Partial<MainButtonParams>>(
-    () => ({
-      bgColor: '#1c93e3',
-      text: 'Swap',
-      isVisible: true,
-      isEnabled: !!amount,
-    }),
-    [amount]
-  );
   const mainButtonCallback = useCallback(
     () => mutate({ amountA: Number(amount || 0), tokenA: 'USDT', tokenB: 'WBNB' }),
     [mutate, amount]
   );
 
-  useShowMainButton(mainButtonCallback, mainButtonParams);
+  useShowMainButton({
+    variant: 'light',
+    text: 'Swap',
+    enabled: !!amount,
+    callback: mainButtonCallback,
+  });
 
   return (
     <Flex width='100%' minHeight='var(--tg-viewport-height)' px='4' py='4' direction='column'>

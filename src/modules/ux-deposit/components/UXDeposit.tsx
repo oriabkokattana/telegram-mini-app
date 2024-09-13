@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import * as stylex from '@stylexjs/stylex';
-import { useMiniApp } from '@telegram-apps/sdk-react';
 import ChevronDownIcon from '@/assets/chevron-down.svg?react';
 import CopyIcon from '@/assets/copy.svg?react';
 import qrCode from '@/assets/qr-code.png';
 import ReceiptIcon from '@/assets/receipt.svg?react';
 import ThreeDotsIcon from '@/assets/three-dots.svg?react';
+import { useSetAppBg } from '@/hooks/use-set-app-bg';
 import UXChainSelectDialog, { ChainItem } from '@/modules/core/components/UXChainSelectDialog';
 import { Button } from '@/modules/core/design-system/button';
 import { useCustodialWallet } from '@/services/user/custodial-wallet/api';
@@ -20,16 +20,12 @@ const UXDeposit = () => {
   const [chain, setChain] = useState<ChainItem>();
 
   const params = useParams();
-  const miniApp = useMiniApp();
   const { data } = useCustodialWallet(chain?.value);
   const token = useDepositStore((state) => state.token);
   const setStoreToken = useDepositStore((state) => state.setToken);
   const setStoreChain = useDepositStore((state) => state.setChain);
 
-  useEffect(() => {
-    miniApp.setHeaderColor('#F7F7F7');
-    miniApp.setBgColor('#F7F7F7');
-  }, []);
+  useSetAppBg('gray');
 
   useEffect(() => {
     if (params.asset) {
