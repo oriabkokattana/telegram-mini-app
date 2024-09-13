@@ -116,7 +116,7 @@ const UXSwap = () => {
         <div {...stylex.props(styles.statistics)}>
           <div {...stylex.props(styles.stat)}>
             <span {...stylex.props(styles.label)}>{base}:</span>
-            <span {...stylex.props(styles.statValue)}>$2,627.94 +0.10</span>
+            <span {...stylex.props(styles.statValue)}>$2,627.94 +0.10%</span>
           </div>
           <div {...stylex.props(styles.stat)}>
             <span {...stylex.props(styles.label)}>{quote}:</span>
