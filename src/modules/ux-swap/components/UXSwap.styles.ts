@@ -1,4 +1,5 @@
 import * as stylex from '@stylexjs/stylex';
+import { animations } from '@/modules/core/design-system/animations.stylex';
 import {
   colors,
   fontFamilies,
@@ -10,16 +11,13 @@ import {
 export const styles = stylex.create({
   base: {
     width: '100%',
-    minHeight: 'var(--tg-viewport-height)',
+    minHeight: '100% !important',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     gap: '24px',
-    padding: '8px 16px 0 16px',
+    padding: '8px 16px 24px 16px',
     backgroundColor: colors.grey0,
-  },
-  smallGap: {
-    gap: '16px',
   },
   headerWrapper: {
     width: '100%',
@@ -61,6 +59,7 @@ export const styles = stylex.create({
     display: 'flex',
     flexDirection: 'column',
     gap: '4px',
+    margin: '8px 0 24px',
   },
   rotate: {
     width: '40px',
@@ -77,6 +76,58 @@ export const styles = stylex.create({
     borderColor: colors.grey0,
     backgroundColor: colors.grey100Background,
     cursor: 'pointer',
+    zIndex: '2',
+  },
+  sample: {
+    width: '100%',
+    position: 'absolute',
+    bottom: '0',
+    left: '0',
+    padding: '8px 16px',
+    backgroundColor: colors.grey0,
+    display: 'none',
+  },
+  appear: {
+    display: 'block',
+    animationName: animations.reverseAppear,
+    animationDelay: '0.2s',
+    animationDuration: '0.3s',
+    animationFillMode: 'forwards',
+  },
+  percentGroup: {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    padding: '0 6px',
+  },
+  percent: {
+    cursor: 'pointer',
+    margin: '0px',
+    outline: 'none',
+    border: 'none',
+    flex: '1',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '4px',
+    padding: '8px',
+    borderRadius: '40px',
+    backgroundColor: {
+      default: colors.grey100Background,
+      ":is([data-state='on'])": colors.grey200,
+    },
+    fontFamily: fontFamilies.roobertPro,
+    fontSize: fontSizes.caption1,
+    fontWeight: fontWeights.normal,
+    lineHeight: lineHeights.small,
+    transition: 'all 0.15s',
+  },
+  percentValue: {
+    color: colors.grey900Text,
+  },
+  sign: {
+    color: colors.grey600,
   },
   priceWrapper: {
     display: 'flex',
@@ -145,54 +196,5 @@ export const styles = stylex.create({
     fontSize: fontSizes.text1,
     fontWeight: fontWeights.normal,
     lineHeight: lineHeights.normal,
-  },
-  footer: {
-    width: '100%',
-    position: 'fixed',
-    left: '0',
-    bottom: '0',
-    padding: '8px 16px 8px 16px',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '26px',
-    backgroundColor: colors.grey0,
-  },
-  bottomGap: {
-    paddingBottom: '22px',
-  },
-  percentGroup: {
-    width: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '8px',
-    padding: '0 6px',
-  },
-  percent: {
-    cursor: 'pointer',
-    margin: '0px',
-    outline: 'none',
-    border: 'none',
-    flex: '1',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: '4px',
-    padding: '8px',
-    borderRadius: '40px',
-    backgroundColor: {
-      default: colors.grey100Background,
-      ":is([data-state='on'])": colors.grey200,
-    },
-    fontFamily: fontFamilies.roobertPro,
-    fontSize: fontSizes.caption1,
-    fontWeight: fontWeights.normal,
-    lineHeight: lineHeights.small,
-    transition: 'all 0.15s',
-  },
-  percentValue: {
-    color: colors.grey900Text,
-  },
-  sign: {
-    color: colors.grey600,
   },
 });

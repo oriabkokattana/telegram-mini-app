@@ -16,7 +16,7 @@ const Deposit = () => {
   });
 
   return (
-    <Flex width='100%' minHeight='var(--tg-viewport-height)' px='4' py='4' direction='column'>
+    <Flex width='100%' minHeight='100% !important' px='4' py='4' direction='column'>
       <Flex gap='2' align='center' mb='2'>
         <Heading>Deposit</Heading>
       </Flex>

@@ -11,7 +11,7 @@ export const styles = stylex.create({
   base: {
     width: '100%',
     maxWidth: '100%',
-    minHeight: 'var(--tg-viewport-height)',
+    minHeight: '100% !important',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',

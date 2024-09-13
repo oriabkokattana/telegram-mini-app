@@ -12,7 +12,6 @@ export const styles = stylex.create({
   base: {
     display: 'flex',
     flexDirection: 'column',
-    minHeight: 'var(--tg-viewport-height)',
   },
   tabListWrapper: {
     width: '100%',
@@ -76,7 +75,7 @@ export const styles = stylex.create({
   },
   swipeContainer: {
     overflow: 'hidden',
-    padding: '16px 0 84px',
+    padding: '16px 0 100px',
   },
   tabContentWrapper: {
     display: 'flex',

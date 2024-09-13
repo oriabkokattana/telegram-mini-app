@@ -14,7 +14,7 @@ export const styles = stylex.create({
     bottom: '0',
     left: '0',
     right: '0',
-    padding: '16px 8px 8px',
+    padding: '16px 8px 24px',
     borderTop: '1px solid',
     borderTopColor: colors.grey300,
     backgroundColor: colors.grey0,

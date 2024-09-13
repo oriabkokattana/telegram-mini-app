@@ -24,6 +24,7 @@ const UXWithdraw = () => {
   const params = useParams();
   const { mutate } = useWithdraw();
   const token = useWithdrawStore((state) => state.token);
+  const storeChain = useWithdrawStore((state) => state.chain);
   const setStoreToken = useWithdrawStore((state) => state.setToken);
   const setStoreChain = useWithdrawStore((state) => state.setChain);
 
@@ -69,7 +70,7 @@ const UXWithdraw = () => {
         value={address}
         onChange={(e) => setAddress(e.target.value)}
       />
-      <UXChainSelectDialog onSelect={onSetChain}>
+      <UXChainSelectDialog chain={storeChain} onSelect={onSetChain}>
         <Input
           size='md'
           variant='grey300'

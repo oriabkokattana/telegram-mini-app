@@ -4,7 +4,7 @@ import { useSetAppBg } from '@/hooks/use-set-app-bg';
 import { Dropdown } from '@/modules/core/design-system/dropdown/Dropdown';
 import { useSystemCurrencyStore } from '@/store/system-currency';
 import { formatNumberWithCommas } from '@/utils/numbers';
-import TransactionHistory from '../../core/components/TransactionHistory';
+import UXTransactionHistory from '../../core/components/UXTransactionHistory';
 import Portfolio from './Portfolio';
 import Profit from './Profit';
 
@@ -34,7 +34,7 @@ const UXProfile = () => {
       </div>
       <Portfolio />
       <Profit />
-      <TransactionHistory variant='filterable' />
+      <UXTransactionHistory variant='filterable' />
     </div>
   );
 };

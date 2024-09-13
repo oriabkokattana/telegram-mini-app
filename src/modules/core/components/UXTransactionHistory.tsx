@@ -5,20 +5,20 @@ import ChevronUpIcon from '@/assets/chevron-up.svg?react';
 import FunnelIcon from '@/assets/funnel.svg?react';
 import { formatNumberWithCommas } from '@/utils/numbers';
 
-import { styles } from './TransactionHistory.styles';
+import { styles } from './UXTransactionHistory.styles';
 
-interface TransactionHistoryProps {
+interface UXTransactionHistoryProps {
   variant: 'filterable' | 'collapsible';
   asset?: string;
 }
 
-const TransactionHistory = ({ variant, asset }: TransactionHistoryProps) => {
+const UXTransactionHistory = ({ variant, asset }: UXTransactionHistoryProps) => {
   const [open, setOpen] = useState(true);
   const listRef = useRef<HTMLDivElement>(null);
 
   const onOpen = () => {
     setOpen(!open);
-    window.setTimeout(() => listRef.current?.scrollIntoView());
+    window.setTimeout(() => listRef.current?.scrollIntoView({ behavior: 'smooth' }));
   };
 
   const TRANSACTIONS = [
@@ -33,7 +33,13 @@ const TransactionHistory = ({ variant, asset }: TransactionHistoryProps) => {
         onClick={variant === 'collapsible' ? onOpen : undefined}
       >
         <span {...stylex.props(styles.header)}>Recent transactions</span>
-        {variant === 'collapsible' ? <ChevronUpIcon /> : <FunnelIcon />}
+        {variant === 'collapsible' ? (
+          <ChevronUpIcon
+            {...stylex.props(styles.chevronUpIcon, open ? styles.rotate : undefined)}
+          />
+        ) : (
+          <FunnelIcon />
+        )}
       </div>
       {open && (
         <div {...stylex.props(styles.list)} ref={listRef}>
@@ -58,4 +64,4 @@ const TransactionHistory = ({ variant, asset }: TransactionHistoryProps) => {
   );
 };
 
-export default TransactionHistory;
+export default UXTransactionHistory;

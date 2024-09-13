@@ -28,7 +28,7 @@ function Root() {
         <WagmiProvider config={config}>
           <QueryClientProvider client={queryClient}>
             <RainbowKitProvider>
-              <Theme appearance='light' radius='medium' style={{ height: 'inherit' }}>
+              <Theme appearance='light' radius='medium'>
                 <App />
                 <Toaster richColors position='top-center' closeButton duration={5000} />
                 {/* <ReactQueryDevtools initialIsOpen={false} position='bottom' /> */}

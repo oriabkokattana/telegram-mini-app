@@ -17,6 +17,7 @@ export const styles = stylex.create({
     padding: '16px',
     borderRadius: '16px',
     backgroundColor: colors.grey100Background,
+    zIndex: '1',
   },
   label: {
     width: '100%',

@@ -58,7 +58,7 @@ function App() {
 
   useEffect(() => {
     return viewport && bindViewportCSSVars(viewport);
-  }, [viewport]);
+  }, [viewport, viewport?.height]);
 
   // Create a new application navigator and attach it to the browser history, so it could modify
   // it and listen to its changes.
@@ -217,7 +217,7 @@ function Layout() {
   }, [swipeBehavior.result, viewport.result]);
 
   return (
-    <div style={{ width: 'var(--tg-viewport-width)', minHeight: 'var(--tg-viewport-height)' }}>
+    <div style={{ width: 'var(--tg-viewport-width)', height: '100vh' }}>
       {userHydrated && systemCurrencyHydrated ? <Outlet /> : <span>Loading...</span>}
     </div>
   );

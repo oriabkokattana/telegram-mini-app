@@ -12,7 +12,7 @@ const Profile = () => {
   const { mutate } = useLogout();
 
   return (
-    <Flex width='100%' minHeight='var(--tg-viewport-height)' px='4' py='4' direction='column'>
+    <Flex width='100%' minHeight='100% !important' px='4' py='4' direction='column'>
       <Flex align='center' justify='between' mb='2'>
         <Flex gap='2' align='center'>
           <Avatar src={profileData?.avatar_image} fallback='A' />

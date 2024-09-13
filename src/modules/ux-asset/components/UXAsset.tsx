@@ -7,8 +7,8 @@ import NotificationsIcon from '@/assets/notifications.svg?react';
 import SwapIcon from '@/assets/swap.svg?react';
 import { useSetAppBg } from '@/hooks/use-set-app-bg';
 import Link from '@/modules/core/components/Link';
-import TransactionHistory from '@/modules/core/components/TransactionHistory';
 import UXChartWithTimeframes from '@/modules/core/components/UXChartWithTimeframes';
+import UXTransactionHistory from '@/modules/core/components/UXTransactionHistory';
 import { IconButton } from '@/modules/core/design-system/icon-button';
 import { TokenIcon } from '@/modules/core/design-system/token-icon';
 import PriceInfo from './PriceInfo';
@@ -87,7 +87,7 @@ const UXAsset = () => {
           <span {...stylex.props(styles.value)}>$30,000 per {asset}</span>
         </div>
       </div>
-      <TransactionHistory variant='collapsible' asset={asset} />
+      <UXTransactionHistory variant='collapsible' asset={asset} />
       <PriceInfo asset={asset} />
     </div>
   );

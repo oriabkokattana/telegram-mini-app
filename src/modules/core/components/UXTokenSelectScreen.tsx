@@ -151,7 +151,7 @@ const UXTokenSelectScreen = ({ extended, onSelect }: UXTokenSelectScreenProps) =
             {!extended && <span {...stylex.props(styles.label)}>AVAILABLE BALANCE</span>}
           </div>
           {tokens.map((token) => (
-            <div {...stylex.props(styles.row)} key={token.name} onClick={() => onSelect(token)}>
+            <div {...stylex.props(styles.row)} key={token.currency} onClick={() => onSelect(token)}>
               <div {...stylex.props(styles.tokenWrapper)}>
                 <TokenIcon size='sm' name={token.name} />
                 <span {...stylex.props(styles.name)}>{token.name}</span>

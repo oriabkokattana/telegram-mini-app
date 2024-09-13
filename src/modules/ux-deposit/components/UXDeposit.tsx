@@ -22,6 +22,7 @@ const UXDeposit = () => {
   const params = useParams();
   const { data } = useCustodialWallet(chain?.value);
   const token = useDepositStore((state) => state.token);
+  const storeChain = useDepositStore((state) => state.chain);
   const setStoreToken = useDepositStore((state) => state.setToken);
   const setStoreChain = useDepositStore((state) => state.setChain);
 
@@ -48,6 +49,10 @@ const UXDeposit = () => {
     }
   };
 
+  const onShare = () => {
+    toast.success('Shared');
+  };
+
   return (
     <div {...stylex.props(styles.base)}>
       <div {...stylex.props(styles.headerWrapper)}>
@@ -70,14 +75,14 @@ const UXDeposit = () => {
       <div {...stylex.props(styles.descriptionWrapper)}>
         <div {...stylex.props(styles.row)}>
           <span {...stylex.props(styles.label)}>Deposit Network</span>
-          <UXChainSelectDialog onSelect={onSetChain}>
+          <UXChainSelectDialog chain={storeChain} onSelect={onSetChain}>
             <div {...stylex.props(styles.networkWrapper)}>
               {chain?.prefix && (
                 <div {...stylex.props(styles.valueWrapper)}>
                   <span {...stylex.props(styles.value)}>{chain.prefix}</span>
                 </div>
               )}
-              <span {...stylex.props(styles.network)}>{chain?.name}</span>
+              <span {...stylex.props(styles.network)}>{chain?.name || 'Select Network'}</span>
               <ChevronDownIcon />
             </div>
           </UXChainSelectDialog>
@@ -103,7 +108,9 @@ const UXDeposit = () => {
           </div>
         </div>
       </div>
-      <Button size='md'>Save Image</Button>
+      <Button size='md' onClick={onShare} style={{ marginTop: 'auto' }}>
+        Share
+      </Button>
     </div>
   );
 };

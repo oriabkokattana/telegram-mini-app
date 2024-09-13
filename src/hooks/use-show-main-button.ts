@@ -34,26 +34,14 @@ export const useShowMainButton = ({
   const mainButton = useMainButton();
 
   useEffect(() => {
-    const timer = window.setTimeout(() => mainButton.show().enable(), 100);
+    mainButton.show().enable();
 
     return () => {
-      window.clearTimeout(timer);
       mainButton.hide();
     };
   }, []);
 
   useEffect(() => {
-    const abortController = new AbortController();
-
-    const onMainButtonClick = () => {
-      if (!abortController.signal.aborted) {
-        callback();
-        abortController.abort();
-      }
-    };
-
-    mainButton.on('click', onMainButtonClick);
-
     mainButton.setParams({
       text,
       isEnabled: enabled,
@@ -61,10 +49,10 @@ export const useShowMainButton = ({
       ...getPalleteByVariant(variant),
     });
 
+    mainButton.on('click', callback);
+
     return () => {
-      mainButton.off('click', onMainButtonClick);
+      mainButton.off('click', callback);
     };
   }, [variant, text, loading, enabled, callback]);
-
-  console.log(mainButton);
 };

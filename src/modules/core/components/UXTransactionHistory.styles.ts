@@ -28,6 +28,12 @@ export const styles = stylex.create({
     fontWeight: fontWeights.medium,
     lineHeight: lineHeights.default,
   },
+  chevronUpIcon: {
+    transition: 'rotate 0.3s',
+  },
+  rotate: {
+    rotate: '-180deg',
+  },
   list: {
     width: '100%',
     display: 'flex',

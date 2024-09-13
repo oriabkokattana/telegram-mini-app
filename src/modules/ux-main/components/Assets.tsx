@@ -1,4 +1,5 @@
 import * as stylex from '@stylexjs/stylex';
+import Link from '@/modules/core/components/Link';
 import { TokenIcon } from '@/modules/core/design-system/token-icon';
 import { formatNumberToWhiteSpaces } from '@/utils/numbers';
 
@@ -24,7 +25,7 @@ const Assets = () => {
   return (
     <div {...stylex.props(styles.base)}>
       {assetsArray.map((item, idx) => (
-        <div key={idx} {...stylex.props(styles.assetRow)}>
+        <Link {...stylex.props(styles.assetRow)} key={idx} to={`/ux/asset/${item.name}`}>
           <div {...stylex.props(styles.token)}>
             <TokenIcon size='md' variant='with-border' name={item.name} />
             <span {...stylex.props(styles.tokenName)}>{item.name}</span>
@@ -40,7 +41,7 @@ const Assets = () => {
               {...stylex.props(styles.badge, idx % 2 === 0 ? styles.even : styles.odd)}
             >{`${item.changePercent > 0 ? '+' : ''}${item.changePercent}%`}</span>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   );

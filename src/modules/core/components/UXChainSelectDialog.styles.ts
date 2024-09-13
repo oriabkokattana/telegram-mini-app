@@ -1,4 +1,5 @@
 import * as stylex from '@stylexjs/stylex';
+import { animations } from '../design-system/animations.stylex';
 import {
   colors,
   fontFamilies,
@@ -7,16 +8,6 @@ import {
   lineHeights,
   shadows,
 } from '../design-system/tokens.stylex';
-
-const appear = stylex.keyframes({
-  '0%': { translate: '0 0' },
-  '100%': { translate: '0 -100%' },
-});
-
-const hide = stylex.keyframes({
-  '0%': { translate: '0 -100%' },
-  '100%': { translate: '0 20px' },
-});
 
 export const styles = stylex.create({
   base: {
@@ -116,12 +107,12 @@ export const styles = stylex.create({
     lineHeight: lineHeights.normal,
   },
   appear: {
-    animationName: appear,
+    animationName: animations.appear,
     animationDuration: '0.3s',
     animationFillMode: 'forwards',
   },
   hide: {
-    animationName: hide,
+    animationName: animations.hide,
     animationDuration: '0.3s',
     animationFillMode: 'forwards',
   },

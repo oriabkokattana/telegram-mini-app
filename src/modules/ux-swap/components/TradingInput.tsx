@@ -29,8 +29,8 @@ const TradingInput = ({
         <Label.Root htmlFor={`${type}-coin-select`}>{type === 'base' ? 'From' : 'To'}</Label.Root>
         <Label.Root
           htmlFor={type}
-          onMouseDown={(e) => e.preventDefault()}
           onClick={() => onChange(balance.toString())}
+          onMouseDown={(e) => e.preventDefault()}
         >
           Balance: {balance} {coin}
         </Label.Root>

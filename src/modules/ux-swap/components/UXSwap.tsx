@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import * as ToggleGroup from '@radix-ui/react-toggle-group';
@@ -6,7 +6,7 @@ import * as stylex from '@stylexjs/stylex';
 import ArrowSwapHorizontal from '@/assets/arrow-swap-horizontal.svg?react';
 import ProgressIcon from '@/assets/progress.svg?react';
 import { useSetAppBg } from '@/hooks/use-set-app-bg';
-import { useShowMainButton } from '@/hooks/use-show-main-button';
+import { Button } from '@/modules/core/design-system/button';
 import { useSwap } from '@/services/user/swap/api';
 import { useTradingStore } from '@/store/trading-store';
 import graph from '../media/graph.svg';
@@ -30,24 +30,25 @@ const BALANCE_PERCENTS = [
 ];
 
 const UXSwap = () => {
-  const [baseAmount, setBaseAmount] = useState('');
-  const [quoteAmount, setQuoteAmount] = useState('');
   const [baseInputFocused, setBaseInputFocused] = useState(false);
   const [quoteInputFocused, setQuoteInputFocused] = useState(false);
   const [percent, setPercent] = useState<BalancePercent>();
 
   const params = useParams();
   const navigate = useNavigate();
-  const { mutateAsync, isPending } = useSwap();
+  const { mutateAsync } = useSwap();
   const {
     base,
     baseBalance,
+    baseAmount,
     quote,
     quoteBalance,
+    quoteAmount,
     setBase,
-    setBaseBalance,
+    setBaseAmount,
     setQuote,
-    setQuoteBalance,
+    setQuoteAmount,
+    rotate,
   } = useTradingStore();
 
   useSetAppBg('white');
@@ -98,16 +99,7 @@ const UXSwap = () => {
     return setQuoteAmount('0');
   };
 
-  const onRotate = () => {
-    setBase(quote);
-    setBaseBalance(quoteBalance);
-    setBaseAmount(quoteAmount);
-    setQuote(base);
-    setQuoteBalance(baseBalance);
-    setQuoteAmount(baseAmount);
-  };
-
-  const mainButtonCallback = useCallback(() => {
+  const onSwap = () => {
     const amount = Number(baseAmount);
     if (!amount || !base || !quote) {
       toast.error('Please check if parameters are valid');
@@ -115,17 +107,10 @@ const UXSwap = () => {
     }
 
     mutateAsync({ amountA: amount, tokenA: base, tokenB: quote });
-  }, [baseAmount, base, quote]);
-
-  useShowMainButton({
-    variant: 'dark',
-    text: 'Swap',
-    loading: isPending,
-    callback: mainButtonCallback,
-  });
+  };
 
   return (
-    <div {...stylex.props(styles.base, styles.smallGap)}>
+    <div {...stylex.props(styles.base)}>
       <div {...stylex.props(styles.headerWrapper)}>
         <span {...stylex.props(styles.header)}>Market Swap</span>
         <div {...stylex.props(styles.statistics)}>
@@ -150,7 +135,7 @@ const UXSwap = () => {
           onFocus={() => setBaseInputFocused(true)}
           onBlur={() => setBaseInputFocused(false)}
         />
-        <div {...stylex.props(styles.rotate)} onClick={onRotate}>
+        <div {...stylex.props(styles.rotate)} onClick={rotate}>
           <ArrowSwapHorizontal />
         </div>
         <TradingInput
@@ -163,6 +148,33 @@ const UXSwap = () => {
           onFocus={() => setQuoteInputFocused(true)}
           onBlur={() => setQuoteInputFocused(false)}
         />
+        <div
+          {...stylex.props(
+            styles.sample,
+            baseInputFocused || quoteInputFocused ? styles.appear : undefined
+          )}
+        >
+          {(baseInputFocused || quoteInputFocused) && (
+            <ToggleGroup.Root
+              {...stylex.props(styles.percentGroup)}
+              type='single'
+              aria-label='Select balance percent'
+              value={percent}
+              onValueChange={onChangeBalancePercent}
+            >
+              {BALANCE_PERCENTS.map((item) => (
+                <ToggleGroup.Item
+                  {...stylex.props(styles.percent)}
+                  value={item}
+                  onMouseDown={(e) => e.preventDefault()}
+                >
+                  <span {...stylex.props(styles.percentValue)}>{item}</span>
+                  <span {...stylex.props(styles.sign)}>%</span>
+                </ToggleGroup.Item>
+              ))}
+            </ToggleGroup.Root>
+          )}
+        </div>
       </div>
       <div {...stylex.props(styles.priceWrapper)}>
         <span {...stylex.props(styles.price)}>
@@ -183,33 +195,9 @@ const UXSwap = () => {
         <span {...stylex.props(styles.benefit)}>50% more more beneficial than</span>
         <LogoBinanceIcon />
       </div>
-      <div
-        {...stylex.props(
-          styles.footer,
-          !baseInputFocused && !quoteInputFocused ? styles.bottomGap : undefined
-        )}
-      >
-        {(baseInputFocused || quoteInputFocused) && (
-          <ToggleGroup.Root
-            {...stylex.props(styles.percentGroup)}
-            type='single'
-            aria-label='Select balance percent'
-            value={percent}
-            onValueChange={onChangeBalancePercent}
-          >
-            {BALANCE_PERCENTS.map((item) => (
-              <ToggleGroup.Item
-                {...stylex.props(styles.percent)}
-                value={item}
-                onMouseDown={(e) => e.preventDefault()}
-              >
-                <span {...stylex.props(styles.percentValue)}>{item}</span>
-                <span {...stylex.props(styles.sign)}>%</span>
-              </ToggleGroup.Item>
-            ))}
-          </ToggleGroup.Root>
-        )}
-      </div>
+      <Button size='md' style={{ marginTop: 'auto' }} onClick={onSwap}>
+        Swap
+      </Button>
     </div>
   );
 };

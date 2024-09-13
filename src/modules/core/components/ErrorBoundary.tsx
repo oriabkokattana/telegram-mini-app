@@ -49,7 +49,7 @@ const ErrorBoundaryError: FC<{ error: unknown }> = ({ error }) => (
   <div
     style={{
       width: 'var(--tg-viewport-width)',
-      height: 'var(--tg-viewport-height)',
+      height: '100% !important',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',

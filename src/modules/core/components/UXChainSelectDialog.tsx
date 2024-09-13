@@ -36,13 +36,14 @@ const NETWORK_LIST: ChainItem[] = [
 ];
 
 interface UXChainSelectDialogProps {
+  chain?: string | null;
   children: ReactNode;
   onSelect(network: ChainItem): void;
 }
 
-const UXChainSelectDialog = ({ onSelect, children }: UXChainSelectDialogProps) => {
+const UXChainSelectDialog = ({ chain, onSelect, children }: UXChainSelectDialogProps) => {
   const [animation, setAnimation] = useState<Animation>('appear');
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(!chain);
 
   const onOpenChange = (value: boolean) => {
     if (!value) {
@@ -66,8 +67,11 @@ const UXChainSelectDialog = ({ onSelect, children }: UXChainSelectDialogProps) =
   });
 
   useEffect(() => {
-    onSelect(NETWORK_LIST[0]);
-  }, []);
+    if (chain) {
+      const selectedChain = NETWORK_LIST.find((item) => item.value === chain);
+      selectedChain && onSelect(selectedChain);
+    }
+  }, [chain]);
 
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
