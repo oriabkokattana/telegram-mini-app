@@ -1,4 +1,5 @@
 import { create, StateCreator } from 'zustand';
+import { createJSONStorage, persist } from 'zustand/middleware';
 
 type TradingState = {
   base?: string;
@@ -43,4 +44,6 @@ const tradingStoreSlice: StateCreator<TradingState & TradingAction> = (set, get)
     }),
 });
 
-export const useTradingStore = create(tradingStoreSlice);
+export const useTradingStore = create(
+  persist(tradingStoreSlice, { name: 'trading', storage: createJSONStorage(() => sessionStorage) })
+);
