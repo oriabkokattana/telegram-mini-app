@@ -3,40 +3,15 @@ import * as stylex from '@stylexjs/stylex';
 import SearchIcon from '@/assets/search.svg?react';
 import TrashIcon from '@/assets/trash.svg?react';
 import { useSetAppBg } from '@/hooks/use-set-app-bg';
+import { useBalancesStore } from '@/store/balances-store';
+import { useSearchHistoryStore } from '@/store/search-history-store';
 import { Input } from '../design-system/input';
 import { TokenIcon } from '../design-system/token-icon';
 
 import { styles } from './UXTokenSelectScreen.styles';
 
-export type TokenItem = {
-  name: string;
-  amount: string;
-  currency: string;
-};
+import { TokenItem } from '@/types';
 
-const SEARCH_HISTORY = ['BTC'];
-const POPULAR_ASSETS = [
-  { name: 'USD Tether', amount: '0,00', currency: 'USDT' },
-  { name: 'Bitcoin', amount: '0,00', currency: 'BTC' },
-  { name: 'Solana', amount: '0,00', currency: 'SOL' },
-  { name: 'Ethereum', amount: '0,00', currency: 'ETH' },
-  { name: 'Toncoin', amount: '0,00', currency: 'TON' },
-  { name: 'Arbitrum', amount: '0,00', currency: 'ARB' },
-];
-const SEARCH_LIST: TokenItem[] = [
-  { name: 'Aave', amount: '0,00', currency: 'AAVE' },
-  { name: 'Acala', amount: '0,00', currency: 'ACA' },
-  { name: 'Arcblock', amount: '0,00', currency: 'ABT' },
-  { name: 'Aion', amount: '0,00', currency: 'AION' },
-  { name: 'Algorand', amount: '0,00', currency: 'ALGO' },
-  { name: 'Auto', amount: '0,00', currency: 'AUTO' },
-  { name: 'USD Tether', amount: '0,00', currency: 'USDT' },
-  { name: 'Bitcoin', amount: '0,00', currency: 'BTC' },
-  { name: 'Solana', amount: '0,00', currency: 'SOL' },
-  { name: 'Ethereum', amount: '0,00', currency: 'ETH' },
-  { name: 'Toncoin', amount: '0,00', currency: 'TON' },
-  { name: 'Arbitrum', amount: '0,00', currency: 'ARB' },
-];
 const SYMBOL_LIST = [
   '1',
   'A',
@@ -68,23 +43,34 @@ const SYMBOL_LIST = [
 ];
 
 export interface UXTokenSelectScreenProps {
+  data?: TokenItem[];
   extended?: boolean;
   onSelect(token: TokenItem): void;
 }
 
-const UXTokenSelectScreen = ({ extended, onSelect }: UXTokenSelectScreenProps) => {
+const UXTokenSelectScreen = ({ data, extended, onSelect }: UXTokenSelectScreenProps) => {
   const [search, setSearch] = useState('');
   const [symbol, setSymbol] = useState('');
 
+  const { history, addToHistory, clearHistory } = useSearchHistoryStore();
+  const getBalanceByToken = useBalancesStore((state) => state.getBalanceByToken);
+
   useSetAppBg('white');
 
-  const tokens = SEARCH_LIST.filter((token) => {
-    const tokenName = token.name.toLowerCase() + '&' + token.currency.toLowerCase();
+  const handleSelect = (token: TokenItem) => {
+    addToHistory(token.symbol);
+    onSelect(token);
+  };
+
+  const tokens = data?.filter((token) => {
+    const tokenName = token.name.toLowerCase() + '&' + token.symbol.toLowerCase();
     const isSearch = tokenName.includes(search.toLowerCase());
     const isSymbol =
       symbol === '1' ? /\d/.test(tokenName) : tokenName.startsWith(symbol.toLowerCase());
     return isSearch && isSymbol;
   });
+
+  const popular = data?.filter((token) => token.popular);
 
   return (
     <div {...stylex.props(styles.base)}>
@@ -103,16 +89,16 @@ const UXTokenSelectScreen = ({ extended, onSelect }: UXTokenSelectScreenProps) =
           <div {...stylex.props(styles.column, styles.sm)}>
             <div {...stylex.props(styles.labelWrapper)}>
               <span {...stylex.props(styles.label)}>Search History</span>
-              <TrashIcon />
+              <TrashIcon {...stylex.props(styles.trashIcon)} onClick={clearHistory} />
             </div>
             <div {...stylex.props(styles.tagList)}>
-              {SEARCH_HISTORY.map((tag) => (
+              {history.map((item) => (
                 <div
-                  {...stylex.props(styles.tagWrapper, search === tag)}
-                  key={tag}
-                  onClick={() => setSearch(tag)}
+                  {...stylex.props(styles.tagWrapper, search === item)}
+                  key={item}
+                  onClick={() => setSearch(item)}
                 >
-                  <span {...stylex.props(styles.tag)}>{tag}</span>
+                  <span {...stylex.props(styles.tag)}>{item}</span>
                 </div>
               ))}
             </div>
@@ -122,13 +108,13 @@ const UXTokenSelectScreen = ({ extended, onSelect }: UXTokenSelectScreenProps) =
           <div {...stylex.props(styles.column, styles.sm)}>
             <span {...stylex.props(styles.label)}>Popular Assets</span>
             <div {...stylex.props(styles.tagList)}>
-              {POPULAR_ASSETS.map((tag) => (
+              {popular?.map((item) => (
                 <div
                   {...stylex.props(styles.tagWrapper)}
-                  key={tag.name}
-                  onClick={() => onSelect(tag)}
+                  key={item.symbol}
+                  onClick={() => handleSelect(item)}
                 >
-                  <span {...stylex.props(styles.tag)}>{tag.currency}</span>
+                  <span {...stylex.props(styles.tag)}>{item.symbol}</span>
                 </div>
               ))}
             </div>
@@ -150,15 +136,17 @@ const UXTokenSelectScreen = ({ extended, onSelect }: UXTokenSelectScreenProps) =
             <span {...stylex.props(styles.label)}>{extended ? symbol || 'ALL' : 'ASSET'}</span>
             {!extended && <span {...stylex.props(styles.label)}>AVAILABLE BALANCE</span>}
           </div>
-          {tokens.map((token) => (
-            <div {...stylex.props(styles.row)} key={token.currency} onClick={() => onSelect(token)}>
+          {tokens?.map((item) => (
+            <div {...stylex.props(styles.row)} key={item.symbol} onClick={() => handleSelect(item)}>
               <div {...stylex.props(styles.tokenWrapper)}>
-                <TokenIcon size='sm' name={token.name} />
-                <span {...stylex.props(styles.name)}>{token.name}</span>
+                <TokenIcon size='sm' name={item.symbol} />
+                <span {...stylex.props(styles.name)}>{item.name}</span>
               </div>
               <div {...stylex.props(styles.amountWrapper)}>
-                <span {...stylex.props(styles.amount)}>{token.amount}</span>{' '}
-                <span {...stylex.props(styles.currency)}>{token.currency}</span>
+                <span {...stylex.props(styles.amount)}>
+                  {getBalanceByToken(item.symbol)?.balance || 0}
+                </span>{' '}
+                <span {...stylex.props(styles.currency)}>{item.symbol}</span>
               </div>
             </div>
           ))}

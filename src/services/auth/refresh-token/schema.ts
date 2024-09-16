@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const RefreshTokenAPIRequestSchema = z.string().optional();
+export const RefreshTokenAPIRequestSchema = z.void();
 
 export const RefreshTokenAPIResponseSchema = z.object({
   access_token: z.string(),

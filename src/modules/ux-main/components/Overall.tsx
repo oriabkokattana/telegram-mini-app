@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useSwipeable } from 'react-swipeable';
 import * as TabsPrimitive from '@radix-ui/react-tabs';
 import * as stylex from '@stylexjs/stylex';
@@ -23,16 +23,28 @@ enum Period {
 
 const TABS_LEN = 2;
 
-const Overall = (): JSX.Element => {
+interface OverallProps {
+  allTimeProfitDiff?: number;
+  allTimeProfitUSD?: number;
+  dailyProfitDiff?: number;
+  dailyProfitUSD?: number;
+  feesSavingUSD?: number;
+  totalBalance?: number;
+}
+
+const Overall = ({
+  allTimeProfitDiff = 0,
+  allTimeProfitUSD = 0,
+  dailyProfitDiff = 0,
+  dailyProfitUSD = 0,
+  feesSavingUSD = 0,
+  totalBalance = 0,
+}: OverallProps): JSX.Element => {
   const utils = useUtils();
   const [period, setPeriod] = useState(Period.daily);
   const [currentIndex, setCurrentIndex] = useState(Tab.balance);
 
-  const { currency, currencyRate, setCurrency, setRates } = useSystemCurrencyStore();
-
-  useEffect(() => {
-    setRates({ BTC: 0.00002, ETH: 0.00025, USDT: 1 });
-  }, []);
+  const { currency, currencyRate, currencies, setCurrency } = useSystemCurrencyStore();
 
   const handleSwipe = (direction: 'left' | 'right') => {
     if (direction === 'left' && currentIndex < TABS_LEN - 1) {
@@ -76,16 +88,18 @@ const Overall = (): JSX.Element => {
           >
             <div {...stylex.props(styles.analytics)}>
               <span {...stylex.props(styles.amountWrapper, styles.amount)}>
-                {formatNumberWithCommas(32455 * currencyRate)}
+                {formatNumberWithCommas(totalBalance * currencyRate)}
               </span>
-              <Dropdown items={['BTC', 'USDT', 'ETH']} selected={currency} onSelect={setCurrency}>
+              <Dropdown items={currencies} selected={currency} onSelect={setCurrency}>
                 <span {...stylex.props(styles.amountWrapper, styles.currency)}>{currency}</span>
                 <ChevronDownIcon {...stylex.props(styles.chevronDownIcon)} />
               </Dropdown>
             </div>
             <div {...stylex.props(styles.changeWrapper)}>
               <span {...stylex.props(styles.change)}>
-                {period === Period.daily ? '+ 1,400.90 $ (+2%)' : '+ 100,400.90 $ (+2%)'}
+                {period === Period.daily
+                  ? `${dailyProfitDiff >= 0 ? '+' : '-'} ${Math.abs(dailyProfitUSD)} $ (${dailyProfitUSD >= 0 ? '+' : '-'}${Math.abs(dailyProfitUSD)}%)`
+                  : `${allTimeProfitDiff >= 0 ? '+' : '-'} ${Math.abs(allTimeProfitUSD)} $ (${allTimeProfitDiff >= 0 ? '+' : '-'}${Math.abs(allTimeProfitUSD)}%)`}
               </span>
               <span {...stylex.props(styles.badge)}>{period}</span>
             </div>
@@ -103,7 +117,7 @@ const Overall = (): JSX.Element => {
             forceMount
           >
             <div {...stylex.props(styles.amountWrapper)}>
-              <span {...stylex.props(styles.amount)}>2,455</span>{' '}
+              <span {...stylex.props(styles.amount)}>{feesSavingUSD}</span>{' '}
               <span {...stylex.props(styles.currency)}>USD</span>
             </div>
             <span {...stylex.props(styles.badge)}>Share</span>

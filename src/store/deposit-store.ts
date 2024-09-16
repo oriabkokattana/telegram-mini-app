@@ -1,8 +1,10 @@
 import { create, StateCreator } from 'zustand';
 
+import { ChainItem, TokenItem } from '@/types';
+
 type DepositState = {
-  token: string | null;
-  chain: string | null;
+  token: TokenItem | null;
+  chain: ChainItem | null;
 };
 
 type DepositAction = {

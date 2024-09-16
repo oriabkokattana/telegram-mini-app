@@ -2,8 +2,10 @@ import { z } from 'zod';
 
 export const BalancesAPIRequestSchema = z.void();
 
-const BalanceSchema = z.object({
+export const BalanceSchema = z.object({
   balance: z.number(),
+  balance_usd: z.number(),
+  price_change: z.number(),
   reserved_balance: z.number(),
 });
 

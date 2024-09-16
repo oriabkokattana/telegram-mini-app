@@ -17,25 +17,35 @@ export function api<Request, Response>({
   requestSchema,
   responseSchema,
 }: APICallPayload<Request, Response>) {
-  return async (requestData: Request, isQuery?: boolean) => {
+  return async (requestData?: {
+    data?: Request;
+    query?: string;
+    params?: Record<string, number | string | undefined>;
+  }) => {
     // Validate request data
-    requestSchema.parse(requestData);
+    requestSchema.parse(requestData?.data);
 
     // Prepare API call
     let url = path;
     let data = null;
+    let params = null;
 
     if (requestData) {
-      if (method === 'GET' || method === 'DELETE' || isQuery) {
-        url += `${requestData}`;
-      } else {
-        data = requestData;
+      if (requestData.query) {
+        url += `${requestData.query}`;
+      }
+      if (requestData.data) {
+        data = requestData.data;
+      }
+      if (requestData.params) {
+        params = requestData.params;
       }
     }
 
     const config: AxiosRequestConfig = {
       method,
       url,
+      params,
       data,
     };
 

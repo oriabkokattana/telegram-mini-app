@@ -40,7 +40,7 @@ export function useWalletAuth() {
     AxiosError<ErrorResponse>,
     z.infer<typeof WalletAuthAPIRequestSchema>
   >({
-    mutationFn: walletAuth,
+    mutationFn: (data) => walletAuth({ data }),
     onSuccess: (resp) => {
       const { access_token, refresh_token } = resp;
       setCredentials({ accessToken: access_token, refreshToken: refresh_token });

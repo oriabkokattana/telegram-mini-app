@@ -3,12 +3,11 @@ import { create, StateCreator } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { customStorage } from '@/utils/cloud-storage';
 
-type SystemCurrency = 'BTC' | 'USDT' | 'ETH';
-
 type SystemCurrencyState = {
-  currency: SystemCurrency;
+  currency: string;
   currencyRate: number;
-  rates: Record<SystemCurrency, number>;
+  currencies: string[];
+  rates: Record<string, number>;
 };
 
 type SystemCurrencyAction = {
@@ -22,9 +21,11 @@ const systemCurrencySlice: StateCreator<SystemCurrencyState & SystemCurrencyActi
 ) => ({
   currency: 'USDT',
   currencyRate: 1,
-  rates: { BTC: 0.00002, ETH: 0.00025, USDT: 1 },
-  setCurrency: (currency) => set({ currency, currencyRate: get().rates[currency] }),
-  setRates: (rates) => set({ rates }),
+  currencies: [],
+  rates: { USDT: 1 },
+  setCurrency: (currency) => set({ currency, currencyRate: 1 / get().rates[currency] }),
+  setRates: (rates) =>
+    set({ rates, currencies: Object.keys(rates), currencyRate: 1 / rates[get().currency] }),
 });
 
 const systemCurrencyStore = persist<SystemCurrencyState & SystemCurrencyAction>(

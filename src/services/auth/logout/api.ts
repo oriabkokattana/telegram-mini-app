@@ -38,7 +38,7 @@ export function useLogout() {
       if (isConnected) {
         await disconnectAsync({ connector });
       }
-      return logout(user?.refreshToken, true);
+      return logout({ params: { token: user?.refreshToken } });
     },
     onSuccess: (success) => {
       if (success) {

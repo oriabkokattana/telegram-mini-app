@@ -1,45 +1,32 @@
 import * as stylex from '@stylexjs/stylex';
 import Link from '@/modules/core/components/Link';
 import { TokenIcon } from '@/modules/core/design-system/token-icon';
+import { useBalancesStore } from '@/store/balances-store';
 import { formatNumberToWhiteSpaces } from '@/utils/numbers';
 
 import { styles } from './Assets.styles';
 
-const BTC_ASSET = {
-  name: 'BTC',
-  total: 5,
-  totalUsd: 290695,
-  changePercent: 4.19,
-};
-
-const ETH_ASSET = {
-  name: 'ETH',
-  total: 106,
-  totalUsd: 277104,
-  changePercent: -4.19,
-};
-
-const assetsArray = [BTC_ASSET, ETH_ASSET, BTC_ASSET, ETH_ASSET, BTC_ASSET];
-
 const Assets = () => {
+  const balances = useBalancesStore((state) => state.balances);
+
   return (
     <div {...stylex.props(styles.base)}>
-      {assetsArray.map((item, idx) => (
-        <Link {...stylex.props(styles.assetRow)} key={idx} to={`/ux/asset/${item.name}`}>
+      {Object.keys(balances).map((item, idx) => (
+        <Link {...stylex.props(styles.assetRow)} key={item} to={`/ux/asset/${item}`}>
           <div {...stylex.props(styles.token)}>
-            <TokenIcon size='md' variant='with-border' name={item.name} />
-            <span {...stylex.props(styles.tokenName)}>{item.name}</span>
+            <TokenIcon size='md' variant='with-border' name={item} />
+            <span {...stylex.props(styles.tokenName)}>{item}</span>
           </div>
           <div {...stylex.props(styles.amount)}>
-            <span {...stylex.props(styles.tokenName)}>{item.total}</span>
+            <span {...stylex.props(styles.tokenName)}>{balances[item].total_balance.balance}</span>
             <span {...stylex.props(styles.amountUsd)}>
-              ~${formatNumberToWhiteSpaces(item.totalUsd)}
+              ~${formatNumberToWhiteSpaces(balances[item].total_balance.balance_usd)}
             </span>
           </div>
           <div {...stylex.props(styles.badgeWrapper)}>
             <span
               {...stylex.props(styles.badge, idx % 2 === 0 ? styles.even : styles.odd)}
-            >{`${item.changePercent > 0 ? '+' : ''}${item.changePercent}%`}</span>
+            >{`${balances[item].total_balance.price_change >= 0 ? '+' : ''}${balances[item].total_balance.price_change}%`}</span>
           </div>
         </Link>
       ))}

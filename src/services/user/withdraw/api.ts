@@ -28,7 +28,7 @@ export function useWithdraw() {
     AxiosError<ErrorResponse>,
     z.infer<typeof WithdrawAPIRequestSchema>
   >({
-    mutationFn: (payload) => withdraw(payload),
+    mutationFn: (payload) => withdraw({ data: payload }),
     onSuccess: () => {
       toast.success('Withdrawl successful');
     },

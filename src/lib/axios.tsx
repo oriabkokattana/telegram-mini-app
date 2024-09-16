@@ -42,7 +42,9 @@ instance.interceptors.response.use(
     if (error.response?.status === 401 && originalRequest && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
-        const response = await getRefreshToken(useUserStore.getState().user?.refreshToken, true);
+        const response = await getRefreshToken({
+          params: { token: useUserStore.getState().user?.refreshToken },
+        });
 
         const payload = response;
 

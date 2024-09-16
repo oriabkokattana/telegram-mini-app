@@ -40,6 +40,7 @@ import Withdraw from './modules/withdraw/components/Withdraw';
 import WithdrawChainSelect from './modules/withdraw/components/WithdrawChainSelect';
 import WithdrawTokenSelect from './modules/withdraw/components/WithdrawTokenSelect';
 import { useOauthLogin } from './services/auth/oauth-login/api';
+import { useSearchHistoryStoreHydration } from './store/search-history-store';
 import { useSystemCurrencyStoreHydration } from './store/system-currency';
 import { useUserStoreHydration } from './store/user-store';
 
@@ -180,12 +181,9 @@ function App() {
             <Route path='asset/:asset' element={<UXAsset />} />
             <Route path='deposit-token-select' element={<UXDepositTokenSelect />} />
             <Route path='deposit' element={<UXDeposit />} />
-            <Route path='deposit/:asset' element={<UXDeposit />} />
             <Route path='withdraw-token-select' element={<UXWithdrawTokenSelect />} />
             <Route path='withdraw' element={<UXWithdraw />} />
-            <Route path='withdraw/:asset' element={<UXWithdraw />} />
             <Route path='swap' element={<UXSwap />} />
-            <Route path='swap/:asset' element={<UXSwap />} />
             <Route path='token-graph' element={<TokenGraph />} />
             <Route path='qr-code' element={<ScanQrCode />} />
           </Route>
@@ -203,6 +201,7 @@ function Layout() {
 
   const userHydrated = useUserStoreHydration();
   const systemCurrencyHydrated = useSystemCurrencyStoreHydration();
+  const searchHistoryStoreHydrated = useSearchHistoryStoreHydration();
 
   const swipeBehavior = useSwipeBehaviorRaw();
   const viewport = useViewportRaw();
@@ -218,7 +217,11 @@ function Layout() {
 
   return (
     <div style={{ width: 'var(--tg-viewport-width)', height: '100vh' }}>
-      {userHydrated && systemCurrencyHydrated ? <Outlet /> : <span>Loading...</span>}
+      {userHydrated && systemCurrencyHydrated && searchHistoryStoreHydrated ? (
+        <Outlet />
+      ) : (
+        <span>Loading...</span>
+      )}
     </div>
   );
 }

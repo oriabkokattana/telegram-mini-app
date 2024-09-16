@@ -23,6 +23,6 @@ const getCustodialWallet = api<
 export function useCustodialWallet(network?: string) {
   return useQuery<z.infer<typeof CustodialWalletAPIResponseSchema>, AxiosError<string>>({
     queryKey: ['profile', 'custodial-wallet', network],
-    queryFn: network ? () => getCustodialWallet(network) : skipToken,
+    queryFn: network ? () => getCustodialWallet({ params: { network } }) : skipToken,
   });
 }

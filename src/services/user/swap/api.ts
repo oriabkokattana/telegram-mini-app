@@ -28,7 +28,7 @@ export function useSwap() {
     AxiosError<ErrorResponse>,
     z.infer<typeof SwapAPIRequestSchema>
   >({
-    mutationFn: (payload) => swap(payload),
+    mutationFn: (payload) => swap({ data: payload }),
     onSuccess: () => {
       toast.success('Swap successful');
     },

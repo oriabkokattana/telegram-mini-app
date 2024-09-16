@@ -50,6 +50,11 @@ export const styles = stylex.create({
     height: '20px',
     backgroundColor: colors.grey1000,
   },
+  click: {
+    cursor: 'pointer',
+    userSelect: 'none',
+    '-webkit-user-select': 'none',
+  },
   descriptionWrapper: {
     width: '100%',
     display: 'flex',

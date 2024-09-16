@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import * as stylex from '@stylexjs/stylex';
 import ChevronDownIcon from '@/assets/chevron-down.svg?react';
@@ -8,41 +6,30 @@ import qrCode from '@/assets/qr-code.png';
 import ReceiptIcon from '@/assets/receipt.svg?react';
 import ThreeDotsIcon from '@/assets/three-dots.svg?react';
 import { useSetAppBg } from '@/hooks/use-set-app-bg';
-import UXChainSelectDialog, { ChainItem } from '@/modules/core/components/UXChainSelectDialog';
+import UXChainSelectDialog from '@/modules/core/components/UXChainSelectDialog';
 import { Button } from '@/modules/core/design-system/button';
 import { useCustodialWallet } from '@/services/user/custodial-wallet/api';
+import { useNetworks } from '@/services/user/networks/api';
 import { useDepositStore } from '@/store/deposit-store';
 import { transformAddress } from '@/utils/address';
+import { convertSeconds } from '@/utils/duration';
 
 import { styles } from './UXDeposit.styles';
 
 const UXDeposit = () => {
-  const [chain, setChain] = useState<ChainItem>();
-
-  const params = useParams();
-  const { data } = useCustodialWallet(chain?.value);
   const token = useDepositStore((state) => state.token);
-  const storeChain = useDepositStore((state) => state.chain);
-  const setStoreToken = useDepositStore((state) => state.setToken);
-  const setStoreChain = useDepositStore((state) => state.setChain);
+  const chain = useDepositStore((state) => state.chain);
+  const setChain = useDepositStore((state) => state.setChain);
+
+  const { data: custodialWalletData } = useCustodialWallet(chain?.name);
+  const { data: networksData } = useNetworks('deposit', token?.symbol);
 
   useSetAppBg('gray');
 
-  useEffect(() => {
-    if (params.asset) {
-      setStoreToken(params.asset);
-    }
-  }, [params]);
-
-  const onSetChain = (chain: ChainItem) => {
-    setStoreChain(chain.value);
-    setChain(chain);
-  };
-
   const onCopyAddress = () => {
-    if (data?.address) {
+    if (custodialWalletData?.address) {
       navigator.clipboard
-        .writeText(data?.address)
+        .writeText(custodialWalletData?.address)
         .then(() => toast.success('Copied to clipboard!'));
     } else {
       toast.error('Custody wallet address not defined');
@@ -56,13 +43,15 @@ const UXDeposit = () => {
   return (
     <div {...stylex.props(styles.base)}>
       <div {...stylex.props(styles.headerWrapper)}>
-        <span {...stylex.props(styles.header)}>Deposit {token}</span>
+        <span {...stylex.props(styles.header)}>Deposit {token?.name}</span>
         <ReceiptIcon />
       </div>
       <div {...stylex.props(styles.qrCodeWrapper)}>
         <img {...stylex.props(styles.qrCode)} src={qrCode} alt='QR Code' />
       </div>
-      <span {...stylex.props(styles.address)}>{transformAddress(data?.address)}</span>
+      <span {...stylex.props(styles.address)}>
+        {transformAddress(custodialWalletData?.address)}
+      </span>
       <div {...stylex.props(styles.actions)}>
         <Button size='sm' onClick={onCopyAddress}>
           <CopyIcon />
@@ -75,11 +64,17 @@ const UXDeposit = () => {
       <div {...stylex.props(styles.descriptionWrapper)}>
         <div {...stylex.props(styles.row)}>
           <span {...stylex.props(styles.label)}>Deposit Network</span>
-          <UXChainSelectDialog chain={storeChain} onSelect={onSetChain}>
+          <UXChainSelectDialog
+            data={networksData}
+            token={token}
+            chain={chain}
+            direction='deposit'
+            onSelect={setChain}
+          >
             <div {...stylex.props(styles.networkWrapper)}>
-              {chain?.prefix && (
+              {chain?.token_standard && (
                 <div {...stylex.props(styles.valueWrapper)}>
-                  <span {...stylex.props(styles.value)}>{chain.prefix}</span>
+                  <span {...stylex.props(styles.value)}>{chain.token_standard}</span>
                 </div>
               )}
               <span {...stylex.props(styles.network)}>{chain?.name || 'Select Network'}</span>
@@ -90,21 +85,23 @@ const UXDeposit = () => {
         <div {...stylex.props(styles.row)}>
           <span {...stylex.props(styles.label)}>Fee</span>
           <div {...stylex.props(styles.valueWrapper)}>
-            <span {...stylex.props(styles.value)}>0</span>{' '}
-            <span {...stylex.props(styles.currency)}>{token}</span>
+            <span {...stylex.props(styles.value)}>{chain?.token_fee_percent}</span>{' '}
+            <span {...stylex.props(styles.currency)}>%</span>
           </div>
         </div>
         <div {...stylex.props(styles.row)}>
           <span {...stylex.props(styles.label)}>Minimum deposit</span>
           <div {...stylex.props(styles.valueWrapper)}>
-            <span {...stylex.props(styles.value)}>&gt;0.01</span>{' '}
-            <span {...stylex.props(styles.currency)}>{token}</span>
+            <span {...stylex.props(styles.value)}>&gt;{chain?.token_min_deposit}</span>{' '}
+            <span {...stylex.props(styles.currency)}>{token?.symbol}</span>
           </div>
         </div>
         <div {...stylex.props(styles.row)}>
           <span {...stylex.props(styles.label)}>Processing Time</span>
           <div {...stylex.props(styles.valueWrapper)}>
-            <span {...stylex.props(styles.value)}>4 minutes</span>
+            <span {...stylex.props(styles.value)}>
+              {convertSeconds(chain?.processing_time_seconds)}
+            </span>
           </div>
         </div>
       </div>

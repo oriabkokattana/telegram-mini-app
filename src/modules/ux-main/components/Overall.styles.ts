@@ -10,6 +10,7 @@ import {
 
 export const styles = stylex.create({
   base: {
+    height: '267px',
     width: '100%',
     display: 'flex',
     flexDirection: 'column',

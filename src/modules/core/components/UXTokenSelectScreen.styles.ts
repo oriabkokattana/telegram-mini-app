@@ -49,7 +49,11 @@ export const styles = stylex.create({
     lineHeight: lineHeights.normal,
     textTransform: 'uppercase',
   },
+  trashIcon: {
+    cursor: 'pointer',
+  },
   tagList: {
+    minHeight: '32px',
     width: '100%',
     display: 'flex',
     flexWrap: 'wrap',

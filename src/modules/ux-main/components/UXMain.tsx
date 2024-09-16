@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import * as Avatar from '@radix-ui/react-avatar';
 import * as stylex from '@stylexjs/stylex';
 import AddIcon from '@/assets/add.svg?react';
@@ -10,7 +11,11 @@ import Link from '@/modules/core/components/Link';
 import { IconButton } from '@/modules/core/design-system/icon-button';
 import { Input } from '@/modules/core/design-system/input';
 import { useLogout } from '@/services/auth/logout/api';
-import avatar from '../media/avatar.jpeg';
+import { useBalances } from '@/services/user/balances/api';
+import { useProfile } from '@/services/user/profile/api';
+import { useSystemRates } from '@/services/user/system-rates/api';
+import { useBalancesStore } from '@/store/balances-store';
+import { useSystemCurrencyStore } from '@/store/system-currency';
 import Footer from './Footer';
 import Overall from './Overall';
 import Tables from './Tables';
@@ -19,15 +24,37 @@ import { styles } from './UXMain.styles';
 
 const UXMain = () => {
   const { mutate } = useLogout();
+  const systemRates = useSystemRates();
+  const profile = useProfile();
+  const balances = useBalances();
+
+  const setRates = useSystemCurrencyStore((state) => state.setRates);
+  const setBalances = useBalancesStore((state) => state.setBalances);
 
   useSetAppBg('white');
+
+  useEffect(() => {
+    if (systemRates.data && systemRates.isSuccess) {
+      setRates(systemRates.data);
+    }
+  }, [systemRates.data, systemRates.isSuccess]);
+
+  useEffect(() => {
+    if (balances.data && balances.isSuccess) {
+      setBalances(balances.data);
+    }
+  }, [balances.data, balances.isSuccess]);
 
   return (
     <div {...stylex.props(styles.base)}>
       <div {...stylex.props(styles.header)}>
         <Avatar.Root {...stylex.props(styles.avatarWrapper)} onClick={() => mutate()}>
-          <Avatar.Image {...stylex.props(styles.avatar)} src={avatar} alt='avatar' />
-          <Avatar.Fallback {...stylex.props(styles.fallback)}>U</Avatar.Fallback>
+          <Avatar.Image
+            {...stylex.props(styles.avatar)}
+            src={profile.data?.avatar_image}
+            alt='avatar'
+          />
+          <Avatar.Fallback {...stylex.props(styles.fallback)}>A</Avatar.Fallback>
         </Avatar.Root>
         <Input
           size='sm'
@@ -40,7 +67,14 @@ const UXMain = () => {
           <Link to='/ux/profile' />
         </IconButton>
       </div>
-      <Overall />
+      <Overall
+        allTimeProfitDiff={profile.data?.all_time_profit_diff}
+        allTimeProfitUSD={profile.data?.all_time_profit_usd}
+        dailyProfitDiff={profile.data?.daily_profit_diff}
+        dailyProfitUSD={profile.data?.daily_profit_usd}
+        feesSavingUSD={profile.data?.fees_saving_usd}
+        totalBalance={profile.data?.total_balance}
+      />
       <div {...stylex.props(styles.actions)}>
         <IconButton
           asChild

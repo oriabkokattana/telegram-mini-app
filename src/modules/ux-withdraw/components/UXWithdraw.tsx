@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState } from 'react';
 import { toast } from 'sonner';
 import * as Separator from '@radix-ui/react-separator';
 import * as stylex from '@stylexjs/stylex';
@@ -8,38 +7,31 @@ import QrCodeIcon from '@/assets/qr-code.svg?react';
 import ReceiptIcon from '@/assets/receipt.svg?react';
 import { useSetAppBg } from '@/hooks/use-set-app-bg';
 import Link from '@/modules/core/components/Link';
-import UXChainSelectDialog, { ChainItem } from '@/modules/core/components/UXChainSelectDialog';
+import UXChainSelectDialog from '@/modules/core/components/UXChainSelectDialog';
 import { Button } from '@/modules/core/design-system/button';
 import { Input } from '@/modules/core/design-system/input';
+import { useNetworks } from '@/services/user/networks/api';
 import { useWithdraw } from '@/services/user/withdraw/api';
+import { useBalancesStore } from '@/store/balances-store';
 import { useWithdrawStore } from '@/store/withdraw-store';
+import { convertSeconds } from '@/utils/duration';
 
 import { styles } from './UXWithdraw.styles';
 
 const UXWithdraw = () => {
-  const [chain, setChain] = useState<ChainItem>();
   const [address, setAddress] = useState('');
   const [amount, setAmount] = useState('');
+  const [currency, setCurrency] = useState<'token' | 'usdt'>('usdt');
 
-  const params = useParams();
-  const { mutate } = useWithdraw();
   const token = useWithdrawStore((state) => state.token);
-  const storeChain = useWithdrawStore((state) => state.chain);
-  const setStoreToken = useWithdrawStore((state) => state.setToken);
-  const setStoreChain = useWithdrawStore((state) => state.setChain);
+  const chain = useWithdrawStore((state) => state.chain);
+  const setChain = useWithdrawStore((state) => state.setChain);
+  const getBalanceByTokenAndChain = useBalancesStore((state) => state.getBalanceByTokenAndChain);
+
+  const { mutate } = useWithdraw();
+  const { data: networksData } = useNetworks('withdraw', token?.symbol);
 
   useSetAppBg('gray');
-
-  useEffect(() => {
-    if (params.asset) {
-      setStoreToken(params.asset);
-    }
-  }, [params]);
-
-  const onSetChain = (chain: ChainItem) => {
-    setStoreChain(chain.value);
-    setChain(chain);
-  };
 
   const onSend = () => {
     if (isNaN(Number(amount)) || !chain || !address || !token) {
@@ -47,20 +39,25 @@ const UXWithdraw = () => {
       return;
     }
 
-    mutate({ token, amount: Number(amount), network: chain.value, destination_address: address });
+    mutate({
+      token: token.symbol,
+      amount: Number(amount),
+      network: chain.name,
+      destination_address: address,
+    });
   };
 
   return (
     <div {...stylex.props(styles.base)}>
       <div {...stylex.props(styles.headerWrapper)}>
-        <span {...stylex.props(styles.header)}>Withdraw {token}</span>
+        <span {...stylex.props(styles.header)}>Withdraw {token?.name}</span>
         <ReceiptIcon />
       </div>
       <Input
         size='md'
         variant='grey300'
         w='100%'
-        label={`Address ${token}`}
+        label={`Address ${token?.symbol}`}
         rightElement={
           <Link {...stylex.props(styles.addressAction)} to='/ux/qr-code'>
             <QrCodeIcon />
@@ -70,7 +67,13 @@ const UXWithdraw = () => {
         value={address}
         onChange={(e) => setAddress(e.target.value)}
       />
-      <UXChainSelectDialog chain={storeChain} onSelect={onSetChain}>
+      <UXChainSelectDialog
+        data={networksData}
+        token={token}
+        chain={chain}
+        direction='withdraw'
+        onSelect={setChain}
+      >
         <Input
           size='md'
           variant='grey300'
@@ -78,7 +81,7 @@ const UXWithdraw = () => {
           label='Network for withdrawal'
           rightElement={<ChevronDownIcon />}
           placeholder='Select Network'
-          value={`${chain?.prefix ? `${chain.prefix} ` : ''}${chain?.name || ''}`}
+          value={`${chain?.token_standard ? `${chain.token_standard} ` : ''}${chain?.name || ''}`}
           readOnly
         />
       </UXChainSelectDialog>
@@ -87,12 +90,35 @@ const UXWithdraw = () => {
         variant='grey300'
         w='100%'
         label='Amount'
-        extraLabel={<span>Balance: $2,000</span>}
+        extraLabel={
+          <span>
+            Balance:{' '}
+            {currency === 'token'
+              ? getBalanceByTokenAndChain(token?.symbol || '', chain?.name || '')?.balance || 0
+              : `$${getBalanceByTokenAndChain(token?.symbol || '', chain?.name || '')?.balance_usd || 0}`}
+          </span>
+        }
         rightElement={
           <div {...stylex.props(styles.amountAction)}>
-            <span>{token}</span>
+            <span
+              {...stylex.props(styles.click)}
+              onClick={() => setCurrency(currency === 'token' ? 'usdt' : 'token')}
+            >
+              {currency === 'token' ? 'USDT' : token?.symbol}
+            </span>
             <Separator.Root {...stylex.props(styles.separator)} orientation='vertical' />
-            <span>MAX</span>
+            <span
+              {...stylex.props(styles.click)}
+              onClick={() =>
+                setAmount(
+                  (
+                    getBalanceByTokenAndChain(token?.symbol || '', chain?.name || '')?.balance || 0
+                  ).toString()
+                )
+              }
+            >
+              MAX
+            </span>
           </div>
         }
         placeholder='Min 0'
@@ -103,14 +129,16 @@ const UXWithdraw = () => {
         <div {...stylex.props(styles.row)}>
           <span {...stylex.props(styles.label)}>Fee</span>
           <div {...stylex.props(styles.valueWrapper)}>
-            <span {...stylex.props(styles.value)}>0</span>{' '}
-            <span {...stylex.props(styles.currency)}>{token}</span>
+            <span {...stylex.props(styles.value)}>{chain?.token_fee_percent}</span>{' '}
+            <span {...stylex.props(styles.currency)}>%</span>
           </div>
         </div>
         <div {...stylex.props(styles.row)}>
           <span {...stylex.props(styles.label)}>Processing Time</span>
           <div {...stylex.props(styles.valueWrapper)}>
-            <span {...stylex.props(styles.value)}>4 minutes</span>
+            <span {...stylex.props(styles.value)}>
+              {convertSeconds(chain?.processing_time_seconds)}
+            </span>
           </div>
         </div>
         <Button size='md' onClick={onSend}>

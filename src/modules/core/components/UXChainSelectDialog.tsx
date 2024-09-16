@@ -1,47 +1,34 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { useSwipeable } from 'react-swipeable';
 import * as Dialog from '@radix-ui/react-dialog';
 import * as stylex from '@stylexjs/stylex';
 import AlertCircleIcon from '@/assets/alert-circle.svg?react';
 import CollapseIcon from '@/assets/collapse.svg?react';
+import { convertSeconds } from '@/utils/duration';
 
 import { styles } from './UXChainSelectDialog.styles';
 
-type Animation = 'appear' | 'hide';
-export type ChainItem = {
-  name: string;
-  prefix?: string;
-  value: string;
-  time: string;
-  minimum: string;
-};
+import { ChainItem, TokenItem } from '@/types';
 
-const NETWORK_LIST: ChainItem[] = [
-  {
-    name: 'Tron',
-    prefix: '(TRC20)',
-    value: 'TRON',
-    time: '4 minutes',
-    minimum: '>0.01 USDT minimum',
-  },
-  {
-    name: 'Ethereum',
-    prefix: '(ERC20)',
-    value: 'ETH',
-    time: '4 minutes',
-    minimum: '>0.01 USDT minimum',
-  },
-  { name: 'Toncoin', value: 'TON', time: '5 minutes', minimum: '>0.01 USDT minimum' },
-  { name: 'Polygon', value: 'POLYGON', time: '6 minutes', minimum: '>0.01 USDT minimum' },
-];
+type Animation = 'appear' | 'hide';
 
 interface UXChainSelectDialogProps {
-  chain?: string | null;
+  data?: ChainItem[];
+  token: TokenItem | null;
+  chain: ChainItem | null;
+  direction: 'deposit' | 'withdraw';
   children: ReactNode;
   onSelect(network: ChainItem): void;
 }
 
-const UXChainSelectDialog = ({ chain, onSelect, children }: UXChainSelectDialogProps) => {
+const UXChainSelectDialog = ({
+  data,
+  token,
+  chain,
+  direction,
+  children,
+  onSelect,
+}: UXChainSelectDialogProps) => {
   const [animation, setAnimation] = useState<Animation>('appear');
   const [open, setOpen] = useState(!chain);
 
@@ -66,13 +53,6 @@ const UXChainSelectDialog = ({ chain, onSelect, children }: UXChainSelectDialogP
     preventScrollOnSwipe: true,
   });
 
-  useEffect(() => {
-    if (chain) {
-      const selectedChain = NETWORK_LIST.find((item) => item.value === chain);
-      selectedChain && onSelect(selectedChain);
-    }
-  }, [chain]);
-
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Trigger asChild>{children}</Dialog.Trigger>
@@ -87,15 +67,15 @@ const UXChainSelectDialog = ({ chain, onSelect, children }: UXChainSelectDialogP
             <AlertCircleIcon {...stylex.props(styles.alertCircleIcon)} />
             <Dialog.Description {...stylex.props(styles.warningWrapper)}>
               <span {...stylex.props(styles.warning)}>
-                Select the network you will use to deposit your
+                Select the network you will use to {direction} your
               </span>{' '}
-              <span {...stylex.props(styles.token)}>USDT</span>
+              <span {...stylex.props(styles.token)}>{token?.name}</span>
               <span {...stylex.props(styles.warning)}>
                 . Using the wrong network will result in a loss of funds.
               </span>
             </Dialog.Description>
           </div>
-          {NETWORK_LIST.map((chain) => (
+          {data?.map((chain) => (
             <div
               {...stylex.props(styles.chainWrapper)}
               key={chain.name}
@@ -103,9 +83,14 @@ const UXChainSelectDialog = ({ chain, onSelect, children }: UXChainSelectDialogP
             >
               <span
                 {...stylex.props(styles.chain)}
-              >{`${chain.name}${chain.prefix ? ` ${chain.prefix}` : ''}`}</span>
-              <span {...stylex.props(styles.description)}>{chain.time}</span>
-              <span {...stylex.props(styles.description)}>{chain.minimum}</span>
+              >{`${chain.name}${chain.token_standard ? ` ${chain.token_standard}` : ''}`}</span>
+              <span {...stylex.props(styles.description)}>
+                {convertSeconds(chain.processing_time_seconds)}
+              </span>
+              <span {...stylex.props(styles.description)}>
+                {direction === 'deposit' ? chain.min_deposit_usd : chain.min_withdraw_usd}{' '}
+                {token?.symbol} minimum
+              </span>
             </div>
           ))}
         </Dialog.Content>

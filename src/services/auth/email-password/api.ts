@@ -34,7 +34,7 @@ export function useEmailPassword() {
     AxiosError<ErrorResponse>,
     z.infer<typeof EmailPasswordAPIRequestSchema>
   >({
-    mutationFn: emailPassword,
+    mutationFn: (data) => emailPassword({ data }),
     onSuccess: (resp) => {
       const { access_token, refresh_token } = resp;
       setCredentials({ accessToken: access_token, refreshToken: refresh_token });

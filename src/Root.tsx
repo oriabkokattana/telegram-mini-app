@@ -10,7 +10,7 @@ import ErrorBoundaryPlaceholder from './modules/core/components/ErrorBoundary';
 import { config } from './utils/config';
 import App from './App';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
 
 function Root() {
   const debug = useLaunchParams().startParam === 'debug';
