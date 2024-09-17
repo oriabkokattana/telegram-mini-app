@@ -52,7 +52,7 @@ const UXAsset = () => {
             label='Deposit'
             Icon={ImportIcon}
           >
-            <Link to={`/ux/deposit/${asset}`} />
+            <Link to={`/deposit/${asset}`} />
           </IconButton>
           <IconButton
             asChild
@@ -62,7 +62,7 @@ const UXAsset = () => {
             label='Withdraw'
             Icon={ExportIcon}
           >
-            <Link to={`/ux/withdraw/${asset}`} />
+            <Link to={`/withdraw/${asset}`} />
           </IconButton>
           <IconButton
             asChild
@@ -73,7 +73,7 @@ const UXAsset = () => {
             stroke='grey1000'
             Icon={SwapIcon}
           >
-            <Link to={`/ux/swap/${asset}`} />
+            <Link to={`/swap/${asset}`} />
           </IconButton>
         </div>
       </div>

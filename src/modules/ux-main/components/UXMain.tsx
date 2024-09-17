@@ -64,7 +64,7 @@ const UXMain = () => {
           placeholder='Search'
         />
         <IconButton asChild size='sm' variant='light-gray' Icon={StatsChartIcon}>
-          <Link to='/ux/profile' />
+          <Link to='/profile' />
         </IconButton>
       </div>
       <Overall
@@ -84,7 +84,7 @@ const UXMain = () => {
           label='Deposit'
           Icon={ImportIcon}
         >
-          <Link to='/ux/deposit-token-select' />
+          <Link to='/deposit-token-select' />
         </IconButton>
         <IconButton
           asChild
@@ -94,7 +94,7 @@ const UXMain = () => {
           label='Withdraw'
           Icon={ExportIcon}
         >
-          <Link to='/ux/withdraw-token-select' />
+          <Link to='/withdraw-token-select' />
         </IconButton>
         <IconButton
           size='md'

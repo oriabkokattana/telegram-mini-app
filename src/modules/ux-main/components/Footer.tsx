@@ -18,15 +18,15 @@ const Footer = () => {
   return (
     <NavigationMenu.Root {...stylex.props(styles.base)}>
       <NavigationMenu.List {...stylex.props(styles.navigationList)}>
-        <NavigationMenuLink to='/ux/main' {...stylex.props(styles.link)}>
+        <NavigationMenuLink to='/' {...stylex.props(styles.link)}>
           <KattanaIcon {...stylex.props(styles.icon)} />
           <span {...stylex.props(styles.label)}>{Tab.home}</span>
         </NavigationMenuLink>
-        <NavigationMenuLink to='/ux/swap' {...stylex.props(styles.link)}>
+        <NavigationMenuLink to='/swap' {...stylex.props(styles.link)}>
           <SwapIcon {...stylex.props(styles.icon)} />
           <span {...stylex.props(styles.label)}>{Tab.swap}</span>
         </NavigationMenuLink>
-        <NavigationMenuLink to='/ux/portfolio' {...stylex.props(styles.link)}>
+        <NavigationMenuLink to='/portfolio' {...stylex.props(styles.link)}>
           <PersonIcon {...stylex.props(styles.icon)} />
           <span {...stylex.props(styles.label)}>{Tab.account}</span>
         </NavigationMenuLink>

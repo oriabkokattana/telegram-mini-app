@@ -13,7 +13,7 @@ const UXWithdrawTokenSelect = () => {
 
   const onSelect = (token: TokenItem) => {
     setToken(token);
-    navigate('/ux/withdraw');
+    navigate('/withdraw');
   };
 
   return <UXTokenSelectScreen data={data} onSelect={onSelect} />;

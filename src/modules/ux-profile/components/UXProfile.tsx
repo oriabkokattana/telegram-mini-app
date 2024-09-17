@@ -11,7 +11,7 @@ import Profit from './Profit';
 import { styles } from './UXProfile.styles';
 
 const UXProfile = () => {
-  const { currency, currencyRate, setCurrency } = useSystemCurrencyStore();
+  const { currency, currencyRate, currencies, setCurrency } = useSystemCurrencyStore();
 
   useSetAppBg('white');
 
@@ -24,7 +24,7 @@ const UXProfile = () => {
             <span {...stylex.props(styles.amount)}>
               {formatNumberWithCommas(32455 * currencyRate)}
             </span>
-            <Dropdown items={['BTC', 'USDT', 'ETH']} selected={currency} onSelect={setCurrency}>
+            <Dropdown items={currencies} selected={currency} onSelect={setCurrency}>
               <span {...stylex.props(styles.currency)}>{currency}</span>
               <ChevronDownIcon {...stylex.props(styles.chevronDownIcon)} />
             </Dropdown>

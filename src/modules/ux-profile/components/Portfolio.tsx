@@ -30,7 +30,7 @@ const Portfolio = () => {
               styles.r(role === 'primary' ? index : index - 2, role)
             )}
             key={token.name}
-            to={`/ux/asset/${token.name}`}
+            to={`/asset/${token.name}`}
           >
             <div {...stylex.props(styles.amountWrapper)}>
               <span {...stylex.props(styles[`${role}-amount`])}>

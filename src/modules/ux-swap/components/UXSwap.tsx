@@ -198,7 +198,7 @@ const UXSwap = () => {
         </span>
         <ProgressIcon />
       </div>
-      <div {...stylex.props(styles.savingsWrapper)} onClick={() => navigate('/ux/token-graph')}>
+      <div {...stylex.props(styles.savingsWrapper)} onClick={() => navigate('/token-graph')}>
         <div {...stylex.props(styles.savings)}>
           <span {...stylex.props(styles.title)}>Savings on this trade</span>
           <span {...stylex.props(styles.amount)}>1,000 $</span>

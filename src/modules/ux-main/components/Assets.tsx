@@ -12,7 +12,7 @@ const Assets = () => {
   return (
     <div {...stylex.props(styles.base)}>
       {Object.keys(balances).map((item, idx) => (
-        <Link {...stylex.props(styles.assetRow)} key={item} to={`/ux/asset/${item}`}>
+        <Link {...stylex.props(styles.assetRow)} key={item} to={`/asset/${item}`}>
           <div {...stylex.props(styles.token)}>
             <TokenIcon size='md' variant='with-border' name={item} />
             <span {...stylex.props(styles.tokenName)}>{item}</span>

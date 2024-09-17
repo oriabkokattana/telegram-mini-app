@@ -45,7 +45,7 @@ export function useWalletAuth() {
       const { access_token, refresh_token } = resp;
       setCredentials({ accessToken: access_token, refreshToken: refresh_token });
       toast.success('Successfully logged in!');
-      navigate(Routes.UX_MAIN);
+      navigate(Routes.HOME);
     },
     onError: (error) => {
       const errorMessage = error.response?.data.error;

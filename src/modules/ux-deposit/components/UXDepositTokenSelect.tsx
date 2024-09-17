@@ -13,7 +13,7 @@ const UXDepositTokenSelect = () => {
 
   const onSelect = (token: TokenItem) => {
     setToken(token);
-    navigate('/ux/deposit');
+    navigate('/deposit');
   };
 
   return <UXTokenSelectScreen data={data} extended onSelect={onSelect} />;
