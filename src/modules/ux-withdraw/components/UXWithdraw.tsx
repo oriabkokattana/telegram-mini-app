@@ -104,7 +104,7 @@ const UXWithdraw = () => {
               {...stylex.props(styles.click)}
               onClick={() => setCurrency(currency === 'token' ? 'usdt' : 'token')}
             >
-              {currency === 'token' ? 'USDT' : token?.symbol}
+              {currency === 'token' ? 'USD' : token?.symbol}
             </span>
             <Separator.Root {...stylex.props(styles.separator)} orientation='vertical' />
             <span
