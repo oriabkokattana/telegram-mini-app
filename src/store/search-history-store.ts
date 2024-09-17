@@ -14,7 +14,7 @@ type SearchHistoryAction = {
   clearHistory: () => void;
 };
 
-const systemCurrencySlice: StateCreator<SearchHistoryState & SearchHistoryAction> = (set, get) => ({
+const searchHistorySlice: StateCreator<SearchHistoryState & SearchHistoryAction> = (set, get) => ({
   history: [],
   addToHistory: (item) => {
     const history = get().history.filter((current) => current !== item);
@@ -28,12 +28,12 @@ const systemCurrencySlice: StateCreator<SearchHistoryState & SearchHistoryAction
   clearHistory: () => set({ history: [] }),
 });
 
-const systemCurrencyStore = persist<SearchHistoryState & SearchHistoryAction>(systemCurrencySlice, {
+const searchHistoryStore = persist<SearchHistoryState & SearchHistoryAction>(searchHistorySlice, {
   name: 'search-history',
   storage: createJSONStorage(() => customStorage),
 });
 
-export const useSearchHistoryStore = create(systemCurrencyStore);
+export const useSearchHistoryStore = create(searchHistoryStore);
 
 export const useSearchHistoryStoreHydration = () => {
   const [hydrated, setHydrated] = useState(false);

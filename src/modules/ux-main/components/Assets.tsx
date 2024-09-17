@@ -9,9 +9,19 @@ import { styles } from './Assets.styles';
 const Assets = () => {
   const balances = useBalancesStore((state) => state.balances);
 
+  const assetList = Object.keys(balances);
+
+  if (!assetList.length) {
+    return (
+      <div {...stylex.props(styles.base)}>
+        <span {...stylex.props(styles.placeholder)}>No data found</span>
+      </div>
+    );
+  }
+
   return (
     <div {...stylex.props(styles.base)}>
-      {Object.keys(balances).map((item, idx) => (
+      {assetList.map((item, idx) => (
         <Link {...stylex.props(styles.assetRow)} key={item} to={`/asset/${item}`}>
           <div {...stylex.props(styles.token)}>
             <TokenIcon size='md' variant='with-border' name={item} />

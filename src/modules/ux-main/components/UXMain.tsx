@@ -15,6 +15,7 @@ import { useBalances } from '@/services/user/balances/api';
 import { useProfile } from '@/services/user/profile/api';
 import { useSystemRates } from '@/services/user/system-rates/api';
 import { useBalancesStore } from '@/store/balances-store';
+import { useProfileStore } from '@/store/profile-store';
 import { useSystemCurrencyStore } from '@/store/system-currency';
 import Footer from './Footer';
 import Overall from './Overall';
@@ -29,6 +30,7 @@ const UXMain = () => {
   const balances = useBalances();
 
   const setRates = useSystemCurrencyStore((state) => state.setRates);
+  const setProfile = useProfileStore((state) => state.setProfile);
   const setBalances = useBalancesStore((state) => state.setBalances);
 
   useSetAppBg('white');
@@ -38,6 +40,12 @@ const UXMain = () => {
       setRates(systemRates.data);
     }
   }, [systemRates.data, systemRates.isSuccess]);
+
+  useEffect(() => {
+    if (profile.data && profile.isSuccess) {
+      setProfile(profile.data);
+    }
+  }, [balances.data, profile.isSuccess]);
 
   useEffect(() => {
     if (balances.data && balances.isSuccess) {
@@ -67,14 +75,7 @@ const UXMain = () => {
           <Link to='/profile' />
         </IconButton>
       </div>
-      <Overall
-        allTimeProfitDiff={profile.data?.all_time_profit_diff}
-        allTimeProfitUSD={profile.data?.all_time_profit_usd}
-        dailyProfitDiff={profile.data?.daily_profit_diff}
-        dailyProfitUSD={profile.data?.daily_profit_usd}
-        feesSavingUSD={profile.data?.fees_saving_usd}
-        totalBalance={profile.data?.total_balance}
-      />
+      <Overall />
       <div {...stylex.props(styles.actions)}>
         <IconButton
           asChild

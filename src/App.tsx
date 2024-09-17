@@ -65,14 +65,7 @@ function App() {
   return (
     <Router location={location} navigator={reactNavigator}>
       <Routes>
-        <Route
-          path='/'
-          element={
-            <PrivateRoute>
-              <Layout />
-            </PrivateRoute>
-          }
-        >
+        <Route path='/' element={<Layout />}>
           <Route index element={<UXMain />} />
           <Route path='profile' element={<UXProfile />} />
           <Route path='asset/:asset' element={<UXAsset />} />
@@ -123,7 +116,9 @@ function Layout() {
   return (
     <div style={{ width: 'var(--tg-viewport-width)', height: '100vh' }}>
       {userHydrated && systemCurrencyHydrated && searchHistoryStoreHydrated ? (
-        <Outlet />
+        <PrivateRoute>
+          <Outlet />
+        </PrivateRoute>
       ) : (
         <span>Loading...</span>
       )}

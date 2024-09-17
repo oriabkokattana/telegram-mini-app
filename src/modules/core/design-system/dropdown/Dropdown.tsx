@@ -18,16 +18,12 @@ export const Dropdown = ({ items, selected, onSelect, children }: DropdownProps)
         <button {...stylex.props(styles.trigger)}>{children}</button>
       </DropdownMenu.Trigger>
       <DropdownMenu.Portal>
-        <DropdownMenu.Content
-          {...stylex.props(styles.base)}
-          sideOffset={8}
-          avoidCollisions
-          onClick={(e) => e.preventDefault()}
-        >
+        <DropdownMenu.Content {...stylex.props(styles.base)} sideOffset={8} avoidCollisions>
           {items.map((item) => (
             <DropdownMenu.Item
               {...stylex.props(styles.item, selected === item && styles.selected)}
               key={item}
+              onClick={(e) => e.stopPropagation()}
               onSelect={() => onSelect(item)}
             >
               {item}

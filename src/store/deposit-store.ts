@@ -12,11 +12,11 @@ type DepositAction = {
   setChain: (chain: DepositState['chain']) => void;
 };
 
-const withdrawStoreSlice: StateCreator<DepositState & DepositAction> = (set) => ({
+const depositStoreSlice: StateCreator<DepositState & DepositAction> = (set) => ({
   token: null,
   chain: null,
   setToken: (token) => set({ token }),
   setChain: (chain) => set({ chain }),
 });
 
-export const useDepositStore = create(withdrawStoreSlice);
+export const useDepositStore = create(depositStoreSlice);

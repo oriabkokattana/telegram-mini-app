@@ -15,11 +15,11 @@ type BalancesAction = {
   getBalanceByTokenAndChain: (token: string, chain: string) => BalanceItem | undefined;
 };
 
-const withdrawStoreSlice: StateCreator<BalancesState & BalancesAction> = (set, get) => ({
+const balancesStoreSlice: StateCreator<BalancesState & BalancesAction> = (set, get) => ({
   balances: {},
   setBalances: (balances) => set({ balances }),
   getBalanceByToken: (token) => get().balances[token]?.total_balance,
   getBalanceByTokenAndChain: (token, chain) => get().balances[token]?.network_balances[chain],
 });
 
-export const useBalancesStore = create(withdrawStoreSlice);
+export const useBalancesStore = create(balancesStoreSlice);

@@ -5,6 +5,7 @@ import * as stylex from '@stylexjs/stylex';
 import { useUtils } from '@telegram-apps/sdk-react';
 import ChevronDownIcon from '@/assets/chevron-down.svg?react';
 import { Dropdown } from '@/modules/core/design-system/dropdown/Dropdown';
+import { useProfileStore } from '@/store/profile-store';
 import { useSystemCurrencyStore } from '@/store/system-currency';
 import { formatNumberWithCommas } from '@/utils/numbers';
 import allTimeChart from '../media/all-time.svg';
@@ -23,28 +24,13 @@ enum Period {
 
 const TABS_LEN = 2;
 
-interface OverallProps {
-  allTimeProfitDiff?: number;
-  allTimeProfitUSD?: number;
-  dailyProfitDiff?: number;
-  dailyProfitUSD?: number;
-  feesSavingUSD?: number;
-  totalBalance?: number;
-}
-
-const Overall = ({
-  allTimeProfitDiff = 0,
-  allTimeProfitUSD = 0,
-  dailyProfitDiff = 0,
-  dailyProfitUSD = 0,
-  feesSavingUSD = 0,
-  totalBalance = 0,
-}: OverallProps): JSX.Element => {
+const Overall = (): JSX.Element => {
   const utils = useUtils();
   const [period, setPeriod] = useState(Period.daily);
   const [currentIndex, setCurrentIndex] = useState(Tab.balance);
 
   const { currency, currencyRate, currencies, setCurrency } = useSystemCurrencyStore();
+  const profile = useProfileStore((state) => state.profile);
 
   const handleSwipe = (direction: 'left' | 'right') => {
     if (direction === 'left' && currentIndex < TABS_LEN - 1) {
@@ -78,52 +64,54 @@ const Overall = ({
         </TabsPrimitive.Trigger>
       </TabsPrimitive.List>
 
-      <div {...swipeHandlers} {...stylex.props(styles.swipeContainer)}>
-        <div {...stylex.props(styles.tabContentWrapper, styles.tx(currentIndex))}>
-          <TabsPrimitive.Content
-            {...stylex.props(styles.tabContent)}
-            value={Tab.balance.toString()}
-            onClick={onPeriodChange}
-            forceMount
-          >
-            <div {...stylex.props(styles.analytics)}>
-              <span {...stylex.props(styles.amountWrapper, styles.amount)}>
-                {formatNumberWithCommas(totalBalance * currencyRate)}
-              </span>
-              <Dropdown items={currencies} selected={currency} onSelect={setCurrency}>
-                <span {...stylex.props(styles.amountWrapper, styles.currency)}>{currency}</span>
-                <ChevronDownIcon {...stylex.props(styles.chevronDownIcon)} />
-              </Dropdown>
-            </div>
-            <div {...stylex.props(styles.changeWrapper)}>
-              <span {...stylex.props(styles.change)}>
-                {period === Period.daily
-                  ? `${dailyProfitDiff >= 0 ? '+' : '-'} ${Math.abs(dailyProfitUSD)} $ (${dailyProfitUSD >= 0 ? '+' : '-'}${Math.abs(dailyProfitUSD)}%)`
-                  : `${allTimeProfitDiff >= 0 ? '+' : '-'} ${Math.abs(allTimeProfitUSD)} $ (${allTimeProfitDiff >= 0 ? '+' : '-'}${Math.abs(allTimeProfitUSD)}%)`}
-              </span>
-              <span {...stylex.props(styles.badge)}>{period}</span>
-            </div>
-            <img
-              {...stylex.props(styles.chart)}
-              alt='chart'
-              src={period === Period.daily ? dailyChart : allTimeChart}
+      {profile && (
+        <div {...swipeHandlers} {...stylex.props(styles.swipeContainer)}>
+          <div {...stylex.props(styles.tabContentWrapper, styles.tx(currentIndex))}>
+            <TabsPrimitive.Content
+              {...stylex.props(styles.tabContent)}
+              value={Tab.balance.toString()}
               onClick={onPeriodChange}
-            />
-          </TabsPrimitive.Content>
-          <TabsPrimitive.Content
-            {...stylex.props(styles.tabContent)}
-            value={Tab.fees.toString()}
-            onClick={() => utils.shareURL('t.me/KattanaTG_bot/app', 'Successfully saved 2000$!')}
-            forceMount
-          >
-            <div {...stylex.props(styles.amountWrapper)}>
-              <span {...stylex.props(styles.amount)}>{feesSavingUSD}</span>{' '}
-              <span {...stylex.props(styles.currency)}>USD</span>
-            </div>
-            <span {...stylex.props(styles.badge)}>Share</span>
-          </TabsPrimitive.Content>
+              forceMount
+            >
+              <div {...stylex.props(styles.analytics)}>
+                <span {...stylex.props(styles.amountWrapper, styles.amount)}>
+                  {formatNumberWithCommas(profile.total_balance * currencyRate)}
+                </span>
+                <Dropdown items={currencies} selected={currency} onSelect={setCurrency}>
+                  <span {...stylex.props(styles.amountWrapper, styles.currency)}>{currency}</span>
+                  <ChevronDownIcon {...stylex.props(styles.chevronDownIcon)} />
+                </Dropdown>
+              </div>
+              <div {...stylex.props(styles.changeWrapper)}>
+                <span {...stylex.props(styles.change)}>
+                  {period === Period.daily
+                    ? `${profile.daily_profit_diff >= 0 ? '+' : '-'} ${Math.abs(profile.daily_profit_usd)} $ (${profile.daily_profit_diff >= 0 ? '+' : '-'}${Math.abs(profile.daily_profit_diff)}%)`
+                    : `${profile.all_time_profit_diff >= 0 ? '+' : '-'} ${Math.abs(profile.all_time_profit_usd)} $ (${profile.all_time_profit_diff >= 0 ? '+' : '-'}${Math.abs(profile.all_time_profit_diff)}%)`}
+                </span>
+                <span {...stylex.props(styles.badge)}>{period}</span>
+              </div>
+              <img
+                {...stylex.props(styles.chart)}
+                alt='chart'
+                src={period === Period.daily ? dailyChart : allTimeChart}
+                onClick={onPeriodChange}
+              />
+            </TabsPrimitive.Content>
+            <TabsPrimitive.Content
+              {...stylex.props(styles.tabContent)}
+              value={Tab.fees.toString()}
+              onClick={() => utils.shareURL('t.me/KattanaTG_bot/app', 'Successfully saved 2000$!')}
+              forceMount
+            >
+              <div {...stylex.props(styles.amountWrapper)}>
+                <span {...stylex.props(styles.amount)}>{profile.fees_saving_usd}</span>{' '}
+                <span {...stylex.props(styles.currency)}>USD</span>
+              </div>
+              <span {...stylex.props(styles.badge)}>Share</span>
+            </TabsPrimitive.Content>
+          </div>
         </div>
-      </div>
+      )}
     </TabsPrimitive.Root>
   );
 };

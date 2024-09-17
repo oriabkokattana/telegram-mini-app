@@ -80,4 +80,12 @@ export const styles = stylex.create({
   odd: {
     backgroundColor: colors.grey600,
   },
+  placeholder: {
+    margin: 'auto',
+    color: colors.grey900Text,
+    fontFamily: fontFamilies.roobertPro,
+    fontSize: fontSizes.text2,
+    fontWeight: fontWeights.medium,
+    lineHeight: lineHeights.big,
+  },
 });
