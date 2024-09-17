@@ -121,7 +121,7 @@ export const styles = stylex.create({
   },
   chart: {
     height: '164px',
-    marginTop: '-40px',
+    marginTop: '-49px',
     width: '100%',
     zIndex: 0,
     objectFit: 'cover',
