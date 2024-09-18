@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { isAddress } from 'viem';
 import * as Separator from '@radix-ui/react-separator';
@@ -23,7 +23,8 @@ const UXWithdraw = () => {
   const [address, setAddress] = useState('');
   const [amount, setAmount] = useState('');
   const [currency, setCurrency] = useState<'token' | 'usdt'>('usdt');
-  const popupTriggeredRef = useRef(false);
+  const addressRef = useRef<HTMLInputElement>(null);
+  const pasteTriggeredRef = useRef(false);
 
   const token = useWithdrawStore((state) => state.token);
   const chain = useWithdrawStore((state) => state.chain);
@@ -39,33 +40,30 @@ const UXWithdraw = () => {
   const popup = usePopup();
   const qrScanner = useQRScanner();
 
-  useEffect(() => {
-    const timer = window.setTimeout(() => {
-      console.log(utils.supports('readTextFromClipboard'));
-
-      if (chain && utils.supports('readTextFromClipboard') && !popupTriggeredRef.current) {
-        popupTriggeredRef.current = true;
-        utils
-          .readTextFromClipboard()
-          .then((text) => {
-            console.log(text);
-
-            if (text && isAddress(text)) {
-              popup
-                .open({
-                  title: 'Use copied address!',
-                  message: 'Do you want to use copied address for withdraw?',
-                  buttons: [{ type: 'ok', id: 'ok' }, { type: 'close' }],
-                })
-                .then((id) => id === 'ok' && setAddress(text));
-            }
-          })
-          .catch((e) => console.log(e));
-      }
-    }, 1000);
-
-    return () => window.clearTimeout(timer);
-  }, [chain]);
+  const onPasteAddress = () => {
+    if (!pasteTriggeredRef.current && utils.supports('readTextFromClipboard')) {
+      pasteTriggeredRef.current = true;
+      utils
+        .readTextFromClipboard()
+        .then((text) => {
+          if (text && isAddress(text)) {
+            popup
+              .open({
+                title: 'Use copied address!',
+                message: 'Do you want to use copied address for withdraw?',
+                buttons: [{ type: 'ok', id: 'ok' }, { type: 'close' }],
+              })
+              .then((id) => {
+                if (id === 'ok') {
+                  setAddress(text);
+                  addressRef.current?.blur();
+                }
+              });
+          }
+        })
+        .catch((e) => console.error(e));
+    }
+  };
 
   const onSend = () => {
     if (isNaN(Number(amount)) || !chain || !address || !token) {
@@ -104,6 +102,7 @@ const UXWithdraw = () => {
         <ReceiptIcon />
       </div>
       <Input
+        ref={addressRef}
         size='md'
         variant='grey300'
         w='100%'
@@ -116,6 +115,7 @@ const UXWithdraw = () => {
         placeholder='Enter address'
         value={address}
         onChange={(e) => setAddress(e.target.value)}
+        onClick={onPasteAddress}
       />
       <UXChainSelectDialog
         data={networksData}

@@ -24,7 +24,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     forwardedRef
   ) => {
     return (
-      <div {...stylex.props(styles.base, styles.w(w))} ref={forwardedRef}>
+      <div {...stylex.props(styles.base, styles.w(w))}>
         {label && (
           <div {...stylex.props(styles.labelWrapper)}>
             <Label.Root htmlFor={label}>{label}</Label.Root>
@@ -59,6 +59,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               type='text'
               id={label}
               {...props}
+              ref={forwardedRef}
             />
           )}
           {rightElement}
