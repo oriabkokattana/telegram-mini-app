@@ -11,10 +11,8 @@ import Link from '@/modules/core/components/Link';
 import { IconButton } from '@/modules/core/design-system/icon-button';
 import { Input } from '@/modules/core/design-system/input';
 import { useLogout } from '@/services/auth/logout/api';
-import { useBalances } from '@/services/user/balances/api';
 import { useProfile } from '@/services/user/profile/api';
 import { useSystemRates } from '@/services/user/system-rates/api';
-import { useBalancesStore } from '@/store/balances-store';
 import { useProfileStore } from '@/store/profile-store';
 import { useSystemCurrencyStore } from '@/store/system-currency';
 import Footer from './Footer';
@@ -27,11 +25,9 @@ const UXMain = () => {
   const { mutate } = useLogout();
   const systemRates = useSystemRates();
   const profile = useProfile();
-  const balances = useBalances();
 
   const setRates = useSystemCurrencyStore((state) => state.setRates);
   const setProfile = useProfileStore((state) => state.setProfile);
-  const setBalances = useBalancesStore((state) => state.setBalances);
 
   useSetAppBg('white');
 
@@ -45,13 +41,7 @@ const UXMain = () => {
     if (profile.data && profile.isSuccess) {
       setProfile(profile.data);
     }
-  }, [balances.data, profile.isSuccess]);
-
-  useEffect(() => {
-    if (balances.data && balances.isSuccess) {
-      setBalances(balances.data);
-    }
-  }, [balances.data, balances.isSuccess]);
+  }, [profile.data, profile.isSuccess]);
 
   return (
     <div {...stylex.props(styles.base)}>

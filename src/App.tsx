@@ -29,6 +29,8 @@ import UXSwap from './modules/ux-swap/components/UXSwap';
 import UXWithdraw from './modules/ux-withdraw/components/UXWithdraw';
 import UXWithdrawTokenSelect from './modules/ux-withdraw/components/UXWithdrawTokenSelect';
 import { useOauthLogin } from './services/auth/oauth-login/api';
+import { useBalances } from './services/user/balances/api';
+import { useBalancesStore } from './store/balances-store';
 import { useSearchHistoryStoreHydration } from './store/search-history-store';
 import { useSystemCurrencyStoreHydration } from './store/system-currency';
 import { useUserStoreHydration } from './store/user-store';
@@ -103,6 +105,15 @@ function Layout() {
 
   const swipeBehavior = useSwipeBehaviorRaw();
   const viewport = useViewportRaw();
+
+  const balances = useBalances();
+  const setBalances = useBalancesStore((state) => state.setBalances);
+
+  useEffect(() => {
+    if (balances.data && balances.isSuccess) {
+      setBalances(balances.data);
+    }
+  }, [balances.data, balances.isSuccess]);
 
   useEffect(() => {
     if (swipeBehavior.result && viewport.result) {

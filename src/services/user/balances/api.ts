@@ -25,5 +25,6 @@ export function useBalances() {
   return useQuery<z.infer<typeof BalancesAPIResponseSchema>, AxiosError<ErrorResponse>>({
     queryKey: ['profile', 'balances'],
     queryFn: () => getBalances(),
+    refetchInterval: 5000,
   });
 }
