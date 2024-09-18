@@ -27,3 +27,16 @@ export const formatNumberWithCommas = (number?: number) => {
     maximumFractionDigits: 4,
   }).format(number);
 };
+
+export const transformCommaToDot = (input: string): string => {
+  // Remove all commas first
+  let noCommas = input.replace(/,/g, '');
+
+  // Replace the last comma with a dot if a comma exists
+  if (input.includes(',')) {
+    const parts = input.split(',');
+    noCommas = parts.slice(0, -1).join('') + '.' + parts[parts.length - 1];
+  }
+
+  return noCommas;
+};

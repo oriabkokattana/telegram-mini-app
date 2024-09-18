@@ -16,6 +16,7 @@ import { useWithdraw } from '@/services/user/withdraw/api';
 import { useBalancesStore } from '@/store/balances-store';
 import { useWithdrawStore } from '@/store/withdraw-store';
 import { convertSeconds } from '@/utils/duration';
+import { transformCommaToDot } from '@/utils/numbers';
 
 import { styles } from './UXWithdraw.styles';
 
@@ -76,6 +77,13 @@ const UXWithdraw = () => {
       return;
     }
 
+    const currentBalance =
+      getBalanceByTokenAndChain(token?.symbol || '', chain?.name || '')?.balance || 0;
+
+    if (Number(amount) > currentBalance) {
+      toast.error('Entered amount is bigger than available balance');
+    }
+
     mutate({
       token: token.symbol,
       amount: Number(amount),
@@ -93,6 +101,18 @@ const UXWithdraw = () => {
       }
       qrScanner.close();
     });
+  };
+
+  const onAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target.value;
+
+    // Allow only numbers, commas, and dots
+    const cleanedInput = input.replace(/[^0-9.,]/g, '');
+
+    // Format the cleaned input: remove all commas except the last one and replace it with a dot
+    const formattedValue = transformCommaToDot(cleanedInput);
+
+    setAmount(formattedValue);
   };
 
   return (
@@ -172,8 +192,10 @@ const UXWithdraw = () => {
           </div>
         }
         placeholder='Min 0'
+        inputMode='decimal'
+        pattern='[0-9,.]*'
         value={amount}
-        onChange={(e) => setAmount(e.target.value)}
+        onChange={onAmountChange}
       />
       <div {...stylex.props(styles.descriptionWrapper)}>
         <div {...stylex.props(styles.row)}>
