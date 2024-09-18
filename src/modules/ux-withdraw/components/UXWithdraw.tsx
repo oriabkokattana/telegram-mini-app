@@ -41,6 +41,8 @@ const UXWithdraw = () => {
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
+      console.log(utils.supports('readTextFromClipboard'));
+
       if (chain && utils.supports('readTextFromClipboard') && !popupTriggeredRef.current) {
         popupTriggeredRef.current = true;
         utils.readTextFromClipboard().then((text) => {
