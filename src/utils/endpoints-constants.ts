@@ -16,4 +16,6 @@ export const Endpoints = {
   NETWORKS: '/networks',
   TOKENS: '/tokens',
   SYSTEM_RATES: '/system-rates',
+  TRANSACTIONS: '/private/assets/transactions',
+  ASSET_ANALYTICS: '/private/assets/analytics',
 };

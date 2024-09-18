@@ -58,6 +58,7 @@ export function api<Request, Response>({
 
     if (!result.success) {
       console.error('🚨 Safe-Parsing Failed ', result.error);
+      console.error('Endpoint: ', url);
       throw new Error(result.error.message);
     } else {
       return result.data;

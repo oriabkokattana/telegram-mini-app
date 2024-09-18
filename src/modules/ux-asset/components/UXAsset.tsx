@@ -11,6 +11,8 @@ import UXChartWithTimeframes from '@/modules/core/components/UXChartWithTimefram
 import UXTransactionHistory from '@/modules/core/components/UXTransactionHistory';
 import { IconButton } from '@/modules/core/design-system/icon-button';
 import { TokenIcon } from '@/modules/core/design-system/token-icon';
+import { useTransactions } from '@/services/user/transactions/api';
+import { transformTransactions } from '@/utils/transactions';
 import PriceInfo from './PriceInfo';
 
 import { styles } from './UXAsset.styles';
@@ -18,6 +20,8 @@ import { styles } from './UXAsset.styles';
 const UXAsset = () => {
   const [asset, setAsset] = useState('');
   const params = useParams();
+
+  const { data } = useTransactions(asset, !!asset);
 
   useSetAppBg('white');
 
@@ -87,7 +91,7 @@ const UXAsset = () => {
           <span {...stylex.props(styles.value)}>$30,000 per {asset}</span>
         </div>
       </div>
-      <UXTransactionHistory variant='collapsible' asset={asset} />
+      <UXTransactionHistory data={transformTransactions(data)} variant='collapsible' />
       <PriceInfo asset={asset} />
     </div>
   );

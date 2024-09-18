@@ -7,6 +7,7 @@ export const BalanceSchema = z.object({
   balance_usd: z.number(),
   price_change: z.number(),
   reserved_balance: z.number(),
+  reserved_balance_usd: z.number(),
 });
 
 const NetworkBalancesSchema = z.record(

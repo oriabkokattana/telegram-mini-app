@@ -7,12 +7,14 @@ import { formatNumberWithCommas } from '@/utils/numbers';
 
 import { styles } from './UXTransactionHistory.styles';
 
+import { TransactionItem } from '@/types';
+
 interface UXTransactionHistoryProps {
+  data?: TransactionItem[];
   variant: 'filterable' | 'collapsible';
-  asset?: string;
 }
 
-const UXTransactionHistory = ({ variant, asset }: UXTransactionHistoryProps) => {
+const UXTransactionHistory = ({ data, variant }: UXTransactionHistoryProps) => {
   const [open, setOpen] = useState(true);
   const listRef = useRef<HTMLDivElement>(null);
 
@@ -20,11 +22,6 @@ const UXTransactionHistory = ({ variant, asset }: UXTransactionHistoryProps) => 
     setOpen(!open);
     window.setTimeout(() => listRef.current?.scrollIntoView({ behavior: 'smooth' }));
   };
-
-  const TRANSACTIONS = [
-    { id: 1, action: `Deposit ${asset || 'BTC'} funds`, date: '12.08.2024, 12:10', amount: 0.0004 },
-    { id: 2, action: `Deposit ${asset || 'ETH'} funds`, date: '12.08.2024, 12:10', amount: 0.0004 },
-  ];
 
   return (
     <div {...stylex.props(styles.base, variant === 'collapsible' ? styles.border : undefined)}>
@@ -43,7 +40,7 @@ const UXTransactionHistory = ({ variant, asset }: UXTransactionHistoryProps) => 
       </div>
       {open && (
         <div {...stylex.props(styles.list)} ref={listRef}>
-          {TRANSACTIONS.map((transaction) => (
+          {data?.map((transaction) => (
             <div {...stylex.props(styles.row)} key={transaction.id}>
               <div {...stylex.props(styles.labelWrapper)}>
                 <span {...stylex.props(styles.action)}>{transaction.action}</span>

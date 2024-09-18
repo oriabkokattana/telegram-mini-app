@@ -2,9 +2,11 @@ import * as stylex from '@stylexjs/stylex';
 import ChevronDownIcon from '@/assets/chevron-down.svg?react';
 import { useSetAppBg } from '@/hooks/use-set-app-bg';
 import { Dropdown } from '@/modules/core/design-system/dropdown/Dropdown';
+import { useTransactions } from '@/services/user/transactions/api';
 import { useProfileStore } from '@/store/profile-store';
 import { useSystemCurrencyStore } from '@/store/system-currency';
 import { formatNumberWithCommas } from '@/utils/numbers';
+import { transformTransactions } from '@/utils/transactions';
 import UXTransactionHistory from '../../core/components/UXTransactionHistory';
 import Portfolio from './Portfolio';
 import Profit from './Profit';
@@ -12,8 +14,10 @@ import Profit from './Profit';
 import { styles } from './UXProfile.styles';
 
 const UXProfile = () => {
-  const { currency, currencyRate, currencies, setCurrency } = useSystemCurrencyStore();
   const profile = useProfileStore((state) => state.profile);
+
+  const { data } = useTransactions();
+  const { currency, currencyRate, currencies, setCurrency } = useSystemCurrencyStore();
 
   useSetAppBg('white');
 
@@ -44,7 +48,7 @@ const UXProfile = () => {
       </div>
       <Portfolio />
       <Profit />
-      <UXTransactionHistory variant='filterable' />
+      <UXTransactionHistory data={transformTransactions(data)} variant='filterable' />
     </div>
   );
 };
