@@ -70,6 +70,11 @@ const UXWithdraw = () => {
       return;
     }
 
+    if (!isAddress(address)) {
+      toast.error('Address not valid');
+      return;
+    }
+
     mutate({
       token: token.symbol,
       amount: Number(amount),
