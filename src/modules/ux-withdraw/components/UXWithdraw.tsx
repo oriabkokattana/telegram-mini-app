@@ -45,19 +45,22 @@ const UXWithdraw = () => {
 
       if (chain && utils.supports('readTextFromClipboard') && !popupTriggeredRef.current) {
         popupTriggeredRef.current = true;
-        utils.readTextFromClipboard().then((text) => {
-          console.log(text);
+        utils
+          .readTextFromClipboard()
+          .then((text) => {
+            console.log(text);
 
-          if (text && isAddress(text)) {
-            popup
-              .open({
-                title: 'Use copied address!',
-                message: 'Do you want to use copied address for withdraw?',
-                buttons: [{ type: 'ok', id: 'ok' }, { type: 'close' }],
-              })
-              .then((id) => id === 'ok' && setAddress(text));
-          }
-        });
+            if (text && isAddress(text)) {
+              popup
+                .open({
+                  title: 'Use copied address!',
+                  message: 'Do you want to use copied address for withdraw?',
+                  buttons: [{ type: 'ok', id: 'ok' }, { type: 'close' }],
+                })
+                .then((id) => id === 'ok' && setAddress(text));
+            }
+          })
+          .catch((e) => console.log(e));
       }
     }, 1000);
 
