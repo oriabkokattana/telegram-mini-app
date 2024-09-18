@@ -1,13 +1,15 @@
+import { useRef } from 'react';
+import { QRCode } from 'react-qrcode-logo';
 import { toast } from 'sonner';
 import * as stylex from '@stylexjs/stylex';
 import ChevronDownIcon from '@/assets/chevron-down.svg?react';
 import CopyIcon from '@/assets/copy.svg?react';
-import qrCode from '@/assets/qr-code.png';
 import ReceiptIcon from '@/assets/receipt.svg?react';
 import ThreeDotsIcon from '@/assets/three-dots.svg?react';
 import { useSetAppBg } from '@/hooks/use-set-app-bg';
 import UXChainSelectDialog from '@/modules/core/components/UXChainSelectDialog';
 import { Button } from '@/modules/core/design-system/button';
+import { QrCode } from '@/modules/core/design-system/qr-code';
 import { useCustodialWallet } from '@/services/user/custodial-wallet/api';
 import { useNetworks } from '@/services/user/networks/api';
 import { useDepositStore } from '@/store/deposit-store';
@@ -20,6 +22,7 @@ const UXDeposit = () => {
   const token = useDepositStore((state) => state.token);
   const chain = useDepositStore((state) => state.chain);
   const setChain = useDepositStore((state) => state.setChain);
+  const qrCodeRef = useRef<QRCode>(null);
 
   const { data: custodialWalletData } = useCustodialWallet(chain?.name);
   const { data: networksData } = useNetworks('deposit', token?.symbol);
@@ -38,6 +41,7 @@ const UXDeposit = () => {
 
   const onShare = () => {
     toast.success('Shared');
+    qrCodeRef.current?.download();
   };
 
   return (
@@ -47,7 +51,9 @@ const UXDeposit = () => {
         <ReceiptIcon />
       </div>
       <div {...stylex.props(styles.qrCodeWrapper)}>
-        <img {...stylex.props(styles.qrCode)} src={qrCode} alt='QR Code' />
+        {custodialWalletData?.address && (
+          <QrCode value={custodialWalletData.address} size={284} ref={qrCodeRef} />
+        )}
       </div>
       <span {...stylex.props(styles.address)}>
         {transformAddress(custodialWalletData?.address)}

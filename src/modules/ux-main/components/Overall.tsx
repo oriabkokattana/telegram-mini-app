@@ -4,7 +4,7 @@ import * as TabsPrimitive from '@radix-ui/react-tabs';
 import * as stylex from '@stylexjs/stylex';
 import { useUtils } from '@telegram-apps/sdk-react';
 import ChevronDownIcon from '@/assets/chevron-down.svg?react';
-import { Dropdown } from '@/modules/core/design-system/dropdown/Dropdown';
+import { Dropdown } from '@/modules/core/design-system/dropdown';
 import { useProfileStore } from '@/store/profile-store';
 import { useSystemCurrencyStore } from '@/store/system-currency';
 import { formatNumberWithCommas } from '@/utils/numbers';

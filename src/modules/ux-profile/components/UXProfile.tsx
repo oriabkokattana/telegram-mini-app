@@ -1,7 +1,7 @@
 import * as stylex from '@stylexjs/stylex';
 import ChevronDownIcon from '@/assets/chevron-down.svg?react';
 import { useSetAppBg } from '@/hooks/use-set-app-bg';
-import { Dropdown } from '@/modules/core/design-system/dropdown/Dropdown';
+import { Dropdown } from '@/modules/core/design-system/dropdown';
 import { useTransactions } from '@/services/user/transactions/api';
 import { useProfileStore } from '@/store/profile-store';
 import { useSystemCurrencyStore } from '@/store/system-currency';

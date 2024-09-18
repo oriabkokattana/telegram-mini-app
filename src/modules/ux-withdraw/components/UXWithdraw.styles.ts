@@ -32,9 +32,6 @@ export const styles = stylex.create({
     fontWeight: fontWeights.medium,
     lineHeight: lineHeights.default,
   },
-  addressAction: {
-    display: 'flex',
-  },
   amountAction: {
     display: 'flex',
     alignItems: 'center',

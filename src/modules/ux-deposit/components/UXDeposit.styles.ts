@@ -37,12 +37,6 @@ export const styles = stylex.create({
     height: '284px',
     margin: '0 8px',
   },
-  qrCode: {
-    width: '100%',
-    height: '100%',
-    objectFit: 'cover',
-    borderRadius: '24px',
-  },
   address: {
     height: '23px',
     color: colors.grey1000,

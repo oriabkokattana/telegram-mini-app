@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { useSwipeable } from 'react-swipeable';
 import * as Dialog from '@radix-ui/react-dialog';
 import * as stylex from '@stylexjs/stylex';
@@ -31,6 +31,12 @@ const UXChainSelectDialog = ({
 }: UXChainSelectDialogProps) => {
   const [animation, setAnimation] = useState<Animation>('appear');
   const [open, setOpen] = useState(!chain);
+
+  useEffect(() => {
+    if (chain) {
+      setOpen(false);
+    }
+  }, []);
 
   const onOpenChange = (value: boolean) => {
     if (!value) {

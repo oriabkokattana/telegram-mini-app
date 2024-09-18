@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
+import { isAddress } from 'viem';
 import * as Separator from '@radix-ui/react-separator';
 import * as stylex from '@stylexjs/stylex';
+import { usePopup, useQRScanner, useUtils } from '@telegram-apps/sdk-react';
 import ChevronDownIcon from '@/assets/chevron-down.svg?react';
 import QrCodeIcon from '@/assets/qr-code.svg?react';
 import ReceiptIcon from '@/assets/receipt.svg?react';
 import { useSetAppBg } from '@/hooks/use-set-app-bg';
-import Link from '@/modules/core/components/Link';
 import UXChainSelectDialog from '@/modules/core/components/UXChainSelectDialog';
 import { Button } from '@/modules/core/design-system/button';
 import { Input } from '@/modules/core/design-system/input';
@@ -22,6 +23,7 @@ const UXWithdraw = () => {
   const [address, setAddress] = useState('');
   const [amount, setAmount] = useState('');
   const [currency, setCurrency] = useState<'token' | 'usdt'>('usdt');
+  const popupTriggeredRef = useRef(false);
 
   const token = useWithdrawStore((state) => state.token);
   const chain = useWithdrawStore((state) => state.chain);
@@ -32,6 +34,33 @@ const UXWithdraw = () => {
   const { data: networksData } = useNetworks('withdraw', token?.symbol);
 
   useSetAppBg('gray');
+
+  const utils = useUtils();
+  const popup = usePopup();
+  const qrScanner = useQRScanner();
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      if (chain && utils.supports('readTextFromClipboard') && !popupTriggeredRef.current) {
+        popupTriggeredRef.current = true;
+        utils.readTextFromClipboard().then((text) => {
+          console.log(text);
+
+          if (text && isAddress(text)) {
+            popup
+              .open({
+                title: 'Use copied address!',
+                message: 'Do you want to use copied address for withdraw?',
+                buttons: [{ type: 'ok', id: 'ok' }, { type: 'close' }],
+              })
+              .then((id) => id === 'ok' && setAddress(text));
+          }
+        });
+      }
+    }, 1000);
+
+    return () => window.clearTimeout(timer);
+  }, [chain]);
 
   const onSend = () => {
     if (isNaN(Number(amount)) || !chain || !address || !token) {
@@ -47,6 +76,17 @@ const UXWithdraw = () => {
     });
   };
 
+  const onQrScan = () => {
+    qrScanner.open('Scan wallet address').then((text) => {
+      if (text && isAddress(text)) {
+        setAddress(text);
+      } else {
+        toast.error('Address not valid!');
+      }
+      qrScanner.close();
+    });
+  };
+
   return (
     <div {...stylex.props(styles.base)}>
       <div {...stylex.props(styles.headerWrapper)}>
@@ -59,9 +99,9 @@ const UXWithdraw = () => {
         w='100%'
         label={`Address ${token?.symbol}`}
         rightElement={
-          <Link {...stylex.props(styles.addressAction)} to='/qr-code'>
-            <QrCodeIcon />
-          </Link>
+          qrScanner.supports('open') ? (
+            <QrCodeIcon {...stylex.props(styles.click)} onClick={onQrScan} />
+          ) : undefined
         }
         placeholder='Enter address'
         value={address}
