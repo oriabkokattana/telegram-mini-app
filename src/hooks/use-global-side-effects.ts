@@ -26,5 +26,5 @@ export const useGlobalSideEffects = () => {
     }
   }, [swipeBehavior.result, viewport.result]);
 
-  return userHydrated && systemCurrencyHydrated && searchHistoryStoreHydrated;
+  return !userHydrated || !systemCurrencyHydrated || !searchHistoryStoreHydrated;
 };
