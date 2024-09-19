@@ -62,8 +62,16 @@ function App() {
 
   if (loading) {
     return (
-      <div style={{ height: '100vh', width: '100vw' }}>
-        <span style={{ margin: 'auto' }}>Loading...</span>
+      <div
+        style={{
+          height: '100vh',
+          width: '100vw',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <span>Loading...</span>
       </div>
     );
   }
