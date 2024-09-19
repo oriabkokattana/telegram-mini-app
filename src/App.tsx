@@ -61,7 +61,11 @@ function App() {
   const loading = useGlobalSideEffects();
 
   if (loading) {
-    return <span style={{ height: '100vh', width: '100vw', margin: 'auto' }}>Loading...</span>;
+    return (
+      <div style={{ height: '100vh', width: '100vw' }}>
+        <span style={{ margin: 'auto' }}>Loading...</span>
+      </div>
+    );
   }
 
   return (
