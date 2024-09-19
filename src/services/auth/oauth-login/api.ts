@@ -40,6 +40,7 @@ export function useOauthLogin() {
       sessionId && sessionId !== 'debug'
         ? () => oauthLogin({ params: { session_id: sessionId } })
         : skipToken,
+    staleTime: Infinity,
   });
 
   useEffect(() => {
