@@ -14,6 +14,7 @@ import {
   useViewportRaw,
 } from '@telegram-apps/sdk-react';
 import Link from '@/modules/core/components/Link';
+import { useGlobalSideEffects } from './hooks/use-global-side-effects';
 import { useSignAuth } from './hooks/use-sign-auth';
 import Authorization from './modules/authorization/components/Authorization';
 import { PrivateRoute } from './modules/core/components/PrivateRoute';
@@ -64,10 +65,23 @@ function App() {
     return () => navigator.detach();
   }, [navigator]);
 
+  const loading = useGlobalSideEffects();
+
+  if (loading) {
+    return <span style={{ margin: 'auto' }}>Loading...</span>;
+  }
+
   return (
     <Router location={location} navigator={reactNavigator}>
       <Routes>
-        <Route path='/' element={<Layout />}>
+        <Route
+          path='/'
+          element={
+            <PrivateRoute>
+              <Layout />
+            </PrivateRoute>
+          }
+        >
           <Route index element={<UXMain />} />
           <Route path='profile' element={<UXProfile />} />
           <Route path='asset/:asset' element={<UXAsset />} />
@@ -96,16 +110,6 @@ function App() {
 }
 
 function Layout() {
-  useOauthLogin();
-  useSignAuth();
-
-  const userHydrated = useUserStoreHydration();
-  const systemCurrencyHydrated = useSystemCurrencyStoreHydration();
-  const searchHistoryStoreHydrated = useSearchHistoryStoreHydration();
-
-  const swipeBehavior = useSwipeBehaviorRaw();
-  const viewport = useViewportRaw();
-
   const balances = useBalances();
   const setBalances = useBalancesStore((state) => state.setBalances);
 
@@ -115,24 +119,9 @@ function Layout() {
     }
   }, [balances.data, balances.isSuccess]);
 
-  useEffect(() => {
-    if (swipeBehavior.result && viewport.result) {
-      if (swipeBehavior.result.supports('disableVerticalSwipe')) {
-        swipeBehavior.result.disableVerticalSwipe();
-      }
-      viewport.result.expand();
-    }
-  }, [swipeBehavior.result, viewport.result]);
-
   return (
     <div style={{ width: 'var(--tg-viewport-width)', height: '100vh' }}>
-      {userHydrated && systemCurrencyHydrated && searchHistoryStoreHydrated ? (
-        <PrivateRoute>
-          <Outlet />
-        </PrivateRoute>
-      ) : (
-        <span>Loading...</span>
-      )}
+      <Outlet />
     </div>
   );
 }
