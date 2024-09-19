@@ -8,14 +8,11 @@ import {
   bindViewportCSSVars,
   initNavigator,
   useMiniApp,
-  useSwipeBehaviorRaw,
   useThemeParams,
   useViewport,
-  useViewportRaw,
 } from '@telegram-apps/sdk-react';
 import Link from '@/modules/core/components/Link';
 import { useGlobalSideEffects } from './hooks/use-global-side-effects';
-import { useSignAuth } from './hooks/use-sign-auth';
 import Authorization from './modules/authorization/components/Authorization';
 import { PrivateRoute } from './modules/core/components/PrivateRoute';
 import { PublicRoute } from './modules/core/components/PublicRoute';
@@ -29,12 +26,8 @@ import TokenGraph from './modules/ux-swap/components/TokenGraph';
 import UXSwap from './modules/ux-swap/components/UXSwap';
 import UXWithdraw from './modules/ux-withdraw/components/UXWithdraw';
 import UXWithdrawTokenSelect from './modules/ux-withdraw/components/UXWithdrawTokenSelect';
-import { useOauthLogin } from './services/auth/oauth-login/api';
 import { useBalances } from './services/user/balances/api';
 import { useBalancesStore } from './store/balances-store';
-import { useSearchHistoryStoreHydration } from './store/search-history-store';
-import { useSystemCurrencyStoreHydration } from './store/system-currency';
-import { useUserStoreHydration } from './store/user-store';
 
 function App() {
   const miniApp = useMiniApp();
