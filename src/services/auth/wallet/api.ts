@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import { useDisconnect } from 'wagmi';
@@ -7,7 +6,6 @@ import { useMutation } from '@tanstack/react-query';
 import { useUserStore } from '@/store/user-store';
 import { api } from '@/utils/api';
 import { Endpoints } from '@/utils/endpoints-constants';
-import { Routes } from '@/utils/routes-constants';
 import { WalletAuthAPIRequestSchema, WalletAuthAPIResponseSchema } from './schema';
 
 const WalletAuthRequest = WalletAuthAPIRequestSchema;
@@ -30,8 +28,6 @@ export const walletAuth = api<
 });
 
 export function useWalletAuth() {
-  const navigate = useNavigate();
-
   const { disconnect } = useDisconnect();
   const { setCredentials } = useUserStore();
 
@@ -45,7 +41,6 @@ export function useWalletAuth() {
       const { access_token, refresh_token } = resp;
       setCredentials({ accessToken: access_token, refreshToken: refresh_token });
       toast.success('Successfully logged in!');
-      navigate(Routes.HOME);
     },
     onError: (error) => {
       const errorMessage = error.response?.data.error;

@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -8,7 +7,6 @@ import { useInitData } from '@telegram-apps/sdk-react';
 import { useUserStore } from '@/store/user-store';
 import { api } from '@/utils/api';
 import { Endpoints } from '@/utils/endpoints-constants';
-import { Routes } from '@/utils/routes-constants';
 import { OAuthLoginAPIRequestSchema, OAuthLoginAPIResponseSchema } from './schema';
 
 const OAuthLoginRequest = OAuthLoginAPIRequestSchema;
@@ -28,12 +26,13 @@ const oauthLogin = api<z.infer<typeof OAuthLoginRequest>, z.infer<typeof OAuthLo
 });
 
 export function useOauthLogin() {
-  const navigate = useNavigate();
   const initData = useInitData();
 
   const { setCredentials } = useUserStore();
 
   const sessionId = initData?.startParam;
+
+  console.log(sessionId);
 
   const query = useQuery<z.infer<typeof OAuthLoginAPIResponseSchema>, AxiosError<ErrorResponse>>({
     queryKey: ['auth', 'oauth', sessionId],
@@ -48,7 +47,6 @@ export function useOauthLogin() {
       const { access_token, refresh_token } = query.data;
       setCredentials({ accessToken: access_token, refreshToken: refresh_token });
       toast.success('Successfully logged in!');
-      navigate(Routes.HOME);
     } else if (query.isError) {
       const errorMessage = query.error.response?.data.error;
       toast.error(errorMessage);
