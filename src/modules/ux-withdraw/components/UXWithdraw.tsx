@@ -33,6 +33,9 @@ const UXWithdraw = () => {
   const getActualBalanceByTokenAndChain = useBalancesStore(
     (state) => state.getActualBalanceByTokenAndChain
   );
+  const getTotalUSDBalanceByTokenAndChain = useBalancesStore(
+    (state) => state.getTotalUSDBalanceByTokenAndChain
+  );
 
   const { mutate } = useWithdraw();
   const { data: networksData } = useNetworks('withdraw', token?.symbol);
@@ -166,7 +169,7 @@ const UXWithdraw = () => {
             Balance:{' '}
             {currency === 'token'
               ? getActualBalanceByTokenAndChain(token?.symbol, chain?.name)
-              : `$${getActualBalanceByTokenAndChain(token?.symbol, chain?.name)}`}
+              : `$${getTotalUSDBalanceByTokenAndChain(token?.symbol, chain?.name)}`}
           </span>
         }
         rightElement={

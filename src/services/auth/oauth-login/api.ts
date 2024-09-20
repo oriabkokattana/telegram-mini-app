@@ -32,8 +32,6 @@ export function useOauthLogin() {
 
   const sessionId = initData?.startParam;
 
-  console.log(sessionId);
-
   const query = useQuery<z.infer<typeof OAuthLoginAPIResponseSchema>, AxiosError<ErrorResponse>>({
     queryKey: ['auth', 'oauth', sessionId],
     queryFn:
