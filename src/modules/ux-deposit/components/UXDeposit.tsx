@@ -91,14 +91,14 @@ const UXDeposit = () => {
         <div {...stylex.props(styles.row)}>
           <span {...stylex.props(styles.label)}>Fee</span>
           <div {...stylex.props(styles.valueWrapper)}>
-            <span {...stylex.props(styles.value)}>{chain?.token_fee_percent}</span>{' '}
+            <span {...stylex.props(styles.value)}>{chain?.token_fee_percent || 0}</span>{' '}
             <span {...stylex.props(styles.currency)}>%</span>
           </div>
         </div>
         <div {...stylex.props(styles.row)}>
           <span {...stylex.props(styles.label)}>Minimum deposit</span>
           <div {...stylex.props(styles.valueWrapper)}>
-            <span {...stylex.props(styles.value)}>&gt;{chain?.token_min_deposit}</span>{' '}
+            <span {...stylex.props(styles.value)}>&gt;{chain?.token_min_deposit || 0}</span>{' '}
             <span {...stylex.props(styles.currency)}>{token?.symbol}</span>
           </div>
         </div>

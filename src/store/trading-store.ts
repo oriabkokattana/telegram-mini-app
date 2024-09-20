@@ -20,7 +20,7 @@ type TradingAction = {
   rotate: () => void;
 };
 
-const tradingStoreSlice: StateCreator<TradingState & TradingAction> = (set, get) => ({
+const tradingStoreSlice: StateCreator<TradingState & TradingAction> = (set) => ({
   base: 'BTC',
   baseBalance: 270,
   baseAmount: '',
@@ -34,14 +34,14 @@ const tradingStoreSlice: StateCreator<TradingState & TradingAction> = (set, get)
   setQuoteBalance: (quoteBalance) => set({ quoteBalance }),
   setQuoteAmount: (quoteAmount) => set({ quoteAmount }),
   rotate: () =>
-    set({
-      base: get().quote,
-      baseBalance: get().quoteBalance,
-      baseAmount: get().quoteAmount,
-      quote: get().base,
-      quoteBalance: get().quoteBalance,
-      quoteAmount: get().baseAmount,
-    }),
+    set((state) => ({
+      base: state.quote,
+      baseBalance: state.quoteBalance,
+      baseAmount: state.quoteAmount,
+      quote: state.base,
+      quoteBalance: state.quoteBalance,
+      quoteAmount: state.baseAmount,
+    })),
 });
 
 export const useTradingStore = create(

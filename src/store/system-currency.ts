@@ -17,10 +17,7 @@ type SystemCurrencyAction = {
   setRates: (rates: SystemCurrencyState['rates']) => void;
 };
 
-const systemCurrencySlice: StateCreator<SystemCurrencyState & SystemCurrencyAction> = (
-  set,
-  get
-) => ({
+const systemCurrencySlice: StateCreator<SystemCurrencyState & SystemCurrencyAction> = (set) => ({
   currency: 'USDT',
   currencyRate: 1,
   currencies: [],
@@ -34,13 +31,14 @@ const systemCurrencySlice: StateCreator<SystemCurrencyState & SystemCurrencyActi
       price_usd: 1,
     },
   },
-  setCurrency: (currency) => set({ currency, currencyRate: 1 / get().rates[currency].price_usd }),
+  setCurrency: (currency) =>
+    set((state) => ({ currency, currencyRate: 1 / state.rates[currency].price_usd })),
   setRates: (rates) =>
-    set({
+    set((state) => ({
       rates,
       currencies: Object.keys(rates),
-      currencyRate: 1 / rates[get().currency].price_usd,
-    }),
+      currencyRate: 1 / rates[state.currency].price_usd,
+    })),
 });
 
 const systemCurrencyStore = persist<SystemCurrencyState & SystemCurrencyAction>(

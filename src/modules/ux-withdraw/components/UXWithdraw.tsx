@@ -30,7 +30,9 @@ const UXWithdraw = () => {
   const token = useWithdrawStore((state) => state.token);
   const chain = useWithdrawStore((state) => state.chain);
   const setChain = useWithdrawStore((state) => state.setChain);
-  const getBalanceByTokenAndChain = useBalancesStore((state) => state.getBalanceByTokenAndChain);
+  const getActualBalanceByTokenAndChain = useBalancesStore(
+    (state) => state.getActualBalanceByTokenAndChain
+  );
 
   const { mutate } = useWithdraw();
   const { data: networksData } = useNetworks('withdraw', token?.symbol);
@@ -77,8 +79,7 @@ const UXWithdraw = () => {
       return;
     }
 
-    const currentBalance =
-      getBalanceByTokenAndChain(token?.symbol || '', chain?.name || '')?.balance || 0;
+    const currentBalance = getActualBalanceByTokenAndChain(token?.symbol, chain?.name);
 
     if (Number(amount) > currentBalance) {
       toast.error('Entered amount is bigger than available balance');
@@ -164,8 +165,8 @@ const UXWithdraw = () => {
           <span>
             Balance:{' '}
             {currency === 'token'
-              ? getBalanceByTokenAndChain(token?.symbol || '', chain?.name || '')?.balance || 0
-              : `$${getBalanceByTokenAndChain(token?.symbol || '', chain?.name || '')?.balance_usd || 0}`}
+              ? getActualBalanceByTokenAndChain(token?.symbol, chain?.name)
+              : `$${getActualBalanceByTokenAndChain(token?.symbol, chain?.name)}`}
           </span>
         }
         rightElement={
@@ -180,11 +181,7 @@ const UXWithdraw = () => {
             <span
               {...stylex.props(styles.click)}
               onClick={() =>
-                setAmount(
-                  (
-                    getBalanceByTokenAndChain(token?.symbol || '', chain?.name || '')?.balance || 0
-                  ).toString()
-                )
+                setAmount(getActualBalanceByTokenAndChain(token?.symbol, chain?.name).toString())
               }
             >
               MAX
@@ -201,7 +198,7 @@ const UXWithdraw = () => {
         <div {...stylex.props(styles.row)}>
           <span {...stylex.props(styles.label)}>Fee</span>
           <div {...stylex.props(styles.valueWrapper)}>
-            <span {...stylex.props(styles.value)}>{chain?.token_fee_percent}</span>{' '}
+            <span {...stylex.props(styles.value)}>{chain?.token_fee_percent || 0}</span>{' '}
             <span {...stylex.props(styles.currency)}>%</span>
           </div>
         </div>

@@ -1,6 +1,5 @@
 import { useEffect, useMemo } from 'react';
 import { Outlet, Route, Router, Routes } from 'react-router-dom';
-import { Box, Heading, Text } from '@radix-ui/themes';
 import { useIntegration } from '@telegram-apps/react-router-integration';
 import {
   bindMiniAppCSSVars,
@@ -133,12 +132,21 @@ function Layout() {
 
 function NoMatch() {
   return (
-    <Box>
-      <Heading as='h2'>Nothing to see here!</Heading>
-      <Text as='p'>
+    <div
+      style={{
+        height: '100vh',
+        width: '100vw',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <h2>Nothing to see here!</h2>
+      <p>
         <Link to='/'>Go to the home page</Link>
-      </Text>
-    </Box>
+      </p>
+    </div>
   );
 }
 

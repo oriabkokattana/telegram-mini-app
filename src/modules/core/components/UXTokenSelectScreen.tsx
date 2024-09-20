@@ -3,8 +3,8 @@ import * as stylex from '@stylexjs/stylex';
 import SearchIcon from '@/assets/search.svg?react';
 import TrashIcon from '@/assets/trash.svg?react';
 import { useSetAppBg } from '@/hooks/use-set-app-bg';
-import { useBalancesStore } from '@/store/balances-store';
 import { useSearchHistoryStore } from '@/store/search-history-store';
+import { getTokenBalanceList } from '@/utils/balances';
 import { Input } from '../design-system/input';
 import { TokenIcon } from '../design-system/token-icon';
 
@@ -53,7 +53,6 @@ const UXTokenSelectScreen = ({ data, extended, onSelect }: UXTokenSelectScreenPr
   const [symbol, setSymbol] = useState('');
 
   const { history, addToHistory, clearHistory } = useSearchHistoryStore();
-  const getBalanceByToken = useBalancesStore((state) => state.getBalanceByToken);
 
   useSetAppBg('white');
 
@@ -62,7 +61,7 @@ const UXTokenSelectScreen = ({ data, extended, onSelect }: UXTokenSelectScreenPr
     onSelect(token);
   };
 
-  const tokens = data?.filter((token) => {
+  const tokens = getTokenBalanceList(data, !extended)?.filter((token) => {
     const tokenName = token.name.toLowerCase() + '&' + token.symbol.toLowerCase();
     const isSearch = tokenName.includes(search.toLowerCase());
     const isSymbol =
@@ -143,9 +142,7 @@ const UXTokenSelectScreen = ({ data, extended, onSelect }: UXTokenSelectScreenPr
                 <span {...stylex.props(styles.name)}>{item.name}</span>
               </div>
               <div {...stylex.props(styles.amountWrapper)}>
-                <span {...stylex.props(styles.amount)}>
-                  {getBalanceByToken(item.symbol)?.balance || 0}
-                </span>{' '}
+                <span {...stylex.props(styles.amount)}>{item.balance}</span>{' '}
                 <span {...stylex.props(styles.currency)}>{item.symbol}</span>
               </div>
             </div>
