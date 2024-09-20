@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { isAddress } from 'viem';
 import * as Separator from '@radix-ui/react-separator';
@@ -39,6 +39,8 @@ const UXWithdraw = () => {
 
   const { mutate } = useWithdraw();
   const { data: networksData } = useNetworks('withdraw', token?.symbol);
+
+  useEffect(() => () => setChain(null), []);
 
   useSetAppBg('gray');
 

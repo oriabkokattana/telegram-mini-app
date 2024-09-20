@@ -50,6 +50,7 @@ export const styles = stylex.create({
     gap: '4px',
   },
   amountUsd: {
+    textAlign: 'right',
     color: colors.grey800,
     fontFamily: fontFamilies.roobertPro,
     fontSize: fontSizes.text1,

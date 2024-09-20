@@ -57,7 +57,7 @@ const Tables = (): JSX.Element => {
           >
             My Assets
           </TabsPrimitive.Trigger>
-          <TabsPrimitive.Trigger
+          {/* <TabsPrimitive.Trigger
             {...stylex.props(styles.tabTrigger)}
             value={Tab.watchlist.toString()}
           >
@@ -74,7 +74,7 @@ const Tables = (): JSX.Element => {
             value={Tab.openOrders.toString()}
           >
             Open Orders
-          </TabsPrimitive.Trigger>
+          </TabsPrimitive.Trigger> */}
         </TabsPrimitive.List>
       </div>
 
@@ -87,7 +87,7 @@ const Tables = (): JSX.Element => {
           >
             <Assets />
           </TabsPrimitive.Content>
-          <TabsPrimitive.Content
+          {/* <TabsPrimitive.Content
             {...stylex.props(styles.tabContent)}
             value={Tab.watchlist.toString()}
           ></TabsPrimitive.Content>
@@ -98,7 +98,7 @@ const Tables = (): JSX.Element => {
           <TabsPrimitive.Content
             {...stylex.props(styles.tabContent)}
             value={Tab.openOrders.toString()}
-          ></TabsPrimitive.Content>
+          ></TabsPrimitive.Content> */}
         </div>
       </div>
     </TabsPrimitive.Root>

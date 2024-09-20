@@ -9,17 +9,19 @@ export const getTokenBalanceList = (data?: TokenItem[], excludeZero?: boolean) =
 
   const tokens = [...data];
   const getActualBalanceByToken = useBalancesStore.getState().getActualBalanceByToken;
+  const getActualUSDBalanceByToken = useBalancesStore.getState().getActualUSDBalanceByToken;
 
   const list = tokens.map((item) => {
     return {
       name: item.name,
       symbol: item.symbol,
       balance: getActualBalanceByToken(item.symbol),
+      balanceUSD: getActualUSDBalanceByToken(item.symbol),
       popular: item.popular,
       precision: item.precision,
     };
   });
-  list.sort((a, b) => b.balance - a.balance);
+  list.sort((a, b) => b.balanceUSD - a.balanceUSD);
 
   return excludeZero ? list.filter((item) => !!item.balance) : list;
 };

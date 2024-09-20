@@ -4,7 +4,7 @@ import SearchIcon from '@/assets/search.svg?react';
 import TrashIcon from '@/assets/trash.svg?react';
 import { useSetAppBg } from '@/hooks/use-set-app-bg';
 import { useSearchHistoryStore } from '@/store/search-history-store';
-import { getTokenBalanceList } from '@/utils/balances';
+import { getTokenBalanceList } from '@/utils/token-with-balance';
 import { Input } from '../design-system/input';
 import { TokenIcon } from '../design-system/token-icon';
 
@@ -84,7 +84,7 @@ const UXTokenSelectScreen = ({ data, extended, onSelect }: UXTokenSelectScreenPr
         onChange={(e) => setSearch(e.target.value)}
       />
       <div {...stylex.props(styles.column, styles.md)}>
-        {extended && (
+        {extended && !!history.length && (
           <div {...stylex.props(styles.column, styles.sm)}>
             <div {...stylex.props(styles.labelWrapper)}>
               <span {...stylex.props(styles.label)}>Search History</span>

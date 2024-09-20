@@ -2,12 +2,15 @@ import * as stylex from '@stylexjs/stylex';
 import Link from '@/modules/core/components/Link';
 import { TokenIcon } from '@/modules/core/design-system/token-icon';
 import { useBalancesStore } from '@/store/balances-store';
+import { useSystemCurrencyStore } from '@/store/system-currency';
 import { formatNumberToWhiteSpaces } from '@/utils/numbers';
 
 import { styles } from './Assets.styles';
 
 const Assets = () => {
   const balances = useBalancesStore((state) => state.balances);
+  const currency = useSystemCurrencyStore((state) => state.currency);
+  const currencyRate = useSystemCurrencyStore((state) => state.currencyRate);
 
   const assetList = Object.keys(balances);
 
@@ -30,7 +33,8 @@ const Assets = () => {
           <div {...stylex.props(styles.amount)}>
             <span {...stylex.props(styles.tokenName)}>{balances[item].total_balance.balance}</span>
             <span {...stylex.props(styles.amountUsd)}>
-              ~${formatNumberToWhiteSpaces(balances[item].total_balance.balance_usd)}
+              ~{currency}{' '}
+              {formatNumberToWhiteSpaces(balances[item].total_balance.balance_usd * currencyRate)}
             </span>
           </div>
           <div {...stylex.props(styles.badgeWrapper)}>

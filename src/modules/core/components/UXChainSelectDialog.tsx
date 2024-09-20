@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { useSwipeable } from 'react-swipeable';
 import * as Dialog from '@radix-ui/react-dialog';
 import * as stylex from '@stylexjs/stylex';
@@ -30,18 +30,14 @@ const UXChainSelectDialog = ({
   onSelect,
 }: UXChainSelectDialogProps) => {
   const [animation, setAnimation] = useState<Animation>('appear');
-  const [open, setOpen] = useState(!chain);
+  const [open, setOpen] = useState(true);
 
-  useEffect(() => {
-    if (chain) {
-      setOpen(false);
-    }
-  }, []);
-
-  const onOpenChange = (value: boolean) => {
+  const onOpenChange = (value: boolean, select?: boolean) => {
     if (!value) {
-      setAnimation('hide');
-      window.setTimeout(() => setOpen(value), 300);
+      if (chain || select) {
+        setAnimation('hide');
+        window.setTimeout(() => setOpen(value), 300);
+      }
     } else {
       setAnimation('appear');
       setOpen(value);
@@ -50,7 +46,7 @@ const UXChainSelectDialog = ({
 
   const handleSelect = (chain: ChainItem) => {
     onSelect(chain);
-    onOpenChange(false);
+    onOpenChange(false, true);
   };
 
   const swipeHandlers = useSwipeable({

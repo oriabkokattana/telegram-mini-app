@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { QRCode } from 'react-qrcode-logo';
 import { toast } from 'sonner';
 import * as stylex from '@stylexjs/stylex';
@@ -28,6 +28,8 @@ const UXDeposit = () => {
   const { data: networksData } = useNetworks('deposit', token?.symbol);
 
   useSetAppBg('gray');
+
+  useEffect(() => () => setChain(null), []);
 
   const onCopyAddress = () => {
     if (custodialWalletData?.address) {

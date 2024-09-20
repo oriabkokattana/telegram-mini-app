@@ -7,7 +7,7 @@ type ProfileState = {
 };
 
 type ProfileAction = {
-  setProfile: (token: Profile) => void;
+  setProfile: (token: ProfileState['profile']) => void;
 };
 
 const profileStoreSlice: StateCreator<ProfileState & ProfileAction> = (set) => ({
