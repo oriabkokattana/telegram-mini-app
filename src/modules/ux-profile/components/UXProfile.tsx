@@ -32,7 +32,7 @@ const UXProfile = () => {
         <div {...stylex.props(styles.value)}>
           <div {...stylex.props(styles.amountWrapper)}>
             <span {...stylex.props(styles.amount)}>
-              {formatNumberWithCommas(totalBalance * currencyRate)}
+              {formatNumberWithCommas(totalBalance * currencyRate * 9231212312312.123)}
             </span>
             <Dropdown items={currencies} selected={currency} onSelect={setCurrency}>
               <span {...stylex.props(styles.currency)}>{currency}</span>

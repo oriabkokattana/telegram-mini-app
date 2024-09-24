@@ -32,6 +32,7 @@ export const styles = stylex.create({
     lineHeight: lineHeights.default,
   },
   value: {
+    width: 'calc(100% - 100px)',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -39,18 +40,24 @@ export const styles = stylex.create({
     gap: '2px',
   },
   amountWrapper: {
+    width: '100%',
     display: 'flex',
     alignItems: 'center',
     gap: '8px',
   },
   amount: {
+    display: 'inline-block',
     color: colors.grey1000,
     fontFamily: fontFamilies.roobertPro,
     fontSize: fontSizes.headingH3,
     fontWeight: fontWeights.medium,
     lineHeight: lineHeights.default,
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
   currency: {
+    display: 'inline',
     color: colors.grey600,
     fontFamily: fontFamilies.roobertPro,
     fontSize: fontSizes.text2,

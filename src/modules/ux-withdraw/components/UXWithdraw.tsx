@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { isAddress } from 'viem';
 import * as Separator from '@radix-ui/react-separator';
@@ -39,6 +39,12 @@ const UXWithdraw = () => {
 
   const { mutate } = useWithdraw();
   const { data: networksData } = useNetworks('withdraw', token?.symbol);
+
+  const networksWithBalance = useMemo(
+    () =>
+      networksData?.filter((item) => !!getActualBalanceByTokenAndChain(token?.symbol, item.name)),
+    [networksData, token]
+  );
 
   useEffect(() => () => setChain(null), []);
 
@@ -144,7 +150,7 @@ const UXWithdraw = () => {
         onClick={onPasteAddress}
       />
       <UXChainSelectDialog
-        data={networksData}
+        data={networksWithBalance?.length ? networksWithBalance : networksData}
         token={token}
         chain={chain}
         direction='withdraw'
