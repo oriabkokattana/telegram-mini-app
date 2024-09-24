@@ -56,11 +56,6 @@ const UXTokenSelectScreen = ({ data, extended, onSelect }: UXTokenSelectScreenPr
 
   useSetAppBg('white');
 
-  const handleSelect = (token: TokenItem) => {
-    addToHistory(token.symbol);
-    onSelect(token);
-  };
-
   const tokens = getTokenBalanceList(data, !extended)?.filter((token) => {
     const tokenName = token.name.toLowerCase() + '&' + token.symbol.toLowerCase();
     const isSearch = tokenName.includes(search.toLowerCase());
@@ -70,6 +65,13 @@ const UXTokenSelectScreen = ({ data, extended, onSelect }: UXTokenSelectScreenPr
   });
 
   const popular = data?.filter((token) => token.popular);
+
+  const handleSelect = (token: TokenItem) => {
+    if (!popular?.some((item) => item.symbol === token.symbol)) {
+      addToHistory(token.symbol);
+    }
+    onSelect(token);
+  };
 
   return (
     <div {...stylex.props(styles.base)}>
