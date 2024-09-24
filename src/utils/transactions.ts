@@ -1,3 +1,5 @@
+import { formatDate } from './date';
+
 import { RawTransactionMapping, TransactionItem } from '@/types';
 
 export const transformTransactions = (data?: RawTransactionMapping): TransactionItem[] => {
@@ -12,18 +14,10 @@ export const transformTransactions = (data?: RawTransactionMapping): Transaction
     transactions.forEach((transaction, index) => {
       const action = transaction.is_income ? `Deposit ${asset} funds` : `Withdraw ${asset} funds`;
 
-      const date = new Date(transaction.timestamp * 1000).toLocaleString('en-US', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-      });
-
       transactionsArray.push({
         id: `${asset}-${index}`,
         action,
-        date,
+        date: formatDate(transaction.timestamp),
         amount: transaction.amount,
       });
     });
