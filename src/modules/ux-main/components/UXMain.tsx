@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import * as Avatar from '@radix-ui/react-avatar';
 import * as stylex from '@stylexjs/stylex';
+import { usePopup } from '@telegram-apps/sdk-react';
 import AddIcon from '@/assets/add.svg?react';
 import ExportIcon from '@/assets/export.svg?react';
 import ImportIcon from '@/assets/import.svg?react';
@@ -25,6 +26,7 @@ const UXMain = () => {
   const { mutate } = useLogout();
   const systemRates = useSystemRates();
   const profile = useProfile();
+  const popup = usePopup();
 
   const setRates = useSystemCurrencyStore((state) => state.setRates);
   const setProfile = useProfileStore((state) => state.setProfile);
@@ -43,10 +45,28 @@ const UXMain = () => {
     }
   }, [profile.data, profile.isSuccess]);
 
+  const onLogout = () => {
+    if (popup.supports('open')) {
+      popup
+        .open({
+          title: 'Want to log out?',
+          message: 'Confirm to log out',
+          buttons: [{ id: 'logout', type: 'default', text: 'Log out' }, { type: 'close' }],
+        })
+        .then((value) => {
+          if (value && value === 'logout') {
+            mutate();
+          }
+        });
+    } else {
+      mutate();
+    }
+  };
+
   return (
     <div {...stylex.props(styles.base)}>
       <div {...stylex.props(styles.header)}>
-        <Avatar.Root {...stylex.props(styles.avatarWrapper)} onClick={() => mutate()}>
+        <Avatar.Root {...stylex.props(styles.avatarWrapper)} onClick={onLogout}>
           <Avatar.Image
             {...stylex.props(styles.avatar)}
             src={profile.data?.avatar_image}

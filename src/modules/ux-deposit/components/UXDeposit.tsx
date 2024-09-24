@@ -1,7 +1,7 @@
-import { useEffect, useRef } from 'react';
-import { QRCode } from 'react-qrcode-logo';
+import { useEffect } from 'react';
 import { toast } from 'sonner';
 import * as stylex from '@stylexjs/stylex';
+import { useUtils } from '@telegram-apps/sdk-react';
 import ChevronDownIcon from '@/assets/chevron-down.svg?react';
 import CopyIcon from '@/assets/copy.svg?react';
 import ReceiptIcon from '@/assets/receipt.svg?react';
@@ -22,8 +22,8 @@ const UXDeposit = () => {
   const token = useDepositStore((state) => state.token);
   const chain = useDepositStore((state) => state.chain);
   const setChain = useDepositStore((state) => state.setChain);
-  const qrCodeRef = useRef<QRCode>(null);
 
+  const utils = useUtils();
   const { data: custodialWalletData } = useCustodialWallet(chain?.name);
   const { data: networksData } = useNetworks('deposit', token?.symbol);
 
@@ -42,8 +42,7 @@ const UXDeposit = () => {
   };
 
   const onShare = () => {
-    toast.success('Shared');
-    qrCodeRef.current?.download();
+    utils.shareURL('t.me/CryptoBrokerTGBot/app', custodialWalletData?.address);
   };
 
   return (
@@ -53,9 +52,7 @@ const UXDeposit = () => {
         <ReceiptIcon />
       </div>
       <div {...stylex.props(styles.qrCodeWrapper)}>
-        {custodialWalletData?.address && (
-          <QrCode value={custodialWalletData.address} size={284} ref={qrCodeRef} />
-        )}
+        {custodialWalletData?.address && <QrCode value={custodialWalletData.address} size={284} />}
       </div>
       <span {...stylex.props(styles.address)}>
         {transformAddress(custodialWalletData?.address)}
