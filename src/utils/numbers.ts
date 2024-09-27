@@ -1,3 +1,10 @@
+export const formatNumber = (number?: number) => {
+  if (!number) {
+    return '0';
+  }
+  return number % 1 === 0 ? number.toString() : number.toFixed(17).replace(/\.?0+$/, '');
+};
+
 export const formatNumberWithSpaces = (number?: number) => {
   if (!number) {
     return '0';
@@ -8,7 +15,7 @@ export const formatNumberWithSpaces = (number?: number) => {
     maximumFractionDigits: 6,
   })
     .format(number)
-    .replace(/,/g, '\u2009');
+    .replace(/,/g, ' ');
 };
 
 export const formatNumberWithCommas = (number?: number) => {

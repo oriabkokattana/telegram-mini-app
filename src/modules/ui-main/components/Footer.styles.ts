@@ -14,6 +14,9 @@ export const styles = stylex.create({
     backgroundColor: colors.footerBackground,
     backdropFilter: 'blur(15px)',
   },
+  extended: {
+    paddingBottom: '24px',
+  },
   navigationList: {
     height: '64px',
     display: 'flex',

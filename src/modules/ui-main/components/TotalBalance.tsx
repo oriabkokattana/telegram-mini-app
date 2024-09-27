@@ -17,8 +17,14 @@ const getTotalBalanceFontSize = (balanceString: string): TextProps => {
   if (balanceString.length > 22) {
     return { size: '4' };
   }
-  if (balanceString.length > 14) {
+  if (balanceString.length > 17) {
     return { size: '5' };
+  }
+  if (balanceString.length > 13) {
+    return { size: '6' };
+  }
+  if (balanceString.length > 10) {
+    return { size: '7' };
   }
   return { size: '8' };
 };
@@ -52,7 +58,7 @@ const TotalBalance = ({
   const { currency, currencyRate, currencies, setCurrency } = useSystemCurrencyStore();
   const themeParams = useThemeParams();
 
-  const balanceString = `${currency === 'USDT' ? '$ ' : ''}${formatNumberWithCommas(balance * currencyRate)}${currency === 'USDT' ? '' : ` ${currency}`}`;
+  const balanceString = `${currency === 'USD' ? '$ ' : ''}${formatNumberWithCommas(balance * currencyRate)}${currency === 'USD' ? '' : ` ${currency}`}`;
   const profitPositive = period === Period.daily ? dailyDiff >= 0 : allTimeDiff >= 0;
   const profitString = `${formatNumberWithCommas(period === Period.daily ? dailyUSD : allTimeUSD)} $ (${formatPercent((period === Period.daily ? dailyDiff : allTimeDiff) * 100)}%)`;
 
@@ -69,7 +75,7 @@ const TotalBalance = ({
                 lineHeight='normal'
                 textTransform='uppercase'
               >
-                Total Balance ({currency === 'USDT' ? 'USD' : currency})
+                Total Balance ({currency === 'USD' ? 'USD' : currency})
               </Text>
               <Icon name='chevron-down' variant='secondary' />
             </Flex>

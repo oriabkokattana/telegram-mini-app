@@ -4,7 +4,7 @@ import { Text } from '@/modules/core/design-system/text';
 import { TokenIcon } from '@/modules/core/design-system/token-icon';
 import { useBalancesStore } from '@/store/balances-store';
 import { useSystemCurrencyStore } from '@/store/system-currency';
-import { formatNumberWithSpaces, formatPercent } from '@/utils/numbers';
+import { formatNumber, formatNumberWithSpaces, formatPercent } from '@/utils/numbers';
 
 interface AssetsProps {
   visible: boolean;
@@ -25,13 +25,18 @@ const Assets = ({ visible }: AssetsProps) => {
     );
   }
 
+  const sortedAssetList = assetList.sort(
+    (a, b) => balances[b].total_balance.balance_usd - balances[a].total_balance.balance_usd
+  );
+
   return (
     <Flex direction='column' gap='4'>
-      {assetList.map((item) => {
-        const balanceInSystemCurrecnyString = `${currency === 'USDT' ? '$' : ''}${formatNumberWithSpaces(balances[item].total_balance.balance_usd * currencyRate)}${currency === 'USDT' ? '' : ` ${currency}`}`;
+      {sortedAssetList.map((item) => {
+        const balanceString = formatNumber(balances[item].total_balance.balance);
+        const balanceInSystemCurrecnyString = `${currency === 'USD' ? '$' : ''}${formatNumberWithSpaces(balances[item].total_balance.balance_usd * currencyRate)}${currency === 'USD' ? '' : ` ${currency}`}`;
         const profitPercentString = `${formatPercent(balances[item].total_balance.price_change * 100)}%`;
         return (
-          <Flex key={item} justify='between' align='center'>
+          <Flex key={item} justify='between' align='center' gap='2'>
             <Flex gap='2' align='center'>
               <TokenIcon name={item} size='ui' />
               <Flex direction='column' gap='1'>
@@ -45,12 +50,10 @@ const Assets = ({ visible }: AssetsProps) => {
             </Flex>
             <Flex direction='column' align='end' gap='1'>
               <Flex align='center' gap='2'>
-                <Text size='3' weight='bold' lineHeight='normal'>
-                  {visible
-                    ? balances[item].total_balance.balance
-                    : balances[item].total_balance.balance.toString().replace(/./g, '*')}
+                <Text size='3' weight='bold' align='right' lineHeight='normal'>
+                  {visible ? balanceString : balanceString.replace(/./g, '*')}
                 </Text>
-                <Text color='gray' size='3' weight='bold' lineHeight='14px'>
+                <Text color='gray' size='3' weight='bold' align='right' lineHeight='14px'>
                   {visible
                     ? balanceInSystemCurrecnyString
                     : balanceInSystemCurrecnyString.replace(/./g, '*')}

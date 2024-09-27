@@ -5,6 +5,15 @@ import { customStorage } from '@/utils/cloud-storage';
 
 import { SystemCurrencyItem } from '@/types';
 
+const USDCurrency = {
+  name: 'USD',
+  symbol: 'USD',
+  precision: 2,
+  popular: true,
+  slug: 'tether',
+  price_usd: 1,
+};
+
 type SystemCurrencyState = {
   currency: string;
   currencyRate: number;
@@ -18,27 +27,20 @@ type SystemCurrencyAction = {
 };
 
 const systemCurrencySlice: StateCreator<SystemCurrencyState & SystemCurrencyAction> = (set) => ({
-  currency: 'USDT',
+  currency: 'USD',
   currencyRate: 1,
   currencies: [],
-  rates: {
-    USDT: {
-      name: 'Tether USD',
-      symbol: 'USDT',
-      precision: 2,
-      popular: true,
-      slug: 'tether',
-      price_usd: 1,
-    },
-  },
+  rates: { USD: USDCurrency },
   setCurrency: (currency) =>
     set((state) => ({ currency, currencyRate: 1 / state.rates[currency].price_usd })),
-  setRates: (rates) =>
+  setRates: (data) => {
+    const rates: Record<string, SystemCurrencyItem> = { USD: USDCurrency, ...data };
     set((state) => ({
       rates,
       currencies: Object.keys(rates),
       currencyRate: 1 / rates[state.currency].price_usd,
-    })),
+    }));
+  },
 });
 
 const systemCurrencyStore = persist<SystemCurrencyState & SystemCurrencyAction>(

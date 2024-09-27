@@ -3,6 +3,7 @@ import * as Label from '@radix-ui/react-label';
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
 import { Flex, IconButton } from '@radix-ui/themes';
 import * as stylex from '@stylexjs/stylex';
+import { useLaunchParams } from '@telegram-apps/sdk-react';
 import Link from '@/modules/core/components/Link';
 import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
@@ -16,8 +17,10 @@ enum Tab {
 }
 
 const Footer = () => {
+  const { platform } = useLaunchParams();
+
   return (
-    <NavigationMenu.Root {...stylex.props(styles.base)}>
+    <NavigationMenu.Root {...stylex.props(styles.base, platform === 'ios' && styles.extended)}>
       <NavigationMenu.List {...stylex.props(styles.navigationList)}>
         <NavigationMenuLink to='/ui-main' {...stylex.props(styles.link)}>
           <Label.Root>
