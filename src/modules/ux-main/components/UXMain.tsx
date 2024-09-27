@@ -7,15 +7,12 @@ import ExportIcon from '@/assets/export.svg?react';
 import ImportIcon from '@/assets/import.svg?react';
 import SearchIcon from '@/assets/search.svg?react';
 import StatsChartIcon from '@/assets/stats-chart.svg?react';
-import { useSetAppBg } from '@/hooks/use-set-app-bg';
 import Link from '@/modules/core/components/Link';
 import { IconButton } from '@/modules/core/design-system/icon-button';
 import { Input } from '@/modules/core/design-system/input';
 import { useLogout } from '@/services/auth/logout/api';
 import { useProfile } from '@/services/user/profile/api';
-import { useSystemRates } from '@/services/user/system-rates/api';
 import { useProfileStore } from '@/store/profile-store';
-import { useSystemCurrencyStore } from '@/store/system-currency';
 import Footer from './Footer';
 import Overall from './Overall';
 import Tables from './Tables';
@@ -24,20 +21,10 @@ import { styles } from './UXMain.styles';
 
 const UXMain = () => {
   const { mutate } = useLogout();
-  const systemRates = useSystemRates();
   const profile = useProfile();
   const popup = usePopup();
 
-  const setRates = useSystemCurrencyStore((state) => state.setRates);
   const setProfile = useProfileStore((state) => state.setProfile);
-
-  useSetAppBg('white');
-
-  useEffect(() => {
-    if (systemRates.data && systemRates.isSuccess) {
-      setRates(systemRates.data);
-    }
-  }, [systemRates.data, systemRates.isSuccess]);
 
   useEffect(() => {
     if (profile.data && profile.isSuccess) {

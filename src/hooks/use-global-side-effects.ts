@@ -1,30 +1,77 @@
 import { useEffect } from 'react';
-import { useSwipeBehaviorRaw, useViewportRaw } from '@telegram-apps/sdk-react';
+import * as stylex from '@stylexjs/stylex';
+import {
+  useMiniAppRaw,
+  useSwipeBehaviorRaw,
+  useThemeParamsRaw,
+  useViewportRaw,
+} from '@telegram-apps/sdk-react';
+import { darkTheme } from '@/modules/core/design-system/ui.tokens.stylex';
 import { useOauthLogin } from '@/services/auth/oauth-login/api';
-import { useSearchHistoryStoreHydration } from '@/store/search-history-store';
-import { useSystemCurrencyStoreHydration } from '@/store/system-currency';
 import { useUserStoreHydration } from '@/store/user-store';
 import { useSignAuth } from './use-sign-auth';
+
+const darkThemeClassNames = stylex.props(darkTheme).className?.split(' ') || [];
 
 export const useGlobalSideEffects = () => {
   useOauthLogin();
   useSignAuth();
 
   const userHydrated = useUserStoreHydration();
-  const systemCurrencyHydrated = useSystemCurrencyStoreHydration();
-  const searchHistoryStoreHydrated = useSearchHistoryStoreHydration();
 
   const swipeBehavior = useSwipeBehaviorRaw();
   const viewport = useViewportRaw();
+  const themeParams = useThemeParamsRaw();
+  const miniApp = useMiniAppRaw();
 
   useEffect(() => {
-    if (swipeBehavior.result && viewport.result) {
-      if (swipeBehavior.result.supports('disableVerticalSwipe')) {
-        swipeBehavior.result.disableVerticalSwipe();
-      }
+    if (swipeBehavior.result && swipeBehavior.result.supports('disableVerticalSwipe')) {
+      swipeBehavior.result.disableVerticalSwipe();
+    }
+  }, [swipeBehavior.result]);
+
+  useEffect(() => {
+    if (viewport.result) {
       viewport.result.expand();
     }
-  }, [swipeBehavior.result, viewport.result]);
+  }, [viewport.result]);
 
-  return !userHydrated || !systemCurrencyHydrated || !searchHistoryStoreHydrated;
+  useEffect(() => {
+    if (themeParams.result && miniApp.result) {
+      const unsubscribe = themeParams.result.listen();
+      const liveThemeUpdate = (e?: `#${string}`) => {
+        if (!e) return;
+
+        if (e === '#ffffff') {
+          document.documentElement.classList.remove(...darkThemeClassNames, 'dark-theme');
+          document.documentElement.classList.add('light-theme');
+          if (miniApp.result?.supports('setHeaderColor')) {
+            miniApp.result.setHeaderColor('#fefefe');
+          }
+          if (miniApp.result?.supports('setBackgroundColor')) {
+            miniApp.result.setBgColor('#fefefe');
+          }
+        } else {
+          document.documentElement.classList.remove('light-theme');
+          document.documentElement.classList.add(...darkThemeClassNames, 'dark-theme');
+          if (miniApp.result?.supports('setHeaderColor')) {
+            miniApp.result.setHeaderColor('#0c0612');
+          }
+          if (miniApp.result?.supports('setBackgroundColor')) {
+            miniApp.result.setBgColor('#0c0612');
+          }
+        }
+      };
+      themeParams.result.on('change:bgColor', liveThemeUpdate);
+
+      liveThemeUpdate(themeParams.result.bgColor);
+
+      return () => {
+        unsubscribe();
+        themeParams.result?.off('change:bgColor', liveThemeUpdate);
+      };
+    }
+  }, [themeParams.result, miniApp.result]);
+
+  return !userHydrated;
 };

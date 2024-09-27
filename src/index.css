@@ -57,6 +57,58 @@ input[type='number'] {
   -moz-appearance: textfield;
 }
 
+label {
+  cursor: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+.radix-themes {
+  --default-font-family: 'Helvetica Neue', sans-serif; /* Your custom default font */
+  --heading-font-family: 'Helvetica Neue', sans-serif; /* Your custom font for <Heading> components */
+  --code-font-family: 'Helvetica Neue', sans-serif; /* Your custom font for <Code> components */
+  --strong-font-family: 'Helvetica Neue', sans-serif; /* Your custom font for <Strong> components */
+  --em-font-family: 'Helvetica Neue', sans-serif; /* Your custom font for <Em> components */
+  --quote-font-family: 'Helvetica Neue', sans-serif; /* Your custom font for <Quote> components */
+  --cursor-button: pointer;
+}
+
+.light-theme {
+  --gray-1: #fefefe;
+  --gray-12: #0c0612;
+  --gray-a3: #f3f4f7;
+  --gray-a11: #75788b;
+
+  --gold-a11: #75788b;
+
+  --bronze-a11: #1c2024;
+
+  --violet-a11: #583be8;
+
+  --crimson-a11: #ff65b3;
+
+  --plum-a11: #583be8;
+}
+
+.dark-theme {
+  --gray-1: #0c0612;
+  --gray-12: #fafafa;
+  --gray-a3: #221d2e;
+  --gray-a11: #9a94aa;
+
+  --gold-a11: #fafafa;
+
+  --bronze-a11: #fff;
+
+  --violet-a11: #ae9aff;
+
+  --crimson-a11: #ff65b3;
+
+  --plum-a11: #ae9aff;
+}
+
 @font-face {
   font-family: 'Roobert PRO';
   src:
@@ -93,4 +145,117 @@ input[type='number'] {
   font-weight: bold;
   font-style: normal;
   font-display: swap;
+}
+
+/* Helvetica Neue */
+@font-face {
+  font-family: 'HelveticaNeue';
+  src: url('/fonts/HelveticaNeueBlackItalic.otf') format('opentype');
+  font-weight: 900;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'HelveticaNeue';
+  src: url('/fonts/HelveticaNeueBlack.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'HelveticaNeue';
+  src: url('/fonts/HelveticaNeueHeavyItalic.otf') format('opentype');
+  font-weight: 800;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'HelveticaNeue';
+  src: url('/fonts/HelveticaNeueHeavy.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'HelveticaNeue';
+  src: url('/fonts/HelveticaNeueBoldItalic.otf') format('opentype');
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'HelveticaNeue';
+  src: url('/fonts/HelveticaNeueBold.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'HelveticaNeue';
+  src: url('/fonts/HelveticaNeueMediumItalic.otf') format('opentype');
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'HelveticaNeue';
+  src: url('/fonts/HelveticaNeueMedium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'HelveticaNeue';
+  src: url('/fonts/HelveticaNeueLightItalic.otf') format('opentype');
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'HelveticaNeue';
+  src: url('/fonts/HelveticaNeueLight.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'HelveticaNeue';
+  src: url('/fonts/HelveticaNeueThinItalic.otf') format('opentype');
+  font-weight: 200;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'HelveticaNeue';
+  src: url('/fonts/HelveticaNeueThin.otf') format('opentype');
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'HelveticaNeue';
+  src: url('/fonts/HelveticaNeueUltraLightItalic.otf') format('opentype');
+  font-weight: 100;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'HelveticaNeue';
+  src: url('/fonts/HelveticaNeueUltraLight.otf') format('opentype');
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'HelveticaNeue';
+  src: url('/fonts/HelveticaNeueItalic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'HelveticaNeue';
+  src: url('/fonts/HelveticaNeueRoman.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
 }

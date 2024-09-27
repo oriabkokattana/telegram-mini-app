@@ -1,9 +1,29 @@
-import { Area, AreaChart, ResponsiveContainer, Tooltip } from 'recharts';
+import {
+  Area,
+  AreaChart,
+  ResponsiveContainer,
+  // Tooltip
+} from 'recharts';
 import { Margin } from 'recharts/types/util/types';
-import { formatDate } from '@/utils/date';
+// import { formatDate } from '@/utils/date';
+
+export type ChartVariant = 'pale' | 'outline' | 'violet';
+
+const getChartStrokeColor = (variant: ChartVariant) => {
+  switch (variant) {
+    case 'pale':
+      return '#EAEAEA';
+    case 'outline':
+      return '#A9A9A9';
+    case 'violet':
+      return 'url(#pinkToVioletGradient)';
+    default:
+      return '#EAEAEA';
+  }
+};
 
 interface CustomChartProps {
-  variant: 'pale' | 'outline';
+  variant: ChartVariant;
   width?: string | number;
   height?: string | number;
   data?: { timestamp: number; value: number }[];
@@ -23,18 +43,27 @@ const CustomChart = ({ variant, width, height, data, margin }: CustomChartProps)
             <stop stopColor='#E6E6E6' stopOpacity={0.12} />
             <stop offset='100%' stopOpacity={0} />
           </linearGradient>
+          <linearGradient id='pinkToVioletGradient' x1='0' y1='0' x2='0' y2='1'>
+            <stop stopColor='#FF65B3' />
+            <stop offset='50%' stopColor='#AE9AFF' />
+            <stop offset='100%' stopColor='#AE9AFF' />
+          </linearGradient>
+          <linearGradient id='violetGradient' x1='0' y1='0' x2='0' y2='1'>
+            <stop stopColor='#5841D8' stopOpacity={0.2} />
+            <stop offset='93%' stopColor='#5841D8' stopOpacity={0} />
+          </linearGradient>
         </defs>
-        <Tooltip
+        {/* <Tooltip
           labelStyle={{ fontFamily: '"Roobert PRO", Helvetica', color: 'rgba(0, 0, 0, 1)' }}
           itemStyle={{ fontFamily: '"Roobert PRO", Helvetica', color: 'rgba(169, 169, 169, 1)' }}
           formatter={(value) => `$${value}`}
           labelFormatter={(label) => formatDate(data?.[label]?.timestamp)}
-        />
+        /> */}
         <Area
           dataKey='value'
-          type='monotone'
-          stroke={variant === 'pale' ? '#EAEAEA' : '#A9A9A9'}
-          strokeWidth={variant === 'pale' ? 2 : 1.15}
+          type='linear'
+          stroke={getChartStrokeColor(variant)}
+          strokeWidth={variant === 'outline' ? 1.15 : 2}
           fill={`url(#${variant}Gradient)`}
         />
       </AreaChart>

@@ -1,5 +1,6 @@
 import * as stylex from '@stylexjs/stylex';
 import { colors, fontFamilies, fontSizes, fontWeights } from '../tokens.stylex';
+import { colors as uiColors } from '../ui.tokens.stylex';
 
 export const styles = stylex.create({
   base: {
@@ -25,7 +26,7 @@ export const styles = stylex.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: colors.grey1000,
-    color: colors.grey0,
+    color: uiColors.whiteIcon,
     fontWeight: fontWeights.medium,
     fontFamily: fontFamilies.roobertPro,
     rotate: '8deg',
@@ -38,6 +39,11 @@ export const styles = stylex.create({
   sm: {
     width: '32px',
     height: '32px',
+    fontSize: fontSizes.text2,
+  },
+  ui: {
+    width: '36px',
+    height: '36px',
     fontSize: fontSizes.text2,
   },
   md: {

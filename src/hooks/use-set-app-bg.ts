@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useMiniApp } from '@telegram-apps/sdk-react';
 
-export type BgVariant = 'gray' | 'white';
+export type BgVariant = 'gray' | 'white' | 'dark' | 'light';
 
 const getColorByVariant = (variant: BgVariant) => {
   switch (variant) {
@@ -9,6 +9,10 @@ const getColorByVariant = (variant: BgVariant) => {
       return '#F7F7F7';
     case 'white':
       return '#FFFFFF';
+    case 'dark':
+      return '#0c0612';
+    case 'light':
+      return '#fefefe';
     default:
       return '#FFFFFF';
   }

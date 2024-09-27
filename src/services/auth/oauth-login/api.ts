@@ -48,7 +48,7 @@ export function useOauthLogin() {
       toast.success('Successfully logged in!');
     } else if (query.isError) {
       const errorMessage = query.error.response?.data.error;
-      toast.error(errorMessage);
+      console.error(errorMessage);
     }
   }, [query.isSuccess, query.isError]);
 }

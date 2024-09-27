@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import { Outlet, Route, Router, Routes } from 'react-router-dom';
+import { Theme } from '@radix-ui/themes';
 import { useIntegration } from '@telegram-apps/react-router-integration';
 import {
   bindMiniAppCSSVars,
@@ -16,6 +17,7 @@ import Authorization from './modules/authorization/components/Authorization';
 import { PrivateRoute } from './modules/core/components/PrivateRoute';
 import { PublicRoute } from './modules/core/components/PublicRoute';
 import ScanQrCode from './modules/core/components/ScanQrCode';
+import UIMain from './modules/ui-main/components/UIMain';
 import UXAsset from './modules/ux-asset/components/UXAsset';
 import UXDeposit from './modules/ux-deposit/components/UXDeposit';
 import UXDepositTokenSelect from './modules/ux-deposit/components/UXDepositTokenSelect';
@@ -26,7 +28,9 @@ import UXSwap from './modules/ux-swap/components/UXSwap';
 import UXWithdraw from './modules/ux-withdraw/components/UXWithdraw';
 import UXWithdrawTokenSelect from './modules/ux-withdraw/components/UXWithdrawTokenSelect';
 import { useBalances } from './services/user/balances/api';
+import { useSystemRates } from './services/user/system-rates/api';
 import { useBalancesStore } from './store/balances-store';
+import { useSystemCurrencyStore } from './store/system-currency';
 
 function App() {
   const miniApp = useMiniApp();
@@ -76,52 +80,64 @@ function App() {
   }
 
   return (
-    <Router location={location} navigator={reactNavigator}>
-      <Routes>
-        <Route
-          path='/'
-          element={
-            <PrivateRoute>
-              <Layout />
-            </PrivateRoute>
-          }
-        >
-          <Route index element={<UXMain />} />
-          <Route path='profile' element={<UXProfile />} />
-          <Route path='asset/:asset' element={<UXAsset />} />
-          <Route path='deposit-token-select' element={<UXDepositTokenSelect />} />
-          <Route path='deposit' element={<UXDeposit />} />
-          <Route path='withdraw-token-select' element={<UXWithdrawTokenSelect />} />
-          <Route path='withdraw' element={<UXWithdraw />} />
-          <Route path='swap' element={<UXSwap />} />
-          <Route path='token-graph' element={<TokenGraph />} />
-          <Route path='qr-code' element={<ScanQrCode />} />
-        </Route>
+    <Theme accentColor='violet' grayColor='gray' radius='full'>
+      <Router location={location} navigator={reactNavigator}>
+        <Routes>
+          <Route
+            path='/'
+            element={
+              <PrivateRoute>
+                <Layout />
+              </PrivateRoute>
+            }
+          >
+            <Route index element={<UXMain />} />
+            <Route path='profile' element={<UXProfile />} />
+            <Route path='asset/:asset' element={<UXAsset />} />
+            <Route path='deposit-token-select' element={<UXDepositTokenSelect />} />
+            <Route path='deposit' element={<UXDeposit />} />
+            <Route path='withdraw-token-select' element={<UXWithdrawTokenSelect />} />
+            <Route path='withdraw' element={<UXWithdraw />} />
+            <Route path='swap' element={<UXSwap />} />
+            <Route path='token-graph' element={<TokenGraph />} />
+            <Route path='qr-code' element={<ScanQrCode />} />
 
-        <Route
-          path='auth'
-          element={
-            <PublicRoute>
-              <Authorization />
-            </PublicRoute>
-          }
-        />
+            <Route path='ui-main' element={<UIMain />} />
+          </Route>
 
-        <Route path='*' element={<NoMatch />} />
-      </Routes>
-    </Router>
+          <Route
+            path='auth'
+            element={
+              <PublicRoute>
+                <Authorization />
+              </PublicRoute>
+            }
+          />
+
+          <Route path='*' element={<NoMatch />} />
+        </Routes>
+      </Router>
+    </Theme>
   );
 }
 
 function Layout() {
   const balances = useBalances();
   const setBalances = useBalancesStore((state) => state.setBalances);
+  const systemRates = useSystemRates();
+  const setRates = useSystemCurrencyStore((state) => state.setRates);
 
   useEffect(() => {
     if (balances.data && balances.isSuccess) {
       setBalances(balances.data);
     }
   }, [balances.data, balances.isSuccess]);
+
+  useEffect(() => {
+    if (systemRates.data && systemRates.isSuccess) {
+      setRates(systemRates.data);
+    }
+  }, [systemRates.data, systemRates.isSuccess]);
 
   return (
     <div style={{ width: 'var(--tg-viewport-width)', height: '100vh' }}>

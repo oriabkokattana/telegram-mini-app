@@ -4,7 +4,7 @@ import * as stylex from '@stylexjs/stylex';
 
 import { styles } from './TokenIcon.styles';
 
-export type TokenIconSizes = 'sm' | 'md' | 'lg';
+export type TokenIconSizes = 'sm' | 'ui' | 'md' | 'lg';
 export type TokenIconVariants = 'default' | 'with-border';
 
 export type TokenIconProps = {
