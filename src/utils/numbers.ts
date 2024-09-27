@@ -1,21 +1,14 @@
-export const formatNumberToWhiteSpaces = (number?: number) => {
+export const formatNumberWithSpaces = (number?: number) => {
   if (!number) {
     return '0';
   }
   // Format the number using 'en-US' or any locale that uses commas or spaces as thousands separators
-  const formattedNumber = number.toLocaleString('en-US');
-  // Replace commas with thin spaces (U+2009)
-  return formattedNumber.replace(/,/g, '\u2009');
-};
-
-export const formatNumberWithCommasAndDecimals = (number?: number) => {
-  if (number === undefined || number === null) {
-    return '0.00';
-  }
   return new Intl.NumberFormat('en-US', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(number);
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 6,
+  })
+    .format(number)
+    .replace(/,/g, '\u2009');
 };
 
 export const formatNumberWithCommas = (number?: number) => {
@@ -23,8 +16,18 @@ export const formatNumberWithCommas = (number?: number) => {
     return '0';
   }
   return new Intl.NumberFormat('en-US', {
-    minimumFractionDigits: 1,
+    minimumFractionDigits: 0,
     maximumFractionDigits: 6,
+  }).format(number);
+};
+
+export const formatPercent = (number?: number) => {
+  if (number === undefined || number === null) {
+    return '0';
+  }
+  return new Intl.NumberFormat('en-US', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
   }).format(number);
 };
 
