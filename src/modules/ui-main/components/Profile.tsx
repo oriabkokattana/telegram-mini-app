@@ -42,13 +42,7 @@ const Profile = ({ avatar, nickname }: ProfileProps) => {
               {nickname || 'Anonymous'}
             </Text>
             <Flex align='center' gap='2px'>
-              <Text
-                color='gray'
-                size='2'
-                weight='medium'
-                lineHeight='normal'
-                letterSpacing='-0.14px'
-              >
+              <Text color='gray' size='2' weight='medium' lineHeight='14px' letterSpacing='-0.14px'>
                 Profile
               </Text>
               <Icon name='chevron-forward' variant='secondary' />
