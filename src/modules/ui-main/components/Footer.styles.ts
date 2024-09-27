@@ -26,15 +26,7 @@ export const styles = stylex.create({
     border: 'none',
     color: {
       default: `${colors.secondaryText} !important`,
-      ':is([data-active])': colors.primaryText,
+      ':is([data-active])': `${colors.primaryText} !important`,
     },
-  },
-  label: {
-    fontFamily: 'Helvetica Neue',
-    fontSize: '10px',
-    fontStyle: 'normal',
-    fontWeight: '500',
-    lineHeight: '8px',
-    letterSpacing: '-0.1px',
   },
 });

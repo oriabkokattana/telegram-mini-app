@@ -23,7 +23,7 @@ export const formatNumberWithCommas = (number?: number) => {
     return '0';
   }
   return new Intl.NumberFormat('en-US', {
-    minimumFractionDigits: 0,
+    minimumFractionDigits: 1,
     maximumFractionDigits: 4,
   }).format(number);
 };

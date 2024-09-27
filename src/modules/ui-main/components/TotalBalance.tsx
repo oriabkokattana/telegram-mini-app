@@ -9,6 +9,7 @@ import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
 import { darkTheme } from '@/modules/core/design-system/ui.tokens.stylex';
 import { useSystemCurrencyStore } from '@/store/system-currency';
+import { formatNumberWithCommas, formatNumberWithCommasAndDecimals } from '@/utils/numbers';
 
 import { styles } from './TotalBalance.styles';
 
@@ -51,9 +52,9 @@ const TotalBalance = ({
   const { currency, currencyRate, currencies, setCurrency } = useSystemCurrencyStore();
   const themeParams = useThemeParams();
 
-  const balanceString = `${currency === 'USDT' ? '$ ' : ''}${balance * currencyRate}${currency === 'USDT' ? '' : ` ${currency}`}`;
+  const balanceString = `${currency === 'USDT' ? '$ ' : ''}${formatNumberWithCommas(balance * currencyRate)}${currency === 'USDT' ? '' : ` ${currency}`}`;
   const profitPositive = period === Period.daily ? dailyDiff >= 0 : allTimeDiff >= 0;
-  const profitString = `${period === Period.daily ? dailyUSD : allTimeUSD} $ (${(period === Period.daily ? dailyDiff : allTimeDiff) * 100}%)`;
+  const profitString = `${formatNumberWithCommas(period === Period.daily ? dailyUSD : allTimeUSD)} $ (${formatNumberWithCommasAndDecimals((period === Period.daily ? dailyDiff : allTimeDiff) * 100)}%)`;
 
   return (
     <Box>

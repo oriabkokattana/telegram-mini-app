@@ -4,6 +4,7 @@ import { Text } from '@/modules/core/design-system/text';
 import { TokenIcon } from '@/modules/core/design-system/token-icon';
 import { useBalancesStore } from '@/store/balances-store';
 import { useSystemCurrencyStore } from '@/store/system-currency';
+import { formatNumberWithCommas } from '@/utils/numbers';
 
 interface AssetsProps {
   visible: boolean;
@@ -27,8 +28,8 @@ const Assets = ({ visible }: AssetsProps) => {
   return (
     <Flex direction='column' gap='4'>
       {assetList.map((item) => {
-        const balanceInSystemCurrecnyString = `${currency === 'USDT' ? '$' : ''}${balances[item].total_balance.balance_usd * currencyRate}${currency === 'USDT' ? '' : ` ${currency}`}`;
-
+        const balanceInSystemCurrecnyString = `${currency === 'USDT' ? '$' : ''}${formatNumberWithCommas(balances[item].total_balance.balance_usd * currencyRate)}${currency === 'USDT' ? '' : ` ${currency}`}`;
+        const profitPercentString = `${formatNumberWithCommas(balances[item].total_balance.price_change)}%`;
         return (
           <Flex key={item} justify='between' align='center'>
             <Flex gap='2' align='center'>
@@ -73,9 +74,7 @@ const Assets = ({ visible }: AssetsProps) => {
                   weight='bold'
                   lineHeight='12px'
                 >
-                  {visible
-                    ? `${balances[item].total_balance.price_change}%`
-                    : `${balances[item].total_balance.price_change}%`.replace(/./g, '*')}
+                  {visible ? profitPercentString : profitPercentString.replace(/./g, '*')}
                 </Text>
               </Flex>
             </Flex>

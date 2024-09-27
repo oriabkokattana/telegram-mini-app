@@ -5,6 +5,7 @@ import { Flex, IconButton } from '@radix-ui/themes';
 import * as stylex from '@stylexjs/stylex';
 import Link from '@/modules/core/components/Link';
 import { Icon } from '@/modules/core/design-system/icon';
+import { Text } from '@/modules/core/design-system/text';
 
 import { styles } from './Footer.styles';
 
@@ -23,7 +24,9 @@ const Footer = () => {
             <IconButton size='1' variant='ghost'>
               <Icon name='home' variant='primary' />
             </IconButton>
-            <span {...stylex.props(styles.label)}>{Tab.home}</span>
+            <Text customSize='10px' weight='medium' letterSpacing='-0.1px' lineHeight='8px'>
+              {Tab.home}
+            </Text>
           </Label.Root>
         </NavigationMenuLink>
         <NavigationMenuLink to='/ui-swap' {...stylex.props(styles.link)}>
@@ -38,7 +41,9 @@ const Footer = () => {
             <IconButton size='1' variant='ghost'>
               <Icon name='account' variant='secondary' />
             </IconButton>
-            <span {...stylex.props(styles.label)}>{Tab.account}</span>
+            <Text customSize='10px' weight='medium' letterSpacing='-0.1px' lineHeight='8px'>
+              {Tab.account}
+            </Text>
           </Label.Root>
         </NavigationMenuLink>
       </NavigationMenu.List>
