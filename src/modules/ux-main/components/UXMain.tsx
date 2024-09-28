@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import * as Avatar from '@radix-ui/react-avatar';
 import * as stylex from '@stylexjs/stylex';
 import { usePopup } from '@telegram-apps/sdk-react';
@@ -12,7 +11,6 @@ import { IconButton } from '@/modules/core/design-system/icon-button';
 import { Input } from '@/modules/core/design-system/input';
 import { useLogout } from '@/services/auth/logout/api';
 import { useProfile } from '@/services/user/profile/api';
-import { useProfileStore } from '@/store/profile-store';
 import Footer from './Footer';
 import Overall from './Overall';
 import Tables from './Tables';
@@ -23,14 +21,6 @@ const UXMain = () => {
   const { mutate } = useLogout();
   const profile = useProfile();
   const popup = usePopup();
-
-  const setProfile = useProfileStore((state) => state.setProfile);
-
-  useEffect(() => {
-    if (profile.data && profile.isSuccess) {
-      setProfile(profile.data);
-    }
-  }, [profile.data, profile.isSuccess]);
 
   const onLogout = () => {
     if (popup.supports('open')) {

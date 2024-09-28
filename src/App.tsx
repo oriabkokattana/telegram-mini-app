@@ -17,6 +17,9 @@ import Authorization from './modules/authorization/components/Authorization';
 import { PrivateRoute } from './modules/core/components/PrivateRoute';
 import { PublicRoute } from './modules/core/components/PublicRoute';
 import ScanQrCode from './modules/core/components/ScanQrCode';
+import UIDeposit from './modules/ui-deposit/components/UIDeposit';
+import UIDepositNetworkSelect from './modules/ui-deposit/components/UIDepositNetworkSelect';
+import UIDepositTokenSelect from './modules/ui-deposit/components/UIDepositTokenSelect';
 import UIMain from './modules/ui-main/components/UIMain';
 import UXAsset from './modules/ux-asset/components/UXAsset';
 import UXDeposit from './modules/ux-deposit/components/UXDeposit';
@@ -103,6 +106,9 @@ function App() {
             <Route path='qr-code' element={<ScanQrCode />} />
 
             <Route path='ui-main' element={<UIMain />} />
+            <Route path='ui-deposit-token-select' element={<UIDepositTokenSelect />} />
+            <Route path='ui-deposit-network-select' element={<UIDepositNetworkSelect />} />
+            <Route path='ui-deposit' element={<UIDeposit />} />
           </Route>
 
           <Route
@@ -139,11 +145,7 @@ function Layout() {
     }
   }, [systemRates.data, systemRates.isSuccess]);
 
-  return (
-    <div style={{ width: 'var(--tg-viewport-width)', height: '100vh' }}>
-      <Outlet />
-    </div>
-  );
+  return <Outlet />;
 }
 
 function NoMatch() {

@@ -1,22 +1,22 @@
 import { create, StateCreator } from 'zustand';
 
-import { ChainItem, TokenItem } from '@/types';
+import { NetworkItem, WithdrawDepositToken } from '@/types';
 
 type WithdrawState = {
-  token: TokenItem | null;
-  chain: ChainItem | null;
+  token: WithdrawDepositToken | null;
+  network: NetworkItem | null;
 };
 
 type WithdrawAction = {
   setToken: (token: WithdrawState['token']) => void;
-  setChain: (chain: WithdrawState['chain']) => void;
+  setNetwork: (network: WithdrawState['network']) => void;
 };
 
 const withdrawStoreSlice: StateCreator<WithdrawState & WithdrawAction> = (set) => ({
   token: null,
-  chain: null,
+  network: null,
   setToken: (token) => set({ token }),
-  setChain: (chain) => set({ chain }),
+  setNetwork: (network) => set({ network }),
 });
 
 export const useWithdrawStore = create(withdrawStoreSlice);

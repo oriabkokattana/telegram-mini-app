@@ -6,8 +6,6 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  /* color: rgba(255, 255, 255, 0.87); */
-  /* background-color: #242424; */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -21,23 +19,30 @@ html {
 }
 
 body,
-html {
+html,
+#root {
   -ms-overflow-style: none;
   scrollbar-width: none;
   overscroll-behavior-x: none;
 }
 
 body::-webkit-scrollbar,
-html::-webkit-scrollbar {
+html::-webkit-scrollbar,
+#root::-webkit-scrollbar {
   display: none;
 }
 
 body {
-  height: 100vh;
-  overflow: auto;
   margin: 0;
   display: flex;
   place-items: center;
+}
+
+#root {
+  width: var(--tg-viewport-width, 100vw);
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 *,
@@ -73,6 +78,10 @@ a {
   --em-font-family: 'Helvetica Neue', sans-serif; /* Your custom font for <Em> components */
   --quote-font-family: 'Helvetica Neue', sans-serif; /* Your custom font for <Quote> components */
   --cursor-button: pointer;
+  --color-surface: var(--gray-a3);
+  --color-background: var(--gray-1);
+  --line-height-3: calc(16px * var(--scaling));
+  --base-card-surface-box-shadow: 0 0 0 1px color-mix(in oklab, var(--gray-a3), var(--gray-a3) 25%);
 }
 
 .light-theme {
@@ -85,6 +94,19 @@ a {
 
   --bronze-a11: #1c2024;
 
+  --brown-a11: #0c0612;
+
+  --indigo-a11: #75788b;
+
+  --sky-a11: #fafafa;
+
+  --amber-a11: #0c0612;
+
+  --mint-9: #35db8c;
+
+  --violet-8: #583be8;
+  --violet-9: #583be8;
+  --violet-10: #583be8;
   --violet-a11: #583be8;
 
   --crimson-a11: #ff65b3;
@@ -102,11 +124,72 @@ a {
 
   --bronze-a11: #fff;
 
+  --brown-a11: #fafafa;
+
+  --indigo-a11: #fefefe;
+
+  --sky-a11: #fafafa;
+
+  --amber-a11: #221d2e;
+
+  --mint-9: #35db8c;
+
+  --violet-8: #583be8;
+  --violet-9: #583be8;
+  --violet-10: #583be8;
   --violet-a11: #ae9aff;
 
   --crimson-a11: #ff65b3;
 
   --plum-a11: #ae9aff;
+}
+
+.rt-TextFieldRoot.rt-r-size-2 > .rt-TextFieldSlot:first-of-type {
+  padding-left: var(--space-4);
+  padding-right: var(--space-3);
+}
+
+.rt-TextFieldRoot.rt-r-size-2 > .rt-TextFieldSlot:last-of-type {
+  padding-left: var(--space-3);
+  padding-right: var(--space-4);
+}
+
+.rt-TextFieldRoot.rt-r-size-2 {
+  --text-field-height: var(--space-8);
+}
+
+.rt-TextFieldRoot.rt-variant-surface {
+  box-shadow: inset 0 0 0 var(--text-field-border-width) var(--gray-a3);
+}
+
+.rt-TextFieldRoot:has(.rt-TextFieldInput:focus) {
+  outline: 1px solid var(--text-field-focus-color);
+  background-color: var(--gray-1);
+}
+
+.rt-TextFieldRoot.rt-variant-surface > .rt-TextFieldInput {
+  font-weight: 500;
+  color: var(--gray-a11);
+}
+
+.rt-Card.rt-variant-surface {
+  --card-background-color: var(--gray-a3);
+}
+
+.light-theme .rt-Card.rt-variant-classic {
+  --card-background-color: var(--gray-1);
+}
+
+.dark-theme .rt-Card.rt-variant-classic {
+  --card-background-color: var(--gray-a3);
+}
+
+.rt-BaseMenuContent {
+  box-shadow: none;
+}
+
+.rt-Button.rt-r-size-3 {
+  gap: var(--space-2);
 }
 
 @font-face {

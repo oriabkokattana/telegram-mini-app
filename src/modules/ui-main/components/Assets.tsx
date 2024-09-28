@@ -1,4 +1,5 @@
 import { Flex } from '@radix-ui/themes';
+import NoDataPlaceholder from '@/modules/core/components/NoDataPlaceholder';
 import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
 import { TokenIcon } from '@/modules/core/design-system/token-icon';
@@ -18,29 +19,27 @@ const Assets = ({ visible }: AssetsProps) => {
   const assetList = Object.keys(balances);
 
   if (!assetList.length) {
-    return (
-      <Flex height='200px' justify='center' align='center'>
-        <Text size='4'>No assets yet!</Text>
-      </Flex>
-    );
+    return <NoDataPlaceholder text='No assets yet!' />;
   }
 
   const sortedAssetList = assetList.sort(
-    (a, b) => balances[b].total_balance.balance_usd - balances[a].total_balance.balance_usd
+    (a, b) =>
+      Number(balances[b].total_balance.balance_usd) - Number(balances[a].total_balance.balance_usd)
   );
 
   return (
     <Flex direction='column' gap='4'>
       {sortedAssetList.map((item) => {
-        const balanceString = formatNumber(balances[item].total_balance.balance);
-        const balanceInSystemCurrecnyString = `${currency === 'USD' ? '$' : ''}${formatNumberWithSpaces(balances[item].total_balance.balance_usd * currencyRate)}${currency === 'USD' ? '' : ` ${currency}`}`;
-        const profitPercentString = `${formatPercent(balances[item].total_balance.price_change * 100)}%`;
+        const balanceString = formatNumber(Number(balances[item].total_balance.balance));
+        const balanceInSystemCurrecnyString = `${currency === 'USD' ? '$' : ''}${formatNumberWithSpaces(Number(balances[item].total_balance.balance_usd) * currencyRate)}${currency === 'USD' ? '' : ` ${currency}`}`;
+        const profitPercentString = `${formatPercent(Number(balances[item].total_balance.pnl_percent) * 100)}%`;
+        const positiveProfit = Number(balances[item].total_balance.pnl_percent) >= 0;
         return (
           <Flex key={item} justify='between' align='center' gap='2'>
             <Flex gap='2' align='center'>
-              <TokenIcon name={item} size='ui' />
+              <TokenIcon name={item} size='ui-md' />
               <Flex direction='column' gap='1'>
-                <Text size='3' weight='bold' lineHeight='normal'>
+                <Text size='3' weight='bold'>
                   {item}
                 </Text>
                 <Text color='gray' size='2' lineHeight='12px'>
@@ -50,10 +49,10 @@ const Assets = ({ visible }: AssetsProps) => {
             </Flex>
             <Flex direction='column' align='end' gap='1'>
               <Flex align='center' gap='2'>
-                <Text size='3' weight='bold' align='right' lineHeight='normal'>
+                <Text size='3' weight='bold'>
                   {visible ? balanceString : balanceString.replace(/./g, '*')}
                 </Text>
-                <Text color='gray' size='3' weight='bold' align='right' lineHeight='14px'>
+                <Text color='gray' size='1' weight='bold' align='right' lineHeight='10px'>
                   {visible
                     ? balanceInSystemCurrecnyString
                     : balanceInSystemCurrecnyString.replace(/./g, '*')}
@@ -61,18 +60,12 @@ const Assets = ({ visible }: AssetsProps) => {
               </Flex>
               <Flex align='center' gap='1'>
                 <Icon
-                  name={
-                    balances[item].total_balance.price_change >= 0
-                      ? 'top-right-arrow'
-                      : 'bottom-right-arrow'
-                  }
-                  variant={
-                    balances[item].total_balance.price_change >= 0 ? 'accent-violet' : 'accent-pink'
-                  }
+                  name={positiveProfit ? 'top-right-arrow' : 'bottom-right-arrow'}
+                  variant={positiveProfit ? 'accent-violet' : 'accent-pink'}
                   size={16}
                 />
                 <Text
-                  color={balances[item].total_balance.price_change >= 0 ? 'violet' : 'crimson'}
+                  color={positiveProfit ? 'violet' : 'crimson'}
                   size='2'
                   weight='bold'
                   lineHeight='12px'

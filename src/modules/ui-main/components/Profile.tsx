@@ -34,7 +34,7 @@ const Profile = ({ avatar, nickname }: ProfileProps) => {
 
   return (
     <Flex height='40px' justify='between' align='center'>
-      <Card variant='ghost' onClick={onLogout} style={{ cursor: 'pointer' }}>
+      <Card variant='ghost' style={{ cursor: 'pointer' }} onClick={onLogout}>
         <Flex align='center' gap='2'>
           <Avatar src={avatar} fallback='AV' radius='large' />
           <Flex direction='column' justify='center'>

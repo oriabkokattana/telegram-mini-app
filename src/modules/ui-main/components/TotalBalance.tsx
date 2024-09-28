@@ -1,17 +1,21 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as Label from '@radix-ui/react-label';
-import { Box, Button, DropdownMenu, Flex, IconButton, TextProps } from '@radix-ui/themes';
-import * as stylex from '@stylexjs/stylex';
-import { useThemeParams } from '@telegram-apps/sdk-react';
+import { Box, Button, Flex, IconButton, TextProps } from '@radix-ui/themes';
+import { EPeriod } from '@/enums';
 import CustomChart from '@/modules/core/components/CustomChart';
 import Link from '@/modules/core/components/Link';
 import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
-import { darkTheme } from '@/modules/core/design-system/ui.tokens.stylex';
+import {
+  Dropdown,
+  DropdownContent,
+  DropdownItem,
+  DropdownTrigger,
+} from '@/modules/core/design-system/ui-dropdown';
+import { useBalancesStore } from '@/store/balances-store';
 import { useSystemCurrencyStore } from '@/store/system-currency';
+import { useTimeframeStore } from '@/store/timeframe-store';
 import { formatNumberWithCommas, formatPercent } from '@/utils/numbers';
-
-import { styles } from './TotalBalance.styles';
 
 const getTotalBalanceFontSize = (balanceString: string): TextProps => {
   if (balanceString.length > 22) {
@@ -29,65 +33,43 @@ const getTotalBalanceFontSize = (balanceString: string): TextProps => {
   return { size: '8' };
 };
 
-enum Period {
-  daily = 'daily',
-  all = 'all time',
-}
-
 interface TotalBalanceProps {
-  balance?: number;
-  dailyDiff?: number;
-  dailyUSD?: number;
-  allTimeDiff?: number;
-  allTimeUSD?: number;
   visible: boolean;
   setVisible(value: boolean): void;
 }
 
-const TotalBalance = ({
-  balance = 0,
-  dailyDiff = 0,
-  dailyUSD = 0,
-  allTimeDiff = 0,
-  allTimeUSD = 0,
-  visible,
-  setVisible,
-}: TotalBalanceProps) => {
-  const [period, setPeriod] = useState(Period.daily);
+const TotalBalance = ({ visible, setVisible }: TotalBalanceProps) => {
+  const [period, setPeriod] = useState(EPeriod.day);
 
   const { currency, currencyRate, currencies, setCurrency } = useSystemCurrencyStore();
-  const themeParams = useThemeParams();
+  const { total_balance_usd, pnl_usd, pnl_percent } = useBalancesStore();
+  const setBalanceTimeframeViaPeriod = useTimeframeStore(
+    (state) => state.setBalanceTimeframeViaPeriod
+  );
 
-  const balanceString = `${currency === 'USD' ? '$ ' : ''}${formatNumberWithCommas(balance * currencyRate)}${currency === 'USD' ? '' : ` ${currency}`}`;
-  const profitPositive = period === Period.daily ? dailyDiff >= 0 : allTimeDiff >= 0;
-  const profitString = `${formatNumberWithCommas(period === Period.daily ? dailyUSD : allTimeUSD)} $ (${formatPercent((period === Period.daily ? dailyDiff : allTimeDiff) * 100)}%)`;
+  useEffect(() => {
+    setBalanceTimeframeViaPeriod(period);
+  }, [period]);
+
+  const balanceString = `${currency === 'USD' ? '$ ' : ''}${formatNumberWithCommas(Number(total_balance_usd) * currencyRate)}${currency === 'USD' ? '' : ` ${currency}`}`;
+  const profitPositive = Number(pnl_percent) >= 0;
+  const profitString = `${formatNumberWithCommas(Number(pnl_usd))} $ (${formatPercent(Number(pnl_percent) * 100)}%)`;
 
   return (
     <Box>
       <Flex direction='column' gap='2' justify='center'>
-        <DropdownMenu.Root>
-          <DropdownMenu.Trigger {...stylex.props(styles.dropdownTrigger)}>
+        <Dropdown>
+          <DropdownTrigger>
             <Flex align='center' gap='2'>
-              <Text
-                color='gray'
-                size='1'
-                weight='medium'
-                lineHeight='normal'
-                textTransform='uppercase'
-              >
+              <Text color='gray' size='1' weight='medium' textTransform='uppercase'>
                 Total Balance ({currency === 'USD' ? 'USD' : currency})
               </Text>
               <Icon name='chevron-down' variant='secondary' />
             </Flex>
-          </DropdownMenu.Trigger>
-          <DropdownMenu.Content
-            {...stylex.props(styles.dropdownContent, themeParams.isDark && darkTheme)}
-            align='end'
-            alignOffset={-50}
-            sideOffset={8}
-          >
+          </DropdownTrigger>
+          <DropdownContent width='124px' align='end' alignOffset={-50} sideOffset={8}>
             {currencies.map((item) => (
-              <DropdownMenu.Item key={item} onClick={() => setCurrency(item)}>
+              <DropdownItem key={item} onClick={() => setCurrency(item)}>
                 <Text
                   color='bronze'
                   size='2'
@@ -96,10 +78,10 @@ const TotalBalance = ({
                 >
                   {item}
                 </Text>
-              </DropdownMenu.Item>
+              </DropdownItem>
             ))}
-          </DropdownMenu.Content>
-        </DropdownMenu.Root>
+          </DropdownContent>
+        </Dropdown>
         <Flex justify='between' align='center'>
           <Flex direction='column' gap='2px'>
             <Flex align='center' gap='3'>
@@ -116,12 +98,7 @@ const TotalBalance = ({
                 variant={profitPositive ? 'accent-violet' : 'accent-pink'}
                 size={20}
               />
-              <Text
-                color={profitPositive ? 'violet' : 'crimson'}
-                size='3'
-                weight='bold'
-                lineHeight='normal'
-              >
+              <Text color={profitPositive ? 'violet' : 'crimson'} size='3' weight='bold'>
                 {visible ? profitString : profitString.replace(/./g, '*')}
               </Text>
             </Flex>
@@ -131,7 +108,7 @@ const TotalBalance = ({
             color='gray'
             variant='soft'
             style={{ height: '32px' }}
-            onClick={() => setPeriod(period === Period.daily ? Period.all : Period.daily)}
+            onClick={() => setPeriod(period === EPeriod.day ? EPeriod.all : EPeriod.day)}
           >
             <Text color='gold' size='2' lineHeight='12px' textTransform='capitalize'>
               {period}

@@ -3,14 +3,21 @@ import { create, StateCreator } from 'zustand';
 import { BalanceItem } from '@/types';
 
 type BalancesState = {
+  pnl_percent: string;
+  pnl_usd: string;
+  total_balance_usd: string;
   balances: Record<
     string,
-    { total_balance: BalanceItem; network_balances: Record<string, BalanceItem> }
+    {
+      currency_name: string;
+      total_balance: BalanceItem;
+      network_balances: Record<string, BalanceItem>;
+    }
   >;
 };
 
 type BalancesAction = {
-  setBalances: (balances: BalancesState['balances']) => void;
+  setBalances: (balances: BalancesState) => void;
   getTotalBalanceByToken: (token?: string) => number;
   getTotalUSDBalanceByToken: (token?: string) => number;
   getActualBalanceByToken: (token?: string) => number;
@@ -22,27 +29,30 @@ type BalancesAction = {
 };
 
 const balancesStoreSlice: StateCreator<BalancesState & BalancesAction> = (set, get) => ({
+  pnl_percent: '0',
+  pnl_usd: '0',
+  total_balance_usd: '0',
   balances: {},
-  setBalances: (balances) => set({ balances }),
+  setBalances: (balances) => set({ ...balances }),
   getTotalBalanceByToken: (token) => {
     if (!token) {
       return 0;
     }
-    return get().balances[token]?.total_balance.balance || 0;
+    return Number(get().balances[token]?.total_balance.balance || 0);
   },
   getTotalUSDBalanceByToken: (token) => {
     if (!token) {
       return 0;
     }
-    return get().balances[token]?.total_balance.balance_usd || 0;
+    return Number(get().balances[token]?.total_balance.balance_usd || 0);
   },
   getActualBalanceByToken: (token) => {
     if (!token) {
       return 0;
     }
     const tokenBalance = get().balances[token];
-    const total = tokenBalance?.total_balance.balance || 0;
-    const reserved = tokenBalance?.total_balance.reserved_balance || 0;
+    const total = Number(tokenBalance?.total_balance.balance || 0);
+    const reserved = Number(tokenBalance?.total_balance.reserved_balance || 0);
     return total - reserved;
   },
   getActualUSDBalanceByToken: (token) => {
@@ -50,29 +60,29 @@ const balancesStoreSlice: StateCreator<BalancesState & BalancesAction> = (set, g
       return 0;
     }
     const tokenBalance = get().balances[token];
-    const total = tokenBalance?.total_balance.balance_usd || 0;
-    const reserved = tokenBalance?.total_balance.reserved_balance_usd || 0;
+    const total = Number(tokenBalance?.total_balance.balance_usd || 0);
+    const reserved = Number(tokenBalance?.total_balance.reserved_balance_usd || 0);
     return total - reserved;
   },
   getTotalBalanceByTokenAndChain: (token, chain) => {
     if (!token || !chain) {
       return 0;
     }
-    return get().balances[token]?.network_balances[chain]?.balance || 0;
+    return Number(get().balances[token]?.network_balances[chain]?.balance || 0);
   },
   getTotalUSDBalanceByTokenAndChain: (token, chain) => {
     if (!token || !chain) {
       return 0;
     }
-    return get().balances[token]?.network_balances[chain]?.balance_usd || 0;
+    return Number(get().balances[token]?.network_balances[chain]?.balance_usd || 0);
   },
   getActualBalanceByTokenAndChain: (token, chain) => {
     if (!token || !chain) {
       return 0;
     }
     const tokenWithChainBalance = get().balances[token]?.network_balances[chain];
-    const total = tokenWithChainBalance?.balance || 0;
-    const reserved = tokenWithChainBalance?.reserved_balance || 0;
+    const total = Number(tokenWithChainBalance?.balance || 0);
+    const reserved = Number(tokenWithChainBalance?.reserved_balance || 0);
     return total - reserved;
   },
   getActualUSDBalanceByTokenAndChain: (token, chain) => {
@@ -80,8 +90,8 @@ const balancesStoreSlice: StateCreator<BalancesState & BalancesAction> = (set, g
       return 0;
     }
     const tokenWithChainBalance = get().balances[token]?.network_balances[chain];
-    const total = tokenWithChainBalance?.balance_usd || 0;
-    const reserved = tokenWithChainBalance?.reserved_balance_usd || 0;
+    const total = Number(tokenWithChainBalance?.balance_usd || 0);
+    const reserved = Number(tokenWithChainBalance?.reserved_balance_usd || 0);
     return total - reserved;
   },
 });

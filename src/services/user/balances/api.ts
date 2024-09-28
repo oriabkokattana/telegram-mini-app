@@ -1,6 +1,7 @@
 import { AxiosError } from 'axios';
 import { z } from 'zod';
 import { useQuery } from '@tanstack/react-query';
+import { useTimeframeStore } from '@/store/timeframe-store';
 import { api } from '@/utils/api';
 import { Endpoints } from '@/utils/endpoints-constants';
 import { BalancesAPIRequestSchema, BalancesAPIResponseSchema } from './schema';
@@ -22,9 +23,10 @@ const getBalances = api<z.infer<typeof BalancesAPIRequest>, z.infer<typeof Balan
 });
 
 export function useBalances() {
+  const timeframe = useTimeframeStore((state) => state.balanceTimeframe);
   return useQuery<z.infer<typeof BalancesAPIResponseSchema>, AxiosError<ErrorResponse>>({
-    queryKey: ['profile', 'balances'],
-    queryFn: () => getBalances(),
-    refetchInterval: 5000,
+    queryKey: ['profile', 'balances', timeframe],
+    queryFn: () => getBalances({ params: { period: timeframe } }),
+    refetchInterval: 10000,
   });
 }

@@ -25,8 +25,8 @@ export const styles = stylex.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.grey1000,
-    color: uiColors.whiteIcon,
+    backgroundColor: uiColors.dropdownBackground,
+    color: uiColors.primaryIcon,
     fontWeight: fontWeights.medium,
     fontFamily: fontFamilies.roobertPro,
     rotate: '8deg',
@@ -36,12 +36,17 @@ export const styles = stylex.create({
     width: size,
     height: size,
   }),
+  'ui-sm': {
+    width: '24px',
+    height: '24px',
+    fontSize: fontSizes.text2,
+  },
   sm: {
     width: '32px',
     height: '32px',
     fontSize: fontSizes.text2,
   },
-  ui: {
+  'ui-md': {
     width: '36px',
     height: '36px',
     fontSize: fontSizes.text2,

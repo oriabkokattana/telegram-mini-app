@@ -8,17 +8,17 @@ import { convertSeconds } from '@/utils/duration';
 
 import { styles } from './UXChainSelectDialog.styles';
 
-import { ChainItem, TokenItem } from '@/types';
+import { NetworkItem, WithdrawDepositToken } from '@/types';
 
 type Animation = 'appear' | 'hide';
 
 interface UXChainSelectDialogProps {
-  data?: ChainItem[];
-  token: TokenItem | null;
-  chain: ChainItem | null;
+  data?: NetworkItem[];
+  token: WithdrawDepositToken | null;
+  chain: NetworkItem | null;
   direction: 'deposit' | 'withdraw';
   children: ReactNode;
-  onSelect(network: ChainItem): void;
+  onSelect(network: NetworkItem): void;
 }
 
 const UXChainSelectDialog = ({
@@ -44,7 +44,7 @@ const UXChainSelectDialog = ({
     }
   };
 
-  const handleSelect = (chain: ChainItem) => {
+  const handleSelect = (chain: NetworkItem) => {
     onSelect(chain);
     onOpenChange(false, true);
   };

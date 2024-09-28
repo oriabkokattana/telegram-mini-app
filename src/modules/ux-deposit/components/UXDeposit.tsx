@@ -20,8 +20,8 @@ import { styles } from './UXDeposit.styles';
 
 const UXDeposit = () => {
   const token = useDepositStore((state) => state.token);
-  const chain = useDepositStore((state) => state.chain);
-  const setChain = useDepositStore((state) => state.setChain);
+  const chain = useDepositStore((state) => state.network);
+  const setChain = useDepositStore((state) => state.setNetwork);
 
   const utils = useUtils();
   const { data: custodialWalletData } = useCustodialWallet(chain?.name);

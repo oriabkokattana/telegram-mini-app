@@ -3,7 +3,7 @@ import ChevronDownIcon from '@/assets/chevron-down.svg?react';
 import { useSetAppBg } from '@/hooks/use-set-app-bg';
 import { Dropdown } from '@/modules/core/design-system/dropdown';
 import { useTransactions } from '@/services/user/transactions/api';
-import { useProfileStore } from '@/store/profile-store';
+import { useBalancesStore } from '@/store/balances-store';
 import { useSystemCurrencyStore } from '@/store/system-currency';
 import { formatNumberWithCommas } from '@/utils/numbers';
 import { transformTransactions } from '@/utils/transactions';
@@ -14,16 +14,16 @@ import Profit from './Profit';
 import { styles } from './UXProfile.styles';
 
 const UXProfile = () => {
-  const profile = useProfileStore((state) => state.profile);
+  const { total_balance_usd, pnl_percent, pnl_usd } = useBalancesStore();
 
   const { data } = useTransactions();
   const { currency, currencyRate, currencies, setCurrency } = useSystemCurrencyStore();
 
   useSetAppBg('white');
 
-  const totalBalance = profile?.total_balance || 0;
-  const dailyProfitDiff = profile?.daily_profit_diff || 0;
-  const dailyProfitUSD = profile?.daily_profit_usd || 0;
+  const totalBalance = Number(total_balance_usd || 0);
+  const dailyProfitDiff = Number(pnl_percent || 0);
+  const dailyProfitUSD = Number(pnl_usd || 0);
 
   return (
     <div {...stylex.props(styles.base)}>

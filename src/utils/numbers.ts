@@ -12,7 +12,7 @@ export const formatNumberWithSpaces = (number?: number) => {
   // Format the number using 'en-US' or any locale that uses commas or spaces as thousands separators
   return new Intl.NumberFormat('en-US', {
     minimumFractionDigits: 0,
-    maximumFractionDigits: 6,
+    maximumFractionDigits: 5,
   })
     .format(number)
     .replace(/,/g, ' ');
@@ -24,7 +24,7 @@ export const formatNumberWithCommas = (number?: number) => {
   }
   return new Intl.NumberFormat('en-US', {
     minimumFractionDigits: 0,
-    maximumFractionDigits: 6,
+    maximumFractionDigits: 5,
   }).format(number);
 };
 

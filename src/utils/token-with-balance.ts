@@ -1,6 +1,16 @@
 import { useBalancesStore } from '@/store/balances-store';
 
-import { TokenItem } from '@/types';
+import { AvailableBalance, BalanceItem, TokenItem } from '@/types';
+
+export const getAvailableBalance = (item?: BalanceItem): AvailableBalance => {
+  if (!item) {
+    return { balance: 0, balanceUSD: 0 };
+  }
+  return {
+    balance: Number(item.balance) - Number(item.reserved_balance),
+    balanceUSD: Number(item.balance_usd) - Number(item.reserved_balance_usd),
+  };
+};
 
 export const getTokenBalanceList = (data?: TokenItem[], excludeZero?: boolean) => {
   if (!data) {

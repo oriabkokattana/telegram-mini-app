@@ -3,22 +3,11 @@ import { create, StateCreator } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { customStorage } from '@/utils/cloud-storage';
 
-import { SystemCurrencyItem } from '@/types';
-
-const USDCurrency = {
-  name: 'USD',
-  symbol: 'USD',
-  precision: 2,
-  popular: true,
-  slug: 'tether',
-  price_usd: 1,
-};
-
 type SystemCurrencyState = {
   currency: string;
   currencyRate: number;
   currencies: string[];
-  rates: Record<string, SystemCurrencyItem>;
+  rates: Record<string, number>;
 };
 
 type SystemCurrencyAction = {
@@ -30,15 +19,16 @@ const systemCurrencySlice: StateCreator<SystemCurrencyState & SystemCurrencyActi
   currency: 'USD',
   currencyRate: 1,
   currencies: [],
-  rates: { USD: USDCurrency },
+  rates: { USD: 1 },
   setCurrency: (currency) =>
-    set((state) => ({ currency, currencyRate: 1 / state.rates[currency].price_usd })),
+    set((state) => ({ currency, currencyRate: 1 / state.rates[currency] })),
   setRates: (data) => {
-    const rates: Record<string, SystemCurrencyItem> = { USD: USDCurrency, ...data };
+    const rates: Record<string, number> = { USD: 1, ...data };
     set((state) => ({
       rates,
-      currencies: Object.keys(rates),
-      currencyRate: 1 / rates[state.currency].price_usd,
+      // Should be fixed on backend! (slicing...)
+      currencies: Object.keys(rates).slice(0, 4),
+      currencyRate: 1 / rates[state.currency],
     }));
   },
 });

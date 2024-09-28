@@ -1,10 +1,11 @@
 import { AxiosError } from 'axios';
 import { z } from 'zod';
 import { skipToken, useQuery } from '@tanstack/react-query';
-import { Direction } from '@/services/common-schemas/direction';
 import { api } from '@/utils/api';
 import { Endpoints } from '@/utils/endpoints-constants';
 import { NetworksAPIRequestSchema, NetworksAPIResponseSchema } from './schema';
+
+import { Direction } from '@/types';
 
 const NetworksAPIRequest = NetworksAPIRequestSchema;
 

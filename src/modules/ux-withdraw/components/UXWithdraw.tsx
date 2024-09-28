@@ -28,8 +28,8 @@ const UXWithdraw = () => {
   const pasteTriggeredRef = useRef(false);
 
   const token = useWithdrawStore((state) => state.token);
-  const chain = useWithdrawStore((state) => state.chain);
-  const setChain = useWithdrawStore((state) => state.setChain);
+  const chain = useWithdrawStore((state) => state.network);
+  const setChain = useWithdrawStore((state) => state.setNetwork);
   const getActualBalanceByTokenAndChain = useBalancesStore(
     (state) => state.getActualBalanceByTokenAndChain
   );

@@ -13,13 +13,13 @@ export const QrCode = forwardRef<QRCode, QrCodeProps>(({ value, size }, forwarde
       ecLevel='H'
       value={value}
       qrStyle='dots'
-      size={size - 40}
+      size={size - 24}
       style={{ borderRadius: 24 }}
-      quietZone={20}
+      quietZone={12}
       eyeRadius={size}
       logoImage={qrCodeLogo}
-      logoHeight={78}
-      logoWidth={78}
+      logoHeight={68}
+      logoWidth={68}
       ref={forwardedRef}
     />
   );

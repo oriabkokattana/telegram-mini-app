@@ -5,7 +5,7 @@ import * as stylex from '@stylexjs/stylex';
 import { useUtils } from '@telegram-apps/sdk-react';
 import ChevronDownIcon from '@/assets/chevron-down.svg?react';
 import { Dropdown } from '@/modules/core/design-system/dropdown';
-import { useProfileStore } from '@/store/profile-store';
+import { useBalancesStore } from '@/store/balances-store';
 import { useSystemCurrencyStore } from '@/store/system-currency';
 import { formatNumberWithCommas } from '@/utils/numbers';
 import allTimeChart from '../media/all-time.svg';
@@ -30,7 +30,7 @@ const Overall = (): JSX.Element => {
   const [currentIndex, setCurrentIndex] = useState(Tab.balance);
 
   const { currency, currencyRate, currencies, setCurrency } = useSystemCurrencyStore();
-  const profile = useProfileStore((state) => state.profile);
+  const { pnl_percent, pnl_usd, total_balance_usd } = useBalancesStore();
 
   const handleSwipe = (direction: 'left' | 'right') => {
     if (direction === 'left' && currentIndex < TABS_LEN - 1) {
@@ -48,10 +48,6 @@ const Overall = (): JSX.Element => {
   });
 
   const onPeriodChange = () => setPeriod(period === Period.daily ? Period.allTime : Period.daily);
-
-  if (!profile) {
-    return <div {...stylex.props(styles.base)}></div>;
-  }
 
   return (
     <TabsPrimitive.Root
@@ -78,7 +74,7 @@ const Overall = (): JSX.Element => {
           >
             <div {...stylex.props(styles.analytics)}>
               <span {...stylex.props(styles.amountWrapper, styles.amount)}>
-                {formatNumberWithCommas(profile.total_balance * currencyRate)}
+                {formatNumberWithCommas(Number(total_balance_usd) * currencyRate)}
               </span>
               <Dropdown items={currencies} selected={currency} onSelect={setCurrency}>
                 <span {...stylex.props(styles.amountWrapper, styles.currency)}>{currency}</span>
@@ -87,9 +83,9 @@ const Overall = (): JSX.Element => {
             </div>
             <div {...stylex.props(styles.changeWrapper)}>
               <span {...stylex.props(styles.change)}>
-                {period === Period.daily
-                  ? `${profile.daily_profit_diff >= 0 ? '+' : '-'} ${Math.abs(profile.daily_profit_usd)} $ (${profile.daily_profit_diff >= 0 ? '+' : '-'}${Math.abs(profile.daily_profit_diff)}%)`
-                  : `${profile.all_time_profit_diff >= 0 ? '+' : '-'} ${Math.abs(profile.all_time_profit_usd)} $ (${profile.all_time_profit_diff >= 0 ? '+' : '-'}${Math.abs(profile.all_time_profit_diff)}%)`}
+                {Number(pnl_percent) >= 0 ? '+' : '-'} {Math.abs(Number(pnl_usd))} $ (
+                {Number(pnl_percent) >= 0 ? '+' : '-'}
+                {Math.abs(Number(pnl_percent))}%)
               </span>
               <span {...stylex.props(styles.badge)}>{period}</span>
             </div>
@@ -107,7 +103,7 @@ const Overall = (): JSX.Element => {
             forceMount
           >
             <div {...stylex.props(styles.amountWrapper)}>
-              <span {...stylex.props(styles.amount)}>{profile.fees_saving_usd}</span>{' '}
+              <span {...stylex.props(styles.amount)}>0</span>{' '}
               <span {...stylex.props(styles.currency)}>USD</span>
             </div>
             <span {...stylex.props(styles.badge)}>Share</span>

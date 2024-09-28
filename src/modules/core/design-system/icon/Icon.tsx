@@ -16,7 +16,14 @@ export type IconName =
   | 'arrow-up-half-circle'
   | 'swap'
   | 'home'
-  | 'account';
+  | 'account'
+  | 'clear'
+  | 'search'
+  | 'bin'
+  | 'copy'
+  | 'ellipsis'
+  | 'collapse'
+  | 'circle-check';
 
 export type IconVariant =
   | 'primary'
@@ -24,8 +31,9 @@ export type IconVariant =
   | 'tertiary'
   | 'accent-violet'
   | 'accent-pink'
-  | 'fill'
-  | 'white';
+  | 'white'
+  | 'black'
+  | 'fill';
 
 export type IconProps = {
   name: IconName;
@@ -56,8 +64,8 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(
 
     return (
       <SvgIcon
-        {...stylex.props(style, styles[variant], !!size && styles.size(size))}
         {...props}
+        {...stylex.props(style, styles[variant], !!size && styles.size(size))}
         ref={forwardedRef}
       />
     );

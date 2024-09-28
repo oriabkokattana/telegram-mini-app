@@ -10,7 +10,7 @@ const Tables = ({ visible }: TablesProps) => {
   return (
     <Flex direction='column' gap='5'>
       <Flex height='32px' align='center'>
-        <Text size='3' weight='bold' lineHeight='normal'>
+        <Text size='3' weight='bold'>
           My Assets
         </Text>
       </Flex>

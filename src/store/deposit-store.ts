@@ -1,22 +1,24 @@
 import { create, StateCreator } from 'zustand';
 
-import { ChainItem, TokenItem } from '@/types';
+import { NetworkItem, WithdrawDepositToken } from '@/types';
 
 type DepositState = {
-  token: TokenItem | null;
-  chain: ChainItem | null;
+  token: WithdrawDepositToken | null;
+  network: NetworkItem | null;
 };
 
 type DepositAction = {
   setToken: (token: DepositState['token']) => void;
-  setChain: (chain: DepositState['chain']) => void;
+  setNetwork: (network: DepositState['network']) => void;
+  reset: () => void;
 };
 
 const depositStoreSlice: StateCreator<DepositState & DepositAction> = (set) => ({
   token: null,
-  chain: null,
+  network: null,
   setToken: (token) => set({ token }),
-  setChain: (chain) => set({ chain }),
+  setNetwork: (network) => set({ network }),
+  reset: () => set({ token: null, network: null }),
 });
 
 export const useDepositStore = create(depositStoreSlice);

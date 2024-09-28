@@ -1,10 +1,11 @@
 import { AxiosError } from 'axios';
 import { z } from 'zod';
 import { useQuery } from '@tanstack/react-query';
-import { Direction } from '@/services/common-schemas/direction';
 import { api } from '@/utils/api';
 import { Endpoints } from '@/utils/endpoints-constants';
 import { TokensAPIRequestSchema, TokensAPIResponseSchema } from './schema';
+
+import { Direction } from '@/types';
 
 const TokensAPIRequest = TokensAPIRequestSchema;
 

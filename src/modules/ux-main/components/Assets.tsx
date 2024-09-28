@@ -34,13 +34,15 @@ const Assets = () => {
             <span {...stylex.props(styles.tokenName)}>{balances[item].total_balance.balance}</span>
             <span {...stylex.props(styles.amountUsd)}>
               ~{currency}{' '}
-              {formatNumberWithSpaces(balances[item].total_balance.balance_usd * currencyRate)}
+              {formatNumberWithSpaces(
+                Number(balances[item].total_balance.balance_usd) * currencyRate
+              )}
             </span>
           </div>
           <div {...stylex.props(styles.badgeWrapper)}>
             <span
               {...stylex.props(styles.badge, idx % 2 === 0 ? styles.even : styles.odd)}
-            >{`${balances[item].total_balance.price_change >= 0 ? '+' : ''}${balances[item].total_balance.price_change}%`}</span>
+            >{`${Number(balances[item].total_balance.pnl_percent) >= 0 ? '+' : ''}${Number(balances[item].total_balance.pnl_percent)}%`}</span>
           </div>
         </Link>
       ))}
