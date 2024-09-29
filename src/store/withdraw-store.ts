@@ -10,6 +10,7 @@ type WithdrawState = {
 type WithdrawAction = {
   setToken: (token: WithdrawState['token']) => void;
   setNetwork: (network: WithdrawState['network']) => void;
+  reset: () => void;
 };
 
 const withdrawStoreSlice: StateCreator<WithdrawState & WithdrawAction> = (set) => ({
@@ -17,6 +18,7 @@ const withdrawStoreSlice: StateCreator<WithdrawState & WithdrawAction> = (set) =
   network: null,
   setToken: (token) => set({ token }),
   setNetwork: (network) => set({ network }),
+  reset: () => set({ token: null, network: null }),
 });
 
 export const useWithdrawStore = create(withdrawStoreSlice);

@@ -23,7 +23,8 @@ export type IconName =
   | 'copy'
   | 'ellipsis'
   | 'collapse'
-  | 'circle-check';
+  | 'circle-check'
+  | 'qr-code';
 
 export type IconVariant =
   | 'primary'

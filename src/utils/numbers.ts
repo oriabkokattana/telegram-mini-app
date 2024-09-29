@@ -2,7 +2,7 @@ export const formatNumber = (number?: number) => {
   if (!number) {
     return '0';
   }
-  return number % 1 === 0 ? number.toString() : number.toFixed(17).replace(/\.?0+$/, '');
+  return number % 1 === 0 ? number.toString() : number.toFixed(12).replace(/\.?0+$/, '');
 };
 
 export const formatNumberWithSpaces = (number?: number) => {

@@ -14,7 +14,7 @@ import {
 } from '@/modules/core/design-system/ui-dropdown';
 import { useBalanceChart } from '@/services/user/balance-chart/api';
 import { useBalancesStore } from '@/store/balances-store';
-import { useSystemCurrencyStore } from '@/store/system-currency';
+import { useSystemCurrencyStore } from '@/store/system-currency-store';
 import { useTimeframeStore } from '@/store/timeframe-store';
 import { formatNumberWithCommas, formatPercent } from '@/utils/numbers';
 

@@ -2,7 +2,7 @@ import * as stylex from '@stylexjs/stylex';
 import Link from '@/modules/core/components/Link';
 import { TokenIcon } from '@/modules/core/design-system/token-icon';
 import { useBalancesStore } from '@/store/balances-store';
-import { useSystemCurrencyStore } from '@/store/system-currency';
+import { useSystemCurrencyStore } from '@/store/system-currency-store';
 import { formatNumberWithSpaces } from '@/utils/numbers';
 
 import { styles } from './Assets.styles';

@@ -36,6 +36,11 @@ export const styles = stylex.create({
     width: size,
     height: size,
   }),
+  'ui-xs': {
+    width: '16px',
+    height: '16px',
+    fontSize: fontSizes.text1,
+  },
   'ui-sm': {
     width: '24px',
     height: '24px',

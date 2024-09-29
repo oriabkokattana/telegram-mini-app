@@ -21,8 +21,9 @@ import UIDeposit from './modules/ui-deposit/components/UIDeposit';
 import UIDepositNetworkSelect from './modules/ui-deposit/components/UIDepositNetworkSelect';
 import UIDepositTokenSelect from './modules/ui-deposit/components/UIDepositTokenSelect';
 import UIMain from './modules/ui-main/components/UIMain';
-import UIWithdrawNetworkSelect from './modules/ui-withdraw/UIWithdrawNetworkSelect';
-import UIWithdrawTokenSelect from './modules/ui-withdraw/UIWithdrawTokenSelect';
+import UIWithdraw from './modules/ui-withdraw/components/UIWithdraw';
+import UIWithdrawNetworkSelect from './modules/ui-withdraw/components/UIWithdrawNetworkSelect';
+import UIWithdrawTokenSelect from './modules/ui-withdraw/components/UIWithdrawTokenSelect';
 import UXAsset from './modules/ux-asset/components/UXAsset';
 import UXDeposit from './modules/ux-deposit/components/UXDeposit';
 import UXDepositTokenSelect from './modules/ux-deposit/components/UXDepositTokenSelect';
@@ -35,7 +36,7 @@ import UXWithdrawTokenSelect from './modules/ux-withdraw/components/UXWithdrawTo
 import { useBalances } from './services/user/balances/api';
 import { useSystemRates } from './services/user/system-rates/api';
 import { useBalancesStore } from './store/balances-store';
-import { useSystemCurrencyStore } from './store/system-currency';
+import { useSystemCurrencyStore } from './store/system-currency-store';
 
 function App() {
   const miniApp = useMiniApp();
@@ -113,6 +114,7 @@ function App() {
             <Route path='ui-deposit' element={<UIDeposit />} />
             <Route path='ui-withdraw-token-select' element={<UIWithdrawTokenSelect />} />
             <Route path='ui-withdraw-network-select' element={<UIWithdrawNetworkSelect />} />
+            <Route path='ui-withdraw' element={<UIWithdraw />} />
           </Route>
 
           <Route

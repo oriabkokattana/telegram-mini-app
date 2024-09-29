@@ -6,7 +6,7 @@ import { useUtils } from '@telegram-apps/sdk-react';
 import ChevronDownIcon from '@/assets/chevron-down.svg?react';
 import { Dropdown } from '@/modules/core/design-system/dropdown';
 import { useBalancesStore } from '@/store/balances-store';
-import { useSystemCurrencyStore } from '@/store/system-currency';
+import { useSystemCurrencyStore } from '@/store/system-currency-store';
 import { formatNumberWithCommas } from '@/utils/numbers';
 import allTimeChart from '../media/all-time.svg';
 import dailyChart from '../media/daily.png';

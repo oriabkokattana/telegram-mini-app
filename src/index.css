@@ -88,8 +88,11 @@ a {
   --gray-1: #fefefe;
   --gray-12: #0c0612;
   --gray-a3: #f3f4f7;
+  --gray-a6: #f3f4f7;
   --gray-a11: #75788b;
 
+  --gold-a3: rgba(250, 250, 250, 0.1);
+  --gold-a4: rgba(117, 120, 139, 0.1);
   --gold-a11: #75788b;
 
   --bronze-a11: #1c2024;
@@ -118,8 +121,11 @@ a {
   --gray-1: #0c0612;
   --gray-12: #fafafa;
   --gray-a3: #221d2e;
+  --gray-a6: #221d2e;
   --gray-a11: #9a94aa;
 
+  --gold-a3: rgba(250, 250, 250, 0.1);
+  --gold-a4: rgba(117, 120, 139, 0.4);
   --gold-a11: #fafafa;
 
   --bronze-a11: #fff;
@@ -169,7 +175,15 @@ a {
 
 .rt-TextFieldRoot.rt-variant-surface > .rt-TextFieldInput {
   font-weight: 500;
+  color: var(--brown-a11);
+}
+
+.rt-TextFieldRoot.rt-variant-surface > .rt-TextFieldInput::placeholder {
   color: var(--gray-a11);
+}
+
+.rt-TextFieldInput:read-only {
+  cursor: inherit;
 }
 
 .rt-Card.rt-variant-surface {
@@ -190,6 +204,10 @@ a {
 
 .rt-Button.rt-r-size-3 {
   gap: var(--space-2);
+}
+
+.rt-BaseButton.rt-variant-solid:is([data-disabled]) {
+  background-color: var(--gray-a11);
 }
 
 @font-face {

@@ -84,8 +84,9 @@ const UINetworkSelectScreen = ({
                   </Flex>
                   <Flex asChild px='3' py='2' {...stylex.props(styles.badge)}>
                     <Text color='gray' size='2' weight='medium' lineHeight='12px'>
-                      &gt;{direction === 'deposit' ? item.min_deposit_usd : item.min_withdraw_usd}{' '}
-                      USDT minimum
+                      &gt;
+                      {direction === 'deposit' ? item.token_min_deposit : item.token_min_withdraw}
+                      {token?.symbol} minimum
                     </Text>
                   </Flex>
                 </Flex>

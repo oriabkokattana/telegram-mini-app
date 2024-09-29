@@ -19,6 +19,9 @@ export const colors = stylex.defineVars({
   // Dialog Colors
   dialogBackground: '#F3F4F7',
 
+  // Backgrounds
+  violetBackground: 'rgba(225, 219, 250, 1)',
+
   // Icon Colors
   primaryIcon: 'rgba(12, 6, 18, 1)',
   secondaryIcon: 'rgba(117, 120, 139, 1)',
@@ -47,6 +50,9 @@ export const darkTheme = stylex.createTheme(colors, {
 
   // Dialog Colors
   dialogBackground: '#110A21',
+
+  // Backgrounds
+  violetBackground: 'rgba(26, 15, 56, 1)',
 
   // Icon Colors
   primaryIcon: 'rgba(254, 254, 254, 1)',

@@ -4,7 +4,7 @@ import { useSetAppBg } from '@/hooks/use-set-app-bg';
 import { Dropdown } from '@/modules/core/design-system/dropdown';
 import { useTransactions } from '@/services/user/transactions/api';
 import { useBalancesStore } from '@/store/balances-store';
-import { useSystemCurrencyStore } from '@/store/system-currency';
+import { useSystemCurrencyStore } from '@/store/system-currency-store';
 import { formatNumberWithCommas } from '@/utils/numbers';
 import { transformTransactions } from '@/utils/transactions';
 import UXTransactionHistory from '../../core/components/UXTransactionHistory';

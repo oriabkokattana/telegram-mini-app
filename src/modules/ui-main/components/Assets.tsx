@@ -4,7 +4,7 @@ import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
 import { TokenIcon } from '@/modules/core/design-system/token-icon';
 import { useBalancesStore } from '@/store/balances-store';
-import { useSystemCurrencyStore } from '@/store/system-currency';
+import { useSystemCurrencyStore } from '@/store/system-currency-store';
 import { formatNumber, formatNumberWithSpaces, formatPercent } from '@/utils/numbers';
 
 interface AssetsProps {

@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { TextField as RootTextField } from '@radix-ui/themes';
+import { IconButton, TextField as RootTextField } from '@radix-ui/themes';
 import * as stylex from '@stylexjs/stylex';
 import { CompiledStyles, InlineStyles } from '@stylexjs/stylex/lib/StyleXTypes';
 import { Icon } from '../icon';
@@ -9,27 +9,29 @@ import { styles } from './TextField.styles';
 export type TextFieldProps = {
   clear?: boolean;
   style?: null | undefined | CompiledStyles | boolean | Readonly<[CompiledStyles, InlineStyles]>;
-  value: string;
-  onChange(value: string): void;
-} & Omit<RootTextField.RootProps, 'style' | 'className' | 'value' | 'onChange'>;
+  value?: string;
+  readOnly?: boolean;
+  onChange?(value: string): void;
+} & Omit<RootTextField.RootProps, 'style' | 'className' | 'value' | 'readOnly' | 'onChange'>;
 
 export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
-  ({ clear, style, value, onChange, children, ...props }, forwardedRef) => {
+  ({ clear, style, value, readOnly, onChange, children, ...props }, forwardedRef) => {
     return (
       <RootTextField.Root
+        onMouseDown={readOnly ? (e) => e.preventDefault() : undefined}
         {...props}
         {...stylex.props(style)}
         ref={forwardedRef}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => onChange?.(e.target.value)}
+        readOnly={readOnly}
       >
         {children}
         {clear && (
-          <RootTextField.Slot
-            {...stylex.props(styles.clear, value ? styles.show : styles.hide)}
-            onClick={() => onChange('')}
-          >
-            <Icon name='clear' variant='secondary' />
+          <RootTextField.Slot {...stylex.props(styles.clear, value ? styles.show : styles.hide)}>
+            <IconButton variant='ghost' size='1' onClick={() => onChange?.('')}>
+              <Icon name='clear' variant='secondary' />
+            </IconButton>
           </RootTextField.Slot>
         )}
       </RootTextField.Root>
@@ -37,6 +39,4 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
   }
 );
 
-export const TextFieldSlot = forwardRef<HTMLDivElement, RootTextField.SlotProps>(
-  (props, forwardedRef) => <RootTextField.Slot {...props} ref={forwardedRef} />
-);
+export const TextFieldSlot = RootTextField.Slot;

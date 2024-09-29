@@ -27,8 +27,8 @@ const UIDeposit = () => {
   const token = useDepositStore((state) => state.token);
   const network = useDepositStore((state) => state.network);
   const reset = useDepositStore((state) => state.reset);
-  const isBottomGap = useCheckBottomGap();
 
+  const isBottomGap = useCheckBottomGap();
   const utils = useUtils();
   const { data: custodialWalletData } = useCustodialWallet(network?.name);
 
@@ -37,9 +37,10 @@ const UIDeposit = () => {
       await navigator.clipboard.writeText(custodialWalletData?.address);
       if (notify) {
         toast.success('Copied to clipboard!');
+      } else {
+        setCopied(true);
+        window.setTimeout(() => setCopied(false), 2000);
       }
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 2000);
     } else {
       toast.error('Custody wallet address not defined');
     }
@@ -53,7 +54,7 @@ const UIDeposit = () => {
     <Flex minHeight='100vh' direction='column' gap='6' px='4' pt='4' pb={isBottomGap ? '6' : '4'}>
       <Flex direction='column' align='center' gap='5'>
         <Text size='4' align='center' weight='bold' lineHeight='16px'>
-          Deposit {token?.symbol}
+          Deposit {token?.name}
         </Text>
         <Box width='200px' height='200px'>
           {custodialWalletData?.address && (
@@ -67,7 +68,7 @@ const UIDeposit = () => {
             {transformAddress(custodialWalletData?.address)}
           </Text>
         </Flex>
-        <Flex justify='center' gap='2'>
+        <Flex justify='center' align='center' gap='2'>
           <Button
             color={copied ? 'mint' : 'violet'}
             size='3'
@@ -161,7 +162,7 @@ const UIDeposit = () => {
           <Text size='2' weight='medium' lineHeight='12px'>
             Deposit Network
           </Text>
-          <Flex align='center' gap='2' maxWidth='200px'>
+          <Flex align='center' gap='2' maxWidth='250px'>
             <Text size='2' weight='medium' lineHeight='12px'>
               {network?.token_standard}
             </Text>

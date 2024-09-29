@@ -29,9 +29,6 @@ export function useWithdraw() {
     z.infer<typeof WithdrawAPIRequestSchema>
   >({
     mutationFn: (payload) => withdraw({ data: payload }),
-    onSuccess: () => {
-      toast.success('Withdrawl successful');
-    },
     onError: (error) => {
       const errorMessage = error.response?.data.error;
       toast.error(errorMessage);
