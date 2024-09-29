@@ -26,7 +26,7 @@ interface CustomChartProps {
   variant: ChartVariant;
   width?: string | number;
   height?: string | number;
-  data?: { timestamp: number; value: number }[];
+  data?: { timestamp: number; value: number | string }[];
   margin?: Margin;
 }
 

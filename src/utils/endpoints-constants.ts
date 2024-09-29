@@ -18,4 +18,5 @@ export const Endpoints = {
   SYSTEM_RATES: '/system-rates',
   TRANSACTIONS: '/private/assets/transactions',
   ASSET_ANALYTICS: '/private/assets/analytics',
+  BALANCE_CHART: '/private/balance/chart',
 };

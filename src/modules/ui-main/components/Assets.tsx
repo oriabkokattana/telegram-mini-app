@@ -43,7 +43,7 @@ const Assets = ({ visible }: AssetsProps) => {
                   {item}
                 </Text>
                 <Text color='gray' size='2' lineHeight='12px'>
-                  {item}
+                  {balances[item].currency_name || item}
                 </Text>
               </Flex>
             </Flex>

@@ -12,6 +12,7 @@ import {
   DropdownItem,
   DropdownTrigger,
 } from '@/modules/core/design-system/ui-dropdown';
+import { useBalanceChart } from '@/services/user/balance-chart/api';
 import { useBalancesStore } from '@/store/balances-store';
 import { useSystemCurrencyStore } from '@/store/system-currency';
 import { useTimeframeStore } from '@/store/timeframe-store';
@@ -46,6 +47,7 @@ const TotalBalance = ({ visible, setVisible }: TotalBalanceProps) => {
   const setBalanceTimeframeViaPeriod = useTimeframeStore(
     (state) => state.setBalanceTimeframeViaPeriod
   );
+  const { data: balanceChartData } = useBalanceChart();
 
   useEffect(() => {
     setBalanceTimeframeViaPeriod(period);
@@ -115,16 +117,7 @@ const TotalBalance = ({ visible, setVisible }: TotalBalanceProps) => {
             </Text>
           </Button>
         </Flex>
-        <CustomChart
-          variant='violet'
-          height={108}
-          data={[
-            { timestamp: Date.now() - 1500000, value: 121 },
-            { timestamp: Date.now() - 1000000, value: 326 },
-            { timestamp: Date.now() - 10000, value: 241 },
-            { timestamp: Date.now(), value: 411 },
-          ]}
-        />
+        <CustomChart variant='violet' height={108} data={balanceChartData} />
         <Flex my='-4' mb='4' px='9'>
           <Flex asChild flexGrow='1'>
             <Link to='/ui-deposit-token-select'>

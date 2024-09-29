@@ -32,12 +32,12 @@ export const styles = stylex.create({
   },
   appear: {
     animationName: animations.appear,
-    animationDuration: '0.15s',
+    animationDuration: '0.3s',
     animationFillMode: 'forwards',
   },
   hide: {
     animationName: animations.hide,
-    animationDuration: '0.15s',
+    animationDuration: '0.3s',
     animationFillMode: 'forwards',
   },
 });

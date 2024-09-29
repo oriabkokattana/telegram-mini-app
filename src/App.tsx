@@ -21,6 +21,8 @@ import UIDeposit from './modules/ui-deposit/components/UIDeposit';
 import UIDepositNetworkSelect from './modules/ui-deposit/components/UIDepositNetworkSelect';
 import UIDepositTokenSelect from './modules/ui-deposit/components/UIDepositTokenSelect';
 import UIMain from './modules/ui-main/components/UIMain';
+import UIWithdrawNetworkSelect from './modules/ui-withdraw/UIWithdrawNetworkSelect';
+import UIWithdrawTokenSelect from './modules/ui-withdraw/UIWithdrawTokenSelect';
 import UXAsset from './modules/ux-asset/components/UXAsset';
 import UXDeposit from './modules/ux-deposit/components/UXDeposit';
 import UXDepositTokenSelect from './modules/ux-deposit/components/UXDepositTokenSelect';
@@ -109,6 +111,8 @@ function App() {
             <Route path='ui-deposit-token-select' element={<UIDepositTokenSelect />} />
             <Route path='ui-deposit-network-select' element={<UIDepositNetworkSelect />} />
             <Route path='ui-deposit' element={<UIDeposit />} />
+            <Route path='ui-withdraw-token-select' element={<UIWithdrawTokenSelect />} />
+            <Route path='ui-withdraw-network-select' element={<UIWithdrawNetworkSelect />} />
           </Route>
 
           <Route

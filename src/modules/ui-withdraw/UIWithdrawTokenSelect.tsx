@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router-dom';
-import UXTokenSelectScreen from '@/modules/core/components/UXTokenSelectScreen';
+import UITokenSelectScreen from '@/modules/core/components/UITokenSelectScreen';
 import { useTokens } from '@/services/user/tokens/api';
 import { useWithdrawStore } from '@/store/withdraw-store';
 
 import { TokenItem } from '@/types';
 
-const UXWithdrawTokenSelect = () => {
+const UIWithdrawTokenSelect = () => {
   const navigate = useNavigate();
   const setToken = useWithdrawStore((state) => state.setToken);
 
@@ -13,10 +13,10 @@ const UXWithdrawTokenSelect = () => {
 
   const onSelect = (token: TokenItem) => {
     setToken(token);
-    navigate('/withdraw');
+    navigate('/ui-withdraw-network-select');
   };
 
-  return <UXTokenSelectScreen data={data} onSelect={onSelect} />;
+  return <UITokenSelectScreen data={data} direction='withdraw' onSelect={onSelect} />;
 };
 
-export default UXWithdrawTokenSelect;
+export default UIWithdrawTokenSelect;
