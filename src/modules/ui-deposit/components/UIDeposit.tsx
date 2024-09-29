@@ -68,7 +68,12 @@ const UIDeposit = () => {
           </Text>
         </Flex>
         <Flex justify='center' gap='2'>
-          <Button color={copied ? 'mint' : 'violet'} size='3' onClick={() => onCopyAddress()}>
+          <Button
+            color={copied ? 'mint' : 'violet'}
+            size='3'
+            style={{ pointerEvents: copied ? 'none' : 'auto' }}
+            onClick={() => onCopyAddress()}
+          >
             <Icon name={copied ? 'circle-check' : 'copy'} variant={copied ? 'black' : 'white'} />
             <Text color={copied ? 'amber' : 'sky'} size='2' weight='bold' lineHeight='12px'>
               {copied ? 'Address Copied' : 'Copy Address'}

@@ -31,9 +31,14 @@ interface CustomChartProps {
 }
 
 const CustomChart = ({ variant, width, height, data, margin }: CustomChartProps) => {
+  const parsedData = data?.map((item) => ({
+    timestamp: item.timestamp,
+    value: Number(item.value) || 0,
+  }));
+
   return (
     <ResponsiveContainer width={width} height={height}>
-      <AreaChart width={390} height={164} data={data} margin={margin}>
+      <AreaChart width={390} height={164} data={parsedData} margin={margin}>
         <defs>
           <linearGradient id='paleGradient' x1='0' y1='0' x2='0' y2='1'>
             <stop stopColor='#EAEAEA' />
