@@ -19,4 +19,5 @@ export const Endpoints = {
   TRANSACTIONS: '/private/assets/transactions',
   ASSET_ANALYTICS: '/private/assets/analytics',
   BALANCE_CHART: '/private/balance/chart',
+  PROFIT: '/private/profit',
 };

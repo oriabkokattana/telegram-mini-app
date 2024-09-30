@@ -47,7 +47,7 @@ const CustomChart = ({ variant, height, data, margin }: CustomChartProps) => {
             <stop stopColor='#E6E6E6' stopOpacity={0.12} />
             <stop offset='100%' stopOpacity={0} />
           </linearGradient>
-          <linearGradient id='pinkToVioletGradient' x1='0' y1='0' x2='0' y2='1'>
+          <linearGradient id='pinkToVioletGradient' x1='0' y1='0' x2='1' y2='0'>
             <stop stopColor='#FF65B3' />
             <stop offset='50%' stopColor='#AE9AFF' />
             <stop offset='100%' stopColor='#AE9AFF' />

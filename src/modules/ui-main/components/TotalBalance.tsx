@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import * as Label from '@radix-ui/react-label';
-import { Box, Button, Flex, IconButton, TextProps } from '@radix-ui/themes';
+import { Box, Button, Flex, IconButton } from '@radix-ui/themes';
 import { EPeriod } from '@/enums';
 import CustomChart from '@/modules/core/components/CustomChart';
 import Link from '@/modules/core/components/Link';
@@ -16,23 +16,8 @@ import { useBalanceChart } from '@/services/user/balance-chart/api';
 import { useBalancesStore } from '@/store/balances-store';
 import { useSystemCurrencyStore } from '@/store/system-currency-store';
 import { useTimeframeStore } from '@/store/timeframe-store';
+import { getTotalBalanceFontSize } from '@/utils/balances';
 import { formatNumberWithCommas, formatPercent } from '@/utils/numbers';
-
-const getTotalBalanceFontSize = (balanceString: string): TextProps => {
-  if (balanceString.length > 22) {
-    return { size: '4' };
-  }
-  if (balanceString.length > 17) {
-    return { size: '5' };
-  }
-  if (balanceString.length > 13) {
-    return { size: '6' };
-  }
-  if (balanceString.length > 10) {
-    return { size: '7' };
-  }
-  return { size: '8' };
-};
 
 interface TotalBalanceProps {
   visible: boolean;
@@ -40,7 +25,7 @@ interface TotalBalanceProps {
 }
 
 const TotalBalance = ({ visible, setVisible }: TotalBalanceProps) => {
-  const [period, setPeriod] = useState(EPeriod.day);
+  const [period, setPeriod] = useState(EPeriod.all);
 
   const { currency, currencyRate, currencies, setCurrency } = useSystemCurrencyStore();
   const { total_balance_usd, pnl_usd, pnl_percent } = useBalancesStore();
@@ -126,7 +111,7 @@ const TotalBalance = ({ visible, setVisible }: TotalBalanceProps) => {
                   <IconButton size='4'>
                     <Icon name='arrow-down-half-circle' variant='white' />
                   </IconButton>
-                  <Text size='2' weight='medium' lineHeight='12px'>
+                  <Text size='2' lineHeight='12px'>
                     Deposit
                   </Text>
                 </Label.Root>
@@ -140,7 +125,7 @@ const TotalBalance = ({ visible, setVisible }: TotalBalanceProps) => {
                   <IconButton color='gray' variant='soft' size='4'>
                     <Icon name='arrow-up-half-circle' variant='tertiary' />
                   </IconButton>
-                  <Text size='2' weight='medium' lineHeight='12px'>
+                  <Text size='2' lineHeight='12px'>
                     Withdraw
                   </Text>
                 </Label.Root>

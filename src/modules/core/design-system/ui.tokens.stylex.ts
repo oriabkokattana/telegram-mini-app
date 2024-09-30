@@ -5,6 +5,11 @@ export const colors = stylex.defineVars({
   primaryText: '#0C0612',
   secondaryText: '#75788B',
 
+  // Timeframe Colors
+  timeframeBackground: '#F3F4F7',
+  timeframeText: '#75788B',
+  timeframeActiveText: '#75788B',
+
   // Badge Colors
   badgeBackground: 'rgba(117, 120, 139, 0.1)',
 
@@ -37,6 +42,11 @@ export const darkTheme = stylex.createTheme(colors, {
   // Text Colors
   primaryText: '#FAFAFA',
   secondaryText: '#9A94AA',
+
+  // Timeframe Colors
+  timeframeBackground: '#221D2E',
+  timeframeText: '#9A94AA',
+  timeframeActiveText: '#FAFAFA',
 
   // Badge Colors
   badgeBackground: 'rgba(250, 250, 250, 0.1)',

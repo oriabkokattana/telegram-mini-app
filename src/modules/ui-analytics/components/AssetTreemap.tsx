@@ -37,7 +37,7 @@ const assignColorsAndRank = (assets: Asset[]): AssetWithColorAndRank[] => {
       group.push(asset);
     } else {
       const highestInGroup = group[0].balanceUSD;
-      const lowestAllowed = highestInGroup * 0.7; // 20% less than the highest
+      const lowestAllowed = highestInGroup * 0.7; // 30% less than the highest
       if (asset.balanceUSD >= lowestAllowed) {
         group.push(asset);
       } else {
@@ -102,7 +102,7 @@ const AssetTreemap = () => {
   }, [balances]);
 
   return (
-    <Box height='calc(100vh - 180px)'>
+    <Box height={treeMapData.children.length > 4 ? 'calc(100vh - 180px)' : '304px'}>
       <ResponsiveTreeMapHtml
         data={treeMapData}
         identity='name'
