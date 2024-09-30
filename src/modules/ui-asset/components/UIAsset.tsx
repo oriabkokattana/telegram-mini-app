@@ -26,7 +26,7 @@ const UIAsset = () => {
 
   const { asset } = useParams();
   const { data: assetSummaryData } = useAssetSummary(asset);
-  const { data: assetChartData } = useAssetChart(timeframe, asset);
+  const { data: assetChartData, isLoading } = useAssetChart(timeframe, asset);
   const rates = useSystemCurrencyStore((state) => state.rates);
   const balances = useBalancesStore((state) => state.balances);
   const setDepositToken = useDepositStore((state) => state.setToken);
@@ -78,7 +78,12 @@ const UIAsset = () => {
         </Flex>
       </Flex>
       <Flex direction='column' gap='3'>
-        <CustomChart variant='violet' height={108} data={assetChartData?.chard_data} />
+        <CustomChart
+          variant='violet'
+          height={108}
+          data={assetChartData?.chard_data}
+          loading={isLoading}
+        />
         <TimeframeRange timeframe={timeframe} setTimeframe={setTimeframe} />
       </Flex>
       <Flex>

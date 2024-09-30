@@ -32,7 +32,7 @@ const TotalBalance = ({ visible, setVisible }: TotalBalanceProps) => {
   const setBalanceTimeframeViaPeriod = useTimeframeStore(
     (state) => state.setBalanceTimeframeViaPeriod
   );
-  const { data: balanceChartData } = useBalanceChart();
+  const { data: balanceChartData, isLoading } = useBalanceChart();
 
   useEffect(() => {
     setBalanceTimeframeViaPeriod(period);
@@ -102,7 +102,7 @@ const TotalBalance = ({ visible, setVisible }: TotalBalanceProps) => {
             </Text>
           </Button>
         </Flex>
-        <CustomChart variant='violet' height={108} data={balanceChartData} />
+        <CustomChart variant='violet' height={108} data={balanceChartData} loading={isLoading} />
         <Flex my='-4' mb='4' px='9'>
           <Flex asChild flexGrow='1'>
             <Link to='/deposit-token-select'>

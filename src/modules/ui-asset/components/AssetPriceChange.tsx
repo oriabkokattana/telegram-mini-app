@@ -27,7 +27,7 @@ const AssetPriceChange = ({ asset }: AssetPriceChangeProps) => {
   const [timeframe, setTimeframe] = useState(ETimeframe.m);
 
   const { data: assetPriceData } = useAssetPrice(asset);
-  const { data: assetPriceChangeData } = useAssetPriceChange(timeframe, asset);
+  const { data: assetPriceChangeData, isLoading } = useAssetPriceChange(timeframe, asset);
   const isBottomGap = useCheckBottomGap();
 
   const priceUSD = Number(assetPriceData?.price_usd || 0);
@@ -61,6 +61,7 @@ const AssetPriceChange = ({ asset }: AssetPriceChangeProps) => {
           priceUSD={priceUSD}
           priceChagePercent={priceChangePercent}
           chartData={assetPriceChangeData}
+          loading={isLoading}
           open={open}
           setOpen={setOpen}
         />
@@ -86,7 +87,7 @@ const AssetPriceChange = ({ asset }: AssetPriceChangeProps) => {
                 </Text>
               </Flex>
             </Flex>
-            <CustomChart height={201} data={assetPriceChangeData} />
+            <CustomChart height={201} data={assetPriceChangeData} loading={isLoading} />
             <Box py='2'>
               <TimeframeRange
                 variant='transparent'
@@ -111,11 +112,20 @@ type HeaderProps = {
   priceUSD: number;
   priceChagePercent: number;
   chartData?: ChartEntity[];
+  loading: boolean;
   open?: boolean;
   setOpen(open?: boolean): void;
 };
 
-const Header = ({ asset, priceUSD, priceChagePercent, chartData, open, setOpen }: HeaderProps) => {
+const Header = ({
+  asset,
+  priceUSD,
+  priceChagePercent,
+  chartData,
+  loading,
+  open,
+  setOpen,
+}: HeaderProps) => {
   return (
     <Flex
       asChild
@@ -158,7 +168,7 @@ const Header = ({ asset, priceUSD, priceChagePercent, chartData, open, setOpen }
               </Flex>
             </Flex>
             <Box width='114px'>
-              <CustomChart type='line' height={24} data={chartData} />
+              <CustomChart type='line' height={24} data={chartData} loading={loading} />
             </Box>
           </Flex>
         )}

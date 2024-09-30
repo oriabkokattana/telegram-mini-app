@@ -33,6 +33,7 @@ interface CustomChartProps {
   type?: 'area' | 'line';
   height: number;
   data?: ChartEntity[];
+  loading: boolean;
   margin?: Margin;
 }
 
@@ -41,9 +42,10 @@ const CustomChart = ({
   type = 'area',
   height,
   data,
+  loading,
   margin,
 }: CustomChartProps) => {
-  if (!data?.length || data.length === 1) {
+  if ((!data?.length || data.length === 1) && !loading) {
     return (
       <img
         src={
@@ -58,7 +60,7 @@ const CustomChart = ({
     );
   }
 
-  const chartData = data.map((item) => ({
+  const chartData = data?.map((item) => ({
     name: item.timestamp,
     value: Number(item.value) || 0,
   }));

@@ -16,7 +16,7 @@ const BalanceAnalytics = () => {
 
   const { total_balance_usd, pnl_usd, pnl_percent } = useBalancesStore();
   const setBalanceTimeframe = useTimeframeStore((state) => state.setBalanceTimeframe);
-  const { data: profitChartData } = useProfitChart(timeframe);
+  const { data: profitChartData, isLoading } = useProfitChart(timeframe);
 
   useEffect(() => {
     setBalanceTimeframe(timeframe);
@@ -52,7 +52,12 @@ const BalanceAnalytics = () => {
         </Flex>
       </Flex>
       <Flex direction='column' gap='3'>
-        <CustomChart variant='violet' height={108} data={profitChartData?.chard_data} />
+        <CustomChart
+          variant='violet'
+          height={108}
+          data={profitChartData?.chard_data}
+          loading={isLoading}
+        />
         <TimeframeRange timeframe={timeframe} setTimeframe={setTimeframe} />
       </Flex>
       <Card size='2'>
