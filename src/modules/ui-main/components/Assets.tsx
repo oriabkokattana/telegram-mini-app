@@ -1,6 +1,5 @@
 import { Flex } from '@radix-ui/themes';
 import Link from '@/modules/core/components/Link';
-import NoDataPlaceholder from '@/modules/core/components/NoDataPlaceholder';
 import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
 import { TokenIcon } from '@/modules/core/design-system/token-icon';
@@ -18,11 +17,6 @@ const Assets = ({ visible }: AssetsProps) => {
   const currencyRate = useSystemCurrencyStore((state) => state.currencyRate);
 
   const assetList = Object.keys(balances);
-
-  if (!assetList.length) {
-    return <NoDataPlaceholder text='No assets yet!' />;
-  }
-
   const sortedAssetList = assetList.sort(
     (a, b) =>
       Number(balances[b].total_balance.balance_usd) - Number(balances[a].total_balance.balance_usd)

@@ -9,14 +9,16 @@ const UIWithdrawTokenSelect = () => {
   const navigate = useNavigate();
   const setToken = useWithdrawStore((state) => state.setToken);
 
-  const { data } = useTokens('withdraw');
+  const { data, isLoading } = useTokens('withdraw');
 
   const onSelect = (token: TokenItem) => {
     setToken(token);
     navigate('/ui-withdraw-network-select');
   };
 
-  return <UITokenSelectScreen data={data} direction='withdraw' onSelect={onSelect} />;
+  return (
+    <UITokenSelectScreen data={data} loading={isLoading} direction='withdraw' onSelect={onSelect} />
+  );
 };
 
 export default UIWithdrawTokenSelect;

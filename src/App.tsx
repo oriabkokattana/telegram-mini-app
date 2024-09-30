@@ -26,15 +26,6 @@ import UIMain from './modules/ui-main/components/UIMain';
 import UIWithdraw from './modules/ui-withdraw/components/UIWithdraw';
 import UIWithdrawNetworkSelect from './modules/ui-withdraw/components/UIWithdrawNetworkSelect';
 import UIWithdrawTokenSelect from './modules/ui-withdraw/components/UIWithdrawTokenSelect';
-import UXAsset from './modules/ux-asset/components/UXAsset';
-import UXDeposit from './modules/ux-deposit/components/UXDeposit';
-import UXDepositTokenSelect from './modules/ux-deposit/components/UXDepositTokenSelect';
-import UXMain from './modules/ux-main/components/UXMain';
-import UXProfile from './modules/ux-profile/components/UXProfile';
-import TokenGraph from './modules/ux-swap/components/TokenGraph';
-import UXSwap from './modules/ux-swap/components/UXSwap';
-import UXWithdraw from './modules/ux-withdraw/components/UXWithdraw';
-import UXWithdrawTokenSelect from './modules/ux-withdraw/components/UXWithdrawTokenSelect';
 import { useBalances } from './services/user/balances/api';
 import { useSystemRates } from './services/user/system-rates/api';
 import { useBalancesStore } from './store/balances-store';
@@ -99,7 +90,7 @@ function App() {
               </PrivateRoute>
             }
           >
-            <Route index element={<UXMain />} />
+            {/* <Route index element={<UXMain />} />
             <Route path='profile' element={<UXProfile />} />
             <Route path='asset/:asset' element={<UXAsset />} />
             <Route path='deposit-token-select' element={<UXDepositTokenSelect />} />
@@ -107,7 +98,7 @@ function App() {
             <Route path='withdraw-token-select' element={<UXWithdrawTokenSelect />} />
             <Route path='withdraw' element={<UXWithdraw />} />
             <Route path='swap' element={<UXSwap />} />
-            <Route path='token-graph' element={<TokenGraph />} />
+            <Route path='token-graph' element={<TokenGraph />} /> */}
             <Route path='qr-code' element={<ScanQrCode />} />
 
             <Route path='ui-main' element={<UIMain />} />

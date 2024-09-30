@@ -9,14 +9,16 @@ const UIDepositTokenSelect = () => {
   const navigate = useNavigate();
   const setToken = useDepositStore((state) => state.setToken);
 
-  const { data } = useTokens('deposit');
+  const { data, isLoading } = useTokens('deposit');
 
   const onSelect = (token: TokenItem) => {
     setToken(token);
     navigate('/ui-deposit-network-select');
   };
 
-  return <UITokenSelectScreen data={data} direction='deposit' onSelect={onSelect} />;
+  return (
+    <UITokenSelectScreen data={data} loading={isLoading} direction='deposit' onSelect={onSelect} />
+  );
 };
 
 export default UIDepositTokenSelect;
