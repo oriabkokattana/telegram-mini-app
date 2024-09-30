@@ -1,30 +1,32 @@
-export const formatNumber = (number?: number) => {
+export const formatNumber = (number?: number, fractionDigits = 12) => {
   if (!number) {
     return '0';
   }
-  return number % 1 === 0 ? number.toString() : number.toFixed(12).replace(/\.?0+$/, '');
+  return number % 1 === 0
+    ? number.toString()
+    : number.toFixed(fractionDigits).replace(/\.?0+$/, '');
 };
 
-export const formatNumberWithSpaces = (number?: number) => {
+export const formatNumberWithSpaces = (number?: number, fractionDigits = 5) => {
   if (!number) {
     return '0';
   }
   // Format the number using 'en-US' or any locale that uses commas or spaces as thousands separators
   return new Intl.NumberFormat('en-US', {
     minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
+    maximumFractionDigits: fractionDigits,
   })
     .format(number)
     .replace(/,/g, ' ');
 };
 
-export const formatNumberWithCommas = (number?: number) => {
+export const formatNumberWithCommas = (number?: number, fractionDigits = 5) => {
   if (number === undefined || number === null) {
     return '0';
   }
   return new Intl.NumberFormat('en-US', {
     minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
+    maximumFractionDigits: fractionDigits,
   }).format(number);
 };
 

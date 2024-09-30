@@ -24,21 +24,20 @@ const getChartStrokeColor = (variant: ChartVariant) => {
 
 interface CustomChartProps {
   variant: ChartVariant;
-  width?: string | number;
-  height?: string | number;
+  height: number;
   data?: { timestamp: number; value: number | string }[];
   margin?: Margin;
 }
 
-const CustomChart = ({ variant, width, height, data, margin }: CustomChartProps) => {
+const CustomChart = ({ variant, height, data, margin }: CustomChartProps) => {
   const parsedData = data?.map((item) => ({
-    timestamp: item.timestamp,
+    name: item.timestamp,
     value: Number(item.value) || 0,
   }));
 
   return (
-    <ResponsiveContainer width={width} height={height}>
-      <AreaChart width={390} height={164} data={parsedData} margin={margin}>
+    <ResponsiveContainer width='100%' height={height}>
+      <AreaChart data={parsedData} margin={margin}>
         <defs>
           <linearGradient id='paleGradient' x1='0' y1='0' x2='0' y2='1'>
             <stop stopColor='#EAEAEA' />

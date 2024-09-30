@@ -25,7 +25,7 @@ const Footer = () => {
         <NavigationMenuLink to='/ui-main' {...stylex.props(styles.link)}>
           <Label.Root>
             <IconButton size='1' variant='ghost'>
-              <Icon name='home' variant='primary' />
+              <Icon name='home' />
             </IconButton>
             <Text customSize='10px' weight='medium' letterSpacing='-0.1px' lineHeight='8px'>
               {ETab.home}

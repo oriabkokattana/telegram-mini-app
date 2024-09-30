@@ -17,6 +17,7 @@ import Authorization from './modules/authorization/components/Authorization';
 import { PrivateRoute } from './modules/core/components/PrivateRoute';
 import { PublicRoute } from './modules/core/components/PublicRoute';
 import ScanQrCode from './modules/core/components/ScanQrCode';
+import UIAnalytics from './modules/ui-analytics/components/UIAnalytics';
 import UIDeposit from './modules/ui-deposit/components/UIDeposit';
 import UIDepositNetworkSelect from './modules/ui-deposit/components/UIDepositNetworkSelect';
 import UIDepositTokenSelect from './modules/ui-deposit/components/UIDepositTokenSelect';
@@ -115,6 +116,7 @@ function App() {
             <Route path='ui-withdraw-token-select' element={<UIWithdrawTokenSelect />} />
             <Route path='ui-withdraw-network-select' element={<UIWithdrawNetworkSelect />} />
             <Route path='ui-withdraw' element={<UIWithdraw />} />
+            <Route path='ui-analytics' element={<UIAnalytics />} />
           </Route>
 
           <Route

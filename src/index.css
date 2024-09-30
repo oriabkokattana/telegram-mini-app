@@ -210,6 +210,11 @@ a {
   background-color: var(--gray-a11);
 }
 
+.rt-TabNavItem {
+  cursor: pointer;
+  flex-grow: 1;
+}
+
 @font-face {
   font-family: 'Roobert PRO';
   src:
