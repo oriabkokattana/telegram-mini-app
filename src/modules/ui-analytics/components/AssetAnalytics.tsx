@@ -1,10 +1,26 @@
 import { Flex } from '@radix-ui/themes';
+import NoDataPlaceholder from '@/modules/core/components/NoDataPlaceholder';
 import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
 import Assets from '@/modules/ui-main/components/Assets';
+import { useBalancesStore } from '@/store/balances-store';
 import AssetTreemap from './AssetTreemap';
 
 const AssetAnalytics = () => {
+  const balances = useBalancesStore((state) => state.balances);
+
+  if (!Object.keys(balances).length) {
+    return (
+      <Flex direction='column' gap='4' pt='4'>
+        <NoDataPlaceholder
+          variant='list'
+          title="You don't have assets yet"
+          description='You can make a deposit to show your tokens here'
+        />
+      </Flex>
+    );
+  }
+
   return (
     <Flex direction='column' gap='4' pt='4'>
       <AssetTreemap />

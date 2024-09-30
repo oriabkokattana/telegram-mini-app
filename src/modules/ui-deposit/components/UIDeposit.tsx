@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'sonner';
 import { DialogTitle } from '@radix-ui/react-dialog';
 import { Box, Button, Card, Flex, IconButton } from '@radix-ui/themes';
@@ -17,7 +17,7 @@ import {
 } from '@/modules/core/design-system/ui-dropdown';
 import { useCustodialWallet } from '@/services/user/custodial-wallet/api';
 import { useDepositStore } from '@/store/deposit-store';
-import { splitAddress, transformAddress } from '@/utils/address';
+import { transformAddress } from '@/utils/address';
 import { convertSeconds } from '@/utils/duration';
 
 const UIDeposit = () => {
@@ -113,38 +113,16 @@ const UIDeposit = () => {
               </DialogTitle>
               <Flex direction='column' gap='2'>
                 <Card size='2' variant='classic'>
-                  <Flex direction='column' align='center' gap='2'>
-                    {splitAddress(custodialWalletData?.address).map((row, rowIndex) => (
-                      <Flex key={rowIndex} align='center' gap='2'>
-                        {row.map((item, itemIndex) => (
-                          <Text
-                            key={`${rowIndex}-${itemIndex}`}
-                            color='plum'
-                            size='4'
-                            weight='medium'
-                            lineHeight='16px'
-                          >
-                            {[...item].map((symbol, symbolIndex) =>
-                              isNaN(Number(symbol)) ? (
-                                <Text
-                                  key={`${rowIndex}-${itemIndex}-${symbolIndex}`}
-                                  color='brown'
-                                  size='4'
-                                  weight='medium'
-                                  lineHeight='16px'
-                                >
-                                  {symbol}
-                                </Text>
-                              ) : (
-                                <Fragment key={`${rowIndex}-${itemIndex}-${symbolIndex}`}>
-                                  {symbol}
-                                </Fragment>
-                              )
-                            )}
-                          </Text>
-                        ))}
-                      </Flex>
-                    ))}
+                  <Flex width='280px' justify='center' mx='auto'>
+                    <Text
+                      size='4'
+                      weight='medium'
+                      align='center'
+                      lineHeight='16px'
+                      wordBreak='break-word'
+                    >
+                      {custodialWalletData?.address}
+                    </Text>
                   </Flex>
                 </Card>
                 <Button size='4' onClick={() => onCopyAddress(true)}>

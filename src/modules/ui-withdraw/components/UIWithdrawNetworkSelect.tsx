@@ -10,7 +10,7 @@ const UIWithdrawNetworkSelect = () => {
   const token = useWithdrawStore((state) => state.token);
   const setNetwork = useWithdrawStore((state) => state.setNetwork);
 
-  const { data } = useNetworks('withdraw', token?.symbol);
+  const { data, isLoading } = useNetworks('withdraw', token?.symbol);
 
   const onSelect = (network: NetworkItem) => {
     setNetwork(network);
@@ -18,7 +18,13 @@ const UIWithdrawNetworkSelect = () => {
   };
 
   return (
-    <UINetworkSelectScreen data={data} token={token} direction='withdraw' onSelect={onSelect} />
+    <UINetworkSelectScreen
+      data={data}
+      loading={isLoading}
+      token={token}
+      direction='withdraw'
+      onSelect={onSelect}
+    />
   );
 };
 

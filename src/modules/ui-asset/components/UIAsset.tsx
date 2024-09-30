@@ -3,8 +3,10 @@ import { useParams } from 'react-router-dom';
 import * as Label from '@radix-ui/react-label';
 import { Card, Flex, IconButton } from '@radix-ui/themes';
 import { ETimeframe } from '@/enums';
+import { useCheckBottomGap } from '@/hooks/use-check-bottom-gap';
 import CustomChart from '@/modules/core/components/CustomChart';
 import Link from '@/modules/core/components/Link';
+import NoDataPlaceholder from '@/modules/core/components/NoDataPlaceholder';
 import TimeframeRange from '@/modules/core/components/TimeframeRange';
 import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
@@ -29,6 +31,7 @@ const UIAsset = () => {
   const balances = useBalancesStore((state) => state.balances);
   const setDepositToken = useDepositStore((state) => state.setToken);
   const setWithdrawToken = useWithdrawStore((state) => state.setToken);
+  const isBottomGap = useCheckBottomGap();
 
   const profitPositive = Number(assetChartData?.pnl_percent || 0) >= 0;
   const profitString = `${formatPercent(Number(assetChartData?.pnl_percent || 0) * 100)}%`;
@@ -47,7 +50,7 @@ const UIAsset = () => {
   };
 
   return (
-    <Flex direction='column' gap='5' px='4' py='2'>
+    <Flex direction='column' gap='5' px='4' pt='2' pb={isBottomGap ? '100px' : '72px'}>
       <Flex direction='column' align='center' gap='2'>
         <Flex width='100%' align='center' pl='5'>
           <Flex width='44px' height='44px' justify='center' align='center' mx='auto'>
@@ -148,11 +151,18 @@ const UIAsset = () => {
           </Flex>
         </Flex>
       </Card>
-      <Flex height='24px' justify='between' align='center' style={{ cursor: 'pointer' }}>
+      {/* <Flex height='24px' justify='between' align='center' style={{ cursor: 'pointer' }}>
         <Text size='3' weight='bold'>
           Transaction history
         </Text>
         <Icon name='chevron-down' variant='secondary' size={24} />
+      </Flex> */}
+      <Flex direction='column' gap='4' pt='4'>
+        <NoDataPlaceholder
+          variant='list'
+          title="You don't have history yet"
+          description='Complete a transaction to see the history'
+        />
       </Flex>
       <AssetPriceChange asset={asset} />
     </Flex>

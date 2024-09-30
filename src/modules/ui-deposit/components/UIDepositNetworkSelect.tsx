@@ -10,7 +10,7 @@ const UIDepositNetworkSelect = () => {
   const token = useDepositStore((state) => state.token);
   const setNetwork = useDepositStore((state) => state.setNetwork);
 
-  const { data } = useNetworks('deposit', token?.symbol);
+  const { data, isLoading } = useNetworks('deposit', token?.symbol);
 
   const onSelect = (network: NetworkItem) => {
     setNetwork(network);
@@ -18,7 +18,13 @@ const UIDepositNetworkSelect = () => {
   };
 
   return (
-    <UINetworkSelectScreen data={data} token={token} direction='deposit' onSelect={onSelect} />
+    <UINetworkSelectScreen
+      data={data}
+      loading={isLoading}
+      token={token}
+      direction='deposit'
+      onSelect={onSelect}
+    />
   );
 };
 

@@ -26,7 +26,9 @@ export type IconName =
   | 'collapse'
   | 'circle-check'
   | 'qr-code'
-  | 'bell';
+  | 'bell'
+  | 'sad-smile'
+  | 'list';
 
 export type IconVariant =
   | 'primary'

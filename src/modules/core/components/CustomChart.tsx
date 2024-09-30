@@ -7,6 +7,8 @@ import {
   // Tooltip
 } from 'recharts';
 import { Margin } from 'recharts/types/util/types';
+import darkThemePlaceholder from '../media/dark-theme-chart-placeholder.svg';
+import lightThemePlaceholder from '../media/light-theme-chart-placeholder.svg';
 
 import { ChartEntity } from '@/types/chart';
 // import { formatDate } from '@/utils/date';
@@ -41,14 +43,29 @@ const CustomChart = ({
   data,
   margin,
 }: CustomChartProps) => {
-  const parsedData = data?.map((item) => ({
+  if (!data?.length || data.length === 1) {
+    return (
+      <img
+        src={
+          document.documentElement.classList.contains('dark-them')
+            ? darkThemePlaceholder
+            : lightThemePlaceholder
+        }
+        height={height}
+        width='100%'
+        style={{ objectFit: 'cover' }}
+      />
+    );
+  }
+
+  const chartData = data.map((item) => ({
     name: item.timestamp,
     value: Number(item.value) || 0,
   }));
 
   if (type === 'line') {
     <ResponsiveContainer width='100%' height={height}>
-      <LineChart data={parsedData} margin={margin}>
+      <LineChart data={chartData} margin={margin}>
         <Line type='monotone' dataKey='value' stroke='var(--plum-a11)' />
       </LineChart>
     </ResponsiveContainer>;
@@ -56,7 +73,7 @@ const CustomChart = ({
 
   return (
     <ResponsiveContainer width='100%' height={height}>
-      <AreaChart data={parsedData} margin={margin}>
+      <AreaChart data={chartData} margin={margin}>
         <defs>
           <linearGradient id='paleGradient' x1='0' y1='0' x2='0' y2='1'>
             <stop stopColor='#EAEAEA' />
@@ -88,6 +105,7 @@ const CustomChart = ({
           stroke={getChartStrokeColor(variant)}
           strokeWidth={variant === 'outline' ? 1.15 : 2}
           fill={`url(#${variant}Gradient)`}
+          baseValue='dataMin'
         />
       </AreaChart>
     </ResponsiveContainer>

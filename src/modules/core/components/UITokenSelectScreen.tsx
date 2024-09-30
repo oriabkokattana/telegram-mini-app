@@ -8,6 +8,7 @@ import { Icon } from '../design-system/icon';
 import { Text } from '../design-system/text';
 import { TextField, TextFieldSlot } from '../design-system/text-field';
 import { TokenIcon } from '../design-system/token-icon';
+import NoDataPlaceholder from './NoDataPlaceholder';
 
 import { AvailableBalance, Direction, TokenItem } from '@/types';
 
@@ -45,11 +46,12 @@ type Token = TokenItem & AvailableBalance;
 
 export interface UITokenSelectScreenProps {
   data?: TokenItem[];
+  loading: boolean;
   direction?: Direction;
   onSelect(token: TokenItem): void;
 }
 
-const UITokenSelectScreen = ({ data, direction, onSelect }: UITokenSelectScreenProps) => {
+const UITokenSelectScreen = ({ data, loading, direction, onSelect }: UITokenSelectScreenProps) => {
   const [search, setSearch] = useState('');
   const { history, addToHistory, clearHistory } = useSearchHistoryStore();
   const balances = useBalancesStore((state) => state.balances);
@@ -85,6 +87,26 @@ const UITokenSelectScreen = ({ data, direction, onSelect }: UITokenSelectScreenP
   };
 
   const isAdvancedSearchView = direction === 'deposit' && !search;
+
+  if (!tokenList.length && !loading) {
+    return (
+      <Flex direction='column' gap='5' p='4'>
+        <Text size='4' align='center' weight='bold' lineHeight='16px'>
+          Select Asset
+        </Text>
+        <TextField value={search} onChange={setSearch} placeholder='Search' clear>
+          <TextFieldSlot>
+            <Icon name='search' variant='tertiary' />
+          </TextFieldSlot>
+        </TextField>
+        <NoDataPlaceholder
+          variant='sad-smile'
+          title='Token not found'
+          description='Please check the token name or symbol and try again.'
+        />
+      </Flex>
+    );
+  }
 
   return (
     <Flex direction='column' gap='5' p='4'>

@@ -16,6 +16,7 @@ type Network = NetworkItem & AvailableBalance;
 
 interface UINetworkSelectScreenProps {
   data?: NetworkItem[];
+  loading: boolean;
   token: WithdrawDepositToken | null;
   direction: Direction;
   onSelect(network: NetworkItem): void;
@@ -23,6 +24,7 @@ interface UINetworkSelectScreenProps {
 
 const UINetworkSelectScreen = ({
   data,
+  loading,
   token,
   direction,
   onSelect,
@@ -44,6 +46,21 @@ const UINetworkSelectScreen = ({
     return items;
   }, [data, token, balances, direction]);
 
+  if (!networkList.length && !loading) {
+    return (
+      <Flex direction='column' gap='5' p='4'>
+        <Text size='2' align='center' weight='bold' lineHeight='16px'>
+          {direction === 'deposit' ? 'Deposit' : 'Withdraw'} {token?.name}
+        </Text>
+        <NoDataPlaceholder
+          variant='sad-smile'
+          title='Network not found'
+          description='Please check the token name or symbol and try again.'
+        />
+      </Flex>
+    );
+  }
+
   return (
     <Flex direction='column' gap='5' p='4'>
       <Text size='2' align='center' weight='bold' lineHeight='16px'>
@@ -63,40 +80,36 @@ const UINetworkSelectScreen = ({
           </Text>
         </Flex>
       </Flex>
-      {networkList.length ? (
-        <Flex direction='column' gap='4'>
-          {networkList.map((item) => (
-            <Card
-              key={item.name}
-              size='2'
-              style={{ cursor: 'pointer' }}
-              onClick={() => onSelect(item)}
-            >
-              <Flex direction='column' gap='4'>
-                <Text size='2' weight='medium' lineHeight='12px'>
-                  {item.description} {item.token_standard}
-                </Text>
-                <Flex align='center' gap='2'>
-                  <Flex asChild px='3' py='2' {...stylex.props(styles.badge)}>
-                    <Text color='gray' size='2' weight='medium' lineHeight='12px'>
-                      {convertSeconds(item.processing_time_seconds)}
-                    </Text>
-                  </Flex>
-                  <Flex asChild px='3' py='2' {...stylex.props(styles.badge)}>
-                    <Text color='gray' size='2' weight='medium' lineHeight='12px'>
-                      &gt;
-                      {direction === 'deposit' ? item.token_min_deposit : item.token_min_withdraw}
-                      {token?.symbol} minimum
-                    </Text>
-                  </Flex>
+      <Flex direction='column' gap='4'>
+        {networkList.map((item) => (
+          <Card
+            key={item.name}
+            size='2'
+            style={{ cursor: 'pointer' }}
+            onClick={() => onSelect(item)}
+          >
+            <Flex direction='column' gap='4'>
+              <Text size='2' weight='medium' lineHeight='12px'>
+                {item.description} {item.token_standard}
+              </Text>
+              <Flex align='center' gap='2'>
+                <Flex asChild px='3' py='2' {...stylex.props(styles.badge)}>
+                  <Text color='gray' size='2' weight='medium' lineHeight='12px'>
+                    {convertSeconds(item.processing_time_seconds)}
+                  </Text>
+                </Flex>
+                <Flex asChild px='3' py='2' {...stylex.props(styles.badge)}>
+                  <Text color='gray' size='2' weight='medium' lineHeight='12px'>
+                    &gt;
+                    {direction === 'deposit' ? item.token_min_deposit : item.token_min_withdraw}
+                    {token?.symbol} minimum
+                  </Text>
                 </Flex>
               </Flex>
-            </Card>
-          ))}
-        </Flex>
-      ) : (
-        <NoDataPlaceholder text='Oops, it seems there is no chain in here' />
-      )}
+            </Flex>
+          </Card>
+        ))}
+      </Flex>
     </Flex>
   );
 };

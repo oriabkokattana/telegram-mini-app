@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Flex, Tabs } from '@radix-ui/themes';
+import NoDataPlaceholder from '@/modules/core/components/NoDataPlaceholder';
 import AssetAnalytics from './AssetAnalytics';
 import BalanceAnalytics from './BalanceAnalytics';
 
@@ -31,6 +32,15 @@ const UIAnalytics = () => {
         </Tabs.Content>
         <Tabs.Content value={Tab.balance}>
           <BalanceAnalytics />
+        </Tabs.Content>
+        <Tabs.Content value={Tab.history}>
+          <Flex direction='column' gap='4' pt='4'>
+            <NoDataPlaceholder
+              variant='list'
+              title="You don't have history yet"
+              description='Complete a transaction to see the history'
+            />
+          </Flex>
         </Tabs.Content>
       </Tabs.Root>
     </Flex>
