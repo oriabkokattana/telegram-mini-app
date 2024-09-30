@@ -95,7 +95,7 @@ const AssetPriceChange = ({ asset }: AssetPriceChangeProps) => {
               />
             </Box>
             <Button asChild size='4'>
-              <Link to='ui-swap'>
+              <Link to='swap'>
                 <Text color='sky'>Trade</Text>
               </Link>
             </Button>

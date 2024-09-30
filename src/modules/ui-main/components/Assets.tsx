@@ -31,7 +31,7 @@ const Assets = ({ visible }: AssetsProps) => {
         const positiveProfit = Number(balances[item].total_balance.pnl_percent) >= 0;
         return (
           <Flex key={item} asChild justify='between' align='center' gap='2'>
-            <Link to={`/ui-asset/${item}`}>
+            <Link to={`/asset/${item}`}>
               <Flex gap='2' align='center'>
                 <TokenIcon name={item} size='ui-md' />
                 <Flex direction='column' gap='1'>

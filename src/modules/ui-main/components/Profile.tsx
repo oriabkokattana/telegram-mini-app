@@ -51,7 +51,7 @@ const Profile = ({ avatar, nickname }: ProfileProps) => {
         </Flex>
       </Card>
       <IconButton asChild variant='ghost' size='4'>
-        <Link to='/ui-analytics'>
+        <Link to='/analytics'>
           <Icon name='analytics' />
         </Link>
       </IconButton>

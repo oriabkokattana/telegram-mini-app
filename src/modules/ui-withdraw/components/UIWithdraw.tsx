@@ -131,7 +131,7 @@ const UIWithdraw = () => {
         <Text asChild size='1' weight='medium' lineHeight='10px'>
           <Label.Root htmlFor='address'>Network</Label.Root>
         </Text>
-        <Link to='/ui-withdraw-network-select'>
+        <Link to='/withdraw-network-select'>
           <TextField value={network?.description} readOnly>
             <TextFieldSlot style={{ cursor: 'pointer' }} />
             <TextFieldSlot style={{ cursor: 'pointer' }}>

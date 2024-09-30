@@ -13,7 +13,7 @@ const UIDepositTokenSelect = () => {
 
   const onSelect = (token: TokenItem) => {
     setToken(token);
-    navigate('/ui-deposit-network-select');
+    navigate('/deposit-network-select');
   };
 
   return (

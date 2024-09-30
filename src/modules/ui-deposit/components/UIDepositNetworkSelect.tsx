@@ -14,7 +14,7 @@ const UIDepositNetworkSelect = () => {
 
   const onSelect = (network: NetworkItem) => {
     setNetwork(network);
-    navigate('/ui-deposit');
+    navigate('/deposit');
   };
 
   return (

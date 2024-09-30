@@ -230,7 +230,7 @@ const CustomTreemapNode = ({ node }: NodeProps<TreemapData>) => {
         ...base,
       }}
     >
-      <Link to={`/ui-asset/${node.data.name}`}>
+      <Link to={`/asset/${node.data.name}`}>
         <Flex align='center' style={header}>
           <Text color='sky' weight='medium' truncate {...headerFontSize}>
             {trimToPrecision(node.data.balance, 2)}

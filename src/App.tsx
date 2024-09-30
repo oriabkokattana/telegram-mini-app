@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import { Outlet, Route, Router, Routes } from 'react-router-dom';
-import { Theme } from '@radix-ui/themes';
+import { Flex, Heading, Text, Theme } from '@radix-ui/themes';
 import { useIntegration } from '@telegram-apps/react-router-integration';
 import {
   bindMiniAppCSSVars,
@@ -90,26 +90,17 @@ function App() {
               </PrivateRoute>
             }
           >
-            {/* <Route index element={<UXMain />} />
-            <Route path='profile' element={<UXProfile />} />
-            <Route path='asset/:asset' element={<UXAsset />} />
-            <Route path='deposit-token-select' element={<UXDepositTokenSelect />} />
-            <Route path='deposit' element={<UXDeposit />} />
-            <Route path='withdraw-token-select' element={<UXWithdrawTokenSelect />} />
-            <Route path='withdraw' element={<UXWithdraw />} />
-            <Route path='swap' element={<UXSwap />} />
-            <Route path='token-graph' element={<TokenGraph />} /> */}
             <Route path='qr-code' element={<ScanQrCode />} />
 
-            <Route path='ui-main' element={<UIMain />} />
-            <Route path='ui-deposit-token-select' element={<UIDepositTokenSelect />} />
-            <Route path='ui-deposit-network-select' element={<UIDepositNetworkSelect />} />
-            <Route path='ui-deposit' element={<UIDeposit />} />
-            <Route path='ui-withdraw-token-select' element={<UIWithdrawTokenSelect />} />
-            <Route path='ui-withdraw-network-select' element={<UIWithdrawNetworkSelect />} />
-            <Route path='ui-withdraw' element={<UIWithdraw />} />
-            <Route path='ui-analytics' element={<UIAnalytics />} />
-            <Route path='ui-asset/:asset' element={<UIAsset />} />
+            <Route index element={<UIMain />} />
+            <Route path='deposit-token-select' element={<UIDepositTokenSelect />} />
+            <Route path='deposit-network-select' element={<UIDepositNetworkSelect />} />
+            <Route path='deposit' element={<UIDeposit />} />
+            <Route path='withdraw-token-select' element={<UIWithdrawTokenSelect />} />
+            <Route path='withdraw-network-select' element={<UIWithdrawNetworkSelect />} />
+            <Route path='withdraw' element={<UIWithdraw />} />
+            <Route path='analytics' element={<UIAnalytics />} />
+            <Route path='asset/:asset' element={<UIAsset />} />
           </Route>
 
           <Route
@@ -151,21 +142,12 @@ function Layout() {
 
 function NoMatch() {
   return (
-    <div
-      style={{
-        height: '100vh',
-        width: '100vw',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <h2>Nothing to see here!</h2>
-      <p>
+    <Flex height='100vh' width='100vw' direction='column' justify='center' align='center'>
+      <Heading as='h2'>Nothing to see here!</Heading>
+      <Text as='p'>
         <Link to='/'>Go to the home page</Link>
-      </p>
-    </div>
+      </Text>
+    </Flex>
   );
 }
 

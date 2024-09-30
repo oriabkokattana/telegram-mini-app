@@ -14,7 +14,7 @@ const UIWithdrawNetworkSelect = () => {
 
   const onSelect = (network: NetworkItem) => {
     setNetwork(network);
-    navigate('/ui-withdraw');
+    navigate('/withdraw');
   };
 
   return (

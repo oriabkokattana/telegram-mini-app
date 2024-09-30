@@ -22,7 +22,7 @@ const Footer = () => {
   return (
     <NavigationMenu.Root {...stylex.props(styles.base, isBottomGap && styles.bottomGap)}>
       <NavigationMenu.List {...stylex.props(styles.navigationList)}>
-        <NavigationMenuLink to='/ui-main' {...stylex.props(styles.link)}>
+        <NavigationMenuLink to='/' {...stylex.props(styles.link)}>
           <Label.Root>
             <IconButton size='1' variant='ghost'>
               <Icon name='home' />
@@ -32,14 +32,14 @@ const Footer = () => {
             </Text>
           </Label.Root>
         </NavigationMenuLink>
-        <NavigationMenuLink to='/ui-swap' {...stylex.props(styles.link)}>
+        <NavigationMenuLink to='/swap' {...stylex.props(styles.link)}>
           <Label.Root>
             <IconButton size='4'>
               <Icon name='swap' variant='white' />
             </IconButton>
           </Label.Root>
         </NavigationMenuLink>
-        <NavigationMenuLink to='/ui-profile' {...stylex.props(styles.link)}>
+        <NavigationMenuLink to='/analytics' {...stylex.props(styles.link)}>
           <Label.Root>
             <IconButton size='1' variant='ghost'>
               <Icon name='account' variant='secondary' />

@@ -137,7 +137,7 @@ const WithdrawInProgress = ({
       </Flex>
       <Box asChild mt='8'>
         <Button asChild color='gray' variant='soft' size='4' mt='auto' onClick={reset}>
-          <Link to='/ui-main'>
+          <Link to='/'>
             <Text color='brown' size='3' weight='bold'>
               Done
             </Text>

@@ -13,7 +13,7 @@ const UIWithdrawTokenSelect = () => {
 
   const onSelect = (token: TokenItem) => {
     setToken(token);
-    navigate('/ui-withdraw-network-select');
+    navigate('/withdraw-network-select');
   };
 
   return (

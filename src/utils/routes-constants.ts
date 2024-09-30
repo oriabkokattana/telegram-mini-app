@@ -1,4 +1,4 @@
 export const Routes = {
-  HOME: '/ui-main',
+  HOME: '/',
   AUTH: '/auth',
 };

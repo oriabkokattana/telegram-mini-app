@@ -84,7 +84,7 @@ const UIAsset = () => {
       <Flex>
         <Flex asChild flexGrow='1'>
           <Link
-            to={actionPossible ? '/ui-deposit-network-select' : '/ui-deposit-token-select'}
+            to={actionPossible ? '/deposit-network-select' : '/deposit-token-select'}
             onClick={onDeposit}
           >
             <Flex asChild flexGrow='1' direction='column' align='center' gap='2'>
@@ -101,7 +101,7 @@ const UIAsset = () => {
         </Flex>
         <Flex asChild flexGrow='1'>
           <Link
-            to={actionPossible ? '/ui-withdraw-network-select' : '/ui-withdraw-token-select'}
+            to={actionPossible ? '/withdraw-network-select' : '/withdraw-token-select'}
             onClick={onWithdraw}
           >
             <Flex asChild flexGrow='1' direction='column' align='center' gap='2'>
@@ -117,7 +117,7 @@ const UIAsset = () => {
           </Link>
         </Flex>
         <Flex asChild flexGrow='1'>
-          <Link to='/ui-swap'>
+          <Link to='/swap'>
             <Flex asChild flexGrow='1' direction='column' align='center' gap='2'>
               <Label.Root>
                 <IconButton color='gray' variant='soft' size='4'>
