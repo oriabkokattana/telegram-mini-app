@@ -1,17 +1,23 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Card, Flex } from '@radix-ui/themes';
+import * as Label from '@radix-ui/react-label';
+import { Card, Flex, IconButton } from '@radix-ui/themes';
 import { ETimeframe } from '@/enums';
 import CustomChart from '@/modules/core/components/CustomChart';
+import Link from '@/modules/core/components/Link';
 import TimeframeRange from '@/modules/core/components/TimeframeRange';
 import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
 import { TokenIcon } from '@/modules/core/design-system/token-icon';
 import { useAssetChart } from '@/services/user/asset-chart/api';
 import { useAssetSummary } from '@/services/user/asset-summary/api';
+import { useBalancesStore } from '@/store/balances-store';
+import { useDepositStore } from '@/store/deposit-store';
 import { useSystemCurrencyStore } from '@/store/system-currency-store';
+import { useWithdrawStore } from '@/store/withdraw-store';
 import { formatDate } from '@/utils/date';
 import { formatNumberWithCommas, formatPercent } from '@/utils/numbers';
+import AssetPriceChange from './AssetPriceChange';
 
 const UIAsset = () => {
   const [timeframe, setTimeframe] = useState(ETimeframe.m);
@@ -20,14 +26,30 @@ const UIAsset = () => {
   const { data: assetSummaryData } = useAssetSummary(asset);
   const { data: assetChartData } = useAssetChart(timeframe, asset);
   const rates = useSystemCurrencyStore((state) => state.rates);
+  const balances = useBalancesStore((state) => state.balances);
+  const setDepositToken = useDepositStore((state) => state.setToken);
+  const setWithdrawToken = useWithdrawStore((state) => state.setToken);
 
   const profitPositive = Number(assetChartData?.pnl_percent || 0) >= 0;
-  const profitString = `${formatNumberWithCommas(Number(assetChartData?.pnl_usd || 0))} $ (${formatPercent(Number(assetChartData?.pnl_percent || 0) * 100)}%)`;
+  const profitString = `${formatPercent(Number(assetChartData?.pnl_percent || 0) * 100)}%`;
+  const actionPossible = !!asset && !!balances[asset];
+
+  const onDeposit = () => {
+    if (actionPossible) {
+      setDepositToken({ symbol: asset || '', name: balances[asset].currency_name });
+    }
+  };
+
+  const onWithdraw = () => {
+    if (actionPossible) {
+      setWithdrawToken({ symbol: asset || '', name: balances[asset].currency_name });
+    }
+  };
 
   return (
     <Flex direction='column' gap='5' px='4' py='2'>
       <Flex direction='column' align='center' gap='2'>
-        <Flex align='center' pl='5'>
+        <Flex width='100%' align='center' pl='5'>
           <Flex width='44px' height='44px' justify='center' align='center' mx='auto'>
             <TokenIcon customSize='30px' name={asset} />
           </Flex>
@@ -56,6 +78,56 @@ const UIAsset = () => {
         <CustomChart variant='violet' height={108} data={assetChartData?.chard_data} />
         <TimeframeRange timeframe={timeframe} setTimeframe={setTimeframe} />
       </Flex>
+      <Flex>
+        <Flex asChild flexGrow='1'>
+          <Link
+            to={actionPossible ? '/ui-deposit-network-select' : '/ui-deposit-token-select'}
+            onClick={onDeposit}
+          >
+            <Flex asChild flexGrow='1' direction='column' align='center' gap='2'>
+              <Label.Root>
+                <IconButton size='4'>
+                  <Icon name='arrow-down-half-circle' variant='white' />
+                </IconButton>
+                <Text size='2' lineHeight='12px'>
+                  Deposit
+                </Text>
+              </Label.Root>
+            </Flex>
+          </Link>
+        </Flex>
+        <Flex asChild flexGrow='1'>
+          <Link
+            to={actionPossible ? '/ui-withdraw-network-select' : '/ui-withdraw-token-select'}
+            onClick={onWithdraw}
+          >
+            <Flex asChild flexGrow='1' direction='column' align='center' gap='2'>
+              <Label.Root>
+                <IconButton color='gray' variant='soft' size='4'>
+                  <Icon name='arrow-up-half-circle' variant='tertiary' />
+                </IconButton>
+                <Text size='2' lineHeight='12px'>
+                  Withdraw
+                </Text>
+              </Label.Root>
+            </Flex>
+          </Link>
+        </Flex>
+        <Flex asChild flexGrow='1'>
+          <Link to='/ui-swap'>
+            <Flex asChild flexGrow='1' direction='column' align='center' gap='2'>
+              <Label.Root>
+                <IconButton color='gray' variant='soft' size='4'>
+                  <Icon name='swap' variant='tertiary' />
+                </IconButton>
+                <Text size='2' lineHeight='12px'>
+                  Swap
+                </Text>
+              </Label.Root>
+            </Flex>
+          </Link>
+        </Flex>
+      </Flex>
       <Card size='2'>
         <Flex direction='column' gap='2'>
           <Flex height='24px' justify='between' align='center'>
@@ -82,6 +154,7 @@ const UIAsset = () => {
         </Text>
         <Icon name='chevron-down' variant='secondary' size={24} />
       </Flex>
+      <AssetPriceChange asset={asset} />
     </Flex>
   );
 };

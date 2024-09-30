@@ -21,4 +21,6 @@ export const Endpoints = {
   PROFIT_CHART: '/private/profit',
   ASSET_SUMMARY: '/private/asset/summary',
   ASSET_CHART: '/private/asset/chart',
+  ASSET_PRICE: '/price',
+  ASSET_PRICE_CHANGE: '/price-change',
 };

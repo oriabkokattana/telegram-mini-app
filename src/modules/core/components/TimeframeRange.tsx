@@ -16,11 +16,12 @@ const TIMEFRAME_RANGE = [
 ];
 
 interface TimeframeRangeProps {
+  variant?: 'default' | 'transparent';
   timeframe: ETimeframe;
   setTimeframe(timeframe: ETimeframe): void;
 }
 
-const TimeframeRange = ({ timeframe, setTimeframe }: TimeframeRangeProps) => {
+const TimeframeRange = ({ variant = 'default', timeframe, setTimeframe }: TimeframeRangeProps) => {
   const onChangeTimframe = (value?: string) => {
     if (value) {
       setTimeframe(value as ETimeframe);
@@ -37,7 +38,7 @@ const TimeframeRange = ({ timeframe, setTimeframe }: TimeframeRangeProps) => {
       >
         {TIMEFRAME_RANGE.map((item) => (
           <Flex key={item} asChild height='24px' flexGrow='1' align='center' justify='center'>
-            <ToggleGroup.Item {...stylex.props(styles.timeframeItem)} value={item}>
+            <ToggleGroup.Item {...stylex.props(styles.timeframeItem, styles[variant])} value={item}>
               <Text
                 size='1'
                 weight={item === timeframe ? 'medium' : 'regular'}

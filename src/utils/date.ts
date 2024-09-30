@@ -9,5 +9,5 @@ export const formatDate = (timestamp?: number): string => {
   if (!timestamp) {
     return '—';
   }
-  return dayjs(timestamp).format('Do MMMM YYYY');
+  return dayjs(timestamp * 1000).format('Do MMMM YYYY');
 };

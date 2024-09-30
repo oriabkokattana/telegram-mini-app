@@ -8,6 +8,7 @@ export type IconName =
   | 'analytics'
   | 'chevron-forward'
   | 'chevron-down'
+  | 'chevron-up'
   | 'eye'
   | 'eye-closed'
   | 'top-right-arrow'

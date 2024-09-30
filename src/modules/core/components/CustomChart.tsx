@@ -1,6 +1,8 @@
 import {
   Area,
   AreaChart,
+  Line,
+  LineChart,
   ResponsiveContainer,
   // Tooltip
 } from 'recharts';
@@ -25,17 +27,32 @@ const getChartStrokeColor = (variant: ChartVariant) => {
 };
 
 interface CustomChartProps {
-  variant: ChartVariant;
+  variant?: ChartVariant;
+  type?: 'area' | 'line';
   height: number;
   data?: ChartEntity[];
   margin?: Margin;
 }
 
-const CustomChart = ({ variant, height, data, margin }: CustomChartProps) => {
+const CustomChart = ({
+  variant = 'violet',
+  type = 'area',
+  height,
+  data,
+  margin,
+}: CustomChartProps) => {
   const parsedData = data?.map((item) => ({
     name: item.timestamp,
     value: Number(item.value) || 0,
   }));
+
+  if (type === 'line') {
+    <ResponsiveContainer width='100%' height={height}>
+      <LineChart data={parsedData} margin={margin}>
+        <Line type='monotone' dataKey='value' stroke='var(--plum-a11)' />
+      </LineChart>
+    </ResponsiveContainer>;
+  }
 
   return (
     <ResponsiveContainer width='100%' height={height}>

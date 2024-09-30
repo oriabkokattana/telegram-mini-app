@@ -52,3 +52,24 @@ export const transformCommaToDot = (input: string): string => {
 
   return noCommas;
 };
+
+export const trimToPrecision = (value: number, precision: number): number => {
+  const [integerPart, fractionalPart] = value.toString().split('.');
+  const integerLength = integerPart.length;
+
+  // If the total digits are within the precision limit, return the number as is
+  if (integerLength >= precision) {
+    return Math.floor(value); // Only integer part fits the precision, truncate after decimal
+  }
+
+  const allowedFractionDigits = precision - integerLength;
+
+  if (!fractionalPart || fractionalPart.length <= allowedFractionDigits) {
+    return value; // No trimming needed
+  }
+
+  // Trim the fractional part based on the allowed digits
+  const trimmedFraction = fractionalPart.slice(0, allowedFractionDigits);
+
+  return parseFloat(`${integerPart}.${trimmedFraction}`);
+};

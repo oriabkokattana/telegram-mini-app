@@ -9,6 +9,12 @@ export const styles = stylex.create({
     border: 'none',
     padding: '0px',
     borderRadius: 'var(--radius-full)',
+    transition: 'background-color 0.15s',
+  },
+  timeframe: {
+    transition: 'color 0.15s',
+  },
+  default: {
     backgroundColor: {
       default: 'transparent',
       ":is([data-state='on'])": colors.timeframeBackground,
@@ -17,9 +23,15 @@ export const styles = stylex.create({
       default: colors.timeframeText,
       ":is([data-state='on'])": colors.timeframeActiveText,
     },
-    transition: 'background-color 0.15s',
   },
-  timeframe: {
-    transition: 'color 0.15s',
+  transparent: {
+    backgroundColor: {
+      default: 'transparent',
+      ":is([data-state='on'])": colors.timeframeBackgroundTransparent,
+    },
+    color: {
+      default: colors.timeframeTextTransparent,
+      ":is([data-state='on'])": colors.timeframeActiveTextTransparent,
+    },
   },
 });

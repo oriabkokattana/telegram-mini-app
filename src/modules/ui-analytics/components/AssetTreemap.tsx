@@ -6,7 +6,7 @@ import Link from '@/modules/core/components/Link';
 import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
 import { useBalancesStore } from '@/store/balances-store';
-import { formatNumber, formatNumberWithSpaces, formatPercent } from '@/utils/numbers';
+import { formatNumberWithSpaces, formatPercent, trimToPrecision } from '@/utils/numbers';
 
 type Rank = 'small' | 'medium' | 'big';
 
@@ -102,6 +102,10 @@ const AssetTreemap = () => {
     };
   }, [balances]);
 
+  if (!treeMapData.children.length) {
+    return null;
+  }
+
   return (
     <Box height={treeMapData.children.length > 4 ? 'calc(100vh - 180px)' : '304px'}>
       <ResponsiveTreeMapHtml
@@ -123,25 +127,48 @@ const getTreemapNodeStyles = (
   height: number,
   rotate: number
 ): Record<'base' | 'header' | 'description' | 'usd', CSSProperties> => {
-  if (width < 90) {
-    return {
-      base: { gap: 0, padding: 0, alignItems: 'center' },
-      header: {
-        width: rotate === -90 ? height : '100%',
-        gap: 4,
-        justifyContent: 'center',
-        rotate: `${rotate}deg`,
-      },
-      description: { display: 'none' },
-      usd: { display: 'none' },
-    };
-  }
   if (rank === 'small') {
+    if (width < 90 || height < 40) {
+      return {
+        base: { gap: 0, padding: 0, alignItems: 'center' },
+        header: {
+          width: rotate === -90 ? height : '100%',
+          gap: 4,
+          justifyContent: 'center',
+          rotate: `${rotate}deg`,
+        },
+        description: { display: 'none' },
+        usd: { display: 'none' },
+      };
+    }
+
     return {
       base: { gap: 13, padding: 12, alignItems: 'center' },
       header: { width: '100%', gap: 4, justifyContent: 'center' },
       description: { justifyContent: 'center' },
       usd: { display: 'none' },
+    };
+  }
+  if (rank === 'medium') {
+    if (width < 120) {
+      return {
+        base: { gap: 9, padding: 16, alignItems: 'center' },
+        header: {
+          width: rotate === -90 ? height : '100%',
+          gap: 8,
+          justifyContent: 'center',
+          rotate: `${rotate}deg`,
+        },
+        description: { display: 'none' },
+        usd: { display: 'none' },
+      };
+    }
+
+    return {
+      base: { gap: 9, padding: 16 },
+      header: { width: '100%', gap: 8 },
+      description: {},
+      usd: {},
     };
   }
   return {
@@ -206,7 +233,7 @@ const CustomTreemapNode = ({ node }: NodeProps<TreemapData>) => {
       <Link to={`/ui-asset/${node.data.name}`}>
         <Flex align='center' style={header}>
           <Text color='sky' weight='medium' truncate {...headerFontSize}>
-            {formatNumber(node.data.balance, 1)}
+            {trimToPrecision(node.data.balance, 2)}
           </Text>
           <Text color='sky' weight='medium' truncate {...headerFontSize}>
             {node.data.name}

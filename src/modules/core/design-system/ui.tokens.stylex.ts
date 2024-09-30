@@ -9,13 +9,20 @@ export const colors = stylex.defineVars({
   timeframeBackground: '#F3F4F7',
   timeframeText: '#75788B',
   timeframeActiveText: '#75788B',
+  timeframeBackgroundTransparent: '#75788B',
+  timeframeTextTransparent: '#75788B',
+  timeframeActiveTextTransparent: '#FEFEFE',
 
   // Badge Colors
   badgeBackground: 'rgba(117, 120, 139, 0.1)',
 
-  // Footer Colors
-  footerBackground: '#F3F4F7',
-  footerBorder: 'rgba(255, 255, 255, 0.05)',
+  // Main Footer Colors
+  mainFooterBackground: '#F3F4F7',
+  mainFooterBorder: 'rgba(255, 255, 255, 0.05)',
+
+  // Asset Footer Colors
+  assetFooterBackground: '#F3F4F7',
+  assetFooterBorder: 'rgba(255, 255, 255, 0.05)',
 
   // Dropdown Colors
   dropdownBackground: '#F3F4F7',
@@ -47,12 +54,18 @@ export const darkTheme = stylex.createTheme(colors, {
   timeframeBackground: '#221D2E',
   timeframeText: '#9A94AA',
   timeframeActiveText: '#FAFAFA',
+  timeframeBackgroundTransparent: '#221D2E',
+  timeframeTextTransparent: '#75788B',
+  timeframeActiveTextTransparent: '#9A94AA',
 
   // Badge Colors
   badgeBackground: 'rgba(250, 250, 250, 0.1)',
 
   // Footer Colors
-  footerBackground: 'rgba(7, 7, 8, 0.25)',
+  mainFooterBackground: 'rgba(7, 7, 8, 0.25)',
+
+  // Asset Footer Colors
+  assetFooterBackground: '#221D2E',
 
   // Dropdown Colors
   dropdownBackground: 'rgba(34, 29, 46, 0.8)',
