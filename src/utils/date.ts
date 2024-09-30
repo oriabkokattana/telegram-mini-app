@@ -1,13 +1,13 @@
-export const formatDate = (timestamp?: number) => {
-  if (!timestamp) {
-    return '';
-  }
+import dayjs from 'dayjs';
+import advancedFormat from 'dayjs/plugin/advancedFormat';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 
-  return new Date(timestamp * 1000).toLocaleString('en-US', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  });
+dayjs.extend(customParseFormat);
+dayjs.extend(advancedFormat);
+
+export const formatDate = (timestamp?: number): string => {
+  if (!timestamp) {
+    return '—';
+  }
+  return dayjs(timestamp).format('Do MMMM YYYY');
 };

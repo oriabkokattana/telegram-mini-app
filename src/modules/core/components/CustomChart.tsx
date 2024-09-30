@@ -5,6 +5,8 @@ import {
   // Tooltip
 } from 'recharts';
 import { Margin } from 'recharts/types/util/types';
+
+import { ChartEntity } from '@/types/chart';
 // import { formatDate } from '@/utils/date';
 
 export type ChartVariant = 'pale' | 'outline' | 'violet';
@@ -25,7 +27,7 @@ const getChartStrokeColor = (variant: ChartVariant) => {
 interface CustomChartProps {
   variant: ChartVariant;
   height: number;
-  data?: { timestamp: number; value: number | string }[];
+  data?: ChartEntity[];
   margin?: Margin;
 }
 

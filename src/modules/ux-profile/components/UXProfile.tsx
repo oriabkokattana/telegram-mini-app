@@ -6,7 +6,6 @@ import { useTransactions } from '@/services/user/transactions/api';
 import { useBalancesStore } from '@/store/balances-store';
 import { useSystemCurrencyStore } from '@/store/system-currency-store';
 import { formatNumberWithCommas } from '@/utils/numbers';
-import { transformTransactions } from '@/utils/transactions';
 import UXTransactionHistory from '../../core/components/UXTransactionHistory';
 import Portfolio from './Portfolio';
 import Profit from './Profit';
@@ -48,7 +47,7 @@ const UXProfile = () => {
       </div>
       <Portfolio />
       <Profit />
-      <UXTransactionHistory data={transformTransactions(data)} variant='filterable' />
+      <UXTransactionHistory data={data} variant='filterable' />
     </div>
   );
 };

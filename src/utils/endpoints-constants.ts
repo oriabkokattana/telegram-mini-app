@@ -16,8 +16,9 @@ export const Endpoints = {
   NETWORKS: '/networks',
   TOKENS: '/tokens',
   SYSTEM_RATES: '/system-rates',
-  TRANSACTIONS: '/private/assets/transactions',
-  ASSET_ANALYTICS: '/private/assets/analytics',
+  TRANSACTIONS: '/private/transactions',
   BALANCE_CHART: '/private/balance/chart',
-  PROFIT: '/private/profit',
+  PROFIT_CHART: '/private/profit',
+  ASSET_SUMMARY: '/private/asset/summary',
+  ASSET_CHART: '/private/asset/chart',
 };

@@ -24,7 +24,8 @@ export type IconName =
   | 'ellipsis'
   | 'collapse'
   | 'circle-check'
-  | 'qr-code';
+  | 'qr-code'
+  | 'bell';
 
 export type IconVariant =
   | 'primary'

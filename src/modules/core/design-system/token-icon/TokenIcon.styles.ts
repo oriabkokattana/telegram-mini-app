@@ -29,6 +29,7 @@ export const styles = stylex.create({
     color: uiColors.primaryIcon,
     fontWeight: fontWeights.medium,
     fontFamily: fontFamilies.roobertPro,
+    fontSize: fontSizes.text2,
     rotate: '8deg',
     borderRadius: 'inherit',
   },

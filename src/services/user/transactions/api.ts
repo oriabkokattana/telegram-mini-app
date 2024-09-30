@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import { z } from 'zod';
-import { skipToken, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { api } from '@/utils/api';
 import { Endpoints } from '@/utils/endpoints-constants';
 import { TransactionsAPIRequestSchema, TransactionsAPIResponseSchema } from './schema';
@@ -24,9 +24,9 @@ const getTransactions = api<
   type: 'private',
 });
 
-export function useTransactions(asset?: string, enabled?: boolean) {
+export function useTransactions(limit?: number, lastTimestamp?: number) {
   return useQuery<z.infer<typeof TransactionsAPIResponseSchema>, AxiosError<ErrorResponse>>({
-    queryKey: ['transactions', asset],
-    queryFn: enabled ? () => getTransactions({ params: { asset } }) : skipToken,
+    queryKey: ['transactions', limit, lastTimestamp],
+    queryFn: () => getTransactions({ params: { limit, last_timestamp: lastTimestamp } }),
   });
 }

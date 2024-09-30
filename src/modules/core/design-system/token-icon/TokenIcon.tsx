@@ -9,7 +9,7 @@ export type TokenIconVariants = 'default' | 'with-border';
 
 export type TokenIconProps = {
   asChild?: boolean;
-  name: string;
+  name?: string;
   size?: TokenIconSizes;
   variant?: TokenIconVariants;
   customSize?: number | string;
@@ -38,7 +38,7 @@ export const TokenIcon = forwardRef<HTMLSpanElement, TokenIconProps>(
       >
         {children}
         <Avatar.Image {...stylex.props(styles.image)} src={src} alt={name} />
-        <Avatar.Fallback {...stylex.props(styles.fallback)}>{name[0]}</Avatar.Fallback>
+        <Avatar.Fallback {...stylex.props(styles.fallback)}>{name?.[0] || 'U'}</Avatar.Fallback>
       </Avatar.Root>
     );
   }

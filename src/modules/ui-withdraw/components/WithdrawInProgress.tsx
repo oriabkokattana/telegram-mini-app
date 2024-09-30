@@ -63,7 +63,7 @@ const WithdrawInProgress = ({
             Withdrawal In Progress
           </Text>
           <Flex align='center' gap='1'>
-            <TokenIcon name={token || 'U'} size='ui-xs' />
+            <TokenIcon name={token} size='ui-xs' />
             <Text size='2' weight='bold' lineHeight='12px'>
               {formatNumber(amount)}{' '}
               <Text color='gray' size='2' weight='bold' lineHeight='12px'>

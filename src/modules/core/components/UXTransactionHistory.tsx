@@ -3,7 +3,6 @@ import * as stylex from '@stylexjs/stylex';
 import ChevronForwardIcon from '@/assets/chevron-forward.svg?react';
 import ChevronUpIcon from '@/assets/chevron-up.svg?react';
 import FunnelIcon from '@/assets/funnel.svg?react';
-import { formatNumberWithCommas } from '@/utils/numbers';
 
 import { styles } from './UXTransactionHistory.styles';
 
@@ -43,14 +42,11 @@ const UXTransactionHistory = ({ data, variant }: UXTransactionHistoryProps) => {
           {data?.map((transaction) => (
             <div {...stylex.props(styles.row)} key={transaction.id}>
               <div {...stylex.props(styles.labelWrapper)}>
-                <span {...stylex.props(styles.action)}>{transaction.action}</span>
-                <span {...stylex.props(styles.date)}>{transaction.date}</span>
+                <span {...stylex.props(styles.action)}>{transaction.transaction_type}</span>
+                <span {...stylex.props(styles.date)}>{new Date().toISOString()}</span>
               </div>
               <div {...stylex.props(styles.valueWrapper)}>
-                <span {...stylex.props(styles.amount)}>
-                  {transaction.amount >= 0 ? '+ ' : '- '}
-                  {formatNumberWithCommas(transaction.amount)}
-                </span>
+                <span {...stylex.props(styles.amount)}>{transaction.destination_amount}</span>
                 <ChevronForwardIcon />
               </div>
             </div>

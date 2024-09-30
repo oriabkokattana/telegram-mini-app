@@ -2,6 +2,7 @@ import { CSSProperties, useMemo } from 'react';
 import { NodeProps, ResponsiveTreeMapHtml } from '@nivo/treemap';
 import { Box, Flex } from '@radix-ui/themes';
 import { Responsive } from '@radix-ui/themes/dist/esm/props/prop-def.js';
+import Link from '@/modules/core/components/Link';
 import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
 import { useBalancesStore } from '@/store/balances-store';
@@ -186,6 +187,7 @@ const CustomTreemapNode = ({ node }: NodeProps<TreemapData>) => {
 
   return (
     <Flex
+      asChild
       direction='column'
       justify='center'
       position='absolute'
@@ -201,29 +203,31 @@ const CustomTreemapNode = ({ node }: NodeProps<TreemapData>) => {
         ...base,
       }}
     >
-      <Flex align='center' style={header}>
-        <Text color='sky' weight='medium' truncate {...headerFontSize}>
-          {formatNumber(node.data.balance, 1)}
-        </Text>
-        <Text color='sky' weight='medium' truncate {...headerFontSize}>
-          {node.data.name}
-        </Text>
-      </Flex>
-      <Flex width='100%' align='center' gap='2' style={description}>
-        <Flex align='center' gap='1'>
-          <Icon
-            name={positiveProfit ? 'top-right-arrow' : 'bottom-right-arrow'}
-            variant='white'
-            size={16}
-          />
-          <Text color='sky' size='1' weight='medium' lineHeight='10px' truncate>
-            {formatPercent(node.data.pnlPercent)}%
+      <Link to={`/ui-asset/${node.data.name}`}>
+        <Flex align='center' style={header}>
+          <Text color='sky' weight='medium' truncate {...headerFontSize}>
+            {formatNumber(node.data.balance, 1)}
+          </Text>
+          <Text color='sky' weight='medium' truncate {...headerFontSize}>
+            {node.data.name}
           </Text>
         </Flex>
-        <Text color='sky' size='1' weight='medium' lineHeight='10px' truncate style={usd}>
-          ${formatNumberWithSpaces(node.data.balanceUSD, 1)}
-        </Text>
-      </Flex>
+        <Flex width='100%' align='center' gap='2' style={description}>
+          <Flex align='center' gap='1'>
+            <Icon
+              name={positiveProfit ? 'top-right-arrow' : 'bottom-right-arrow'}
+              variant='white'
+              size={16}
+            />
+            <Text color='sky' size='1' weight='medium' lineHeight='10px' truncate>
+              {formatPercent(node.data.pnlPercent)}%
+            </Text>
+          </Flex>
+          <Text color='sky' size='1' weight='medium' lineHeight='10px' truncate style={usd}>
+            ${formatNumberWithSpaces(node.data.balanceUSD, 1)}
+          </Text>
+        </Flex>
+      </Link>
     </Flex>
   );
 };

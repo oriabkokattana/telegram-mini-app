@@ -5,7 +5,7 @@ import CustomChart from '@/modules/core/components/CustomChart';
 import TimeframeRange from '@/modules/core/components/TimeframeRange';
 import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
-import { useProfit } from '@/services/user/profit/api';
+import { useProfitChart } from '@/services/user/profit-chart/api';
 import { useBalancesStore } from '@/store/balances-store';
 import { useTimeframeStore } from '@/store/timeframe-store';
 import { getTotalBalanceFontSize } from '@/utils/balances';
@@ -16,7 +16,7 @@ const BalanceAnalytics = () => {
 
   const { total_balance_usd, pnl_usd, pnl_percent } = useBalancesStore();
   const setBalanceTimeframe = useTimeframeStore((state) => state.setBalanceTimeframe);
-  const { data: profitData } = useProfit(timeframe);
+  const { data: profitChartData } = useProfitChart(timeframe);
 
   useEffect(() => {
     setBalanceTimeframe(timeframe);
@@ -25,9 +25,9 @@ const BalanceAnalytics = () => {
   const balanceString = `$ ${formatNumberWithCommas(Number(total_balance_usd))}`;
   const profitPositive = Number(pnl_percent) >= 0;
   const profitString = `${formatNumberWithCommas(Number(pnl_usd))} $ (${formatPercent(Number(pnl_percent) * 100)}%)`;
-  const depositsString = `+ ${formatNumberWithCommas(Number(profitData?.total_deposit_usd || 0))} $`;
-  const withdrawalsString = `- ${formatNumberWithCommas(Number(profitData?.total_withdraw_usd || 0))} $`;
-  const savingsString = `+ ${formatNumberWithCommas(Number(profitData?.total_savings_usd || 0))} $`;
+  const depositsString = `+ ${formatNumberWithCommas(Number(profitChartData?.total_deposit_usd || 0))} $`;
+  const withdrawalsString = `- ${formatNumberWithCommas(Number(profitChartData?.total_withdraw_usd || 0))} $`;
+  const savingsString = `+ ${formatNumberWithCommas(Number(profitChartData?.total_savings_usd || 0))} $`;
 
   return (
     <Flex direction='column' gap='5' pt='5'>
@@ -52,7 +52,7 @@ const BalanceAnalytics = () => {
         </Flex>
       </Flex>
       <Flex direction='column' gap='3'>
-        <CustomChart variant='violet' height={108} data={profitData?.chard_data} />
+        <CustomChart variant='violet' height={108} data={profitChartData?.chard_data} />
         <TimeframeRange timeframe={timeframe} setTimeframe={setTimeframe} />
       </Flex>
       <Card size='2'>
