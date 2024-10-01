@@ -1,11 +1,14 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Big from 'big.js';
 import { toast } from 'sonner';
+import { DialogTitle } from '@radix-ui/react-dialog';
 import * as ToggleGroup from '@radix-ui/react-toggle-group';
 import { Flex } from '@radix-ui/themes';
 import * as stylex from '@stylexjs/stylex';
 import { useCheckBottomGap } from '@/hooks/use-check-bottom-gap';
 import { useShowMainButton } from '@/hooks/use-show-main-button';
+import { Dialog, DialogDescription } from '@/modules/core/design-system/dialog';
 import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
 import { useAssetPrice } from '@/services/user/asset-price/api';
@@ -35,6 +38,7 @@ const BALANCE_PERCENTS = [
 const UISwap = () => {
   const [baseInputFocused, setBaseInputFocused] = useState(false);
   const [quoteInputFocused, setQuoteInputFocused] = useState(false);
+  const [fundOpen, setFundOpen] = useState(false);
 
   const balances = useBalancesStore((state) => state.balances);
   const {
@@ -53,6 +57,7 @@ const UISwap = () => {
   const { data: quotePriceData } = useAssetPrice(quote);
   const swap = useSwap();
   const isBottomGap = useCheckBottomGap();
+  const navigate = useNavigate();
 
   const baseAmountNumber = Big(baseAmount || 0);
   const basePriceUSD = Big(basePriceData?.price_usd || 0);
@@ -77,7 +82,8 @@ const UISwap = () => {
     ? quoteAmountNumber.div(quoteBalance).times(100)
     : Big(0);
 
-  const swapEnabled = !!Number(baseAmount) && baseAmountNumber.lte(baseBalance);
+  const fundEnabled = !!baseAmount && baseAmountNumber.gt(baseBalance);
+  const swapEnabled = !!Number(baseAmount);
 
   const onSwap = useCallback(() => {
     const amount = Number(baseAmount);
@@ -89,13 +95,34 @@ const UISwap = () => {
     swap.mutate({ amountA: amount, tokenA: base, tokenB: quote });
   }, [baseAmount, base, quote]);
 
+  const onFund = useCallback(() => {
+    navigate(`/?fund=${base}`);
+  }, [base]);
+
   useShowMainButton({
-    variant: swapEnabled ? 'default' : 'disabled',
-    text: 'Swap',
-    enabled: swapEnabled,
+    variant: swapEnabled || fundEnabled ? 'default' : 'disabled',
+    text: fundEnabled ? 'Add Funds' : 'Swap',
+    enabled: swapEnabled || fundEnabled,
     loading: swap.isPending,
-    callback: onSwap,
+    callback: fundEnabled ? onFund : onSwap,
   });
+
+  useEffect(() => {
+    if (
+      baseAmountNumber.gt(baseBalance) &&
+      !baseInputFocused &&
+      !quoteInputFocused &&
+      sessionStorage.getItem('funds-enabled') !== 'false'
+    ) {
+      setFundOpen(true);
+    } else {
+      setFundOpen(false);
+    }
+  }, [baseAmountNumber.gt(baseBalance), baseInputFocused, quoteInputFocused]);
+
+  useEffect(() => {
+    setQuoteAmount(baseAmountNumber.times(basePrice).toNumber().toString());
+  }, [basePrice.toString()]);
 
   const onSetBaseAmount = (value: string) => {
     setBaseAmount(value);
@@ -216,6 +243,31 @@ const UISwap = () => {
       <Text size='2' weight='medium' align='center' lineHeight='12px'>
         Savings on this trade: {formatNumberWithCommas(1000)} $
       </Text>
+      <Dialog
+        asChild
+        open={fundOpen}
+        trigger={null}
+        setOpen={(value) => {
+          if (!value) {
+            sessionStorage.setItem('funds-enabled', 'false');
+          }
+          setFundOpen(value);
+        }}
+      >
+        <Flex direction='column' gap='4' px='4'>
+          <DialogTitle asChild>
+            <Text size='4' align='center' weight='bold' lineHeight='16px'>
+              Fund your account
+            </Text>
+          </DialogTitle>
+          <DialogDescription asChild>
+            <Text size='2' align='center' lineHeight='12px'>
+              Make a {formatNumberWithCommas(baseAmountNumber.minus(baseBalance).toNumber())} {base}{' '}
+              deposit to continue the swap
+            </Text>
+          </DialogDescription>
+        </Flex>
+      </Dialog>
     </Flex>
   );
 };
