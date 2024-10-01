@@ -9,9 +9,9 @@ import Link from '@/modules/core/components/Link';
 import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
 import { TextField, TextFieldSlot } from '@/modules/core/design-system/text-field';
+import { useAssetPrice } from '@/services/user/asset-price/api';
 import { useWithdraw } from '@/services/user/withdraw/api';
 import { useBalancesStore } from '@/store/balances-store';
-import { useSystemCurrencyStore } from '@/store/system-currency-store';
 import { useWithdrawStore } from '@/store/withdraw-store';
 import { convertSecondsShort } from '@/utils/duration';
 import { formatNumber, formatNumberWithCommas, transformCommaToDot } from '@/utils/numbers';
@@ -26,8 +26,8 @@ const UIWithdraw = () => {
   const balances = useBalancesStore((state) => state.balances);
   const token = useWithdrawStore((state) => state.token);
   const network = useWithdrawStore((state) => state.network);
-  const rates = useSystemCurrencyStore((state) => state.rates);
 
+  const { data: assetPriceData } = useAssetPrice(token?.symbol);
   const withdraw = useWithdraw();
   const qrScanner = useQRScanner();
   const isBottomGap = useCheckBottomGap();
@@ -42,9 +42,9 @@ const UIWithdraw = () => {
     token && network
       ? getAvailableBalance(balances[token.symbol]?.network_balances[network.name]).balance
       : 0;
-  const rate = rates[token?.symbol || ''] || 0;
+  const priceUSD = Number(assetPriceData?.price_usd || 0);
   const tokenAmount = Number(amount) || 0;
-  const tokenAmountUSD = tokenAmount * rate;
+  const tokenAmountUSD = tokenAmount * priceUSD;
   const duration = convertSecondsShort(network?.processing_time_seconds);
   const fee = tokenAmount * (network?.token_fee_percent || 0);
 

@@ -12,10 +12,10 @@ import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
 import { TokenIcon } from '@/modules/core/design-system/token-icon';
 import { useAssetChart } from '@/services/user/asset-chart/api';
+import { useAssetPrice } from '@/services/user/asset-price/api';
 import { useAssetSummary } from '@/services/user/asset-summary/api';
 import { useBalancesStore } from '@/store/balances-store';
 import { useDepositStore } from '@/store/deposit-store';
-import { useSystemCurrencyStore } from '@/store/system-currency-store';
 import { useWithdrawStore } from '@/store/withdraw-store';
 import { formatDate } from '@/utils/date';
 import { formatNumberWithCommas, formatPercent } from '@/utils/numbers';
@@ -27,12 +27,14 @@ const UIAsset = () => {
   const { asset } = useParams();
   const { data: assetSummaryData } = useAssetSummary(asset);
   const { data: assetChartData, isLoading } = useAssetChart(timeframe, asset);
-  const rates = useSystemCurrencyStore((state) => state.rates);
   const balances = useBalancesStore((state) => state.balances);
   const setDepositToken = useDepositStore((state) => state.setToken);
   const setWithdrawToken = useWithdrawStore((state) => state.setToken);
   const isBottomGap = useCheckBottomGap();
 
+  const { data: assetPriceData } = useAssetPrice(asset);
+
+  const priceUSD = Number(assetPriceData?.price_usd || 0);
   const profitPositive = Number(assetChartData?.pnl_percent || 0) >= 0;
   const profitString = `${formatPercent(Number(assetChartData?.pnl_percent || 0) * 100)}%`;
   const actionPossible = !!asset && !!balances[asset];
@@ -151,7 +153,7 @@ const UIAsset = () => {
               Purchase Price:
             </Text>
             <Text color='gold' size='3' weight='bold'>
-              ${formatNumberWithCommas(rates[asset || ''] || 0)} per {asset}
+              ${formatNumberWithCommas(priceUSD)} per {asset}
             </Text>
           </Flex>
         </Flex>
@@ -169,7 +171,7 @@ const UIAsset = () => {
           description='Complete a transaction to see the history'
         />
       </Flex>
-      <AssetPriceChange asset={asset} />
+      <AssetPriceChange asset={asset} priceUSD={priceUSD} />
     </Flex>
   );
 };

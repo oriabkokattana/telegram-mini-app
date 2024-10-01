@@ -28,10 +28,12 @@ export type IconName =
   | 'qr-code'
   | 'bell'
   | 'sad-smile'
-  | 'list';
+  | 'list'
+  | 'rotate';
 
 export type IconVariant =
   | 'primary'
+  | 'reverse-primary'
   | 'secondary'
   | 'tertiary'
   | 'accent-violet'

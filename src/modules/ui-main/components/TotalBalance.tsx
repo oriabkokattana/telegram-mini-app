@@ -102,8 +102,8 @@ const TotalBalance = ({ visible, setVisible }: TotalBalanceProps) => {
             </Text>
           </Button>
         </Flex>
-        <CustomChart variant='violet' height={108} data={balanceChartData} loading={isLoading} />
-        <Flex my='-4' mb='4' px='9'>
+        <CustomChart variant='violet' height={92} data={balanceChartData} loading={isLoading} />
+        <Flex px='9'>
           <Flex asChild flexGrow='1'>
             <Link to='/deposit-token-select'>
               <Flex asChild flexGrow='1' direction='column' align='center' gap='2'>

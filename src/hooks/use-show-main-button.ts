@@ -1,12 +1,16 @@
 import { useEffect } from 'react';
 import { MainButtonParams, useMainButton } from '@telegram-apps/sdk-react';
 
-export type MainButtonVariant = 'light' | 'dark';
+export type MainButtonVariant = 'default' | 'disabled' | 'light' | 'dark';
 
 const getPalleteByVariant = (
   variant: MainButtonVariant
 ): Pick<MainButtonParams, 'bgColor' | 'textColor'> => {
   switch (variant) {
+    case 'default':
+      return { bgColor: '#583BE8', textColor: '#FFFFFF' };
+    case 'disabled':
+      return { bgColor: '#6C5EB4', textColor: '#BDBDBD' };
     case 'dark':
       return { bgColor: '#1F1F1F', textColor: '#FFFFFF' };
     case 'light':

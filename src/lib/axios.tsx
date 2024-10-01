@@ -32,6 +32,18 @@ instance.interceptors.request.use(
   }
 );
 
+let isRefreshing = false;
+let refreshSubscribers: Array<(token: string) => void> = [];
+
+function onRefreshed(token: string) {
+  refreshSubscribers.forEach((callback) => callback(token));
+  refreshSubscribers = [];
+}
+
+function subscribeTokenRefresh(callback: (token: string) => void) {
+  refreshSubscribers.push(callback);
+}
+
 instance.interceptors.response.use(
   function (response) {
     return response;
@@ -40,7 +52,18 @@ instance.interceptors.response.use(
     const originalRequest: CustomAxiosRequestConfig | undefined = error.config;
 
     if (error.response?.status === 401 && originalRequest && !originalRequest._retry) {
+      if (isRefreshing) {
+        return new Promise((resolve) => {
+          subscribeTokenRefresh((token: string) => {
+            originalRequest!.headers.Authorization = `Bearer ${token}`;
+            resolve(instance(originalRequest!));
+          });
+        });
+      }
+
       originalRequest._retry = true;
+      isRefreshing = true;
+
       try {
         const response = await getRefreshToken({
           params: { token: useUserStore.getState().user?.refreshToken },
@@ -53,9 +76,12 @@ instance.interceptors.response.use(
         });
 
         originalRequest.headers.Authorization = `Bearer ${payload.access_token}`;
+        isRefreshing = false;
+        onRefreshed(payload.access_token);
 
         return instance(originalRequest);
       } catch (error) {
+        isRefreshing = false;
         if (error instanceof AxiosError && error.response?.status === 400) {
           useUserStore.getState().removeCredentials();
           const { connector, isConnected } = getAccount(config);

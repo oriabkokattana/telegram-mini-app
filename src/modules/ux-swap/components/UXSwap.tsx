@@ -8,7 +8,9 @@ import ProgressIcon from '@/assets/progress.svg?react';
 import { useSetAppBg } from '@/hooks/use-set-app-bg';
 import { Button } from '@/modules/core/design-system/button';
 import { useSwap } from '@/services/user/swap/api';
+import { useBalancesStore } from '@/store/balances-store';
 import { useTradingStore } from '@/store/trading-store';
+import { getAvailableBalance } from '@/utils/token-with-balance';
 import graph from '../media/graph.svg';
 import LogoBinanceIcon from '../media/logo-binance.svg?react';
 import TradingInput from './TradingInput';
@@ -37,12 +39,14 @@ const UXSwap = () => {
   const params = useParams();
   const navigate = useNavigate();
   const { mutateAsync } = useSwap();
+
+  useSetAppBg('white');
+
+  const balances = useBalancesStore((state) => state.balances);
   const {
     base,
-    baseBalance,
     baseAmount,
     quote,
-    quoteBalance,
     quoteAmount,
     setBase,
     setBaseAmount,
@@ -50,8 +54,8 @@ const UXSwap = () => {
     setQuoteAmount,
     rotate,
   } = useTradingStore();
-
-  useSetAppBg('white');
+  const baseBalance = base ? getAvailableBalance(balances[base]?.total_balance).balance : 0;
+  const quoteBalance = quote ? getAvailableBalance(balances[quote]?.total_balance).balance : 0;
 
   const onSetBase = (coin: string) => {
     if (coin === quote) {

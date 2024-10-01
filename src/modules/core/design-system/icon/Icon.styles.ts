@@ -5,6 +5,9 @@ export const styles = stylex.create({
   primary: {
     fill: colors.primaryIcon,
   },
+  'reverse-primary': {
+    fill: colors.reversePrimary,
+  },
   secondary: {
     fill: colors.secondaryIcon,
   },

@@ -28,5 +28,6 @@ export function useAssetPrice(asset?: string) {
   return useQuery<z.infer<typeof AssetPriceAPIResponseSchema>, AxiosError<ErrorResponse>>({
     queryKey: ['asset', 'price', asset],
     queryFn: asset ? () => getAssetPrice({ query: `/${asset}` }) : skipToken,
+    refetchInterval: 10000,
   });
 }

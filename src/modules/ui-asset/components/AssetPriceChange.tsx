@@ -9,7 +9,6 @@ import Link from '@/modules/core/components/Link';
 import TimeframeRange from '@/modules/core/components/TimeframeRange';
 import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
-import { useAssetPrice } from '@/services/user/asset-price/api';
 import { useAssetPriceChange } from '@/services/user/asset-price-change/api';
 import { formatNumberWithSpaces, formatPercent } from '@/utils/numbers';
 import { getPriceChangePercent } from '@/utils/price';
@@ -20,17 +19,16 @@ import { ChartEntity } from '@/types/chart';
 
 interface AssetPriceChangeProps {
   asset?: string;
+  priceUSD: number;
 }
 
-const AssetPriceChange = ({ asset }: AssetPriceChangeProps) => {
+const AssetPriceChange = ({ asset, priceUSD }: AssetPriceChangeProps) => {
   const [open, setOpen] = useState<boolean>();
   const [timeframe, setTimeframe] = useState(ETimeframe.m);
 
-  const { data: assetPriceData } = useAssetPrice(asset);
   const { data: assetPriceChangeData, isLoading } = useAssetPriceChange(timeframe, asset);
   const isBottomGap = useCheckBottomGap();
 
-  const priceUSD = Number(assetPriceData?.price_usd || 0);
   const priceChangePercent = getPriceChangePercent(
     priceUSD,
     assetPriceChangeData

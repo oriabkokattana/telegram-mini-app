@@ -1,6 +1,8 @@
 import * as stylex from '@stylexjs/stylex';
 
 export const colors = stylex.defineVars({
+  themeBackground: '#FEFEFE',
+
   // Text Colors
   primaryText: '#0C0612',
   secondaryText: '#75788B',
@@ -12,6 +14,16 @@ export const colors = stylex.defineVars({
   timeframeBackgroundTransparent: '#75788B',
   timeframeTextTransparent: '#75788B',
   timeframeActiveTextTransparent: '#FEFEFE',
+
+  // Trading Colors
+  tradingRotateBackground: '#583BE8',
+  tradingRotateBorder: '#FEFEFE',
+  tradingInputBackground: '#F3F4F7',
+  tradingInputBorder: '#583BE8',
+  tradingInputError: '#FF65B3',
+  tradingTokenSelectBackground: '#FEFEFE',
+  tradingPercentBackground: '#F3F4F7',
+  tradingPercentBackgroundActive: 'rgba(117, 120, 139, 0.4)',
 
   // Badge Colors
   badgeBackground: 'rgba(117, 120, 139, 0.1)',
@@ -38,6 +50,7 @@ export const colors = stylex.defineVars({
   primaryIcon: 'rgba(12, 6, 18, 1)',
   secondaryIcon: 'rgba(117, 120, 139, 1)',
   tertiaryIcon: 'rgba(117, 120, 139, 1)',
+  reversePrimary: 'rgba(250, 250, 250, 1)',
   accentVioletIcon: 'rgba(88, 59, 232, 1)',
   accentPinkIcon: 'rgba(255, 101, 179, 1)',
   whiteIcon: 'rgba(250, 250, 250, 1)',
@@ -46,6 +59,8 @@ export const colors = stylex.defineVars({
 });
 
 export const darkTheme = stylex.createTheme(colors, {
+  themeBackground: '#0C0612',
+
   // Text Colors
   primaryText: '#FAFAFA',
   secondaryText: '#9A94AA',
@@ -57,6 +72,15 @@ export const darkTheme = stylex.createTheme(colors, {
   timeframeBackgroundTransparent: '#221D2E',
   timeframeTextTransparent: '#75788B',
   timeframeActiveTextTransparent: '#9A94AA',
+
+  // Trading Input Colors
+  tradingRotateBackground: '#FAFAFA',
+  tradingRotateBorder: '#0C0612',
+  tradingInputBackground: '#221D2E',
+  tradingInputBorder: '#583BE8',
+  tradingTokenSelectBackground: '#0C0612',
+  tradingPercentBackground: '#221D2E',
+  tradingPercentBackgroundActive: 'rgba(117, 120, 139, 0.3)',
 
   // Badge Colors
   badgeBackground: 'rgba(250, 250, 250, 0.1)',
@@ -79,6 +103,7 @@ export const darkTheme = stylex.createTheme(colors, {
 
   // Icon Colors
   primaryIcon: 'rgba(254, 254, 254, 1)',
+  reversePrimary: 'rgba(34, 29, 46, 1)',
   secondaryIcon: 'rgba(154, 148, 170, 1)',
   tertiaryIcon: 'rgba(250, 250, 250, 1)',
   accentVioletIcon: 'rgba(174, 154, 255, 1)',
