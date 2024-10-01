@@ -11,7 +11,7 @@ import { useAssetPrice } from '@/services/user/asset-price/api';
 import { useSwap } from '@/services/user/swap/api';
 import { useBalancesStore } from '@/store/balances-store';
 import { useTradingStore } from '@/store/trading-store';
-import { formatNumberWithCommas } from '@/utils/numbers';
+import { formatNumberWithCommas, roundNumber } from '@/utils/numbers';
 import { getAvailableBalance } from '@/utils/token-with-balance';
 import TradingInput from './TradingInput';
 
@@ -34,7 +34,6 @@ const BALANCE_PERCENTS = [
 const UISwap = () => {
   const [baseInputFocused, setBaseInputFocused] = useState(false);
   const [quoteInputFocused, setQuoteInputFocused] = useState(false);
-  const [percent, setPercent] = useState<BalancePercent>();
 
   const balances = useBalancesStore((state) => state.balances);
   const {
@@ -54,15 +53,19 @@ const UISwap = () => {
   const swap = useSwap();
   const isBottomGap = useCheckBottomGap();
 
+  const baseAmountNumber = Number(baseAmount) || 0;
   const basePriceUSD = Number(basePriceData?.price_usd || 0);
   const basePriceChangePercent = Number(basePriceData?.price_change_1h || 0);
   const baseAmountUSD = (Number(baseAmount) || 0) * basePriceUSD;
+  const quoteAmountNumber = Number(quoteAmount) || 0;
   const quotePriceUSD = Number(quotePriceData?.price_usd || 0);
   const quotePriceChangePercent = Number(quotePriceData?.price_change_1h || 0);
   const quoteAmountUSD = (Number(quoteAmount) || 0) * quotePriceUSD;
   const basePrice = quotePriceUSD ? basePriceUSD / quotePriceUSD : 0;
   const baseBalance = base ? getAvailableBalance(balances[base]?.total_balance).balance : 0;
+  const baseBalancePercent = baseBalance ? (baseAmountNumber / baseBalance) * 100 : 0;
   const quoteBalance = quote ? getAvailableBalance(balances[quote]?.total_balance).balance : 0;
+  const quoteBalancePercent = quoteBalance ? (quoteAmountNumber / quoteBalance) * 100 : 0;
 
   const swapEnabled = !!Number(baseAmount) && Number(baseAmount) <= baseBalance;
 
@@ -85,37 +88,12 @@ const UISwap = () => {
   });
 
   useEffect(() => {
-    if (baseInputFocused) {
-      const baseAmountNumber = Number(baseAmount) || 0;
-      const basePercent = ((baseAmountNumber / baseBalance) * 100).toString() as BalancePercent;
-      const isPresented = BALANCE_PERCENTS.includes(basePercent);
-      if (isPresented) {
-        setPercent(basePercent);
-      } else {
-        setPercent(undefined);
-      }
-    }
-    if (quoteInputFocused) {
-      const quoteAmountNumber = Number(quoteAmount) || 0;
-      const quotePercent = ((quoteAmountNumber / quoteBalance) * 100).toString() as BalancePercent;
-      const isPresented = BALANCE_PERCENTS.includes(quotePercent);
-      if (isPresented) {
-        setPercent(quotePercent);
-      } else {
-        setPercent(undefined);
-      }
-    }
-  }, [baseInputFocused, quoteInputFocused, baseAmount, quoteAmount]);
-
-  useEffect(() => {
-    const baseAmountNumber = Number(baseAmount) || 0;
     if (baseAmount) {
       setQuoteAmount((baseAmountNumber * basePrice).toString());
     }
   }, [baseAmount, basePrice]);
 
   useEffect(() => {
-    const quoteAmountNumber = Number(quoteAmount) || 0;
     if (quoteAmount) {
       setBaseAmount((quoteAmountNumber / basePrice).toString());
     }
@@ -123,20 +101,16 @@ const UISwap = () => {
 
   const onChangeBalancePercent = (value?: string) => {
     if (value) {
-      if (baseInputFocused) {
-        return setBaseAmount(((baseBalance * Number(value)) / 100).toString());
-      }
-      return setQuoteAmount(((quoteBalance * Number(value)) / 100).toString());
+      return baseInputFocused
+        ? setBaseAmount(roundNumber((baseBalance * Number(value)) / 100).toString())
+        : setQuoteAmount(roundNumber((quoteBalance * Number(value)) / 100).toString());
     }
-    if (baseInputFocused) {
-      return setBaseAmount('0');
-    }
-    return setQuoteAmount('0');
+    return baseInputFocused ? setBaseAmount('0') : setQuoteAmount('0');
   };
 
   return (
     <Flex minHeight='100vh' direction='column' gap='5' px='4' pt='2' pb={isBottomGap ? '6' : '4'}>
-      <Flex height='40px' align='center' pl='7'>
+      <Flex height='40px' align='center' px='7'>
         <Text size='4' weight='bold' lineHeight='16px' mx='auto'>
           Market Swap
         </Text>
@@ -198,7 +172,9 @@ const UISwap = () => {
               {...stylex.props(styles.percentGroup)}
               type='single'
               aria-label='Select balance percent'
-              value={percent}
+              value={
+                quoteInputFocused ? quoteBalancePercent.toString() : baseBalancePercent.toString()
+              }
               onValueChange={onChangeBalancePercent}
             >
               {BALANCE_PERCENTS.map((item) => (

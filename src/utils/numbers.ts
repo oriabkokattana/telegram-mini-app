@@ -73,3 +73,5 @@ export const trimToPrecision = (value: number, precision: number): number => {
 
   return parseFloat(`${integerPart}.${trimmedFraction}`);
 };
+
+export const roundNumber = (number: number) => Math.round(number * 10 ** 8) / 10 ** 8;
