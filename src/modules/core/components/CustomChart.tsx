@@ -14,6 +14,37 @@ import { ChartEntity } from '@/types/chart';
 // import { formatDate } from '@/utils/date';
 
 export type ChartVariant = 'pale' | 'outline' | 'violet';
+export type ChartData = { name: number; value: number; exactValue: number };
+
+const addVariation = (item: ChartEntity): ChartData => {
+  const exactValue = parseFloat(item.value) || 0;
+  const variation = exactValue * 0.001; // 0.1% variation
+  const adjustedValue = exactValue + (Math.random() * variation * 2 - variation);
+
+  return {
+    name: item.timestamp,
+    value: adjustedValue, // 5% more or less than initial value
+    exactValue, // initial value without variation
+  };
+};
+
+const parseChartData = (data?: ChartEntity[]): ChartData[] => {
+  if (!data?.length || data.length === 1) {
+    return [];
+  }
+
+  const allSame = data.every((item) => item.value === data[0].value);
+
+  if (allSame) {
+    return data.map((item) => addVariation(item));
+  }
+
+  return data.map((item) => ({
+    name: item.timestamp,
+    value: parseFloat(item.value) || 0,
+    exactValue: parseFloat(item.value) || 0,
+  }));
+};
 
 const getChartStrokeColor = (variant: ChartVariant) => {
   switch (variant) {
@@ -60,10 +91,7 @@ const CustomChart = ({
     );
   }
 
-  const chartData = data?.map((item) => ({
-    name: item.timestamp,
-    value: Number(item.value) || 0,
-  }));
+  const chartData = parseChartData(data);
 
   if (type === 'line') {
     <ResponsiveContainer width='100%' height={height}>
