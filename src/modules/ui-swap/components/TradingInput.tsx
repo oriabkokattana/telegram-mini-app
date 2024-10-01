@@ -1,4 +1,5 @@
 import { InputHTMLAttributes } from 'react';
+import Big from 'big.js';
 import * as Label from '@radix-ui/react-label';
 import { Flex } from '@radix-ui/themes';
 import * as stylex from '@stylexjs/stylex';
@@ -12,10 +13,10 @@ import { styles } from './TradingInput.styles';
 type TradingInputProps = {
   type: 'base' | 'quote';
   error?: boolean;
-  balance: number;
-  priceUSD: number;
-  priceChangePercent: number;
-  amountUSD: number;
+  balance: Big;
+  priceUSD: Big;
+  priceChangePercent: Big;
+  amountUSD: Big;
   token?: string;
   value: string;
   onChange(value: string): void;
@@ -91,7 +92,7 @@ const TradingInput = ({
             ${formatNumberWithCommas(priceUSD)}
           </Text>
           <Icon
-            name={priceChangePercent >= 0 ? 'top-right-arrow' : 'bottom-right-arrow'}
+            name={priceChangePercent.gte(0) ? 'top-right-arrow' : 'bottom-right-arrow'}
             size={16}
           />
           <Text size='1' weight='medium' lineHeight='10px'>

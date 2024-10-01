@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import Big from 'big.js';
 import { toast } from 'sonner';
 import * as ToggleGroup from '@radix-ui/react-toggle-group';
 import { Flex } from '@radix-ui/themes';
@@ -11,11 +12,13 @@ import { useAssetPrice } from '@/services/user/asset-price/api';
 import { useSwap } from '@/services/user/swap/api';
 import { useBalancesStore } from '@/store/balances-store';
 import { useTradingStore } from '@/store/trading-store';
-import { formatNumberWithCommas, roundNumber } from '@/utils/numbers';
+import { formatNumberWithCommas } from '@/utils/numbers';
 import { getAvailableBalance } from '@/utils/token-with-balance';
 import TradingInput from './TradingInput';
 
 import { styles } from './UISwap.styles';
+
+Big.DP = 4;
 
 enum BalancePercent {
   twenty = '20',
@@ -53,21 +56,29 @@ const UISwap = () => {
   const swap = useSwap();
   const isBottomGap = useCheckBottomGap();
 
-  const baseAmountNumber = Number(baseAmount) || 0;
-  const basePriceUSD = Number(basePriceData?.price_usd || 0);
-  const basePriceChangePercent = Number(basePriceData?.price_change_1h || 0);
-  const baseAmountUSD = (Number(baseAmount) || 0) * basePriceUSD;
-  const quoteAmountNumber = Number(quoteAmount) || 0;
-  const quotePriceUSD = Number(quotePriceData?.price_usd || 0);
-  const quotePriceChangePercent = Number(quotePriceData?.price_change_1h || 0);
-  const quoteAmountUSD = (Number(quoteAmount) || 0) * quotePriceUSD;
-  const basePrice = quotePriceUSD ? basePriceUSD / quotePriceUSD : 0;
-  const baseBalance = base ? getAvailableBalance(balances[base]?.total_balance).balance : 0;
-  const baseBalancePercent = baseBalance ? (baseAmountNumber / baseBalance) * 100 : 0;
-  const quoteBalance = quote ? getAvailableBalance(balances[quote]?.total_balance).balance : 0;
-  const quoteBalancePercent = quoteBalance ? (quoteAmountNumber / quoteBalance) * 100 : 0;
+  const baseAmountNumber = Big(baseAmount || 0);
+  const basePriceUSD = Big(basePriceData?.price_usd || 0);
+  const basePriceChangePercent = Big(basePriceData?.price_change_1h || 0);
+  const baseAmountUSD = baseAmountNumber.times(basePriceUSD);
+  const quoteAmountNumber = Big(quoteAmount || 0);
+  const quotePriceUSD = Big(quotePriceData?.price_usd || 0);
+  const quotePriceChangePercent = Big(quotePriceData?.price_change_1h || 0);
+  const quoteAmountUSD = quoteAmountNumber.times(quotePriceUSD);
+  const basePrice = quotePriceUSD.gt(0) ? basePriceUSD.div(quotePriceUSD) : Big(0);
+  const baseBalance = base
+    ? Big(getAvailableBalance(balances[base]?.total_balance).balance)
+    : Big(0);
+  const baseBalancePercent = baseBalance.gt(0)
+    ? baseAmountNumber.div(baseBalance).times(100)
+    : Big(0);
+  const quoteBalance = quote
+    ? Big(getAvailableBalance(balances[quote]?.total_balance).balance)
+    : Big(0);
+  const quoteBalancePercent = quoteBalance.gt(0)
+    ? quoteAmountNumber.div(quoteBalance).times(100)
+    : Big(0);
 
-  const swapEnabled = !!Number(baseAmount) && Number(baseAmount) <= baseBalance;
+  const swapEnabled = !!Number(baseAmount) && baseAmountNumber.lte(baseBalance);
 
   const onSwap = useCallback(() => {
     const amount = Number(baseAmount);
@@ -89,21 +100,21 @@ const UISwap = () => {
 
   useEffect(() => {
     if (baseAmount) {
-      setQuoteAmount((baseAmountNumber * basePrice).toString());
+      setQuoteAmount(Big(baseAmount).times(basePrice).toString());
     }
-  }, [baseAmount, basePrice]);
+  }, [baseAmount, basePrice.toString()]);
 
   useEffect(() => {
-    if (quoteAmount) {
-      setBaseAmount((quoteAmountNumber / basePrice).toString());
+    if (quoteAmount && basePrice) {
+      setBaseAmount(Big(quoteAmount).div(basePrice).toString());
     }
-  }, [quoteAmount, basePrice]);
+  }, [quoteAmount, basePrice.toString()]);
 
   const onChangeBalancePercent = (value?: string) => {
     if (value) {
       return baseInputFocused
-        ? setBaseAmount(roundNumber((baseBalance * Number(value)) / 100).toString())
-        : setQuoteAmount(roundNumber((quoteBalance * Number(value)) / 100).toString());
+        ? setBaseAmount(baseBalance.times(value).div(100).toString())
+        : setQuoteAmount(quoteBalance.times(value).div(100).toString());
     }
     return baseInputFocused ? setBaseAmount('0') : setQuoteAmount('0');
   };
@@ -118,7 +129,7 @@ const UISwap = () => {
       <Flex direction='column' gap='2' position='relative'>
         <TradingInput
           type='base'
-          error={Number(baseAmount) > baseBalance}
+          error={baseAmountNumber.gt(baseBalance)}
           balance={baseBalance}
           priceUSD={basePriceUSD}
           priceChangePercent={basePriceChangePercent}
@@ -197,7 +208,7 @@ const UISwap = () => {
         </Flex>
       </Flex>
       <Text color='gray' size='2' weight='medium' align='center' lineHeight='20px'>
-        1 {base} = {formatNumberWithCommas(basePrice)} {quote}
+        1 {base} = {formatNumberWithCommas(basePrice.toNumber())} {quote}
       </Text>
       <Text size='2' weight='medium' align='center' lineHeight='12px'>
         Savings on this trade: {formatNumberWithCommas(1000)} $

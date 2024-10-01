@@ -68,6 +68,9 @@ importers:
       axios:
         specifier: ^1.7.5
         version: 1.7.5
+      big.js:
+        specifier: ^6.2.2
+        version: 6.2.2
       buffer:
         specifier: ^6.0.3
         version: 6.0.3
@@ -111,6 +114,9 @@ importers:
         specifier: ^4.5.5
         version: 4.5.5(@types/react@18.3.4)(react@18.3.1)
     devDependencies:
+      '@types/big.js':
+        specifier: ^6.2.2
+        version: 6.2.2
       '@types/react':
         specifier: ^18.3.4
         version: 18.3.4
@@ -2523,6 +2529,9 @@ packages:
   '@telegram-apps/sdk@1.1.3':
     resolution: {integrity: sha512-gvcXNttbCouDNTxjDUbO5FS/BdaHYO0ibSddQxiYitShPIDZDxGon0Eh3OSsgUIVPSQSNdXqkXaeqYgA+jeY0A==}
 
+  '@types/big.js@6.2.2':
+    resolution: {integrity: sha512-e2cOW9YlVzFY2iScnGBBkplKsrn2CsObHQ2Hiw4V1sSyiGbgWL8IyqE3zFi1Pt5o1pdAtYkDAIsF3KKUPjdzaA==}
+
   '@types/d3-array@3.2.1':
     resolution: {integrity: sha512-Y2Jn2idRrLzUfAKV2LyRImR+y4oa2AntrgID95SHJxuMUrkNXmanDSed71sRNZysveJVt1hLLemQZIady0FpEg==}
 
@@ -2973,6 +2982,9 @@ packages:
 
   base64-js@1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
+
+  big.js@6.2.2:
+    resolution: {integrity: sha512-y/ie+Faknx7sZA5MfGA2xKlu0GDv8RWrXGsmlteyJQ2lvoKv9GBK/fpRMc2qlSoBAgNxrixICFCBefIq8WCQpQ==}
 
   binary-extensions@2.3.0:
     resolution: {integrity: sha512-Ceh+7ox5qe7LJuLHoY0feh3pHuUDHAcRUeyL2VYghZwfpkNIy/+8Ocg0a3UuSoYzavmylwuLWQOf3hl0jjMMIw==}
@@ -8776,6 +8788,8 @@ snapshots:
 
   '@telegram-apps/sdk@1.1.3': {}
 
+  '@types/big.js@6.2.2': {}
+
   '@types/d3-array@3.2.1': {}
 
   '@types/d3-color@3.1.3': {}
@@ -9526,6 +9540,8 @@ snapshots:
   balanced-match@1.0.2: {}
 
   base64-js@1.5.1: {}
+
+  big.js@6.2.2: {}
 
   binary-extensions@2.3.0: {}
 

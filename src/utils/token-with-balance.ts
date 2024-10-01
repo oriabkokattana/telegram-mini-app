@@ -1,3 +1,4 @@
+import Big from 'big.js';
 import { useBalancesStore } from '@/store/balances-store';
 
 import { AvailableBalance, BalanceItem, TokenItem } from '@/types';
@@ -7,8 +8,8 @@ export const getAvailableBalance = (item?: BalanceItem): AvailableBalance => {
     return { balance: 0, balanceUSD: 0 };
   }
   return {
-    balance: Number(item.balance) - Number(item.reserved_balance),
-    balanceUSD: Number(item.balance_usd) - Number(item.reserved_balance_usd),
+    balance: Big(item.balance).minus(item.reserved_balance).toNumber(),
+    balanceUSD: Big(item.balance_usd).minus(item.reserved_balance_usd).toNumber(),
   };
 };
 
