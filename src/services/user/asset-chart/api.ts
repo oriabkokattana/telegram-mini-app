@@ -27,7 +27,7 @@ const getAssetChart = api<
 
 export function useAssetChart(timeframe: ETimeframe, asset?: string) {
   return useQuery<z.infer<typeof AssetChartAPIResponseSchema>, AxiosError<ErrorResponse>>({
-    queryKey: ['asset', 'chart', timeframe],
+    queryKey: ['asset', 'chart', timeframe, asset],
     queryFn: asset
       ? () => getAssetChart({ query: `/${asset}`, params: { period: timeframe } })
       : skipToken,

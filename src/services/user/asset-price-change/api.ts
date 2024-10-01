@@ -27,7 +27,7 @@ const getAssetPriceChange = api<
 
 export function useAssetPriceChange(timeframe: ETimeframe, asset?: string) {
   return useQuery<z.infer<typeof AssetPriceChangeAPIResponseSchema>, AxiosError<ErrorResponse>>({
-    queryKey: ['asset', 'price-change', timeframe],
+    queryKey: ['asset', 'price-change', timeframe, asset],
     queryFn: asset
       ? () => getAssetPriceChange({ query: `/${asset}`, params: { period: timeframe } })
       : skipToken,
