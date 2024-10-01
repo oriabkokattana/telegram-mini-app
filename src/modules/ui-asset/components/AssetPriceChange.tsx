@@ -83,7 +83,7 @@ const AssetPriceChange = ({ asset }: AssetPriceChangeProps) => {
                   weight='bold'
                   lineHeight='12px'
                 >
-                  {priceChangePercent}%
+                  {formatPercent(priceChangePercent)}%
                 </Text>
               </Flex>
             </Flex>
