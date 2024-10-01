@@ -144,7 +144,7 @@ const TransactionRow = ({ item }: TransactionRow) => {
         </DialogTitle>
         <Flex direction='column' gap='2'>
           <Card size='2' variant='classic'>
-            <Flex width='290px' justify='center' mx='auto'>
+            <Flex width='300px' justify='center' mx='auto'>
               <Text size='3' weight='medium' align='center' wordBreak='break-word'>
                 {item.tx_hash}
               </Text>
