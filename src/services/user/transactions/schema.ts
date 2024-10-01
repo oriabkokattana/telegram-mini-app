@@ -15,7 +15,7 @@ export const TransactionSchema = z.object({
   status: TransactionStatusSchema,
   timestamp: z.number(),
   transaction_type: TransactionTypeSchema,
-  tx_hash: z.string(),
+  tx_hash: z.string().optional(),
   value_usd: z.string(),
 });
 

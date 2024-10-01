@@ -1,11 +1,20 @@
-import { forwardRef } from 'react';
-import { Box, Flex } from '@radix-ui/themes';
+import { forwardRef, useState } from 'react';
+import { toast } from 'sonner';
+import { Box, Button, Card, Flex } from '@radix-ui/themes';
 import { formatDateWithTime } from '@/utils/date';
 import { formatNumber } from '@/utils/numbers';
+import { Dialog, DialogTitle } from '../design-system/dialog';
 import { Text } from '../design-system/text';
 import NoDataPlaceholder from './NoDataPlaceholder';
 
 import { TransactionItem } from '@/types';
+
+const onCopyTxHash = async (txHash?: string) => {
+  if (txHash) {
+    await navigator.clipboard.writeText(txHash);
+    toast.success('Transaction hash copied to clipboard!');
+  }
+};
 
 const getTransactionTitle = (transaction: TransactionItem) => {
   switch (transaction.transaction_type) {
@@ -77,39 +86,79 @@ const TransactionList = forwardRef<HTMLDivElement, TransactionListProps>(
 
     return (
       <Flex direction='column' gap='5' ref={forwardedRef}>
-        {data?.map((item) => (
-          <Flex key={item.id} justify='between' align='center'>
-            <Flex direction='column' gap='2'>
-              <Text size='3' weight='bold'>
-                {getTransactionTitle(item)}
-              </Text>
-              <Text color='gray' size='2' weight='medium' lineHeight='12px'>
-                {formatDateWithTime(item.timestamp)}
-              </Text>
-            </Flex>
-            <Flex direction='column' gap='2' align='end'>
-              <Text size='3' weight='bold'>
-                {getTransactionAmount(item)}
-              </Text>
-              <Flex align='center' gap='2'>
-                <Box
-                  width='8px'
-                  height='8px'
-                  style={{
-                    borderRadius: 'var(--radius-full)',
-                    backgroundColor: getTransactionStatusColor(item),
-                  }}
-                />
-                <Text color='gray' size='2' weight='medium' lineHeight='12px'>
-                  {getTransactionStatus(item)}
-                </Text>
-              </Flex>
-            </Flex>
-          </Flex>
-        ))}
+        {data?.map((item) => <TransactionRow key={item.id} item={item} />)}
       </Flex>
     );
   }
 );
+
+type TransactionRow = {
+  item: TransactionItem;
+};
+
+const TransactionRow = ({ item }: TransactionRow) => {
+  const [txOpen, setTxOpen] = useState(false);
+
+  return (
+    <Dialog
+      asChild
+      open={txOpen}
+      trigger={
+        <Flex justify='between' align='center'>
+          <Flex direction='column' gap='2'>
+            <Text size='3' weight='bold'>
+              {getTransactionTitle(item)}
+            </Text>
+            <Text color='gray' size='2' weight='medium' lineHeight='12px'>
+              {formatDateWithTime(item.timestamp)}
+            </Text>
+          </Flex>
+          <Flex direction='column' gap='2' align='end'>
+            <Text size='3' weight='bold'>
+              {getTransactionAmount(item)}
+            </Text>
+            <Flex align='center' gap='2'>
+              <Box
+                width='8px'
+                height='8px'
+                style={{
+                  borderRadius: 'var(--radius-full)',
+                  backgroundColor: getTransactionStatusColor(item),
+                }}
+              />
+              <Text color='gray' size='2' weight='medium' lineHeight='12px'>
+                {getTransactionStatus(item)}
+              </Text>
+            </Flex>
+          </Flex>
+        </Flex>
+      }
+      setOpen={setTxOpen}
+      style={{ cursor: 'pointer', pointerEvents: item.tx_hash ? 'auto' : 'none' }}
+    >
+      <Flex direction='column' gap='4' px='4'>
+        <DialogTitle asChild>
+          <Text size='4' align='center' weight='bold' lineHeight='16px'>
+            Transaction Hash
+          </Text>
+        </DialogTitle>
+        <Flex direction='column' gap='2'>
+          <Card size='2' variant='classic'>
+            <Flex width='290px' justify='center' mx='auto'>
+              <Text size='3' weight='medium' align='center' wordBreak='break-word'>
+                {item.tx_hash}
+              </Text>
+            </Flex>
+          </Card>
+          <Button size='4' onClick={() => onCopyTxHash(item.tx_hash)}>
+            <Text color='sky' size='3' weight='bold'>
+              Copy
+            </Text>
+          </Button>
+        </Flex>
+      </Flex>
+    </Dialog>
+  );
+};
 
 export default TransactionList;
