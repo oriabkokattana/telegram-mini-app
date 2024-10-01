@@ -32,10 +32,10 @@ export const styles = stylex.create({
     backdropFilter: 'blur(15px)',
   },
   bottomGap: {
+    translate: '0 -92px',
     paddingBottom: 'var(--space-5)',
   },
   appearElongated: {
-    translate: '0 -92px',
     animationName: appearElongated,
     animationDuration: '0.3s',
     animationFillMode: 'forwards',
