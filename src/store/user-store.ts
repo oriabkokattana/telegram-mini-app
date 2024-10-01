@@ -10,16 +10,25 @@ type User = {
 
 type UserState = {
   user: User | null;
+  welcomed: boolean;
 };
 
 type UserAction = {
   setCredentials: (user: UserState['user']) => void;
+  toggleWelcomed: () => void;
   removeCredentials: () => void;
 };
 
 const userStoreSlice: StateCreator<UserState & UserAction> = (set) => ({
   user: null,
+  welcomed: false,
   setCredentials: (user) => set({ user }),
+  toggleWelcomed: () =>
+    set((state) => {
+      console.log(state.welcomed);
+
+      return { welcomed: !state.welcomed };
+    }),
   removeCredentials: () => set({ user: null }),
 });
 

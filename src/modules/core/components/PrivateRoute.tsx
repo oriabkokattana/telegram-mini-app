@@ -8,6 +8,6 @@ interface PrivateRouteProps {
 }
 
 export const PrivateRoute: FC<PrivateRouteProps> = ({ children }) => {
-  const { user } = useUserStore();
-  return user ? children : <Navigate to={Routes.AUTH} replace />;
+  const { user, welcomed } = useUserStore();
+  return user ? children : <Navigate to={welcomed ? Routes.AUTH : Routes.WELCOME} replace />;
 };

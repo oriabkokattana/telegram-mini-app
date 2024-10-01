@@ -29,7 +29,10 @@ export type IconName =
   | 'bell'
   | 'sad-smile'
   | 'list'
-  | 'rotate';
+  | 'rotate'
+  | 'auth-google'
+  | 'auth-facebook'
+  | 'auth-twitter';
 
 export type IconVariant =
   | 'primary'

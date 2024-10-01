@@ -1,60 +1,143 @@
+import { useState } from 'react';
+import { toast } from 'sonner';
+import { z } from 'zod';
+import { Button, Flex } from '@radix-ui/themes';
+import { useQueryClient } from '@tanstack/react-query';
+import { useMiniApp } from '@telegram-apps/sdk-react';
+import { Icon } from '@/modules/core/design-system/icon';
+import { Text } from '@/modules/core/design-system/text';
 import {
-  // useEffect,
-  useState,
-} from 'react';
-import { Flex, Heading, Section, SegmentedControl } from '@radix-ui/themes';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
-// import { BiometryManager, initBiometryManager } from '@telegram-apps/sdk-react';
-// import Biometry from './Biometry';
-import EmailPassword from './EmailPassword';
-import OAuth from './OAuth';
-
-type AuthMethod = 'Email&Password' | 'OAuth' | 'Biometry' | 'Wallet';
-
-const TABS = ['Email&Password', 'OAuth', 'Wallet'];
+  getFacebookOAuth,
+  getGoogleOAuth,
+  getTwitterOAuth,
+} from '@/services/auth/oauth-provider/api';
+import { OAuthProviderAPIResponseSchema } from '@/services/auth/oauth-provider/schema';
+import { openExternalLink } from '@/utils/open-link';
 
 const Authorization = () => {
-  const [tab, setTab] = useState<AuthMethod>('Email&Password');
-  // const [bm, setBm] = useState<BiometryManager>();
+  const miniApp = useMiniApp();
+  const queryClient = useQueryClient();
 
-  // useEffect(() => {
-  //   const [biometryManager] = initBiometryManager();
-  //   biometryManager.then((bm) => setBm(bm)).catch((e) => console.log(e));
-  // }, []);
+  const [googleLoading, setGoogleLoading] = useState(false);
+  const [facebookLoading, setFacebookLoading] = useState(false);
+  const [twitterLoading, setTwitterLoading] = useState(false);
 
-  // const tabs = bm?.available
-  //   ? ['Email&Password', 'OAuth', 'Wallet', 'Biometry']
-  //   : ['Email&Password', 'OAuth', 'Wallet'];
+  const onGoogleOAuth = async () => {
+    try {
+      setGoogleLoading(true);
+      const uri = await queryClient.ensureQueryData<z.infer<typeof OAuthProviderAPIResponseSchema>>(
+        {
+          queryKey: ['auth', 'oauth', 'google'],
+          queryFn: () => getGoogleOAuth(),
+        }
+      );
+      openExternalLink(uri.redirect_url);
+      miniApp.close();
+    } catch (error) {
+      toast.error('Oops! Something went wrong...');
+    } finally {
+      setGoogleLoading(false);
+    }
+  };
+
+  const onTwitterOAuth = async () => {
+    try {
+      setFacebookLoading(true);
+      const uri = await queryClient.ensureQueryData<z.infer<typeof OAuthProviderAPIResponseSchema>>(
+        {
+          queryKey: ['auth', 'oauth', 'twitter'],
+          queryFn: () => getTwitterOAuth(),
+        }
+      );
+      openExternalLink(uri.redirect_url);
+      miniApp.close();
+    } catch (error) {
+      toast.error('Oops! Something went wrong...');
+    } finally {
+      setFacebookLoading(false);
+    }
+  };
+
+  const onFacebookOAuth = async () => {
+    try {
+      setTwitterLoading(true);
+      const uri = await queryClient.ensureQueryData<z.infer<typeof OAuthProviderAPIResponseSchema>>(
+        {
+          queryKey: ['auth', 'oauth', 'facebook'],
+          queryFn: () => getFacebookOAuth(),
+        }
+      );
+      openExternalLink(uri.redirect_url);
+      miniApp.close();
+    } catch (error) {
+      toast.error('Oops! Something went wrong...');
+    } finally {
+      setTwitterLoading(false);
+    }
+  };
 
   return (
-    <Flex width='100vw' height='100vh' px='4' py='4' direction='column'>
-      <Flex gap='2' align='center' mb='2'>
-        <Heading>Login/Sign up</Heading>
+    <Flex
+      height='100vh'
+      direction='column'
+      justify='center'
+      align='center'
+      gap='5'
+      px='4'
+      pt='4'
+      pb='5'
+    >
+      <Flex direction='column' align='center'>
+        <Text customSize={80} weight='bold' lineHeight='normal'>
+          🐵
+        </Text>
+        <Text size='5' weight='bold' lineHeight='18px'>
+          Welcome
+        </Text>
       </Flex>
-      <Flex width='100%' my='auto' direction='column' gap='6'>
-        <Flex justify='center'>
-          <SegmentedControl.Root size='1' defaultValue='Email&Password'>
-            {TABS.map((item) => (
-              <SegmentedControl.Item
-                key={item}
-                value={item}
-                onClick={() => setTab(item as AuthMethod)}
-              >
-                {item}
-              </SegmentedControl.Item>
-            ))}
-          </SegmentedControl.Root>
-        </Flex>
-        {tab === 'Email&Password' && <EmailPassword />}
-        {tab === 'OAuth' && <OAuth />}
-        {/* {tab === 'Biometry' && <Biometry biometryManager={bm!} />} */}
-        {tab === 'Wallet' && (
-          <Section py='6'>
-            <Flex justify='center'>
-              <ConnectButton />
-            </Flex>
-          </Section>
-        )}
+      <Flex width='100%' direction='column' gap='2'>
+        <Button
+          size='4'
+          color='gray'
+          variant='soft'
+          loading={googleLoading}
+          onClick={onGoogleOAuth}
+        >
+          <Flex width='100%' align='center' pl='4' pr='7'>
+            <Icon name='auth-google' variant='tertiary' />
+            <Text color='brown' size='3' weight='medium' lineHeight='14px' mx='auto'>
+              Continue with Google
+            </Text>
+          </Flex>
+        </Button>
+        <Button
+          size='4'
+          color='gray'
+          variant='soft'
+          loading={facebookLoading}
+          onClick={onFacebookOAuth}
+        >
+          <Flex width='100%' align='center' pl='4' pr='7'>
+            <Icon name='auth-facebook' variant='tertiary' />
+            <Text color='brown' size='3' weight='medium' lineHeight='14px' mx='auto'>
+              Continue with Facebook
+            </Text>
+          </Flex>
+        </Button>
+        <Button
+          size='4'
+          color='gray'
+          variant='soft'
+          loading={twitterLoading}
+          onClick={onTwitterOAuth}
+        >
+          <Flex width='100%' align='center' pl='4' pr='7'>
+            <Icon name='auth-twitter' variant='tertiary' />
+            <Text color='brown' size='3' weight='medium' lineHeight='14px' mx='auto'>
+              Continue with SpaceX
+            </Text>
+          </Flex>
+        </Button>
       </Flex>
     </Flex>
   );

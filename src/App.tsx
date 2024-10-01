@@ -24,6 +24,7 @@ import UIDepositNetworkSelect from './modules/ui-deposit/components/UIDepositNet
 import UIDepositTokenSelect from './modules/ui-deposit/components/UIDepositTokenSelect';
 import UIMain from './modules/ui-main/components/UIMain';
 import UISwap from './modules/ui-swap/components/UISwap';
+import UIWelcome from './modules/ui-welcome/components/UIWelcome';
 import UIWithdraw from './modules/ui-withdraw/components/UIWithdraw';
 import UIWithdrawNetworkSelect from './modules/ui-withdraw/components/UIWithdrawNetworkSelect';
 import UIWithdrawTokenSelect from './modules/ui-withdraw/components/UIWithdrawTokenSelect';
@@ -105,6 +106,14 @@ function App() {
             <Route path='swap' element={<UISwap />} />
           </Route>
 
+          <Route
+            path='welcome'
+            element={
+              <PublicRoute>
+                <UIWelcome />
+              </PublicRoute>
+            }
+          />
           <Route
             path='auth'
             element={
