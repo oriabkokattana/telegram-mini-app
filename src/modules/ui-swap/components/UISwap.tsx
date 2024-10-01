@@ -18,8 +18,6 @@ import TradingInput from './TradingInput';
 
 import { styles } from './UISwap.styles';
 
-Big.DP = 4;
-
 enum BalancePercent {
   twenty = '20',
   thirtyFive = '35',
