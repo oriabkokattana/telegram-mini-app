@@ -89,7 +89,7 @@ const AssetTreemap = () => {
       name: item,
       balance: Number(balances[item].total_balance.balance),
       balanceUSD: Number(balances[item].total_balance.balance_usd),
-      pnlPercent: Number(balances[item].total_balance.pnl_percent),
+      pnlPercent: Number(balances[item].total_balance.pnl_percent) * 100,
     }));
     return {
       name: 'root',
