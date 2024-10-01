@@ -105,7 +105,7 @@ const UISwap = () => {
   }, [baseAmount, basePrice.toString()]);
 
   useEffect(() => {
-    if (quoteAmount && basePrice) {
+    if (quoteAmount && basePrice.gt(0)) {
       setBaseAmount(Big(quoteAmount).div(basePrice).toString());
     }
   }, [quoteAmount, basePrice.toString()]);
