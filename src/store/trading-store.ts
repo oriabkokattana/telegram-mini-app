@@ -30,9 +30,7 @@ const tradingStoreSlice: StateCreator<TradingState & TradingAction> = (set) => (
   rotate: () =>
     set((state) => ({
       base: state.quote,
-      baseAmount: state.quoteAmount,
       quote: state.base,
-      quoteAmount: state.baseAmount,
     })),
 });
 

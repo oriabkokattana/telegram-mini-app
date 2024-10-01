@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import Big from 'big.js';
 import { toast } from 'sonner';
 import * as ToggleGroup from '@radix-ui/react-toggle-group';
@@ -69,6 +69,7 @@ const UISwap = () => {
   const baseBalancePercent = baseBalance.gt(0)
     ? baseAmountNumber.div(baseBalance).times(100)
     : Big(0);
+  const quotePrice = basePriceUSD.gt(0) ? quotePriceUSD.div(basePriceUSD) : Big(0);
   const quoteBalance = quote
     ? Big(getAvailableBalance(balances[quote]?.total_balance).balance)
     : Big(0);
@@ -96,25 +97,29 @@ const UISwap = () => {
     callback: onSwap,
   });
 
-  useEffect(() => {
-    if (baseAmount) {
-      setQuoteAmount(Big(baseAmount).times(basePrice).toString());
-    }
-  }, [baseAmount, basePrice.toString()]);
+  const onSetBaseAmount = (value: string) => {
+    setBaseAmount(value);
+    setQuoteAmount(Big(value).times(basePrice).toNumber().toString());
+  };
 
-  useEffect(() => {
-    if (quoteAmount && basePrice.gt(0)) {
-      setBaseAmount(Big(quoteAmount).div(basePrice).toString());
-    }
-  }, [quoteAmount, basePrice.toString()]);
+  const onSetQuoteAmount = (value: string) => {
+    setQuoteAmount(value);
+    setBaseAmount(Big(value).times(quotePrice).toNumber().toString());
+  };
+
+  const onRotate = () => {
+    setBaseAmount(quoteAmount);
+    setQuoteAmount(baseAmount);
+    rotate();
+  };
 
   const onChangeBalancePercent = (value?: string) => {
     if (value) {
       return baseInputFocused
-        ? setBaseAmount(baseBalance.times(value).div(100).toString())
-        : setQuoteAmount(quoteBalance.times(value).div(100).toString());
+        ? onSetBaseAmount(baseBalance.times(value).div(100).toString())
+        : onSetQuoteAmount(quoteBalance.times(value).div(100).toString());
     }
-    return baseInputFocused ? setBaseAmount('0') : setQuoteAmount('0');
+    return baseInputFocused ? onSetBaseAmount('0') : onSetQuoteAmount('0');
   };
 
   return (
@@ -134,7 +139,7 @@ const UISwap = () => {
           amountUSD={baseAmountUSD}
           token={base}
           value={baseAmount}
-          onChange={setBaseAmount}
+          onChange={onSetBaseAmount}
           onSetCoin={setBase}
           onFocus={() => setBaseInputFocused(true)}
           onBlur={() => setBaseInputFocused(false)}
@@ -148,7 +153,7 @@ const UISwap = () => {
           top='50%'
           left='50%'
           {...stylex.props(styles.rotate)}
-          onClick={rotate}
+          onClick={onRotate}
         >
           <Icon name='rotate' variant='reverse-primary' />
         </Flex>
@@ -160,7 +165,7 @@ const UISwap = () => {
           amountUSD={quoteAmountUSD}
           token={quote}
           value={quoteAmount}
-          onChange={setQuoteAmount}
+          onChange={onSetQuoteAmount}
           onSetCoin={setQuote}
           onFocus={() => setQuoteInputFocused(true)}
           onBlur={() => setQuoteInputFocused(false)}
