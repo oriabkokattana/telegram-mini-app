@@ -184,8 +184,7 @@ const UISwap = () => {
         />
         <Flex
           width='100%'
-          pt='5'
-          pb='1'
+          py='2'
           position='absolute'
           bottom='0'
           left='0'
