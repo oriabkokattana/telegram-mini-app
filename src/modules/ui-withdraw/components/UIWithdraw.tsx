@@ -181,7 +181,7 @@ const UIWithdraw = () => {
               Withdrawal
             </Text>
             <Flex maxWidth='250px'>
-              <Text size='2' weight='bold' lineHeight='12px' truncate>
+              <Text size='2' weight='bold' truncate>
                 {tokenAmount}{' '}
                 <Text color='gray' size='2' weight='bold' lineHeight='12px'>
                   {token?.symbol}

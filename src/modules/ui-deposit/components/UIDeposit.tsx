@@ -47,7 +47,10 @@ const UIDeposit = () => {
   };
 
   const onShare = () => {
-    utils.shareURL('t.me/CryptoBrokerTGBot/app', custodialWalletData?.address);
+    utils.shareURL(
+      't.me/CryptoBrokerTGBot/app',
+      `🏦 Wallet: ${custodialWalletData?.address}\n🌐 Network: ${network?.description} (${network?.name})`
+    );
   };
 
   return (
@@ -144,7 +147,7 @@ const UIDeposit = () => {
             <Text size='2' weight='medium' lineHeight='12px'>
               {network?.token_standard}
             </Text>
-            <Text color='gray' size='2' weight='medium' lineHeight='12px' truncate>
+            <Text color='gray' size='2' weight='medium' truncate>
               {network?.description} ({network?.name})
             </Text>
           </Flex>
