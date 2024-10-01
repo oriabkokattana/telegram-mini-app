@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import * as Label from '@radix-ui/react-label';
 import { Card, Flex, IconButton } from '@radix-ui/themes';
@@ -6,8 +6,8 @@ import { ETimeframe } from '@/enums';
 import { useCheckBottomGap } from '@/hooks/use-check-bottom-gap';
 import CustomChart from '@/modules/core/components/CustomChart';
 import Link from '@/modules/core/components/Link';
-import NoDataPlaceholder from '@/modules/core/components/NoDataPlaceholder';
 import TimeframeRange from '@/modules/core/components/TimeframeRange';
+import TransactionList from '@/modules/core/components/TransactionList';
 import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
 import { TokenIcon } from '@/modules/core/design-system/token-icon';
@@ -23,6 +23,8 @@ import AssetPriceChange from './AssetPriceChange';
 
 const UIAsset = () => {
   const [timeframe, setTimeframe] = useState(ETimeframe.m);
+  const [transactionsOpen, setTransactionsOpen] = useState(false);
+  const transactionListRef = useRef<HTMLDivElement>(null);
 
   const { asset } = useParams();
   const { data: assetSummaryData } = useAssetSummary(asset);
@@ -49,6 +51,11 @@ const UIAsset = () => {
     if (actionPossible) {
       setWithdrawToken({ symbol: asset || '', name: balances[asset].currency_name });
     }
+  };
+
+  const onOpenTransactions = () => {
+    setTransactionsOpen(!transactionsOpen);
+    window.setTimeout(() => transactionListRef.current?.scrollIntoView({ behavior: 'smooth' }));
   };
 
   return (
@@ -158,18 +165,25 @@ const UIAsset = () => {
           </Flex>
         </Flex>
       </Card>
-      {/* <Flex height='24px' justify='between' align='center' style={{ cursor: 'pointer' }}>
-        <Text size='3' weight='bold'>
-          Transaction history
-        </Text>
-        <Icon name='chevron-down' variant='secondary' size={24} />
-      </Flex> */}
-      <Flex direction='column' gap='4' pt='4'>
-        <NoDataPlaceholder
-          variant='list'
-          title="You don't have history yet"
-          description='Complete a transaction to see the history'
-        />
+      <Flex direction='column' gap='5'>
+        <Flex asChild height='24px' justify='between' align='center' style={{ cursor: 'pointer' }}>
+          <Label.Root>
+            <Text size='3' weight='bold'>
+              Transaction history
+            </Text>
+            <IconButton
+              size='1'
+              variant='ghost'
+              onClick={onOpenTransactions}
+              style={{ transition: 'rotate 0.15s', rotate: transactionsOpen ? '0deg' : '-180deg' }}
+            >
+              <Icon name='chevron-down' variant='secondary' size={24} />
+            </IconButton>
+          </Label.Root>
+        </Flex>
+        {transactionsOpen && (
+          <TransactionList data={assetSummaryData?.recent_transactions} ref={transactionListRef} />
+        )}
       </Flex>
       <AssetPriceChange asset={asset} priceUSD={priceUSD} />
     </Flex>

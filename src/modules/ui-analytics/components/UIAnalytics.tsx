@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Flex, Tabs } from '@radix-ui/themes';
-import NoDataPlaceholder from '@/modules/core/components/NoDataPlaceholder';
 import AssetAnalytics from './AssetAnalytics';
 import BalanceAnalytics from './BalanceAnalytics';
+import History from './History';
 
 enum Tab {
   assets = 'Assets',
@@ -34,13 +34,7 @@ const UIAnalytics = () => {
           <BalanceAnalytics />
         </Tabs.Content>
         <Tabs.Content value={Tab.history}>
-          <Flex direction='column' gap='4' pt='4'>
-            <NoDataPlaceholder
-              variant='list'
-              title="You don't have history yet"
-              description='Complete a transaction to see the history'
-            />
-          </Flex>
+          <History />
         </Tabs.Content>
       </Tabs.Root>
     </Flex>

@@ -128,21 +128,35 @@ const getTreemapNodeStyles = (
   height: number,
   rotate: number
 ): Record<'base' | 'header' | 'description' | 'usd', CSSProperties> => {
-  if (rank === 'small') {
-    if (width < 90 || height < 40) {
-      return {
-        base: { gap: 0, padding: 0, alignItems: 'center' },
-        header: {
-          width: rotate === -90 ? height : '100%',
-          gap: 4,
-          justifyContent: 'center',
-          rotate: `${rotate}deg`,
-        },
-        description: { display: 'none' },
-        usd: { display: 'none' },
-      };
-    }
+  if (width <= 90 || height <= 40) {
+    return {
+      base: { gap: 0, padding: 0, alignItems: 'center' },
+      header: {
+        width: rotate === -90 ? height : '100%',
+        gap: 4,
+        justifyContent: 'center',
+        rotate: `${rotate}deg`,
+      },
+      description: { display: 'none' },
+      usd: { display: 'none' },
+    };
+  }
 
+  if (width <= 120) {
+    return {
+      base: { gap: 9, padding: 16, alignItems: 'center' },
+      header: {
+        width: rotate === -90 ? height : '100%',
+        gap: 8,
+        justifyContent: 'center',
+        rotate: `${rotate}deg`,
+      },
+      description: { display: 'none' },
+      usd: { display: 'none' },
+    };
+  }
+
+  if (rank === 'small') {
     return {
       base: { gap: 13, padding: 12, alignItems: 'center' },
       header: { width: '100%', gap: 4, justifyContent: 'center' },
@@ -150,21 +164,8 @@ const getTreemapNodeStyles = (
       usd: { display: 'none' },
     };
   }
-  if (rank === 'medium') {
-    if (width < 120) {
-      return {
-        base: { gap: 9, padding: 16, alignItems: 'center' },
-        header: {
-          width: rotate === -90 ? height : '100%',
-          gap: 8,
-          justifyContent: 'center',
-          rotate: `${rotate}deg`,
-        },
-        description: { display: 'none' },
-        usd: { display: 'none' },
-      };
-    }
 
+  if (rank === 'medium') {
     return {
       base: { gap: 9, padding: 16 },
       header: { width: '100%', gap: 8 },

@@ -11,3 +11,10 @@ export const formatDate = (timestamp?: number): string => {
   }
   return dayjs(timestamp * 1000).format('Do MMMM YYYY');
 };
+
+export const formatDateWithTime = (timestamp?: number): string => {
+  if (!timestamp) {
+    return '—';
+  }
+  return dayjs(timestamp * 1000).format('DD.MM.YYYY, HH:mm');
+};
