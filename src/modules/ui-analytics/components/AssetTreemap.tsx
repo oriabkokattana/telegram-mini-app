@@ -197,6 +197,11 @@ const getTreemapNodeFontSizes = (
       headerFontSize: { size: '3', lineHeight: '14px' },
     };
   }
+  if (rank === 'medium') {
+    return {
+      headerFontSize: { size: '5', lineHeight: '18px' },
+    };
+  }
   return {
     headerFontSize: { size: '6', lineHeight: '22px' },
   };
