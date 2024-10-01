@@ -66,7 +66,7 @@ const TradingInput = ({
             onClick={() => onChange(balance.toString())}
             onMouseDown={(e) => e.preventDefault()}
           >
-            Balance: {formatNumberWithCommas(balance)} {token}
+            Balance: {formatNumberWithCommas(balance.toNumber())} {token}
           </Label.Root>
         </Text>
       </Flex>
@@ -89,18 +89,18 @@ const TradingInput = ({
       <Flex justify='between' align='center'>
         <Flex align='center' gap='1'>
           <Text color='gray' size='1' weight='medium' lineHeight='10px'>
-            ${formatNumberWithCommas(priceUSD)}
+            ${formatNumberWithCommas(priceUSD.toNumber())}
           </Text>
           <Icon
             name={priceChangePercent.gte(0) ? 'top-right-arrow' : 'bottom-right-arrow'}
             size={16}
           />
           <Text size='1' weight='medium' lineHeight='10px'>
-            {formatPercent(priceChangePercent)}%
+            {formatPercent(priceChangePercent.toNumber())}%
           </Text>
         </Flex>
         <Text color='gray' size='1' weight='medium' lineHeight='10px'>
-          ~ ${formatNumberWithCommas(amountUSD)}
+          ~ ${formatNumberWithCommas(amountUSD.toNumber())}
         </Text>
       </Flex>
     </Flex>
