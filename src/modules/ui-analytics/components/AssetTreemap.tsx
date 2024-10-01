@@ -112,6 +112,7 @@ const AssetTreemap = () => {
         data={treeMapData}
         identity='name'
         value='balanceUSD'
+        tile='binary'
         innerPadding={4}
         leavesOnly
         colors={{ datum: 'data.color' }}
