@@ -122,18 +122,18 @@ const UISwap = () => {
 
   useEffect(() => {
     if (baseAmount) {
-      setQuoteAmount(Big(baseAmount).times(basePrice).toNumber().toString());
+      setQuoteAmount(Big(baseAmount).times(basePrice).prec(16).toString());
     }
   }, [basePrice.toString()]);
 
   const onSetBaseAmount = (value: string) => {
     setBaseAmount(value);
-    setQuoteAmount(Big(value).times(basePrice).toNumber().toString());
+    setQuoteAmount(Big(value).times(basePrice).prec(16).toString());
   };
 
   const onSetQuoteAmount = (value: string) => {
     setQuoteAmount(value);
-    setBaseAmount(Big(value).times(quotePrice).toNumber().toString());
+    setBaseAmount(Big(value).times(quotePrice).prec(16).toString());
   };
 
   const onRotate = () => {

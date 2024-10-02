@@ -1,5 +1,4 @@
 import { Flex } from '@radix-ui/themes';
-import Link from '@/modules/core/components/Link';
 import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
 import { TokenIcon } from '@/modules/core/design-system/token-icon';
@@ -114,51 +113,49 @@ const AssetsPlaceholder = () => {
         const profitPercentString = `${formatPercent(item.pnl_percent)}%`;
         const positiveProfit = item.pnl_percent >= 0;
         return (
-          <Flex key={item.name} asChild justify='between' align='center' gap='2'>
-            <Link to={`/asset/${item}`}>
-              <Flex gap='2' align='center'>
-                <TokenIcon name={item.symbol} size='ui-md' />
-                <Flex direction='column' gap='1'>
-                  <Text size='3' weight='bold'>
-                    {item.symbol}
-                  </Text>
-                  <Text color='gray' size='2' lineHeight='12px'>
-                    {item.name}
-                  </Text>
-                </Flex>
+          <Flex key={item.id} justify='between' align='center' gap='2'>
+            <Flex gap='2' align='center'>
+              <TokenIcon name={item.symbol} size='ui-md' />
+              <Flex direction='column' gap='1'>
+                <Text size='3' weight='bold'>
+                  {item.symbol}
+                </Text>
+                <Text color='gray' size='2' lineHeight='12px'>
+                  {item.name}
+                </Text>
               </Flex>
-              <Flex direction='column' align='end' gap='1'>
-                <Flex align='center' gap='2'>
-                  <Text size='3' weight='bold'>
-                    {balanceString}
-                  </Text>
-                  <Text
-                    color='gray'
-                    weight='bold'
-                    align='right'
-                    lineHeight='14px'
-                    {...getBalanceUSDFontSize(balanceString)}
-                  >
-                    {balanceInSystemCurrecnyString}
-                  </Text>
-                </Flex>
-                <Flex align='center' gap='1'>
-                  <Icon
-                    name={positiveProfit ? 'top-right-arrow' : 'bottom-right-arrow'}
-                    variant={positiveProfit ? 'accent-violet' : 'accent-pink'}
-                    size={16}
-                  />
-                  <Text
-                    color={positiveProfit ? 'violet' : 'crimson'}
-                    size='2'
-                    weight='bold'
-                    lineHeight='12px'
-                  >
-                    {profitPercentString}
-                  </Text>
-                </Flex>
+            </Flex>
+            <Flex direction='column' align='end' gap='1'>
+              <Flex align='center' gap='2'>
+                <Text size='3' weight='bold'>
+                  {balanceString}
+                </Text>
+                <Text
+                  color='gray'
+                  weight='bold'
+                  align='right'
+                  lineHeight='14px'
+                  {...getBalanceUSDFontSize(balanceString)}
+                >
+                  {balanceInSystemCurrecnyString}
+                </Text>
               </Flex>
-            </Link>
+              <Flex align='center' gap='1'>
+                <Icon
+                  name={positiveProfit ? 'top-right-arrow' : 'bottom-right-arrow'}
+                  variant={positiveProfit ? 'accent-violet' : 'accent-pink'}
+                  size={16}
+                />
+                <Text
+                  color={positiveProfit ? 'violet' : 'crimson'}
+                  size='2'
+                  weight='bold'
+                  lineHeight='12px'
+                >
+                  {profitPercentString}
+                </Text>
+              </Flex>
+            </Flex>
           </Flex>
         );
       })}

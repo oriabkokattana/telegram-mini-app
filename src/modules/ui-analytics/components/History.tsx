@@ -46,7 +46,17 @@ const History = () => {
           </IconButton>
         </DropdownTrigger>
         <DropdownContent width='124px' align='start' sideOffset={8}>
-          <DropdownItem onClick={() => setType(type === 'deposit' ? undefined : 'deposit')}>
+          <DropdownItem onClick={() => setType(undefined)}>
+            <Text
+              color='bronze'
+              size='2'
+              weight={type === undefined ? 'bold' : 'regular'}
+              lineHeight='12px'
+            >
+              All
+            </Text>
+          </DropdownItem>
+          <DropdownItem onClick={() => setType('deposit')}>
             <Text
               color='bronze'
               size='2'
@@ -56,7 +66,7 @@ const History = () => {
               Deposit
             </Text>
           </DropdownItem>
-          <DropdownItem onClick={() => setType(type === 'withdraw' ? undefined : 'withdraw')}>
+          <DropdownItem onClick={() => setType('withdraw')}>
             <Text
               color='bronze'
               size='2'
@@ -66,7 +76,7 @@ const History = () => {
               Withdraw
             </Text>
           </DropdownItem>
-          <DropdownItem onClick={() => setType(type === 'swap' ? undefined : 'swap')}>
+          <DropdownItem onClick={() => setType('swap')}>
             <Text
               color='bronze'
               size='2'
