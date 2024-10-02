@@ -44,6 +44,12 @@ const UISwapTokenSelectScreen = () => {
     }
   };
 
+  const filteredTokenList = swapTokensData?.filter((token) => {
+    const tokenName = token.name.toLowerCase();
+    const tokenSymbol = token.symbol.toLowerCase();
+    return tokenName.includes(search.toLowerCase()) || tokenSymbol.includes(search.toLowerCase());
+  });
+
   return (
     <Flex direction='column' gap='4' p='4'>
       <TextField value={search} onChange={setSearch} placeholder='Search' clear>
@@ -61,10 +67,10 @@ const UISwapTokenSelectScreen = () => {
           </Flex>
         </Tabs.List>
         <Tabs.Content value={Tab.all}>
-          <AllTokens data={swapTokensData} onSelect={onSelect} />
+          <AllTokens data={filteredTokenList} onSelect={onSelect} />
         </Tabs.Content>
         <Tabs.Content value={Tab.own}>
-          <OwnTokens onSelect={onSelect} />
+          <OwnTokens data={filteredTokenList} onSelect={onSelect} />
         </Tabs.Content>
       </Tabs.Root>
     </Flex>
