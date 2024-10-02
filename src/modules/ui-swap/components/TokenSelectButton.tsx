@@ -7,11 +7,11 @@ import { TokenIcon } from '@/modules/core/design-system/token-icon';
 
 import { styles } from './TokenSelectButton.styles';
 
-import { TokenType } from '@/types';
+import { SwapTokenType } from '@/types';
 
 interface TokenSelectButtonProps {
   token?: string;
-  type: TokenType;
+  type: SwapTokenType;
   setToken(token: string): void;
 }
 

@@ -10,10 +10,10 @@ import TokenSelectButton from './TokenSelectButton';
 
 import { styles } from './TradingInput.styles';
 
-import { TokenType } from '@/types';
+import { SwapTokenType } from '@/types';
 
 type TradingInputProps = {
-  type: TokenType;
+  type: SwapTokenType;
   error?: boolean;
   balance: Big;
   priceUSD: Big;

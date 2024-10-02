@@ -3,11 +3,12 @@ import { useParams } from 'react-router-dom';
 import { Flex, Tabs } from '@radix-ui/themes';
 import { Icon } from '@/modules/core/design-system/icon';
 import { TextField, TextFieldSlot } from '@/modules/core/design-system/text-field';
+import { useSwapTokens } from '@/services/user/swap-tokens/api';
 import { useTradingStore } from '@/store/trading-store';
 import AllTokens from './AllTokens';
 import OwnTokens from './OwnTokens';
 
-import { TokenType } from '@/types';
+import { SwapTokenType } from '@/types';
 
 enum Tab {
   all = 'All Tokens',
@@ -18,12 +19,15 @@ const UISwapTokenSelectScreen = () => {
   const [search, setSearch] = useState('');
   const [tab, setTab] = useState(Tab.all);
 
-  const params = useParams();
   const { base, setBase, quote, setQuote, rotate } = useTradingStore();
 
+  const params = useParams();
+  const type = params.type as SwapTokenType;
+
+  const { data: swapTokensData } = useSwapTokens(type, type === 'base' ? base : quote);
+
   const onSelect = (token: string) => {
-    if (params.type) {
-      const type = params.type as TokenType;
+    if (type) {
       if (type === 'base') {
         if (quote === token) {
           rotate();
@@ -57,7 +61,7 @@ const UISwapTokenSelectScreen = () => {
           </Flex>
         </Tabs.List>
         <Tabs.Content value={Tab.all}>
-          <AllTokens onSelect={onSelect} />
+          <AllTokens data={swapTokensData} onSelect={onSelect} />
         </Tabs.Content>
         <Tabs.Content value={Tab.own}>
           <OwnTokens onSelect={onSelect} />

@@ -11,15 +11,9 @@ export const BalanceSchema = z.object({
   reserved_balance_usd: z.string(),
 });
 
-const NetworkBalancesSchema = z.record(
-  z.string(), // Network name, e.g., "BSC"
-  BalanceSchema
-);
-
 const CurrencySchema = z.object({
   currency_name: z.string(),
   total_balance: BalanceSchema,
-  network_balances: NetworkBalancesSchema,
 });
 
 export const BalancesAPIResponseSchema = z.object({

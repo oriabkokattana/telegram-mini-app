@@ -6,14 +6,7 @@ type BalancesState = {
   pnl_percent: string;
   pnl_usd: string;
   total_balance_usd: string;
-  balances: Record<
-    string,
-    {
-      currency_name: string;
-      total_balance: BalanceItem;
-      network_balances: Record<string, BalanceItem>;
-    }
-  >;
+  balances: Record<string, { currency_name: string; total_balance: BalanceItem }>;
 };
 
 type BalancesAction = {
@@ -64,35 +57,17 @@ const balancesStoreSlice: StateCreator<BalancesState & BalancesAction> = (set, g
     const reserved = Number(tokenBalance?.total_balance.reserved_balance_usd || 0);
     return total - reserved;
   },
-  getTotalBalanceByTokenAndChain: (token, chain) => {
-    if (!token || !chain) {
-      return 0;
-    }
-    return Number(get().balances[token]?.network_balances[chain]?.balance || 0);
+  getTotalBalanceByTokenAndChain: () => {
+    return 0;
   },
-  getTotalUSDBalanceByTokenAndChain: (token, chain) => {
-    if (!token || !chain) {
-      return 0;
-    }
-    return Number(get().balances[token]?.network_balances[chain]?.balance_usd || 0);
+  getTotalUSDBalanceByTokenAndChain: () => {
+    return 0;
   },
-  getActualBalanceByTokenAndChain: (token, chain) => {
-    if (!token || !chain) {
-      return 0;
-    }
-    const tokenWithChainBalance = get().balances[token]?.network_balances[chain];
-    const total = Number(tokenWithChainBalance?.balance || 0);
-    const reserved = Number(tokenWithChainBalance?.reserved_balance || 0);
-    return total - reserved;
+  getActualBalanceByTokenAndChain: () => {
+    return 0;
   },
-  getActualUSDBalanceByTokenAndChain: (token, chain) => {
-    if (!token || !chain) {
-      return 0;
-    }
-    const tokenWithChainBalance = get().balances[token]?.network_balances[chain];
-    const total = Number(tokenWithChainBalance?.balance_usd || 0);
-    const reserved = Number(tokenWithChainBalance?.reserved_balance_usd || 0);
-    return total - reserved;
+  getActualUSDBalanceByTokenAndChain: () => {
+    return 0;
   },
 });
 

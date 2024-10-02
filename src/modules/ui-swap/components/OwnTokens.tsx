@@ -1,5 +1,6 @@
 import { Flex } from '@radix-ui/themes';
 import Link from '@/modules/core/components/Link';
+import NoDataPlaceholder from '@/modules/core/components/NoDataPlaceholder';
 import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
 import { TokenIcon } from '@/modules/core/design-system/token-icon';
@@ -7,14 +8,40 @@ import { useBalancesStore } from '@/store/balances-store';
 import { getBalanceUSDFontSize } from '@/utils/balances';
 import { formatNumber, formatNumberWithSpaces, formatPercent } from '@/utils/numbers';
 
+import { SwapTokenItem } from '@/types';
+
 interface OwnTokensProps {
+  data?: SwapTokenItem[];
   onSelect(token: string): void;
 }
 
-const OwnTokens = ({ onSelect }: OwnTokensProps) => {
+const OwnTokens = ({ data, onSelect }: OwnTokensProps) => {
   const balances = useBalancesStore((state) => state.balances);
 
-  const assetList = Object.keys(balances);
+  const assetList = Object.keys(balances).filter((item) =>
+    data?.some((swapToken) => swapToken.symbol === item)
+  );
+
+  if (!assetList.length) {
+    return (
+      <Flex direction='column' gap='5' pt='6'>
+        <Flex height='20px' justify='between' align='center'>
+          <Text color='gray' size='2' lineHeight='12px'>
+            Asset
+          </Text>
+          <Text color='gray' size='2' lineHeight='12px'>
+            Balance
+          </Text>
+        </Flex>
+        <NoDataPlaceholder
+          variant='list'
+          title="You don't have assets yet"
+          description='You can make a deposit to show your tokens here'
+        />
+      </Flex>
+    );
+  }
+
   const sortedAssetList = assetList.sort(
     (a, b) =>
       Number(balances[b].total_balance.balance_usd) - Number(balances[a].total_balance.balance_usd)

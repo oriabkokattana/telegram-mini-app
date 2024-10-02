@@ -37,7 +37,7 @@ const UINetworkSelectScreen = ({
     }
     const items = [...data].map((item) => ({
       ...item,
-      ...getAvailableBalance(balances[token.symbol]?.network_balances[item.name]),
+      ...getAvailableBalance(balances[token.symbol]?.total_balance),
     }));
     items.sort((a, b) => b.balanceUSD - a.balanceUSD);
     if (direction === 'withdraw') {

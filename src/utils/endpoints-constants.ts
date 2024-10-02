@@ -23,4 +23,5 @@ export const Endpoints = {
   ASSET_CHART: '/private/asset/chart',
   ASSET_PRICE: '/price',
   ASSET_PRICE_CHANGE: '/price-change',
+  SWAP_TOKENS: '/swap/tokens',
 };

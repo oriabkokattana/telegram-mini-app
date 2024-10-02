@@ -16,7 +16,7 @@ type TradingAction = {
 };
 
 const tradingStoreSlice: StateCreator<TradingState & TradingAction> = (set) => ({
-  base: 'BNB',
+  base: '',
   baseBalance: 270,
   baseAmount: '',
   quote: 'USDT',

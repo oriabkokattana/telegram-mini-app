@@ -39,9 +39,7 @@ const UIWithdraw = () => {
   }, [withdraw.isSuccess]);
 
   const balance =
-    token && network
-      ? getAvailableBalance(balances[token.symbol]?.network_balances[network.name]).balance
-      : 0;
+    token && network ? getAvailableBalance(balances[token.symbol]?.total_balance).balance : 0;
   const priceUSD = Number(assetPriceData?.price_usd || 0);
   const tokenAmount = Number(amount) || 0;
   const tokenAmountUSD = tokenAmount * priceUSD;
