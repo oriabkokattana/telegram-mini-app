@@ -177,7 +177,7 @@ const UIAsset = () => {
           </Flex>
         </Flex>
       </Card>
-      <Flex direction='column' gap='5'>
+      <Flex direction='column' gap='5' pb='2'>
         <Flex asChild height='24px' justify='between' align='center' style={{ cursor: 'pointer' }}>
           <Label.Root>
             <Text size='3' weight='bold'>

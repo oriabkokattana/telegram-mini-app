@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Flex, IconButton } from '@radix-ui/themes';
+import { useCheckBottomGap } from '@/hooks/use-check-bottom-gap';
 import TransactionList from '@/modules/core/components/TransactionList';
 import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
@@ -16,13 +17,14 @@ import { TransactionType } from '@/types';
 const History = () => {
   const [type, setType] = useState<TransactionType>();
   const { data: transactionsData } = useTransactions();
+  const isBottomGap = useCheckBottomGap();
 
   const transactions = type
     ? transactionsData?.filter((item) => item.transaction_type === type)
     : transactionsData;
 
   return (
-    <Flex direction='column' gap='4' pt='4'>
+    <Flex direction='column' gap='4' pt='4' pb={isBottomGap ? '6' : '4'}>
       <Dropdown>
         <DropdownTrigger>
           <IconButton

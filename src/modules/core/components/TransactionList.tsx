@@ -4,6 +4,7 @@ import { Box, Button, Card, Flex } from '@radix-ui/themes';
 import { formatDateWithTime } from '@/utils/date';
 import { formatNumber } from '@/utils/numbers';
 import { Dialog, DialogTitle } from '../design-system/dialog';
+import { Icon, IconName } from '../design-system/icon';
 import { Text } from '../design-system/text';
 import NoDataPlaceholder from './NoDataPlaceholder';
 
@@ -13,6 +14,19 @@ const onCopyTxHash = async (txHash?: string) => {
   if (txHash) {
     await navigator.clipboard.writeText(txHash);
     toast.success('Transaction hash copied to clipboard!');
+  }
+};
+
+const getTransactionIconName = (transaction: TransactionItem): IconName => {
+  switch (transaction.transaction_type) {
+    case 'deposit':
+      return 'arrow-down-half-circle';
+    case 'withdraw':
+      return 'arrow-up-half-circle';
+    case 'swap':
+      return 'swap';
+    default:
+      return 'search';
   }
 };
 
@@ -106,15 +120,18 @@ const TransactionRow = ({ item }: TransactionRow) => {
       trigger={
         <Flex justify='between' align='center'>
           <Flex direction='column' gap='2'>
-            <Text size='3' weight='bold'>
-              {getTransactionTitle(item)}
-            </Text>
+            <Flex align='center' gap='1'>
+              <Icon name={getTransactionIconName(item)} variant='secondary' size={20} />
+              <Text size='3' weight='bold'>
+                {getTransactionTitle(item)}
+              </Text>
+            </Flex>
             <Text color='gray' size='2' weight='medium' lineHeight='12px'>
               {formatDateWithTime(item.timestamp)}
             </Text>
           </Flex>
           <Flex direction='column' gap='2' align='end'>
-            <Text size='3' weight='bold'>
+            <Text size='3' weight='bold' truncate style={{ maxWidth: '170px' }}>
               {getTransactionAmount(item)}
             </Text>
             <Flex align='center' gap='2'>
