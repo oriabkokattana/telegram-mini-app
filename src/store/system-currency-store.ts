@@ -3,6 +3,8 @@ import { create, StateCreator } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { customStorage } from '@/utils/cloud-storage';
 
+const SYSTEM_CURRENCIES = ['USD', 'BTC', 'BNB', 'ETH'];
+
 type SystemCurrencyState = {
   currency: string;
   currencyRate: number;
@@ -27,7 +29,7 @@ const systemCurrencySlice: StateCreator<SystemCurrencyState & SystemCurrencyActi
     set((state) => ({
       rates,
       // Should be fixed on backend! (slicing...)
-      currencies: Object.keys(rates).slice(0, 4),
+      currencies: Object.keys(rates).filter((item) => SYSTEM_CURRENCIES.includes(item)),
       currencyRate: 1 / rates[state.currency],
     }));
   },

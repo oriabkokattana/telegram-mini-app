@@ -50,7 +50,7 @@ const OwnTokens = ({ data, loading, onSelect }: OwnTokensProps) => {
           Balance
         </Text>
       </Flex>
-      <Flex direction='column' gap='4'>
+      <Flex direction='column' gap='5'>
         {sortedAssetList.map((item) => {
           const balanceString = formatNumber(Number(balances[item].total_balance.balance));
           const balanceInSystemCurrecnyString = `$${formatNumberWithSpaces(Number(balances[item].total_balance.balance_usd))}`;

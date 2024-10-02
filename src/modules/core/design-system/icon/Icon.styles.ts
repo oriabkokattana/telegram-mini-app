@@ -29,6 +29,12 @@ export const styles = stylex.create({
   black: {
     fill: colors.blackIcon,
   },
+  mint: {
+    fill: colors.mintIcon,
+  },
+  plum: {
+    fill: colors.plumIcon,
+  },
   size: (size: number | string) => ({
     width: size,
     height: size,

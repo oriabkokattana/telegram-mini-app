@@ -7,6 +7,4 @@ export const WithdrawAPIRequestSchema = z.object({
   token: z.string(),
 });
 
-export const WithdrawAPIResponseSchema = z.object({
-  message: z.string(),
-});
+export const WithdrawAPIResponseSchema = z.object({ id: z.string() });

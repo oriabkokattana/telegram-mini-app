@@ -6,4 +6,4 @@ export const SwapAPIRequestSchema = z.object({
   tokenB: z.string(),
 });
 
-export const SwapAPIResponseSchema = z.string();
+export const SwapAPIResponseSchema = z.object({ id: z.string() });

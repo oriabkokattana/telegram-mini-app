@@ -34,7 +34,8 @@ export type IconName =
   | 'auth-facebook'
   | 'auth-twitter'
   | 'plus'
-  | 'filter';
+  | 'filter'
+  | 'progress-clock';
 
 export type IconVariant =
   | 'primary'
@@ -45,7 +46,9 @@ export type IconVariant =
   | 'accent-pink'
   | 'white'
   | 'black'
-  | 'fill';
+  | 'fill'
+  | 'mint'
+  | 'plum';
 
 export type IconProps = {
   name: IconName;

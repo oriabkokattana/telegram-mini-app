@@ -1,20 +1,23 @@
+import { useState } from 'react';
 import { toast } from 'sonner';
 import { Box, Button, Card, Flex, IconButton } from '@radix-ui/themes';
 import * as stylex from '@stylexjs/stylex';
 import Link from '@/modules/core/components/Link';
+import { Dialog, DialogTitle } from '@/modules/core/design-system/dialog';
 import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
 import { TokenIcon } from '@/modules/core/design-system/token-icon';
+import { useTransactionStatus } from '@/services/user/transaction-status/api';
 import { useWithdrawStore } from '@/store/withdraw-store';
 import { formatAddressShort } from '@/utils/address';
 import { formatNumber, formatNumberWithCommas } from '@/utils/numbers';
-import ProgressClockIcon from '../media/progress-clock.svg?react';
 
 import { styles } from './WithdrawInProgress.styles';
 
 import { ShortDuration } from '@/types';
 
 interface WithdrawInProgressProps {
+  id?: string;
   token?: string;
   network?: string;
   amount: number;
@@ -26,6 +29,7 @@ interface WithdrawInProgressProps {
 }
 
 const WithdrawInProgress = ({
+  id,
   token,
   network,
   amount,
@@ -35,7 +39,10 @@ const WithdrawInProgress = ({
   address,
   isBottomGap,
 }: WithdrawInProgressProps) => {
+  const [txOpen, setTxOpen] = useState(false);
+
   const reset = useWithdrawStore((state) => state.reset);
+  const { data: transactionStatusData } = useTransactionStatus('withdraw', id);
 
   const onCopyAddress = async () => {
     if (address) {
@@ -43,6 +50,13 @@ const WithdrawInProgress = ({
       toast.success('Copied to clipboard!');
     } else {
       toast.error('Custody wallet address not defined');
+    }
+  };
+
+  const onCopyTxHash = async () => {
+    if (transactionStatusData?.tx_hash) {
+      await navigator.clipboard.writeText(transactionStatusData?.tx_hash);
+      toast.success('Transaction hash copied to clipboard!');
     }
   };
 
@@ -55,9 +69,20 @@ const WithdrawInProgress = ({
             height='64px'
             justify='center'
             align='center'
-            {...stylex.props(styles.violetWrapper)}
+            {...stylex.props(
+              styles.statusIconWrapper,
+              transactionStatusData?.status === 'completed'
+                ? styles.greenWrapper
+                : styles.violetWrapper
+            )}
           >
-            <ProgressClockIcon />
+            <Icon
+              name={
+                transactionStatusData?.status === 'completed' ? 'circle-check' : 'progress-clock'
+              }
+              variant={transactionStatusData?.status === 'completed' ? 'mint' : 'plum'}
+              size={44}
+            />
           </Flex>
           <Text size='5' weight='bold' lineHeight='18px'>
             Withdrawal In Progress
@@ -135,15 +160,47 @@ const WithdrawInProgress = ({
           </Card>
         </Box>
       </Flex>
-      <Box asChild mt='8'>
-        <Button asChild color='gray' variant='soft' size='4' mt='auto' onClick={reset}>
+      <Flex width='100%' align='center' gap='2' mt='8'>
+        <Button asChild color='gray' variant='soft' size='4' onClick={reset} style={{ flex: 1 }}>
           <Link to='/'>
             <Text color='brown' size='3' weight='bold'>
               Done
             </Text>
           </Link>
         </Button>
-      </Box>
+        <Dialog
+          asChild
+          open={txOpen}
+          trigger={
+            <Button size='4' disabled={!transactionStatusData?.tx_hash}>
+              Transaction Hash
+            </Button>
+          }
+          setOpen={setTxOpen}
+        >
+          <Flex direction='column' gap='4' px='4'>
+            <DialogTitle asChild>
+              <Text size='4' align='center' weight='bold' lineHeight='16px'>
+                Transaction Hash
+              </Text>
+            </DialogTitle>
+            <Flex direction='column' gap='2'>
+              <Card size='2' variant='classic'>
+                <Flex width='300px' justify='center' mx='auto'>
+                  <Text size='3' weight='medium' align='center' wordBreak='break-word'>
+                    {transactionStatusData?.tx_hash}
+                  </Text>
+                </Flex>
+              </Card>
+              <Button size='4' onClick={onCopyTxHash}>
+                <Text color='sky' size='3' weight='bold'>
+                  Copy
+                </Text>
+              </Button>
+            </Flex>
+          </Flex>
+        </Dialog>
+      </Flex>
     </Flex>
   );
 };

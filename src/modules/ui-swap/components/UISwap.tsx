@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import Big from 'big.js';
 import { toast } from 'sonner';
 import { DialogTitle } from '@radix-ui/react-dialog';
+import * as Label from '@radix-ui/react-label';
 import * as ToggleGroup from '@radix-ui/react-toggle-group';
-import { Flex, Separator } from '@radix-ui/themes';
+import { Flex, IconButton, Separator } from '@radix-ui/themes';
 import * as stylex from '@stylexjs/stylex';
 import { useCheckBottomGap } from '@/hooks/use-check-bottom-gap';
 import { useShowMainButton } from '@/hooks/use-show-main-button';
@@ -43,6 +44,7 @@ const UISwap = () => {
   const [baseInputFocused, setBaseInputFocused] = useState(false);
   const [quoteInputFocused, setQuoteInputFocused] = useState(false);
   const [fundOpen, setFundOpen] = useState(false);
+  const [savingsOpen, setSavingsOpen] = useState(false);
   const rotateRef = useRef<HTMLDivElement>(null);
   const fundsEnabledRef = useRef(true);
 
@@ -283,17 +285,32 @@ const UISwap = () => {
             Savings on this trade: {formatNumberWithCommas(baseAmountUSD.times(0.01).toNumber(), 2)}{' '}
             $
           </Text>
-          <Flex align='center' gap='2' px='3'>
-            <Text size='2' weight='bold' align='center' lineHeight='12px'>
-              Compare
-            </Text>
-            <Icon name='chevron-up' size={16} />
+          <Flex asChild align='center' gap='2' px='3' style={{ cursor: 'pointer' }}>
+            <Label.Root>
+              <Text size='2' weight='bold' align='center' lineHeight='12px'>
+                Compare
+              </Text>
+              <IconButton size='1' variant='ghost' onClick={() => setSavingsOpen(!savingsOpen)}>
+                <Icon
+                  name='chevron-up'
+                  size={16}
+                  style={{
+                    ...styles.compareSavings,
+                    ...(savingsOpen && styles.compareSavingsRotate),
+                  }}
+                />
+              </IconButton>
+            </Label.Root>
           </Flex>
         </Flex>
-        <Separator size='4' />
-        <Text size='4' weight='bold' align='center' lineHeight='16px' my='4'>
-          Coming soon...
-        </Text>
+        {savingsOpen && (
+          <>
+            <Separator size='4' />
+            <Text size='4' weight='bold' align='center' lineHeight='16px' my='4'>
+              Coming soon...
+            </Text>
+          </>
+        )}
       </Flex>
       <Dialog
         asChild

@@ -100,6 +100,7 @@ const UIWithdraw = () => {
   if (inProgress) {
     return (
       <WithdrawInProgress
+        id={withdraw.data?.id}
         token={token?.symbol}
         network={network?.description}
         amount={tokenAmount}

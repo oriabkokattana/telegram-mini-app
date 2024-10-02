@@ -48,4 +48,10 @@ export const styles = stylex.create({
     },
     transition: 'background-color 0.15s',
   },
+  compareSavings: {
+    transition: 'rotate 0.15s',
+  },
+  compareSavingsRotate: {
+    rotate: '-180deg',
+  },
 });
