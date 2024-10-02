@@ -8,6 +8,7 @@ import { formatNumber, formatNumberWithSpaces, formatPercent } from '@/utils/num
 
 const ASSETS_PLACEHOLDER_DATA = [
   {
+    id: 1,
     name: 'Bitcoin',
     symbol: 'BTC',
     balance: 5,
@@ -15,6 +16,7 @@ const ASSETS_PLACEHOLDER_DATA = [
     pnl_percent: 2.81,
   },
   {
+    id: 2,
     name: 'Ethereum',
     symbol: 'ETH',
     balance: 106,
@@ -22,6 +24,7 @@ const ASSETS_PLACEHOLDER_DATA = [
     pnl_percent: 4.76,
   },
   {
+    id: 3,
     name: 'Solana',
     symbol: 'SOL',
     balance: 50,
@@ -29,6 +32,7 @@ const ASSETS_PLACEHOLDER_DATA = [
     pnl_percent: 1.19,
   },
   {
+    id: 4,
     name: 'BNB Coin',
     symbol: 'BNB',
     balance: 0.00000809,
@@ -36,6 +40,7 @@ const ASSETS_PLACEHOLDER_DATA = [
     pnl_percent: 2.2,
   },
   {
+    id: 5,
     name: 'Polygon',
     symbol: 'POL',
     balance: 10.9,
@@ -43,6 +48,55 @@ const ASSETS_PLACEHOLDER_DATA = [
     pnl_percent: 2.2,
   },
   {
+    id: 6,
+    name: 'USD Tether',
+    symbol: 'USDT',
+    balance: 1000,
+    balance_usd: 1000.25,
+    pnl_percent: 2.2,
+  },
+  {
+    id: 7,
+    name: 'Bitcoin',
+    symbol: 'BTC',
+    balance: 5,
+    balance_usd: 318538,
+    pnl_percent: 2.81,
+  },
+  {
+    id: 8,
+    name: 'Ethereum',
+    symbol: 'ETH',
+    balance: 106,
+    balance_usd: 281649,
+    pnl_percent: 4.76,
+  },
+  {
+    id: 9,
+    name: 'Solana',
+    symbol: 'SOL',
+    balance: 50,
+    balance_usd: 7340.86,
+    pnl_percent: 1.19,
+  },
+  {
+    id: 10,
+    name: 'BNB Coin',
+    symbol: 'BNB',
+    balance: 0.00000809,
+    balance_usd: 0.0047374,
+    pnl_percent: 2.2,
+  },
+  {
+    id: 11,
+    name: 'Polygon',
+    symbol: 'POL',
+    balance: 10.9,
+    balance_usd: 4.440508,
+    pnl_percent: 2.2,
+  },
+  {
+    id: 12,
     name: 'USD Tether',
     symbol: 'USDT',
     balance: 1000,
