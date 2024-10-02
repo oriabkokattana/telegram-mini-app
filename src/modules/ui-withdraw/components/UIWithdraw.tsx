@@ -45,6 +45,7 @@ const UIWithdraw = () => {
   const tokenAmountUSD = tokenAmount * priceUSD;
   const duration = convertSecondsShort(network?.processing_time_seconds);
   const fee = tokenAmount * (network?.token_fee_percent || 0);
+  const availableLiquidity = Number(network?.available_liquidity || 0);
 
   const onQrScan = () => {
     qrScanner.open('Scan wallet address').then((text) => {
@@ -80,6 +81,12 @@ const UIWithdraw = () => {
 
     if (Number(amount) > balance) {
       toast.error('Entered amount is bigger than available balance');
+      return;
+    }
+
+    if (Number(amount) > availableLiquidity) {
+      toast.error(`Entered amount is bigger than available liquidity on ${network.name} Network`);
+      return;
     }
 
     withdraw.mutate({
@@ -126,9 +133,14 @@ const UIWithdraw = () => {
         </TextField>
       </Flex>
       <Flex direction='column' gap='1'>
-        <Text asChild size='1' weight='medium' lineHeight='10px'>
-          <Label.Root htmlFor='address'>Network</Label.Root>
-        </Text>
+        <Flex justify='between' align='center'>
+          <Text asChild size='1' weight='medium' lineHeight='10px'>
+            <Label.Root htmlFor='address'>Network</Label.Root>
+          </Text>
+          <Text color='gray' size='1' weight='medium' lineHeight='10px'>
+            Valuable liquidity: {formatNumber(availableLiquidity)} {token?.symbol}
+          </Text>
+        </Flex>
         <Link to='/withdraw-network-select'>
           <TextField value={network?.description} readOnly>
             <TextFieldSlot style={{ cursor: 'pointer' }} />

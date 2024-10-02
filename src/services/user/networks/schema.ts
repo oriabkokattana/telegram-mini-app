@@ -3,6 +3,7 @@ import { z } from 'zod';
 export const NetworksAPIRequestSchema = z.void();
 
 export const NetworkSchema = z.object({
+  available_liquidity: z.string(),
   name: z.string(),
   chain_id: z.number(),
   description: z.string(),
