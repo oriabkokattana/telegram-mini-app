@@ -24,7 +24,7 @@ const UISwapTokenSelectScreen = () => {
   const params = useParams();
   const type = params.type as SwapTokenType;
 
-  const { data: swapTokensData } = useSwapTokens(type, type === 'base' ? base : quote);
+  const { data: swapTokensData } = useSwapTokens(type, type === 'base' ? quote : base);
 
   const onSelect = (token: string) => {
     if (type) {
