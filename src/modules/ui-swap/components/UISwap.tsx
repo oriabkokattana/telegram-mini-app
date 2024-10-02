@@ -280,7 +280,7 @@ const UISwap = () => {
       <Flex direction='column' gap='2'>
         <Flex height='32px' justify='between' align='center'>
           <Text size='2' weight='medium' align='center' lineHeight='12px'>
-            Savings on this trade: {formatNumberWithCommas(baseAmountUSD.times(0.1).toNumber(), 2)}{' '}
+            Savings on this trade: {formatNumberWithCommas(baseAmountUSD.times(0.01).toNumber(), 2)}{' '}
             $
           </Text>
           <Flex align='center' gap='2' px='3'>
