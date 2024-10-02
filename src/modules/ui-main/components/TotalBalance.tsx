@@ -26,7 +26,7 @@ interface TotalBalanceProps {
 }
 
 const TotalBalance = ({ visible, setVisible }: TotalBalanceProps) => {
-  const [period, setPeriod] = useState(EPeriod.all);
+  const [period, setPeriod] = useState(EPeriod.day);
 
   const { currency, currencyRate, currencies, setCurrency } = useSystemCurrencyStore();
   const { total_balance_usd, pnl_usd, pnl_percent } = useBalancesStore();
