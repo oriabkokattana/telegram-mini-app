@@ -1,4 +1,4 @@
-import { TextProps } from '@radix-ui/themes';
+import { TextProps } from '@/modules/core/design-system/text';
 
 export const getTotalBalanceFontSize = (balanceString: string): TextProps => {
   if (balanceString.length > 22) {
@@ -14,4 +14,11 @@ export const getTotalBalanceFontSize = (balanceString: string): TextProps => {
     return { size: '7' };
   }
   return { size: '8' };
+};
+
+export const getBalanceUSDFontSize = (balanceString: string): TextProps => {
+  if (balanceString.length > 8) {
+    return { size: '1' };
+  }
+  return { size: '3' };
 };

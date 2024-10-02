@@ -5,6 +5,7 @@ import * as stylex from '@stylexjs/stylex';
 import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
 import { useUserStore } from '@/store/user-store';
+import AssetsPlaceholder from './AssetsPlaceholder';
 import Footer from './Footer';
 
 import { styles } from './UIWelcome.styles';
@@ -71,7 +72,7 @@ const UIWelcome = () => {
           </Flex>
         </Flex>
       </Flex>
-      <Flex flexGrow='1' position='relative'>
+      <Flex flexGrow='1' direction='column' gap='5' position='relative' overflow='hidden'>
         <Box
           position='absolute'
           inset='0'
@@ -79,26 +80,28 @@ const UIWelcome = () => {
             styles.placeholder,
             document.documentElement.classList.contains('dark-theme') ? styles.dark : styles.light
           )}
-        />
-        <Flex height='32px' align='center' position='relative' px='4'>
+        >
+          <Flex
+            asChild
+            position='absolute'
+            top='50%'
+            left='50%'
+            mt='24px'
+            style={{ translate: '-50% -50%' }}
+          >
+            <Button size='3' onClick={onToggleWelcomed}>
+              <Text color='sky' size='2' weight='bold' lineHeight='12px'>
+                Login or Registration
+              </Text>
+            </Button>
+          </Flex>
+        </Box>
+        <Flex height='32px' align='center' position='relative' px='4' style={{ zIndex: '2' }}>
           <Text size='3' weight='bold'>
             My Assets
           </Text>
         </Flex>
-        <Flex
-          asChild
-          position='absolute'
-          top='50%'
-          left='50%'
-          mt='30px'
-          style={{ translate: '-50% -50%' }}
-        >
-          <Button size='3' onClick={onToggleWelcomed}>
-            <Text color='sky' size='2' weight='bold' lineHeight='12px'>
-              Login or Registration
-            </Text>
-          </Button>
-        </Flex>
+        <AssetsPlaceholder />
       </Flex>
       <Footer toggleWelcomed={onToggleWelcomed} />
     </Flex>

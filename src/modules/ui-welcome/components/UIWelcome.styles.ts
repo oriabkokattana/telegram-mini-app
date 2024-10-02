@@ -5,6 +5,8 @@ export const styles = stylex.create({
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
     backgroundSize: 'cover',
+    backdropFilter: 'blur(5px)',
+    zIndex: '1',
   },
   light: {
     backgroundImage: 'url("@/modules/ui-welcome/media/placeholder-light.png")',

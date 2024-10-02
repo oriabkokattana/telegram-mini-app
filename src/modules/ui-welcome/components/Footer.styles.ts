@@ -7,6 +7,7 @@ export const styles = stylex.create({
     bottom: '0',
     left: '0',
     right: '0',
+    zIndex: '3',
     padding: '0 var(--space-7)',
     borderRadius: '24px 24px 0px 0px',
     border: '1px solid',

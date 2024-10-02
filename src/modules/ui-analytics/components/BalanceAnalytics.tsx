@@ -12,7 +12,7 @@ import { getTotalBalanceFontSize } from '@/utils/balances';
 import { formatNumberWithCommas, formatPercent } from '@/utils/numbers';
 
 const BalanceAnalytics = () => {
-  const [timeframe, setTimeframe] = useState(ETimeframe.m);
+  const [timeframe, setTimeframe] = useState(ETimeframe.d);
 
   const { total_balance_usd, pnl_usd, pnl_percent } = useBalancesStore();
   const setBalanceTimeframe = useTimeframeStore((state) => state.setBalanceTimeframe);

@@ -3,51 +3,80 @@ import Link from '@/modules/core/components/Link';
 import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
 import { TokenIcon } from '@/modules/core/design-system/token-icon';
-import { useBalancesStore } from '@/store/balances-store';
-import { useSystemCurrencyStore } from '@/store/system-currency-store';
 import { getBalanceUSDFontSize } from '@/utils/balances';
 import { formatNumber, formatNumberWithSpaces, formatPercent } from '@/utils/numbers';
 
-interface AssetsProps {
-  visible: boolean;
-}
+const ASSETS_PLACEHOLDER_DATA = [
+  {
+    name: 'Bitcoin',
+    symbol: 'BTC',
+    balance: 5,
+    balance_usd: 318538,
+    pnl_percent: 2.81,
+  },
+  {
+    name: 'Ethereum',
+    symbol: 'ETH',
+    balance: 106,
+    balance_usd: 281649,
+    pnl_percent: 4.76,
+  },
+  {
+    name: 'Solana',
+    symbol: 'SOL',
+    balance: 50,
+    balance_usd: 7340.86,
+    pnl_percent: 1.19,
+  },
+  {
+    name: 'BNB Coin',
+    symbol: 'BNB',
+    balance: 0.00000809,
+    balance_usd: 0.0047374,
+    pnl_percent: 2.2,
+  },
+  {
+    name: 'Polygon',
+    symbol: 'POL',
+    balance: 10.9,
+    balance_usd: 4.440508,
+    pnl_percent: 2.2,
+  },
+  {
+    name: 'USD Tether',
+    symbol: 'USDT',
+    balance: 1000,
+    balance_usd: 1000.25,
+    pnl_percent: 2.2,
+  },
+];
 
-const Assets = ({ visible }: AssetsProps) => {
-  const balances = useBalancesStore((state) => state.balances);
-  const currency = useSystemCurrencyStore((state) => state.currency);
-  const currencyRate = useSystemCurrencyStore((state) => state.currencyRate);
-
-  const assetList = Object.keys(balances);
-  const sortedAssetList = assetList.sort(
-    (a, b) =>
-      Number(balances[b].total_balance.balance_usd) - Number(balances[a].total_balance.balance_usd)
-  );
-
+const AssetsPlaceholder = () => {
   return (
     <Flex direction='column' gap='4'>
-      {sortedAssetList.map((item) => {
-        const balanceString = formatNumber(Number(balances[item].total_balance.balance));
-        const balanceInSystemCurrecnyString = `${currency === 'USD' ? '$' : ''}${formatNumberWithSpaces(Number(balances[item].total_balance.balance_usd) * currencyRate)}${currency === 'USD' ? '' : ` ${currency}`}`;
-        const profitPercentString = `${formatPercent(Number(balances[item].total_balance.pnl_percent) * 100)}%`;
-        const positiveProfit = Number(balances[item].total_balance.pnl_percent) >= 0;
+      {ASSETS_PLACEHOLDER_DATA.map((item) => {
+        const balanceString = formatNumber(item.balance);
+        const balanceInSystemCurrecnyString = `$${formatNumberWithSpaces(item.balance_usd)}`;
+        const profitPercentString = `${formatPercent(item.pnl_percent)}%`;
+        const positiveProfit = item.pnl_percent >= 0;
         return (
-          <Flex key={item} asChild justify='between' align='center' gap='2'>
+          <Flex key={item.name} asChild justify='between' align='center' gap='2'>
             <Link to={`/asset/${item}`}>
               <Flex gap='2' align='center'>
-                <TokenIcon name={item} size='ui-md' />
+                <TokenIcon name={item.symbol} size='ui-md' />
                 <Flex direction='column' gap='1'>
                   <Text size='3' weight='bold'>
-                    {item}
+                    {item.symbol}
                   </Text>
                   <Text color='gray' size='2' lineHeight='12px'>
-                    {balances[item].currency_name || item}
+                    {item.name}
                   </Text>
                 </Flex>
               </Flex>
               <Flex direction='column' align='end' gap='1'>
                 <Flex align='center' gap='2'>
                   <Text size='3' weight='bold'>
-                    {visible ? balanceString : balanceString.replace(/./g, '*')}
+                    {balanceString}
                   </Text>
                   <Text
                     color='gray'
@@ -56,9 +85,7 @@ const Assets = ({ visible }: AssetsProps) => {
                     lineHeight='14px'
                     {...getBalanceUSDFontSize(balanceString)}
                   >
-                    {visible
-                      ? balanceInSystemCurrecnyString
-                      : balanceInSystemCurrecnyString.replace(/./g, '*')}
+                    {balanceInSystemCurrecnyString}
                   </Text>
                 </Flex>
                 <Flex align='center' gap='1'>
@@ -73,7 +100,7 @@ const Assets = ({ visible }: AssetsProps) => {
                     weight='bold'
                     lineHeight='12px'
                   >
-                    {visible ? profitPercentString : profitPercentString.replace(/./g, '*')}
+                    {profitPercentString}
                   </Text>
                 </Flex>
               </Flex>
@@ -85,4 +112,4 @@ const Assets = ({ visible }: AssetsProps) => {
   );
 };
 
-export default Assets;
+export default AssetsPlaceholder;

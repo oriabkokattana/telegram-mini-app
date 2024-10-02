@@ -13,6 +13,7 @@ import {
 } from '@/services/auth/oauth-provider/api';
 import { OAuthProviderAPIResponseSchema } from '@/services/auth/oauth-provider/schema';
 import { openExternalLink } from '@/utils/open-link';
+import monkey from '../media/monkey.png';
 import EmailPassword from './EmailPassword';
 
 const Authorization = () => {
@@ -79,25 +80,15 @@ const Authorization = () => {
   };
 
   return (
-    <Flex
-      height='100vh'
-      direction='column'
-      justify='center'
-      align='center'
-      gap='5'
-      px='4'
-      pt='4'
-      pb='5'
-    >
-      <Flex direction='column' align='center'>
-        <Text
-          customSize={80}
-          weight='bold'
-          lineHeight='normal'
+    <Flex height='100vh' direction='column' justify='center' align='center' gap='5' px='4' py='5'>
+      <Flex direction='column' align='center' gap='2'>
+        <img
+          src={monkey}
+          alt='monkey'
+          width='80px'
+          height='80px'
           onClick={() => setEmailPassword(!emailPassword)}
-        >
-          🐵
-        </Text>
+        />
         <Text size='5' weight='bold' lineHeight='18px'>
           Welcome
         </Text>

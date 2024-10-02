@@ -12,12 +12,13 @@ import {
   DropdownItem,
   DropdownTrigger,
 } from '@/modules/core/design-system/ui-dropdown';
-import { useBalanceChart } from '@/services/user/balance-chart/api';
+import { useProfitChart } from '@/services/user/profit-chart/api';
 import { useBalancesStore } from '@/store/balances-store';
 import { useSystemCurrencyStore } from '@/store/system-currency-store';
 import { useTimeframeStore } from '@/store/timeframe-store';
 import { getTotalBalanceFontSize } from '@/utils/balances';
 import { formatNumberWithCommas, formatPercent } from '@/utils/numbers';
+import { periodToTimeframe } from '@/utils/timeframe';
 
 interface TotalBalanceProps {
   visible: boolean;
@@ -29,13 +30,11 @@ const TotalBalance = ({ visible, setVisible }: TotalBalanceProps) => {
 
   const { currency, currencyRate, currencies, setCurrency } = useSystemCurrencyStore();
   const { total_balance_usd, pnl_usd, pnl_percent } = useBalancesStore();
-  const setBalanceTimeframeViaPeriod = useTimeframeStore(
-    (state) => state.setBalanceTimeframeViaPeriod
-  );
-  const { data: balanceChartData, isLoading } = useBalanceChart();
+  const setBalanceTimeframe = useTimeframeStore((state) => state.setBalanceTimeframe);
+  const { data: profitChartData, isLoading } = useProfitChart(periodToTimeframe(period));
 
   useEffect(() => {
-    setBalanceTimeframeViaPeriod(period);
+    setBalanceTimeframe(periodToTimeframe(period));
   }, [period]);
 
   const balanceString = `${currency === 'USD' ? '$ ' : ''}${formatNumberWithCommas(Number(total_balance_usd) * currencyRate)}${currency === 'USD' ? '' : ` ${currency}`}`;
@@ -102,7 +101,12 @@ const TotalBalance = ({ visible, setVisible }: TotalBalanceProps) => {
             </Text>
           </Button>
         </Flex>
-        <CustomChart variant='violet' height={92} data={balanceChartData} loading={isLoading} />
+        <CustomChart
+          variant='violet'
+          height={92}
+          data={profitChartData?.chard_data}
+          loading={isLoading}
+        />
         <Flex px='9'>
           <Flex asChild flexGrow='1'>
             <Link to='/deposit-token-select'>
