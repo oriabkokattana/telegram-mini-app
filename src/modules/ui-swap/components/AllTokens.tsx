@@ -55,7 +55,7 @@ const AllTokens = ({ data, onSelect }: AllTokensProps) => {
                   <TokenIcon name={item.symbol} size='ui-md' />
                   <Flex direction='column' gap='1'>
                     <Text size='3' weight='bold'>
-                      {item.symbol}
+                      ${item.symbol}
                     </Text>
                     <Text color='gray' size='2' lineHeight='12px'>
                       {item.name || item.symbol}
