@@ -24,21 +24,21 @@ const UISwapTokenSelectScreen = () => {
   const params = useParams();
   const type = params.type as SwapTokenType;
 
-  const { data: swapTokensData } = useSwapTokens(type, type === 'base' ? quote : base);
+  const { data: swapTokensData, isLoading } = useSwapTokens(type, type === 'base' ? quote : base);
 
-  const onSelect = (token: string) => {
+  const onSelect = (symbol: string, name: string) => {
     if (type) {
       if (type === 'base') {
-        if (quote === token) {
+        if (quote === symbol) {
           rotate();
         } else {
-          setBase(token);
+          setBase(symbol, name);
         }
       } else {
-        if (base === token) {
+        if (base === symbol) {
           rotate();
         } else {
-          setQuote(token);
+          setQuote(symbol, name);
         }
       }
     }
@@ -67,10 +67,10 @@ const UISwapTokenSelectScreen = () => {
           </Flex>
         </Tabs.List>
         <Tabs.Content value={Tab.all}>
-          <AllTokens data={filteredTokenList} onSelect={onSelect} />
+          <AllTokens data={filteredTokenList} loading={isLoading} onSelect={onSelect} />
         </Tabs.Content>
         <Tabs.Content value={Tab.own}>
-          <OwnTokens data={filteredTokenList} onSelect={onSelect} />
+          <OwnTokens data={filteredTokenList} loading={isLoading} onSelect={onSelect} />
         </Tabs.Content>
       </Tabs.Root>
     </Flex>

@@ -31,7 +31,7 @@ const UIMain = () => {
             message: 'Make a deposit to start trading',
             buttons: [{ id: 'add', type: 'default', text: 'Add Funds' }, { type: 'close' }],
           })
-          .then((value) => value === 'add' && navigate('/deposit-token-select'));
+          .then((value) => value === 'add' && navigate('/deposit-network-select'));
       }
     }
   }, [fund]);

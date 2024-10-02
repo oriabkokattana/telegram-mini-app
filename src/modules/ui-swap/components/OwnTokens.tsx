@@ -12,17 +12,18 @@ import { SwapTokenItem } from '@/types';
 
 interface OwnTokensProps {
   data?: SwapTokenItem[];
-  onSelect(token: string): void;
+  loading: boolean;
+  onSelect(symbol: string, name: string): void;
 }
 
-const OwnTokens = ({ data, onSelect }: OwnTokensProps) => {
+const OwnTokens = ({ data, loading, onSelect }: OwnTokensProps) => {
   const balances = useBalancesStore((state) => state.balances);
 
   const assetList = Object.keys(balances).filter((item) =>
     data?.some((swapToken) => swapToken.symbol === item)
   );
 
-  if (!assetList.length) {
+  if (!assetList.length && !loading) {
     return (
       <Flex direction='column' gap='5' pt='6'>
         <NoDataPlaceholder
@@ -62,7 +63,7 @@ const OwnTokens = ({ data, onSelect }: OwnTokensProps) => {
               justify='between'
               align='center'
               gap='2'
-              onClick={() => onSelect(item)}
+              onClick={() => onSelect(item, balances[item].currency_name || item)}
             >
               <Link to='/swap'>
                 <Flex gap='2' align='center'>

@@ -10,11 +10,12 @@ import { SwapTokenItem } from '@/types';
 
 interface AllTokensProps {
   data?: SwapTokenItem[];
-  onSelect(token: string): void;
+  loading: boolean;
+  onSelect(symbol: string, name: string): void;
 }
 
-const AllTokens = ({ data, onSelect }: AllTokensProps) => {
-  if (!data?.length) {
+const AllTokens = ({ data, loading, onSelect }: AllTokensProps) => {
+  if (!data?.length && !loading) {
     return (
       <Flex direction='column' gap='5' pt='6'>
         <NoDataPlaceholder
@@ -37,7 +38,7 @@ const AllTokens = ({ data, onSelect }: AllTokensProps) => {
         </Text>
       </Flex>
       <Flex direction='column' gap='4'>
-        {data.map((item) => {
+        {data?.map((item) => {
           const priceString = `${formatNumber(Number(item.price_usd || 0))}$`;
           const profitPercentString = `${formatPercent(Number(item.price_change_1h || 0) * 100)}%`;
           const positiveProfit = Number(item.price_change_1h || 0) >= 0;
@@ -48,7 +49,7 @@ const AllTokens = ({ data, onSelect }: AllTokensProps) => {
               justify='between'
               align='center'
               gap='2'
-              onClick={() => onSelect(item.symbol)}
+              onClick={() => onSelect(item.symbol, item.name)}
             >
               <Link to='/swap'>
                 <Flex gap='2' align='center'>

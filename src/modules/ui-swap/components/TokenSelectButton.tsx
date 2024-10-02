@@ -12,7 +12,6 @@ import { SwapTokenType } from '@/types';
 interface TokenSelectButtonProps {
   token?: string;
   type: SwapTokenType;
-  setToken(token: string): void;
 }
 
 const TokenSelectButton = ({ token, type }: TokenSelectButtonProps) => {

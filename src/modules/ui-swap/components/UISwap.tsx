@@ -14,12 +14,16 @@ import { Text } from '@/modules/core/design-system/text';
 import { useAssetPrice } from '@/services/user/asset-price/api';
 import { useSwap } from '@/services/user/swap/api';
 import { useBalancesStore } from '@/store/balances-store';
+import { useDepositStore } from '@/store/deposit-store';
 import { useTradingStore } from '@/store/trading-store';
 import { formatNumberWithCommas } from '@/utils/numbers';
 import { getAvailableBalance } from '@/utils/token-with-balance';
 import TradingInput from './TradingInput';
 
 import { styles } from './UISwap.styles';
+
+const DEFAULT_TRADING_BASE_TOKEN = 'USDT';
+const DEFAULT_TRADING_BASE_TOKEN_NAME = 'Tether USD';
 
 enum BalancePercent {
   twenty = '20',
@@ -43,14 +47,15 @@ const UISwap = () => {
   const fundsEnabledRef = useRef(true);
 
   const balances = useBalancesStore((state) => state.balances);
+  const setDepositToken = useDepositStore((state) => state.setToken);
   const {
     base,
+    baseName,
     baseAmount,
     quote,
     quoteAmount,
     setBase,
     setBaseAmount,
-    setQuote,
     setQuoteAmount,
     rotate,
   } = useTradingStore();
@@ -84,8 +89,8 @@ const UISwap = () => {
     ? quoteAmountNumber.div(quoteBalance).times(100)
     : Big(0);
 
-  const fundEnabled = !!baseAmount && baseAmountNumber.gt(baseBalance);
-  const swapEnabled = !!Number(baseAmount);
+  const fundEnabled = !!base && !!baseAmount && baseAmountNumber.gt(baseBalance);
+  const swapEnabled = !!base && !!quote && !!Number(baseAmount);
 
   const onSwap = useCallback(() => {
     const amount = Number(baseAmount);
@@ -98,8 +103,11 @@ const UISwap = () => {
   }, [baseAmount, base, quote]);
 
   const onFund = useCallback(() => {
-    navigate(`/?fund=${base}`);
-  }, [base]);
+    if (base) {
+      setDepositToken({ symbol: base, name: baseName || base });
+      navigate('/?fund=true');
+    }
+  }, [base, baseName]);
 
   useShowMainButton({
     variant: swapEnabled || fundEnabled ? 'default' : 'disabled',
@@ -108,6 +116,18 @@ const UISwap = () => {
     loading: swap.isPending,
     callback: fundEnabled ? onFund : onSwap,
   });
+
+  useEffect(() => {
+    const assets = Object.keys(balances);
+    if (!base) {
+      if (assets.length) {
+        const tradingBaseToken = assets[0];
+        setBase(tradingBaseToken, balances[tradingBaseToken].currency_name || tradingBaseToken);
+      } else {
+        setBase(DEFAULT_TRADING_BASE_TOKEN, DEFAULT_TRADING_BASE_TOKEN_NAME);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     if (fundEnabled && !baseInputFocused && !quoteInputFocused && fundsEnabledRef.current) {
@@ -183,7 +203,6 @@ const UISwap = () => {
           token={base}
           value={baseAmount}
           onChange={onSetBaseAmount}
-          onSetCoin={setBase}
           onFocus={() => setBaseInputFocused(true)}
           onBlur={() => setBaseInputFocused(false)}
         />
@@ -210,7 +229,6 @@ const UISwap = () => {
           token={quote}
           value={quoteAmount}
           onChange={onSetQuoteAmount}
-          onSetCoin={setQuote}
           onFocus={() => setQuoteInputFocused(true)}
           onBlur={() => setQuoteInputFocused(false)}
         />

@@ -22,7 +22,6 @@ type TradingInputProps = {
   token?: string;
   value: string;
   onChange(value: string): void;
-  onSetCoin(coin: string): void;
 } & Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'value' | 'onChange'>;
 
 const TradingInput = ({
@@ -35,7 +34,6 @@ const TradingInput = ({
   token,
   value,
   onChange,
-  onSetCoin,
   ...props
 }: TradingInputProps) => {
   const tradingInputRef = useRef<HTMLDivElement>(null);
@@ -77,7 +75,7 @@ const TradingInput = ({
         </Text>
       </Flex>
       <Flex width='100%' align='center' gap='2'>
-        <TokenSelectButton token={token} type={type} setToken={onSetCoin} />
+        <TokenSelectButton token={token} type={type} />
         <Text asChild size='7' customSize={26} weight='medium' lineHeight='26px'>
           <input
             {...stylex.props(styles.input, error && styles.inputError)}
