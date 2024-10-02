@@ -38,7 +38,7 @@ const AllTokens = ({ data, onSelect }: AllTokensProps) => {
       </Flex>
       <Flex direction='column' gap='4'>
         {data.map((item) => {
-          const priceString = formatNumber(Number(item.price_usd || 0));
+          const priceString = `${formatNumber(Number(item.price_usd || 0))}$`;
           const profitPercentString = `${formatPercent(Number(item.price_change_1h || 0) * 100)}%`;
           const positiveProfit = Number(item.price_change_1h || 0) >= 0;
           return (
@@ -55,7 +55,7 @@ const AllTokens = ({ data, onSelect }: AllTokensProps) => {
                   <TokenIcon name={item.symbol} size='ui-md' />
                   <Flex direction='column' gap='1'>
                     <Text size='3' weight='bold'>
-                      ${item.symbol}
+                      {item.symbol}
                     </Text>
                     <Text color='gray' size='2' lineHeight='12px'>
                       {item.name || item.symbol}
