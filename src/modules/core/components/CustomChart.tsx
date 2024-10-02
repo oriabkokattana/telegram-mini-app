@@ -7,6 +7,7 @@ import {
   // Tooltip
 } from 'recharts';
 import { Margin } from 'recharts/types/util/types';
+import { useThemeStore } from '@/store/theme-store';
 import darkThemePlaceholder from '../media/dark-theme-chart-placeholder.svg';
 import lightThemePlaceholder from '../media/light-theme-chart-placeholder.svg';
 
@@ -76,14 +77,12 @@ const CustomChart = ({
   loading,
   margin,
 }: CustomChartProps) => {
+  const theme = useThemeStore((state) => state.theme);
+
   if ((!data?.length || data.length === 1) && !loading) {
     return (
       <img
-        src={
-          document.documentElement.classList.contains('dark-them')
-            ? darkThemePlaceholder
-            : lightThemePlaceholder
-        }
+        src={theme === 'dark' ? darkThemePlaceholder : lightThemePlaceholder}
         height={height}
         width='100%'
         style={{ objectFit: 'cover' }}

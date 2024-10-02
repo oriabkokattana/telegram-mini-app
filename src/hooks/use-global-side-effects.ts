@@ -8,6 +8,7 @@ import {
 } from '@telegram-apps/sdk-react';
 import { darkTheme } from '@/modules/core/design-system/ui.tokens.stylex';
 import { useOauthLogin } from '@/services/auth/oauth-login/api';
+import { useThemeStore } from '@/store/theme-store';
 import { useUserStoreHydration } from '@/store/user-store';
 import { useSignAuth } from './use-sign-auth';
 
@@ -18,6 +19,7 @@ export const useGlobalSideEffects = () => {
   useSignAuth();
 
   const userHydrated = useUserStoreHydration();
+  const setTheme = useThemeStore((state) => state.setTheme);
 
   const swipeBehavior = useSwipeBehaviorRaw();
   const viewport = useViewportRaw();
@@ -45,6 +47,7 @@ export const useGlobalSideEffects = () => {
         if (e === '#ffffff') {
           document.documentElement.classList.remove(...darkThemeClassNames, 'dark-theme');
           document.documentElement.classList.add('light-theme');
+          setTheme('light');
           if (miniApp.result?.supports('setHeaderColor')) {
             miniApp.result.setHeaderColor('#fefefe');
           }
@@ -54,6 +57,7 @@ export const useGlobalSideEffects = () => {
         } else {
           document.documentElement.classList.remove('light-theme');
           document.documentElement.classList.add(...darkThemeClassNames, 'dark-theme');
+          setTheme('dark');
           if (miniApp.result?.supports('setHeaderColor')) {
             miniApp.result.setHeaderColor('#0c0612');
           }

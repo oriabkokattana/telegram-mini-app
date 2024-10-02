@@ -107,7 +107,7 @@ const TotalBalance = ({ visible, setVisible }: TotalBalanceProps) => {
           data={profitChartData?.chard_data}
           loading={isLoading}
         />
-        <Flex px='9'>
+        <Flex>
           <Flex asChild flexGrow='1'>
             <Link to='/deposit-token-select'>
               <Flex asChild flexGrow='1' direction='column' align='center' gap='2'>
@@ -135,6 +135,23 @@ const TotalBalance = ({ visible, setVisible }: TotalBalanceProps) => {
                 </Label.Root>
               </Flex>
             </Link>
+          </Flex>
+          <Flex
+            asChild
+            flexGrow='1'
+            direction='column'
+            align='center'
+            gap='2'
+            style={{ cursor: 'not-allowed' }}
+          >
+            <Label.Root>
+              <IconButton color='gray' variant='soft' size='4' disabled>
+                <Icon name='plus' variant='tertiary' />
+              </IconButton>
+              <Text color='gray' size='2' lineHeight='12px'>
+                Add a label
+              </Text>
+            </Label.Root>
           </Flex>
         </Flex>
       </Flex>

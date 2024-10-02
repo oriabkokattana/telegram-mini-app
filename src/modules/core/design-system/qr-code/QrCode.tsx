@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 import { QRCode } from 'react-qrcode-logo';
-import qrCodeLogo from '@/assets/qr-code-logo.png';
+import qrCodeLogo from '@/assets/ui/qr-code-logo.png';
 
 export type QrCodeProps = {
   value: string;
@@ -18,8 +18,8 @@ export const QrCode = forwardRef<QRCode, QrCodeProps>(({ value, size }, forwarde
       quietZone={12}
       eyeRadius={size}
       logoImage={qrCodeLogo}
-      logoHeight={68}
-      logoWidth={68}
+      logoHeight={60}
+      logoWidth={60}
       ref={forwardedRef}
     />
   );

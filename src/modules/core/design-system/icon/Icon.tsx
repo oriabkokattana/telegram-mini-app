@@ -32,7 +32,9 @@ export type IconName =
   | 'rotate'
   | 'auth-google'
   | 'auth-facebook'
-  | 'auth-twitter';
+  | 'auth-twitter'
+  | 'plus'
+  | 'filter';
 
 export type IconVariant =
   | 'primary'
