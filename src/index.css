@@ -207,7 +207,8 @@ a {
 }
 
 .rt-BaseButton.rt-variant-solid:is([data-disabled]) {
-  background-color: var(--gray-a11);
+  background-color: var(--accent-9);
+  opacity: 0.5;
 }
 
 .rt-TabNavItem {

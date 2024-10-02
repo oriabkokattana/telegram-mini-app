@@ -123,23 +123,27 @@ const UISwap = () => {
   useEffect(() => {
     if (baseAmount) {
       setQuoteAmount(Big(baseAmount).times(basePrice).prec(12).toString());
+    } else {
+      setQuoteAmount(baseAmount);
     }
   }, [basePrice.toString()]);
 
   const onSetBaseAmount = (value: string) => {
     setBaseAmount(value);
-    setQuoteAmount(Big(value).times(basePrice).prec(18).toString());
+    if (value) {
+      setQuoteAmount(Big(value).times(basePrice).prec(18).toString());
+    } else {
+      setQuoteAmount(value);
+    }
   };
 
   const onSetQuoteAmount = (value: string) => {
     setQuoteAmount(value);
-    setBaseAmount(Big(value).times(quotePrice).prec(18).toString());
-  };
-
-  const onRotate = () => {
-    setBaseAmount(quoteAmount);
-    setQuoteAmount(baseAmount);
-    rotate();
+    if (value) {
+      setBaseAmount(Big(value).times(quotePrice).prec(18).toString());
+    } else {
+      setBaseAmount(value);
+    }
   };
 
   const onChangeBalancePercent = (value?: string) => {
@@ -182,7 +186,7 @@ const UISwap = () => {
           top='50%'
           left='50%'
           {...stylex.props(styles.rotate)}
-          onClick={onRotate}
+          onClick={rotate}
         >
           <Icon name='rotate' variant='reverse-primary' />
         </Flex>

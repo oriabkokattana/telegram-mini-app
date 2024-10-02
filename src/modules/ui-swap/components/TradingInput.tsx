@@ -1,4 +1,4 @@
-import { InputHTMLAttributes } from 'react';
+import { InputHTMLAttributes, useRef } from 'react';
 import Big from 'big.js';
 import * as Label from '@radix-ui/react-label';
 import { Flex } from '@radix-ui/themes';
@@ -6,12 +6,14 @@ import * as stylex from '@stylexjs/stylex';
 import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
 import { formatNumberWithCommas, formatPercent, transformCommaToDot } from '@/utils/numbers';
-import TokenSelect from './TokenSelect';
+import TokenSelectButton from './TokenSelectButton';
 
 import { styles } from './TradingInput.styles';
 
+import { TokenType } from '@/types';
+
 type TradingInputProps = {
-  type: 'base' | 'quote';
+  type: TokenType;
   error?: boolean;
   balance: Big;
   priceUSD: Big;
@@ -36,6 +38,8 @@ const TradingInput = ({
   onSetCoin,
   ...props
 }: TradingInputProps) => {
+  const tradingInputRef = useRef<HTMLDivElement>(null);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
 
@@ -55,10 +59,12 @@ const TradingInput = ({
       gap='4'
       p='4'
       {...stylex.props(styles.base, error && styles.baseError)}
+      ref={tradingInputRef}
+      onFocus={() => tradingInputRef.current?.scrollIntoView({ behavior: 'smooth' })}
     >
       <Flex justify='between' align='center'>
         <Text asChild color='gray' size='1' weight='medium' lineHeight='10px'>
-          <Label.Root htmlFor={`${type}-coin-select`}>{type === 'base' ? 'From' : 'To'}</Label.Root>
+          {type === 'base' ? 'From' : 'To'}
         </Text>
         <Text asChild color='gray' size='1' weight='medium' lineHeight='10px'>
           <Label.Root
@@ -71,7 +77,7 @@ const TradingInput = ({
         </Text>
       </Flex>
       <Flex width='100%' align='center' gap='2'>
-        <TokenSelect id={`${type}-token-select`} token={token} setToken={onSetCoin} />
+        <TokenSelectButton token={token} type={type} setToken={onSetCoin} />
         <Text asChild size='7' customSize={26} weight='medium' lineHeight='26px'>
           <input
             {...stylex.props(styles.input, error && styles.inputError)}

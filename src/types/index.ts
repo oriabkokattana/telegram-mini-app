@@ -5,3 +5,4 @@ export * from './profile';
 export * from './transactions';
 export * from './direction';
 export * from './duration';
+export * from './trading';

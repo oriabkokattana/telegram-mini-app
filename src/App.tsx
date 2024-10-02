@@ -24,6 +24,7 @@ import UIDepositNetworkSelect from './modules/ui-deposit/components/UIDepositNet
 import UIDepositTokenSelect from './modules/ui-deposit/components/UIDepositTokenSelect';
 import UIMain from './modules/ui-main/components/UIMain';
 import UISwap from './modules/ui-swap/components/UISwap';
+import UISwapTokenSelectScreen from './modules/ui-swap/components/UISwapTokenSelectScreen';
 import UIWelcome from './modules/ui-welcome/components/UIWelcome';
 import UIWithdraw from './modules/ui-withdraw/components/UIWithdraw';
 import UIWithdrawNetworkSelect from './modules/ui-withdraw/components/UIWithdrawNetworkSelect';
@@ -104,6 +105,7 @@ function App() {
             <Route path='analytics' element={<UIAnalytics />} />
             <Route path='asset/:asset' element={<UIAsset />} />
             <Route path='swap' element={<UISwap />} />
+            <Route path='swap-token-select/:type' element={<UISwapTokenSelectScreen />} />
           </Route>
 
           <Route
