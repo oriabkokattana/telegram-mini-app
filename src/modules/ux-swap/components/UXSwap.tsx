@@ -61,7 +61,7 @@ const UXSwap = () => {
     if (coin === quote) {
       rotate();
     } else {
-      setBase(coin);
+      setBase(coin, '');
     }
   };
 
@@ -69,7 +69,7 @@ const UXSwap = () => {
     if (coin === base) {
       rotate();
     } else {
-      setQuote(coin);
+      setQuote(coin, '');
     }
   };
 
