@@ -17,14 +17,6 @@ const AllTokens = ({ data, onSelect }: AllTokensProps) => {
   if (!data?.length) {
     return (
       <Flex direction='column' gap='5' pt='6'>
-        <Flex height='20px' justify='between' align='center'>
-          <Text color='gray' size='2' lineHeight='12px'>
-            Asset
-          </Text>
-          <Text color='gray' size='2' lineHeight='12px'>
-            Price
-          </Text>
-        </Flex>
         <NoDataPlaceholder
           variant='list'
           title="You don't have assets yet"

@@ -17,11 +17,11 @@ interface TokenSelectButtonProps {
 
 const TokenSelectButton = ({ token, type }: TokenSelectButtonProps) => {
   return (
-    <Flex asChild align='center' gap='2' p='2' {...stylex.props(styles.base)}>
+    <Flex asChild height='40px' align='center' gap='2' p='2' {...stylex.props(styles.base)}>
       <Link to={`/swap-token-select/${type}`}>
-        <TokenIcon name={token} size='ui-sm' />
-        <Text size='4' weight='medium' lineHeight='16px'>
-          {token}
+        {token && <TokenIcon name={token} size='ui-sm' />}
+        <Text size='4' weight='medium' lineHeight='16px' ml={token ? '0' : '1'}>
+          {token || 'Select token'}
         </Text>
         <Icon name='chevron-down' variant='secondary' />
       </Link>

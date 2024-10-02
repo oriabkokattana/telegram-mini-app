@@ -254,9 +254,11 @@ const UISwap = () => {
           )}
         </Flex>
       </Flex>
-      <Text color='gray' size='2' weight='medium' align='center' lineHeight='20px'>
-        1 {base} = {formatNumberWithCommas(basePrice.toNumber())} {quote}
-      </Text>
+      {base && quote && (
+        <Text color='gray' size='2' weight='medium' align='center' lineHeight='20px'>
+          1 {base} = {formatNumberWithCommas(basePrice.toNumber())} {quote}
+        </Text>
+      )}
       <Text size='2' weight='medium' align='center' lineHeight='12px'>
         Savings on this trade: {formatNumberWithCommas(1000)} $
       </Text>

@@ -37,7 +37,7 @@ const Profile = ({ avatar, nickname }: ProfileProps) => {
       <Card variant='ghost' style={{ cursor: 'pointer' }} onClick={onLogout}>
         <Flex align='center' gap='2'>
           <Avatar src={avatar} fallback='AV' radius='large' />
-          <Flex direction='column' justify='center'>
+          <Flex direction='column' justify='center' gap='2'>
             <Text size='2' weight='medium' lineHeight='12px'>
               {nickname || 'Anonymous'}
             </Text>

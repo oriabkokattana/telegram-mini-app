@@ -78,20 +78,27 @@ const UIWelcome = () => {
             direction='column'
             align='center'
             gap='2'
-            style={{ cursor: 'not-allowed' }}
+            style={{ cursor: 'pointer' }}
           >
             <Label.Root>
-              <IconButton color='gray' variant='soft' size='4' disabled>
+              <IconButton color='gray' variant='soft' size='4' onClick={onToggleWelcomed}>
                 <Icon name='plus' variant='tertiary' />
               </IconButton>
-              <Text color='gray' size='2' lineHeight='12px'>
+              <Text size='2' lineHeight='12px'>
                 Add a label
               </Text>
             </Label.Root>
           </Flex>
         </Flex>
       </Flex>
-      <Flex flexGrow='1' direction='column' gap='5' position='relative' overflow='hidden'>
+      <Flex
+        width='100%'
+        flexGrow='1'
+        direction='column'
+        gap='5'
+        position='relative'
+        overflow='hidden'
+      >
         <Box
           position='absolute'
           inset='0'
@@ -122,7 +129,10 @@ const UIWelcome = () => {
               top='-8px'
               right='-17px'
               style={{
-                background: 'linear-gradient(270deg, #0C0612 0%, rgba(12, 6, 18, 0.00) 100%)',
+                background:
+                  theme === 'dark'
+                    ? 'linear-gradient(270deg, #0C0612 0%, rgba(12, 6, 18, 0.00) 100%)'
+                    : 'linear-gradient(270deg, #FFF 0%, rgba(255, 255, 255, 0.00) 100%)',
               }}
             />
           </Flex>
