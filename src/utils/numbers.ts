@@ -55,6 +55,10 @@ export const transformCommaToDot = (input: string): string => {
     noCommas = parts.slice(0, -1).join('') + '.' + parts[parts.length - 1];
   }
 
+  if (noCommas === '.') {
+    return '0.';
+  }
+
   return noCommas;
 };
 
