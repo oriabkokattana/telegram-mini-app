@@ -40,6 +40,7 @@ const UISwap = () => {
   const [quoteInputFocused, setQuoteInputFocused] = useState(false);
   const [fundOpen, setFundOpen] = useState(false);
   const rotateRef = useRef<HTMLDivElement>(null);
+  const fundsEnabledRef = useRef(true);
 
   const balances = useBalancesStore((state) => state.balances);
   const {
@@ -109,17 +110,12 @@ const UISwap = () => {
   });
 
   useEffect(() => {
-    if (
-      baseAmountNumber.gt(baseBalance) &&
-      !baseInputFocused &&
-      !quoteInputFocused &&
-      sessionStorage.getItem('funds-enabled') !== 'false'
-    ) {
+    if (fundEnabled && !baseInputFocused && !quoteInputFocused && fundsEnabledRef.current) {
       setFundOpen(true);
     } else {
       setFundOpen(false);
     }
-  }, [baseAmountNumber.gt(baseBalance), baseInputFocused, quoteInputFocused]);
+  }, [fundEnabled, baseInputFocused, quoteInputFocused]);
 
   useEffect(() => {
     if (baseAmount) {
@@ -270,7 +266,7 @@ const UISwap = () => {
         trigger={null}
         setOpen={(value) => {
           if (!value) {
-            sessionStorage.setItem('funds-enabled', 'false');
+            fundsEnabledRef.current = false;
           }
           setFundOpen(value);
         }}

@@ -18,12 +18,15 @@ type DialogProps = {
 
 export const Dialog = forwardRef<HTMLButtonElement, DialogProps>(
   ({ open, trigger, children, setOpen, ...props }, forwardedRef) => {
-    const [dialogOpen, setDialogOpen] = useState(open);
+    const [dialogOpen, setDialogOpen] = useState(false);
     const [animation, setAnimation] = useState<Animation>('appear');
 
     const isBottomGap = useCheckBottomGap();
 
     const onOpenChange = (value: boolean) => {
+      if (value === dialogOpen && value === open) {
+        return;
+      }
       if (!value) {
         setAnimation('hide');
         window.setTimeout(() => {
