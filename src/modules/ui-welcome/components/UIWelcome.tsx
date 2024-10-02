@@ -77,7 +77,7 @@ const UIWelcome = () => {
           inset='0'
           {...stylex.props(
             styles.placeholder,
-            document.documentElement.classList.contains('dark-them') ? styles.dark : styles.light
+            document.documentElement.classList.contains('dark-theme') ? styles.dark : styles.light
           )}
         />
         <Flex height='32px' align='center' position='relative' px='4'>
