@@ -63,7 +63,7 @@ const TradingInput = ({
       onFocus={() => tradingInputRef.current?.scrollIntoView({ behavior: 'smooth' })}
     >
       <Flex justify='between' align='center'>
-        <Text asChild color='gray' size='1' weight='medium' lineHeight='10px'>
+        <Text color='gray' size='1' weight='medium' lineHeight='10px'>
           {type === 'base' ? 'From' : 'To'}
         </Text>
         <Text asChild color='gray' size='1' weight='medium' lineHeight='10px'>

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Big from 'big.js';
 import { toast } from 'sonner';
@@ -39,6 +39,7 @@ const UISwap = () => {
   const [baseInputFocused, setBaseInputFocused] = useState(false);
   const [quoteInputFocused, setQuoteInputFocused] = useState(false);
   const [fundOpen, setFundOpen] = useState(false);
+  const rotateRef = useRef<HTMLDivElement>(null);
 
   const balances = useBalancesStore((state) => state.balances);
   const {
@@ -155,6 +156,19 @@ const UISwap = () => {
     return baseInputFocused ? onSetBaseAmount('0') : onSetQuoteAmount('0');
   };
 
+  const onRotate = () => {
+    rotate();
+    if (rotateRef.current) {
+      if (!rotateRef.current.dataset.rotated) {
+        rotateRef.current.dataset.rotated = 'true';
+        rotateRef.current.style.rotate = '-360deg';
+      } else {
+        rotateRef.current.dataset.rotated = '';
+        rotateRef.current.style.rotate = '0deg';
+      }
+    }
+  };
+
   return (
     <Flex minHeight='100vh' direction='column' gap='5' px='4' pt='2' pb={isBottomGap ? '6' : '4'}>
       <Flex height='40px' align='center' px='7'>
@@ -186,7 +200,8 @@ const UISwap = () => {
           top='50%'
           left='50%'
           {...stylex.props(styles.rotate)}
-          onClick={rotate}
+          onClick={onRotate}
+          ref={rotateRef}
         >
           <Icon name='rotate' variant='reverse-primary' />
         </Flex>

@@ -5,6 +5,7 @@ import { colors } from '@/modules/core/design-system/ui.tokens.stylex';
 export const styles = stylex.create({
   rotate: {
     translate: '-50% -50%',
+    transition: 'rotate 0.3s',
     borderRadius: 'var(--radius-full)',
     border: '3px solid',
     borderColor: colors.tradingRotateBorder,
@@ -12,7 +13,6 @@ export const styles = stylex.create({
     cursor: 'pointer',
     zIndex: '2',
   },
-
   sample: {
     backgroundColor: colors.themeBackground,
     display: 'none',
