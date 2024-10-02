@@ -197,7 +197,7 @@ const UIAsset = () => {
           <TransactionList data={assetSummaryData?.recent_transactions} ref={transactionListRef} />
         )}
       </Flex>
-      <AssetPriceChange asset={asset} priceUSD={priceUSD} />
+      <AssetPriceChange asset={asset} priceUSD={priceUSD} onSwap={onSwap} />
     </Flex>
   );
 };

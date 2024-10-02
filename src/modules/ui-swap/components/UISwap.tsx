@@ -4,7 +4,7 @@ import Big from 'big.js';
 import { toast } from 'sonner';
 import { DialogTitle } from '@radix-ui/react-dialog';
 import * as ToggleGroup from '@radix-ui/react-toggle-group';
-import { Flex } from '@radix-ui/themes';
+import { Flex, Separator } from '@radix-ui/themes';
 import * as stylex from '@stylexjs/stylex';
 import { useCheckBottomGap } from '@/hooks/use-check-bottom-gap';
 import { useShowMainButton } from '@/hooks/use-show-main-button';
@@ -277,9 +277,24 @@ const UISwap = () => {
           1 {base} = {formatNumberWithCommas(basePrice.toNumber())} {quote}
         </Text>
       )}
-      <Text size='2' weight='medium' align='center' lineHeight='12px'>
-        Savings on this trade: {formatNumberWithCommas(1000)} $
-      </Text>
+      <Flex direction='column' gap='2'>
+        <Flex height='32px' justify='between' align='center'>
+          <Text size='2' weight='medium' align='center' lineHeight='12px'>
+            Savings on this trade: {formatNumberWithCommas(baseAmountUSD.times(0.1).toNumber(), 2)}{' '}
+            $
+          </Text>
+          <Flex align='center' gap='2' px='3'>
+            <Text size='2' weight='bold' align='center' lineHeight='12px'>
+              Compare
+            </Text>
+            <Icon name='chevron-up' size={16} />
+          </Flex>
+        </Flex>
+        <Separator size='4' />
+        <Text size='4' weight='bold' align='center' lineHeight='16px' my='4'>
+          Coming soon...
+        </Text>
+      </Flex>
       <Dialog
         asChild
         open={fundOpen}

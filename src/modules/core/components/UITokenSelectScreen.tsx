@@ -238,6 +238,14 @@ const SearchView = ({ tokenList, search, onSelect }: SearchViewProps) => {
     return tokenName.includes(search.toLowerCase()) || tokenSymbol.includes(search.toLowerCase());
   });
 
+  if (!filteredTokenList.length) {
+    return (
+      <Text color='gray' size='2' weight='medium' align='center' lineHeight='12px'>
+        No results found for "{search}"
+      </Text>
+    );
+  }
+
   return (
     <Flex direction='column' gap='4'>
       <Flex height='20px' justify='between' align='center'>

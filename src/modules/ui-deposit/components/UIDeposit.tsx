@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { DialogTitle } from '@radix-ui/react-dialog';
+import * as Label from '@radix-ui/react-label';
 import { Box, Button, Card, Flex, IconButton } from '@radix-ui/themes';
 import { useUtils } from '@telegram-apps/sdk-react';
 import { useCheckBottomGap } from '@/hooks/use-check-bottom-gap';
@@ -143,14 +144,21 @@ const UIDeposit = () => {
           <Text size='2' weight='medium' lineHeight='12px'>
             Deposit Network
           </Text>
-          <Flex align='center' gap='2' maxWidth='250px'>
-            <Text size='2' weight='medium' lineHeight='12px'>
-              {network?.token_standard}
-            </Text>
-            <Text color='gray' size='2' weight='medium' truncate>
-              {network?.description} ({network?.name})
-            </Text>
-          </Flex>
+          <Label.Root>
+            <Flex asChild align='center' gap='2' maxWidth='250px'>
+              <Link to='/deposit-network-select'>
+                <Text size='2' weight='medium' lineHeight='12px'>
+                  {network?.token_standard}
+                </Text>
+                <Text color='gray' size='1' weight='medium' truncate>
+                  {network?.description} ({network?.name})
+                </Text>
+                <IconButton size='1' variant='ghost'>
+                  <Icon name='chevron-down' />
+                </IconButton>
+              </Link>
+            </Flex>
+          </Label.Root>
         </Flex>
         <Flex justify='between' align='center' py='2'>
           <Text size='2' weight='medium' lineHeight='12px'>

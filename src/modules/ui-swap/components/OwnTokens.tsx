@@ -29,7 +29,7 @@ const OwnTokens = ({ data, loading, onSelect }: OwnTokensProps) => {
         <NoDataPlaceholder
           variant='list'
           title="You don't have assets yet"
-          description='You can make a deposit to show your tokens here'
+          description='No tokens found for swapping with USDT'
         />
       </Flex>
     );

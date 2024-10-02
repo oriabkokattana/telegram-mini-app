@@ -20,9 +20,10 @@ import { ChartEntity } from '@/types/chart';
 interface AssetPriceChangeProps {
   asset?: string;
   priceUSD: number;
+  onSwap(): void;
 }
 
-const AssetPriceChange = ({ asset, priceUSD }: AssetPriceChangeProps) => {
+const AssetPriceChange = ({ asset, priceUSD, onSwap }: AssetPriceChangeProps) => {
   const [open, setOpen] = useState<boolean>();
   const [timeframe, setTimeframe] = useState(ETimeframe.m);
 
@@ -40,7 +41,7 @@ const AssetPriceChange = ({ asset, priceUSD }: AssetPriceChangeProps) => {
     <>
       {open && <Box position='fixed' inset='0' onClick={() => setOpen(false)} />}
       <Box
-        height='420px'
+        height={isBottomGap ? '444px' : '420px'}
         position='fixed'
         top='100%'
         right='0'
@@ -93,8 +94,8 @@ const AssetPriceChange = ({ asset, priceUSD }: AssetPriceChangeProps) => {
                 setTimeframe={setTimeframe}
               />
             </Box>
-            <Button asChild size='4'>
-              <Link to='swap'>
+            <Button asChild size='4' onClick={onSwap}>
+              <Link to='/swap'>
                 <Text color='sky'>Trade</Text>
               </Link>
             </Button>
