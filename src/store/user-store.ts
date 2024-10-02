@@ -23,12 +23,7 @@ const userStoreSlice: StateCreator<UserState & UserAction> = (set) => ({
   user: null,
   welcomed: false,
   setCredentials: (user) => set({ user }),
-  toggleWelcomed: () =>
-    set((state) => {
-      console.log(state.welcomed);
-
-      return { welcomed: !state.welcomed };
-    }),
+  toggleWelcomed: () => set((state) => ({ welcomed: !state.welcomed })),
   removeCredentials: () => set({ user: null }),
 });
 

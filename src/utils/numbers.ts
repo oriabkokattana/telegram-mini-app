@@ -41,6 +41,11 @@ export const formatPercent = (number?: number) => {
 };
 
 export const transformCommaToDot = (input: string): string => {
+  // If the input contains a dot and comma, remove the dot
+  if (input.includes('.') && input.includes(',')) {
+    input = input.replace(/\./g, '');
+  }
+
   // Remove all commas first
   let noCommas = input.replace(/,/g, '');
 

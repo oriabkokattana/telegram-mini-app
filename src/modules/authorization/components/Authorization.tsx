@@ -13,11 +13,13 @@ import {
 } from '@/services/auth/oauth-provider/api';
 import { OAuthProviderAPIResponseSchema } from '@/services/auth/oauth-provider/schema';
 import { openExternalLink } from '@/utils/open-link';
+import EmailPassword from './EmailPassword';
 
 const Authorization = () => {
   const miniApp = useMiniApp();
   const queryClient = useQueryClient();
 
+  const [emailPassword, setEmailPassword] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [facebookLoading, setFacebookLoading] = useState(false);
   const [twitterLoading, setTwitterLoading] = useState(false);
@@ -88,13 +90,19 @@ const Authorization = () => {
       pb='5'
     >
       <Flex direction='column' align='center'>
-        <Text customSize={80} weight='bold' lineHeight='normal'>
+        <Text
+          customSize={80}
+          weight='bold'
+          lineHeight='normal'
+          onClick={() => setEmailPassword(!emailPassword)}
+        >
           🐵
         </Text>
         <Text size='5' weight='bold' lineHeight='18px'>
           Welcome
         </Text>
       </Flex>
+      {emailPassword && <EmailPassword />}
       <Flex width='100%' direction='column' gap='2'>
         <Button
           size='4'

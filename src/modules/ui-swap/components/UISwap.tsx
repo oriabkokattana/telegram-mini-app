@@ -121,7 +121,9 @@ const UISwap = () => {
   }, [baseAmountNumber.gt(baseBalance), baseInputFocused, quoteInputFocused]);
 
   useEffect(() => {
-    setQuoteAmount(baseAmountNumber.times(basePrice).toNumber().toString());
+    if (baseAmount) {
+      setQuoteAmount(Big(baseAmount).times(basePrice).toNumber().toString());
+    }
   }, [basePrice.toString()]);
 
   const onSetBaseAmount = (value: string) => {

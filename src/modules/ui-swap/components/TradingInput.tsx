@@ -86,7 +86,7 @@ const TradingInput = ({
           />
         </Text>
       </Flex>
-      <Flex justify='between' align='center'>
+      <Flex justify='between' align='center' gap='2'>
         <Flex align='center' gap='1'>
           <Text color='gray' size='1' weight='medium' lineHeight='10px'>
             ${formatNumberWithCommas(priceUSD.toNumber())}
@@ -99,7 +99,7 @@ const TradingInput = ({
             {formatPercent(priceChangePercent.toNumber())}%
           </Text>
         </Flex>
-        <Text color='gray' size='1' weight='medium' lineHeight='10px'>
+        <Text color='gray' size='1' weight='medium' lineHeight='10px' truncate>
           ~ ${formatNumberWithCommas(amountUSD.toNumber())}
         </Text>
       </Flex>

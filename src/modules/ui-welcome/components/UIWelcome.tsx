@@ -72,9 +72,16 @@ const UIWelcome = () => {
         </Flex>
       </Flex>
       <Flex flexGrow='1' position='relative'>
-        <Box position='absolute' inset='0' {...stylex.props(styles.placeholder)} />
+        <Box
+          position='absolute'
+          inset='0'
+          {...stylex.props(
+            styles.placeholder,
+            document.documentElement.classList.contains('dark-them') ? styles.dark : styles.light
+          )}
+        />
         <Flex height='32px' align='center' position='relative' px='4'>
-          <Text color='sky' size='3' weight='bold'>
+          <Text size='3' weight='bold'>
             My Assets
           </Text>
         </Flex>
