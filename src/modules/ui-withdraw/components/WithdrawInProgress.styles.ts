@@ -12,4 +12,7 @@ export const styles = stylex.create({
   greenWrapper: {
     backgroundColor: colors.greenBackground,
   },
+  networkWrapper: {
+    borderRadius: 'var(--radius-full)',
+  },
 });

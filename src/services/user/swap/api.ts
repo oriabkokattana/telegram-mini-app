@@ -2,6 +2,7 @@ import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
+import { useTradingStore } from '@/store/trading-store';
 import { api } from '@/utils/api';
 import { Endpoints } from '@/utils/endpoints-constants';
 import { SwapAPIRequestSchema, SwapAPIResponseSchema } from './schema';
@@ -23,6 +24,9 @@ const swap = api<z.infer<typeof SwapAPIRequest>, z.infer<typeof SwapAPIResponse>
 });
 
 export function useSwap() {
+  const setBaseAmount = useTradingStore((state) => state.setBaseAmount);
+  const setQuoteAmount = useTradingStore((state) => state.setQuoteAmount);
+
   return useMutation<
     z.infer<typeof SwapAPIResponseSchema>,
     AxiosError<ErrorResponse>,
@@ -30,7 +34,9 @@ export function useSwap() {
   >({
     mutationFn: (payload) => swap({ data: payload }),
     onSuccess: () => {
-      toast.success('Swap successful');
+      setBaseAmount('');
+      setQuoteAmount('');
+      toast.success('Swap successful!');
     },
     onError: (error) => {
       const errorMessage = error.response?.data.error;

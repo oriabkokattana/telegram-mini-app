@@ -85,7 +85,9 @@ const WithdrawInProgress = ({
             />
           </Flex>
           <Text size='5' weight='bold' lineHeight='18px'>
-            Withdrawal In Progress
+            {transactionStatusData?.status === 'completed'
+              ? 'Withdrawal Successful!'
+              : 'Withdrawal In Progress'}
           </Text>
           <Flex align='center' gap='1'>
             <TokenIcon name={token} size='ui-xs' />
@@ -104,7 +106,7 @@ const WithdrawInProgress = ({
                 <Text size='2' weight='medium' lineHeight='12px'>
                   Network
                 </Text>
-                <Flex py='1' px='2' {...stylex.props(styles.violetWrapper)}>
+                <Flex py='1' px='2' {...stylex.props(styles.networkWrapper, styles.violetWrapper)}>
                   <Text color='violet' size='2' weight='bold' lineHeight='12px'>
                     {network}
                   </Text>
@@ -172,7 +174,7 @@ const WithdrawInProgress = ({
           asChild
           open={txOpen}
           trigger={
-            <Button size='4' disabled={!transactionStatusData?.tx_hash}>
+            <Button size='4' loading={!transactionStatusData?.tx_hash}>
               Transaction Hash
             </Button>
           }

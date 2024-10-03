@@ -103,6 +103,7 @@ export const darkTheme = stylex.createTheme(colors, {
 
   // Backgrounds
   violetBackground: 'rgba(26, 15, 56, 1)',
+  greenBackground: 'rgba(207, 246, 227, 1)',
 
   // Icon Colors
   primaryIcon: 'rgba(254, 254, 254, 1)',
