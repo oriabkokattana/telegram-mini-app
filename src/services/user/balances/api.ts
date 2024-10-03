@@ -14,7 +14,10 @@ interface ErrorResponse {
   error: string;
 }
 
-const getBalances = api<z.infer<typeof BalancesAPIRequest>, z.infer<typeof BalancesAPIResponse>>({
+export const getBalances = api<
+  z.infer<typeof BalancesAPIRequest>,
+  z.infer<typeof BalancesAPIResponse>
+>({
   method: 'GET',
   path: Endpoints.BALANCES,
   requestSchema: BalancesAPIRequest,
