@@ -119,7 +119,7 @@ const OwnTokens = ({ data, loading, onSelect }: OwnTokensProps) => {
           const positiveProfit = Number(mergedBalances[item].total_balance.pnl_percent) >= 0;
           return (
             <Flex
-              key={item}
+              key={`own-${item}`}
               asChild
               justify='between'
               align='center'

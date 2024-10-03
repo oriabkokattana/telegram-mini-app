@@ -44,8 +44,8 @@ const AllTokens = ({ data, loading, onSelect }: AllTokensProps) => {
           const positiveProfit = Number(item.price_change_1h || 0) >= 0;
           return (
             <Flex
+              key={`all-${item.symbol}`}
               asChild
-              key={item.symbol}
               justify='between'
               align='center'
               gap='2'
