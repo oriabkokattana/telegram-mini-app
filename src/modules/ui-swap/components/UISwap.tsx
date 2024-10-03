@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Big from 'big.js';
 import { toast } from 'sonner';
@@ -93,6 +93,15 @@ const UISwap = () => {
 
   const fundEnabled = !!base && !!baseAmount && baseAmountNumber.gt(baseBalance);
   const swapEnabled = !!base && !!quote && !!Number(baseAmount);
+
+  const saveOnTrade = useMemo(() => {
+    return swapEnabled
+      ? formatNumberWithCommas(
+          baseAmountUSD.times((Math.random() * (1 - 0.5) + 0.5) / 100).toNumber(),
+          4
+        )
+      : 0;
+  }, [baseAmountUSD.toString(), swapEnabled]);
 
   const onSwap = useCallback(() => {
     const amount = Number(baseAmount);
@@ -282,14 +291,7 @@ const UISwap = () => {
       <Flex direction='column' gap='2'>
         <Flex height='32px' justify='between' align='center'>
           <Text size='2' weight='medium' align='center' lineHeight='12px'>
-            Savings on this trade:{' '}
-            {swapEnabled
-              ? formatNumberWithCommas(
-                  baseAmountUSD.times((Math.random() * (1 - 0.5) + 0.5) / 100).toNumber(),
-                  4
-                )
-              : 0}{' '}
-            $
+            Save on this trade: {saveOnTrade} $
           </Text>
           <Flex asChild align='center' gap='2' px='3' style={{ cursor: 'pointer' }}>
             <Label.Root>

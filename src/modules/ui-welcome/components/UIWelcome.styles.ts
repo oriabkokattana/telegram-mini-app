@@ -7,6 +7,7 @@ export const styles = stylex.create({
     backgroundSize: 'cover',
     backdropFilter: 'blur(5px)',
     zIndex: '1',
+    cursor: 'pointer',
   },
   light: {
     backgroundImage: 'url("@/modules/ui-welcome/media/placeholder-light.png")',

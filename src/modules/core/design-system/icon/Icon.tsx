@@ -35,7 +35,8 @@ export type IconName =
   | 'auth-twitter'
   | 'plus'
   | 'filter'
-  | 'progress-clock';
+  | 'progress-clock'
+  | 'app-logo';
 
 export type IconVariant =
   | 'primary'
@@ -55,7 +56,7 @@ export type IconProps = {
   variant?: IconVariant;
   size?: number | string;
   style?: null | undefined | CompiledStyles | boolean | Readonly<[CompiledStyles, InlineStyles]>;
-} & Omit<SVGProps<SVGSVGElement>, 'width' | 'height' | 'className' | 'style'>;
+} & Omit<SVGProps<SVGSVGElement>, 'className' | 'style'>;
 
 export const Icon = forwardRef<SVGSVGElement, IconProps>(
   ({ name, variant = 'primary', size, style, ...props }, forwardedRef) => {

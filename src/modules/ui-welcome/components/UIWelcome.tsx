@@ -22,15 +22,15 @@ const UIWelcome = () => {
   };
 
   return (
-    <Flex height='100vh' direction='column' gap='6' pt='8'>
+    <Flex height='100vh' direction='column' gap='8' pt='8'>
       <Flex direction='column' align='center' gap='7' px='4'>
-        <Flex direction='column' align='center' gap='3'>
-          <Text size='8' weight='bold' lineHeight='34px'>
-            Trade crypto
-          </Text>
-          <Text color='gray' size='2' weight='medium' lineHeight='12px'>
-            Create an account to start
-          </Text>
+        <Flex direction='column' align='center' gap='5'>
+          <Flex direction='column' align='center' gap='4'>
+            <Icon name='app-logo' width={169} height={64} />
+            <Text color='gray' size='2' weight='medium' lineHeight='12px'>
+              Your crypto journey starts here
+            </Text>
+          </Flex>
           <Button size='3' onClick={onToggleWelcomed}>
             <Text color='sky' size='2' weight='bold' lineHeight='12px'>
               Get Started
@@ -108,6 +108,7 @@ const UIWelcome = () => {
         <Box
           position='absolute'
           inset='0'
+          onClick={onToggleWelcomed}
           {...stylex.props(styles.placeholder, theme === 'dark' ? styles.dark : styles.light)}
         />
         <Flex
