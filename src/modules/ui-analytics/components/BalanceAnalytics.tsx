@@ -27,7 +27,7 @@ const BalanceAnalytics = () => {
   const profitString = `${formatNumberWithCommas(Number(pnl_usd))} $ (${formatPercent(Number(pnl_percent) * 100)}%)`;
   const depositsString = `+ ${formatNumberWithCommas(Number(profitChartData?.total_deposit_usd || 0))} $`;
   const withdrawalsString = `- ${formatNumberWithCommas(Number(profitChartData?.total_withdraw_usd || 0))} $`;
-  const savingsString = `+ ${formatNumberWithCommas(Number(profitChartData?.total_savings_usd || 0))} $`;
+  const saveString = `+ ${formatNumberWithCommas(Number(profitChartData?.total_savings_usd || 0))} $`;
 
   return (
     <Flex direction='column' gap='5' pt='5'>
@@ -80,10 +80,10 @@ const BalanceAnalytics = () => {
           </Flex>
           <Flex height='24px' justify='between' align='center'>
             <Text color='gray' size='3' weight='medium' lineHeight='14px'>
-              Savings on fees
+              Save on fees
             </Text>
             <Text color='gold' size='3' weight='bold'>
-              {savingsString}
+              {saveString}
             </Text>
           </Flex>
         </Flex>
