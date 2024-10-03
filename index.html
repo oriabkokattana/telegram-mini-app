@@ -15,6 +15,12 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:ital@0;1&display=swap"
       rel="stylesheet"
     />
+    <!-- Amplitude analytics -->
+    <script src="https://cdn.amplitude.com/script/638121.js"></script>
+    <script>
+      window.amplitude.add(window.sessionReplay.plugin({ sampleRate: 1 }));
+      window.amplitude.init('638121', { fetchRemoteConfig: true, autocapture: true });
+    </script>
   </head>
   <body>
     <div id="root"></div>
