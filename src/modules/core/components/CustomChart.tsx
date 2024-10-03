@@ -12,7 +12,7 @@ import { Flex } from '@radix-ui/themes';
 import * as stylex from '@stylexjs/stylex';
 import { useThemeStore } from '@/store/theme-store';
 import { formatDateWithTimeShort } from '@/utils/date';
-import { formatPercent } from '@/utils/numbers';
+import { formatNumber, formatNumberWithCommas, formatPercent } from '@/utils/numbers';
 import { Text } from '../design-system/text';
 import darkThemePlaceholder from '../media/dark-theme-chart-placeholder.svg';
 import lightThemePlaceholder from '../media/light-theme-chart-placeholder.svg';
@@ -22,7 +22,7 @@ import { styles } from './CustomChart.styles';
 import { ChartEntity } from '@/types/chart';
 
 export type ChartType = 'area' | 'line';
-export type ChartValueType = 'percent' | 'dollar';
+export type ChartValueType = 'percent' | 'dollar' | 'token';
 export type ChartVariant = 'plum' | 'crimson' | 'pink-to-violet' | 'violet-to-pink';
 export type ChartData = { name: number; value: number; exactValue: number };
 
@@ -43,13 +43,17 @@ const parseChartData = (data?: ChartEntity[]): ChartData[] => {
     return [];
   }
 
-  const allSame = data.every((item) => item.value === data[0].value);
+  const chartData = [...data];
+
+  chartData.sort((a, b) => a.timestamp - b.timestamp);
+
+  const allSame = chartData.every((item) => item.value === chartData[0].value);
 
   if (allSame) {
-    return data.map((item) => addVariation(item));
+    return chartData.map((item) => addVariation(item));
   }
 
-  return data.map((item) => ({
+  return chartData.map((item) => ({
     name: item.timestamp,
     value: parseFloat(item.value) || 0,
     exactValue: parseFloat(item.value) || 0,
@@ -85,6 +89,7 @@ interface CustomChartProps {
   variant: ChartVariant;
   type?: ChartType;
   valueType?: ChartValueType;
+  token?: string;
   height: number;
   data?: ChartEntity[];
   loading: boolean;
@@ -95,6 +100,7 @@ const CustomChart = ({
   variant,
   type = 'area',
   valueType = 'percent',
+  token,
   height,
   data,
   loading,
@@ -139,18 +145,18 @@ const CustomChart = ({
             <stop stopColor='#5841D8' stopOpacity={0.2} />
             <stop offset='100%' stopColor='#5841D8' stopOpacity={0} />
           </linearGradient>
-          <linearGradient id='pinkToVioletGradient' x1='0' y1='0' x2='1' y2='0'>
+          <linearGradient id='violetToPinkGradient' x1='0' y1='0' x2='1' y2='0'>
             <stop stopColor='#FF65B3' />
             <stop offset='50%' stopColor='#AE9AFF' />
             <stop offset='100%' stopColor='#AE9AFF' />
           </linearGradient>
-          <linearGradient id='violetToPinkGradient' x1='0' y1='0' x2='1' y2='0'>
+          <linearGradient id='pinkToVioletGradient' x1='0' y1='0' x2='1' y2='0'>
             <stop stopColor='#AE9AFF' />
             <stop offset='50%' stopColor='#FF65B3' />
             <stop offset='100%' stopColor='#FF65B3' />
           </linearGradient>
         </defs>
-        <Tooltip content={<CustomTooltip valueType={valueType} />} />
+        <Tooltip content={<CustomTooltip valueType={valueType} token={token} />} />
         <Area
           dataKey='value'
           type='linear'
@@ -165,9 +171,12 @@ const CustomChart = ({
   );
 };
 
-type CustomTooltipProps = { valueType: ChartValueType } & TooltipProps<number, number>;
+type CustomTooltipProps = {
+  valueType: ChartValueType;
+  token?: string;
+} & TooltipProps<number, number>;
 
-const CustomTooltip = ({ valueType, payload }: CustomTooltipProps) => {
+const CustomTooltip = ({ valueType, token, payload }: CustomTooltipProps) => {
   const value = payload?.[0]?.payload?.exactValue;
   const timestamp = payload?.[0]?.payload?.name;
 
@@ -182,7 +191,9 @@ const CustomTooltip = ({ valueType, payload }: CustomTooltipProps) => {
         </Text>
       ) : (
         <Text color='gray' size='1' weight='medium' lineHeight='10px'>
-          {formatPercent(value * 100)} $
+          {valueType === 'token'
+            ? `${formatNumber(value, 5)} ${token}`
+            : `$${formatNumberWithCommas(value)}`}
         </Text>
       )}
     </Flex>
