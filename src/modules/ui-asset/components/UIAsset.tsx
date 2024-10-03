@@ -101,6 +101,7 @@ const UIAsset = () => {
       <Flex direction='column' gap='3'>
         <CustomChart
           variant={profitPositive ? 'violet-to-pink' : 'pink-to-violet'}
+          valueType='dollar'
           height={108}
           data={assetChartData?.chard_data}
           loading={isLoading}
