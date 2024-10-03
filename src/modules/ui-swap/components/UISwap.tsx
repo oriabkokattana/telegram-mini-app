@@ -129,8 +129,8 @@ const UISwap = () => {
   });
 
   useEffect(() => {
-    const assets = Object.keys(balances);
-    if (!base) {
+    if (!base && !quote) {
+      const assets = Object.keys(balances);
       if (assets.length && !assets.includes(DEFAULT_TRADING_BASE_TOKEN)) {
         const tradingBaseToken = assets[0];
         setBase(tradingBaseToken, balances[tradingBaseToken].currency_name || tradingBaseToken);
