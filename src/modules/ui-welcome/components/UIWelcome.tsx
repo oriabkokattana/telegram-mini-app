@@ -25,7 +25,7 @@ const UIWelcome = () => {
     <Flex height='100vh' direction='column' gap='8' pt='8'>
       <Flex direction='column' align='center' gap='7' px='4'>
         <Flex direction='column' align='center' gap='5'>
-          <Flex width='210px' direction='column' align='center' gap='4'>
+          <Flex width='209px' direction='column' align='center' gap='4'>
             <Icon name='app-logo' width={169} height={64} />
             <Text color='gray' size='2' weight='medium' align='center' lineHeight='20px'>
               Next SpaceX in crypto trading. A new era in trading experience.
