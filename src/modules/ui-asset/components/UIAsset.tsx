@@ -25,7 +25,7 @@ import AssetPriceChange from './AssetPriceChange';
 
 const UIAsset = () => {
   const [timeframe, setTimeframe] = useState(ETimeframe.m);
-  const [transactionsOpen, setTransactionsOpen] = useState(false);
+  const [transactionsOpen, setTransactionsOpen] = useState(true);
   const transactionListRef = useRef<HTMLDivElement>(null);
 
   const balances = useBalancesStore((state) => state.balances);
