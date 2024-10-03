@@ -16,13 +16,13 @@ enum Tab {
 }
 
 const UISwapTokenSelectScreen = () => {
-  const [search, setSearch] = useState('');
-  const [tab, setTab] = useState(Tab.all);
-
-  const { base, setBase, quote, setQuote, rotate } = useTradingStore();
-
   const params = useParams();
   const type = params.type as SwapTokenType;
+
+  const [search, setSearch] = useState('');
+  const [tab, setTab] = useState(type === 'base' ? Tab.own : Tab.all);
+
+  const { base, setBase, quote, setQuote, rotate } = useTradingStore();
 
   const { data: swapTokensData, isLoading } = useSwapTokens(type, type === 'base' ? quote : base);
 

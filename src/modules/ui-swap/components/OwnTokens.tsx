@@ -8,7 +8,65 @@ import { useBalancesStore } from '@/store/balances-store';
 import { getBalanceUSDFontSize } from '@/utils/balances';
 import { formatNumber, formatNumberWithSpaces, formatPercent } from '@/utils/numbers';
 
-import { SwapTokenItem } from '@/types';
+import { BalanceItem, SwapTokenItem } from '@/types';
+
+const DEFAULT_YOUR_TOKENS: Record<string, { currency_name: string; total_balance: BalanceItem }> = {
+  BNB: {
+    total_balance: {
+      balance: '0',
+      reserved_balance: '0',
+      balance_usd: '0',
+      reserved_balance_usd: '0',
+      pnl_usd: '0',
+      pnl_percent: '0',
+    },
+    currency_name: 'Binance Coin',
+  },
+  BTC: {
+    total_balance: {
+      balance: '0',
+      reserved_balance: '0',
+      balance_usd: '0',
+      reserved_balance_usd: '0',
+      pnl_usd: '0',
+      pnl_percent: '0',
+    },
+    currency_name: 'Bitcoin',
+  },
+  ETH: {
+    total_balance: {
+      balance: '0',
+      reserved_balance: '0',
+      balance_usd: '0',
+      reserved_balance_usd: '0',
+      pnl_usd: '0',
+      pnl_percent: '0',
+    },
+    currency_name: 'Ethereum',
+  },
+  USDC: {
+    total_balance: {
+      balance: '0',
+      reserved_balance: '0',
+      balance_usd: '0',
+      reserved_balance_usd: '0',
+      pnl_usd: '0',
+      pnl_percent: '0',
+    },
+    currency_name: 'USD Coin',
+  },
+  USDT: {
+    total_balance: {
+      balance: '0',
+      reserved_balance: '0',
+      balance_usd: '0',
+      reserved_balance_usd: '0',
+      pnl_usd: '0',
+      pnl_percent: '0',
+    },
+    currency_name: 'Tether USD',
+  },
+};
 
 interface OwnTokensProps {
   data?: SwapTokenItem[];
@@ -19,7 +77,9 @@ interface OwnTokensProps {
 const OwnTokens = ({ data, loading, onSelect }: OwnTokensProps) => {
   const balances = useBalancesStore((state) => state.balances);
 
-  const assetList = Object.keys(balances).filter((item) =>
+  const mergedBalances = { ...DEFAULT_YOUR_TOKENS, ...balances };
+
+  const assetList = Object.keys(mergedBalances).filter((item) =>
     data?.some((swapToken) => swapToken.symbol === item)
   );
 
@@ -37,7 +97,8 @@ const OwnTokens = ({ data, loading, onSelect }: OwnTokensProps) => {
 
   const sortedAssetList = assetList.sort(
     (a, b) =>
-      Number(balances[b].total_balance.balance_usd) - Number(balances[a].total_balance.balance_usd)
+      Number(mergedBalances[b].total_balance.balance_usd) -
+      Number(mergedBalances[a].total_balance.balance_usd)
   );
 
   return (
@@ -52,10 +113,10 @@ const OwnTokens = ({ data, loading, onSelect }: OwnTokensProps) => {
       </Flex>
       <Flex direction='column' gap='5'>
         {sortedAssetList.map((item) => {
-          const balanceString = formatNumber(Number(balances[item].total_balance.balance));
-          const balanceInSystemCurrecnyString = `$${formatNumberWithSpaces(Number(balances[item].total_balance.balance_usd))}`;
-          const profitPercentString = `${formatPercent(Number(balances[item].total_balance.pnl_percent) * 100)}%`;
-          const positiveProfit = Number(balances[item].total_balance.pnl_percent) >= 0;
+          const balanceString = formatNumber(Number(mergedBalances[item].total_balance.balance));
+          const balanceInSystemCurrecnyString = `$${formatNumberWithSpaces(Number(mergedBalances[item].total_balance.balance_usd))}`;
+          const profitPercentString = `${formatPercent(Number(mergedBalances[item].total_balance.pnl_percent) * 100)}%`;
+          const positiveProfit = Number(mergedBalances[item].total_balance.pnl_percent) >= 0;
           return (
             <Flex
               key={item}
@@ -63,7 +124,7 @@ const OwnTokens = ({ data, loading, onSelect }: OwnTokensProps) => {
               justify='between'
               align='center'
               gap='2'
-              onClick={() => onSelect(item, balances[item].currency_name || item)}
+              onClick={() => onSelect(item, mergedBalances[item].currency_name || item)}
             >
               <Link to='/swap'>
                 <Flex gap='2' align='center'>
@@ -73,7 +134,7 @@ const OwnTokens = ({ data, loading, onSelect }: OwnTokensProps) => {
                       {item}
                     </Text>
                     <Text color='gray' size='2' lineHeight='12px'>
-                      {balances[item].currency_name || item}
+                      {mergedBalances[item].currency_name || item}
                     </Text>
                   </Flex>
                 </Flex>
