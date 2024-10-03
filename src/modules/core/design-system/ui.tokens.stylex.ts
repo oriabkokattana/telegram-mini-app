@@ -47,6 +47,10 @@ export const colors = stylex.defineVars({
   chartTooltipBorder: '#F3F4F7',
   chartTooltipBackground: 'rgba(255, 255, 255, 0.40)',
 
+  // Home Button
+  homeButtonBorder: 'rgba(154, 148, 170, 0.10)',
+  homeButtonBackground: '#F3F4F7',
+
   // Backgrounds
   violetBackground: 'rgba(225, 219, 250, 1)',
   greenBackground: 'rgba(207, 246, 227, 1)',
@@ -108,6 +112,9 @@ export const darkTheme = stylex.createTheme(colors, {
   // Chart Tooltip Colors
   chartTooltipBorder: 'rgba(154, 148, 170, 0.05)',
   chartTooltipBackground: 'rgba(34, 29, 46, 0.40)',
+
+  // Home Button
+  homeButtonBackground: '#221D2E',
 
   // Backgrounds
   violetBackground: 'rgba(26, 15, 56, 1)',

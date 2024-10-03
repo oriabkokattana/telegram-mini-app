@@ -9,6 +9,7 @@ import { Flex, IconButton, Separator } from '@radix-ui/themes';
 import * as stylex from '@stylexjs/stylex';
 import { useCheckBottomGap } from '@/hooks/use-check-bottom-gap';
 import { useShowMainButton } from '@/hooks/use-show-main-button';
+import HomeButton from '@/modules/core/components/HomeButton';
 import { Dialog, DialogDescription } from '@/modules/core/design-system/dialog';
 import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
@@ -197,7 +198,8 @@ const UISwap = () => {
   };
 
   return (
-    <Flex minHeight='100vh' direction='column' gap='5' px='4' pt='2' pb={isBottomGap ? '6' : '4'}>
+    <Flex minHeight='100vh' direction='column' gap='5' px='4' pt='4' pb={isBottomGap ? '6' : '4'}>
+      <HomeButton top={12} />
       <Flex height='40px' align='center' px='7'>
         <Text size='4' weight='bold' lineHeight='16px' mx='auto'>
           Market Swap
