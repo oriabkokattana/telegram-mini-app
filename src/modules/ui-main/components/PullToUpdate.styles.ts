@@ -7,6 +7,8 @@ export const styles = stylex.create({
     '::-webkit-scrollbar': {
       display: 'none',
     },
+  },
+  transition: {
     transition: 'translate 0.5s',
   },
   translate: (x: number) => ({ translate: `0 ${x}px` }),
