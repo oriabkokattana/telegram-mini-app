@@ -43,6 +43,10 @@ export const colors = stylex.defineVars({
   // Dialog Colors
   dialogBackground: '#F3F4F7',
 
+  // Chart Tooltip Colors
+  chartTooltipBorder: '#F3F4F7',
+  chartTooltipBackground: 'rgba(255, 255, 255, 0.40)',
+
   // Backgrounds
   violetBackground: 'rgba(225, 219, 250, 1)',
   greenBackground: 'rgba(207, 246, 227, 1)',
@@ -100,6 +104,10 @@ export const darkTheme = stylex.createTheme(colors, {
 
   // Dialog Colors
   dialogBackground: '#110A21',
+
+  // Chart Tooltip Colors
+  chartTooltipBorder: 'rgba(154, 148, 170, 0.05)',
+  chartTooltipBackground: 'rgba(34, 29, 46, 0.40)',
 
   // Backgrounds
   violetBackground: 'rgba(26, 15, 56, 1)',

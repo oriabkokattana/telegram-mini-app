@@ -102,7 +102,7 @@ const TotalBalance = ({ visible, setVisible }: TotalBalanceProps) => {
           </Button>
         </Flex>
         <CustomChart
-          variant='violet'
+          variant={profitPositive ? 'violet-to-pink' : 'pink-to-violet'}
           height={92}
           data={profitChartData?.chard_data}
           loading={isLoading}

@@ -53,7 +53,7 @@ const BalanceAnalytics = () => {
       </Flex>
       <Flex direction='column' gap='3'>
         <CustomChart
-          variant='violet'
+          variant={profitPositive ? 'violet-to-pink' : 'pink-to-violet'}
           height={108}
           data={profitChartData?.chard_data}
           loading={isLoading}

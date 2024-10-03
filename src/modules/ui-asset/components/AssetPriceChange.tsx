@@ -36,6 +36,7 @@ const AssetPriceChange = ({ asset, priceUSD, onSwap }: AssetPriceChangeProps) =>
       ? Number(assetPriceChangeData[assetPriceChangeData.length - 1]?.value || 0)
       : priceUSD
   );
+  const priceChangePositive = priceChangePercent >= 0;
 
   return (
     <>
@@ -58,7 +59,7 @@ const AssetPriceChange = ({ asset, priceUSD, onSwap }: AssetPriceChangeProps) =>
         <Header
           asset={asset}
           priceUSD={priceUSD}
-          priceChagePercent={priceChangePercent}
+          priceChangePercent={priceChangePercent}
           chartData={assetPriceChangeData}
           loading={isLoading}
           open={open}
@@ -72,12 +73,12 @@ const AssetPriceChange = ({ asset, priceUSD, onSwap }: AssetPriceChangeProps) =>
               </Text>
               <Flex align='center' gap='1'>
                 <Icon
-                  name={priceChangePercent >= 0 ? 'top-right-arrow' : 'bottom-right-arrow'}
-                  variant={priceChangePercent >= 0 ? 'accent-violet' : 'accent-pink'}
+                  name={priceChangePositive ? 'top-right-arrow' : 'bottom-right-arrow'}
+                  variant={priceChangePositive ? 'accent-violet' : 'accent-pink'}
                   size={16}
                 />
                 <Text
-                  color={priceChangePercent >= 0 ? 'violet' : 'crimson'}
+                  color={priceChangePositive ? 'violet' : 'crimson'}
                   size='2'
                   weight='bold'
                   lineHeight='12px'
@@ -86,7 +87,13 @@ const AssetPriceChange = ({ asset, priceUSD, onSwap }: AssetPriceChangeProps) =>
                 </Text>
               </Flex>
             </Flex>
-            <CustomChart height={201} data={assetPriceChangeData} loading={isLoading} />
+            <CustomChart
+              variant={priceChangePositive ? 'violet-to-pink' : 'pink-to-violet'}
+              valueType='dollar'
+              height={201}
+              data={assetPriceChangeData}
+              loading={isLoading}
+            />
             <Box py='2'>
               <TimeframeRange
                 variant='transparent'
@@ -109,7 +116,7 @@ const AssetPriceChange = ({ asset, priceUSD, onSwap }: AssetPriceChangeProps) =>
 type HeaderProps = {
   asset?: string;
   priceUSD: number;
-  priceChagePercent: number;
+  priceChangePercent: number;
   chartData?: ChartEntity[];
   loading: boolean;
   open?: boolean;
@@ -119,12 +126,14 @@ type HeaderProps = {
 const Header = ({
   asset,
   priceUSD,
-  priceChagePercent,
+  priceChangePercent,
   chartData,
   loading,
   open,
   setOpen,
 }: HeaderProps) => {
+  const priceChangePositive = priceChangePercent >= 0;
+
   return (
     <Flex
       asChild
@@ -151,23 +160,29 @@ const Header = ({
                 </Text>
                 <Flex align='center' gap='1'>
                   <Icon
-                    name={priceChagePercent >= 0 ? 'top-right-arrow' : 'bottom-right-arrow'}
-                    variant={priceChagePercent >= 0 ? 'accent-violet' : 'accent-pink'}
+                    name={priceChangePositive ? 'top-right-arrow' : 'bottom-right-arrow'}
+                    variant={priceChangePositive ? 'accent-violet' : 'accent-pink'}
                     size={16}
                   />
                   <Text
-                    color={priceChagePercent >= 0 ? 'violet' : 'crimson'}
+                    color={priceChangePositive ? 'violet' : 'crimson'}
                     size='2'
                     weight='bold'
                     lineHeight='12px'
                   >
-                    {formatPercent(priceChagePercent)}%
+                    {formatPercent(priceChangePercent)}%
                   </Text>
                 </Flex>
               </Flex>
             </Flex>
             <Box width='114px'>
-              <CustomChart type='line' height={24} data={chartData} loading={loading} />
+              <CustomChart
+                variant={priceChangePositive ? 'plum' : 'crimson'}
+                type='line'
+                height={24}
+                data={chartData}
+                loading={loading}
+              />
             </Box>
           </Flex>
         )}
