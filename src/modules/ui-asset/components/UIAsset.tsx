@@ -108,7 +108,7 @@ const UIAsset = () => {
         <TimeframeRange timeframe={timeframe} setTimeframe={setTimeframe} />
       </Flex>
       <Flex>
-        <Flex asChild flexGrow='1'>
+        <Flex asChild flexGrow='1' flexShrink='1' flexBasis='0'>
           <Link
             to={actionPossible ? '/deposit-network-select' : '/deposit-token-select'}
             onClick={onDeposit}
@@ -125,7 +125,7 @@ const UIAsset = () => {
             </Flex>
           </Link>
         </Flex>
-        <Flex asChild flexGrow='1'>
+        <Flex asChild flexGrow='1' flexShrink='1' flexBasis='0'>
           <Link
             to={actionPossible ? '/withdraw-network-select' : '/withdraw-token-select'}
             onClick={onWithdraw}
@@ -142,7 +142,7 @@ const UIAsset = () => {
             </Flex>
           </Link>
         </Flex>
-        <Flex asChild flexGrow='1'>
+        <Flex asChild flexGrow='1' flexShrink='1' flexBasis='0'>
           <Link to='/swap' onClick={onSwap}>
             <Flex asChild flexGrow='1' direction='column' align='center' gap='2'>
               <Label.Root>

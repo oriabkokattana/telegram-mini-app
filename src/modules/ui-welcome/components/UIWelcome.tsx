@@ -41,6 +41,8 @@ const UIWelcome = () => {
           <Flex
             asChild
             flexGrow='1'
+            flexShrink='1'
+            flexBasis='0'
             direction='column'
             align='center'
             gap='2'
@@ -58,6 +60,8 @@ const UIWelcome = () => {
           <Flex
             asChild
             flexGrow='1'
+            flexShrink='1'
+            flexBasis='0'
             direction='column'
             align='center'
             gap='2'
@@ -75,16 +79,18 @@ const UIWelcome = () => {
           <Flex
             asChild
             flexGrow='1'
+            flexShrink='1'
+            flexBasis='0'
             direction='column'
             align='center'
             gap='2'
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: 'not-allowed' }}
           >
             <Label.Root>
-              <IconButton color='gray' variant='soft' size='4' onClick={onToggleWelcomed}>
+              <IconButton color='gray' variant='soft' size='4' disabled>
                 <Icon name='plus' variant='tertiary' />
               </IconButton>
-              <Text size='2' lineHeight='12px'>
+              <Text color='gray' size='2' lineHeight='12px'>
                 Add a label
               </Text>
             </Label.Root>
@@ -106,37 +112,21 @@ const UIWelcome = () => {
         />
         <Flex
           height='32px'
-          justify='between'
           align='center'
+          gap='28px'
           position='relative'
           px='4'
           style={{ zIndex: '2' }}
         >
-          <Flex align='center' gap='28px' position='relative'>
-            <Text size='3' weight='bold'>
-              My Assets
-            </Text>
-            <Text color='gray' size='3' weight='bold'>
-              Watchlist
-            </Text>
-            <Text color='gray' size='3' weight='bold'>
-              Price Alerts
-            </Text>
-            <Box
-              width='49px'
-              height='40px'
-              position='absolute'
-              top='-8px'
-              right='-17px'
-              style={{
-                background:
-                  theme === 'dark'
-                    ? 'linear-gradient(270deg, #0C0612 0%, rgba(12, 6, 18, 0.00) 100%)'
-                    : 'linear-gradient(270deg, #FFF 0%, rgba(255, 255, 255, 0.00) 100%)',
-              }}
-            />
-          </Flex>
-          <Icon name='filter' />
+          <Text size='3' weight='bold'>
+            My Assets
+          </Text>
+          <Text color='gray' size='3' weight='medium'>
+            Watchlist
+          </Text>
+          <Text color='gray' size='3' weight='medium'>
+            Price Alerts
+          </Text>
         </Flex>
         <AssetsPlaceholder />
       </Flex>

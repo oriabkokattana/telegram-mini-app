@@ -184,6 +184,11 @@ a {
 
 .rt-TextFieldInput:read-only {
   cursor: inherit;
+  -webkit-text-fill-color: unset;
+}
+
+.rt-TextFieldRoot.rt-variant-surface:has(.rt-TextFieldInput:read-only) {
+  background-image: none;
 }
 
 .rt-Card.rt-variant-surface {

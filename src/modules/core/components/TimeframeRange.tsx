@@ -37,7 +37,16 @@ const TimeframeRange = ({ variant = 'default', timeframe, setTimeframe }: Timefr
         onValueChange={onChangeTimframe}
       >
         {TIMEFRAME_RANGE.map((item) => (
-          <Flex key={item} asChild height='24px' flexGrow='1' align='center' justify='center'>
+          <Flex
+            key={item}
+            asChild
+            height='24px'
+            flexGrow='1'
+            flexShrink='1'
+            flexBasis='0'
+            align='center'
+            justify='center'
+          >
             <ToggleGroup.Item {...stylex.props(styles.timeframeItem, styles[variant])} value={item}>
               <Text
                 size='1'

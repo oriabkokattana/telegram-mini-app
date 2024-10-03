@@ -30,6 +30,7 @@ export const styles = stylex.create({
     flex: '1',
     textAlign: 'right',
     color: colors.primaryText,
+    fontFamily: 'var(--default-font-family)',
     '::placeholder': {
       color: colors.secondaryText,
     },

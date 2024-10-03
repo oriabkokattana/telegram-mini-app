@@ -59,10 +59,10 @@ const UISwapTokenSelectScreen = () => {
       </TextField>
       <Tabs.Root value={tab} onValueChange={(value) => setTab(value as Tab)}>
         <Tabs.List size='2'>
-          <Flex asChild flexGrow='1'>
+          <Flex asChild flexGrow='1' flexShrink='1' flexBasis='0'>
             <Tabs.Trigger value={Tab.all}>{Tab.all}</Tabs.Trigger>
           </Flex>
-          <Flex asChild flexGrow='1'>
+          <Flex asChild flexGrow='1' flexShrink='1' flexBasis='0'>
             <Tabs.Trigger value={Tab.own}>{Tab.own}</Tabs.Trigger>
           </Flex>
         </Tabs.List>

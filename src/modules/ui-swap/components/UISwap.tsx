@@ -282,7 +282,13 @@ const UISwap = () => {
       <Flex direction='column' gap='2'>
         <Flex height='32px' justify='between' align='center'>
           <Text size='2' weight='medium' align='center' lineHeight='12px'>
-            Savings on this trade: {formatNumberWithCommas(baseAmountUSD.times(0.01).toNumber(), 2)}{' '}
+            Savings on this trade:{' '}
+            {swapEnabled
+              ? formatNumberWithCommas(
+                  baseAmountUSD.times((Math.random() * (1 - 0.5) + 0.5) / 100).toNumber(),
+                  4
+                )
+              : 0}{' '}
             $
           </Text>
           <Flex asChild align='center' gap='2' px='3' style={{ cursor: 'pointer' }}>

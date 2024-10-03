@@ -17,13 +17,13 @@ const UIAnalytics = () => {
     <Flex asChild direction='column' px='4' py='2'>
       <Tabs.Root value={tab} onValueChange={(value) => setTab(value as Tab)}>
         <Tabs.List size='2'>
-          <Flex asChild flexGrow='1'>
+          <Flex asChild flexGrow='1' flexShrink='1' flexBasis='0'>
             <Tabs.Trigger value={Tab.assets}>{Tab.assets}</Tabs.Trigger>
           </Flex>
-          <Flex asChild flexGrow='1'>
+          <Flex asChild flexGrow='1' flexShrink='1' flexBasis='0'>
             <Tabs.Trigger value={Tab.balance}>{Tab.balance}</Tabs.Trigger>
           </Flex>
-          <Flex asChild flexGrow='1'>
+          <Flex asChild flexGrow='1' flexShrink='1' flexBasis='0'>
             <Tabs.Trigger value={Tab.history}>{Tab.history}</Tabs.Trigger>
           </Flex>
         </Tabs.List>

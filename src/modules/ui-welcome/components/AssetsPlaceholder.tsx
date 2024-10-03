@@ -12,7 +12,7 @@ const ASSETS_PLACEHOLDER_DATA = [
     symbol: 'BTC',
     balance: 5,
     balance_usd: 318538,
-    pnl_percent: 2.81,
+    pnl_percent: -2.81,
   },
   {
     id: 2,
@@ -20,7 +20,7 @@ const ASSETS_PLACEHOLDER_DATA = [
     symbol: 'ETH',
     balance: 106,
     balance_usd: 281649,
-    pnl_percent: 4.76,
+    pnl_percent: -4.76,
   },
   {
     id: 3,
@@ -36,7 +36,7 @@ const ASSETS_PLACEHOLDER_DATA = [
     symbol: 'BNB',
     balance: 0.00000809,
     balance_usd: 0.0047374,
-    pnl_percent: 2.2,
+    pnl_percent: -2.2,
   },
   {
     id: 5,
@@ -44,7 +44,7 @@ const ASSETS_PLACEHOLDER_DATA = [
     symbol: 'POL',
     balance: 10.9,
     balance_usd: 4.440508,
-    pnl_percent: 2.2,
+    pnl_percent: -2.2,
   },
   {
     id: 6,
@@ -76,7 +76,7 @@ const ASSETS_PLACEHOLDER_DATA = [
     symbol: 'SOL',
     balance: 50,
     balance_usd: 7340.86,
-    pnl_percent: 1.19,
+    pnl_percent: -1.19,
   },
   {
     id: 10,
@@ -91,7 +91,7 @@ const ASSETS_PLACEHOLDER_DATA = [
     name: 'Polygon',
     symbol: 'POL',
     balance: 10.9,
-    balance_usd: 4.440508,
+    balance_usd: -4.440508,
     pnl_percent: 2.2,
   },
   {

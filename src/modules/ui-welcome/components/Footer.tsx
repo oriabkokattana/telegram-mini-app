@@ -29,6 +29,8 @@ const Footer = ({ toggleWelcomed }: FooterProps) => {
             asChild
             height='100%'
             flexGrow='1'
+            flexShrink='1'
+            flexBasis='0'
             direction='column'
             justify='center'
             align='center'
@@ -49,6 +51,8 @@ const Footer = ({ toggleWelcomed }: FooterProps) => {
             asChild
             height='100%'
             flexGrow='1'
+            flexShrink='1'
+            flexBasis='0'
             direction='column'
             justify='center'
             align='center'
@@ -66,6 +70,8 @@ const Footer = ({ toggleWelcomed }: FooterProps) => {
             asChild
             height='100%'
             flexGrow='1'
+            flexShrink='1'
+            flexBasis='0'
             direction='column'
             justify='center'
             align='center'

@@ -108,7 +108,7 @@ const TotalBalance = ({ visible, setVisible }: TotalBalanceProps) => {
           loading={isLoading}
         />
         <Flex>
-          <Flex asChild flexGrow='1'>
+          <Flex asChild flexGrow='1' flexShrink='1' flexBasis='0'>
             <Link to='/deposit-token-select'>
               <Flex asChild flexGrow='1' direction='column' align='center' gap='2'>
                 <Label.Root>
@@ -122,7 +122,7 @@ const TotalBalance = ({ visible, setVisible }: TotalBalanceProps) => {
               </Flex>
             </Link>
           </Flex>
-          <Flex asChild flexGrow='1'>
+          <Flex asChild flexGrow='1' flexShrink='1' flexBasis='0'>
             <Link to='/withdraw-token-select'>
               <Flex asChild flexGrow='1' direction='column' align='center' gap='2'>
                 <Label.Root>
@@ -139,6 +139,8 @@ const TotalBalance = ({ visible, setVisible }: TotalBalanceProps) => {
           <Flex
             asChild
             flexGrow='1'
+            flexShrink='1'
+            flexBasis='0'
             direction='column'
             align='center'
             gap='2'

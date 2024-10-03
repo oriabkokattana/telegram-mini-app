@@ -135,6 +135,7 @@ const CustomChart = ({
           strokeWidth={variant === 'outline' ? 1.15 : 2}
           fill={`url(#${variant}Gradient)`}
           baseValue='dataMin'
+          fillOpacity={1}
         />
       </AreaChart>
     </ResponsiveContainer>
