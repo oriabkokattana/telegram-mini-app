@@ -80,7 +80,7 @@ const BalanceAnalytics = () => {
           </Flex>
           <Flex height='24px' justify='between' align='center'>
             <Text color='gray' size='3' weight='medium' lineHeight='14px'>
-              Save on fees
+              Saved on fees
             </Text>
             <Text color='gold' size='3' weight='bold'>
               {saveString}
