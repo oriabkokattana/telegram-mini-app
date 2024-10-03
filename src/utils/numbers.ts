@@ -41,25 +41,23 @@ export const formatPercent = (number?: number) => {
 };
 
 export const transformCommaToDot = (input: string): string => {
-  // If the input contains a dot and comma, remove the dot
-  if (input.includes('.') && input.includes(',')) {
-    input = input.replace(/\./g, '');
+  // Check for the presence of a dot and comma in the input
+  const lastCommaIndex = input.lastIndexOf(',');
+  const lastDotIndex = input.lastIndexOf('.');
+
+  // If there's no need for transformation, return early
+  if (lastCommaIndex === -1 && lastDotIndex === -1) {
+    return input;
   }
 
-  // Remove all commas first
-  let noCommas = input.replace(/,/g, '');
+  // Replace all commas and dots
+  let result = input.replace(/[,.]/g, '');
 
-  // Replace the last comma with a dot if a comma exists
-  if (input.includes(',')) {
-    const parts = input.split(',');
-    noCommas = parts.slice(0, -1).join('') + '.' + parts[parts.length - 1];
-  }
+  // If either a comma or a dot exists, add the last one as a dot
+  const lastSeparatorIndex = Math.max(lastCommaIndex, lastDotIndex);
+  result = result.slice(0, lastSeparatorIndex) + '.' + result.slice(lastSeparatorIndex);
 
-  if (noCommas === '.') {
-    return '0.';
-  }
-
-  return noCommas;
+  return result === '.' ? '0.' : result;
 };
 
 export const trimToPrecision = (value: number, precision: number): number => {

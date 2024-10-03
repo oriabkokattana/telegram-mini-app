@@ -90,7 +90,7 @@ const Authorization = () => {
           onClick={() => setEmailPassword(!emailPassword)}
         />
         <Text size='5' weight='bold' lineHeight='18px'>
-          Welcome!
+          Welcome to The One!
         </Text>
       </Flex>
       {emailPassword && <EmailPassword />}

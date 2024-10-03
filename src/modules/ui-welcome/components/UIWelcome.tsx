@@ -27,8 +27,8 @@ const UIWelcome = () => {
         <Flex direction='column' align='center' gap='5'>
           <Flex direction='column' align='center' gap='4'>
             <Icon name='app-logo' width={169} height={64} />
-            <Text color='gray' size='2' weight='medium' lineHeight='12px'>
-              Your crypto journey starts here
+            <Text color='gray' size='2' weight='medium' align='center' lineHeight='12px'>
+              Next SpaceX in crypto trading. A new era in trading experience.
             </Text>
           </Flex>
           <Button size='3' onClick={onToggleWelcomed}>
