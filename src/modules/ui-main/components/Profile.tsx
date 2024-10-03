@@ -20,10 +20,7 @@ const Profile = ({ avatar, nickname }: ProfileProps) => {
         .open({
           title: 'Want to log out?',
           message: 'Confirm to log out',
-          buttons: [
-            { id: 'logout', type: 'default', text: 'Log out' },
-            { id: 'close', type: 'default', text: 'Close' },
-          ],
+          buttons: [{ id: 'logout', type: 'default', text: 'Log out' }, { type: 'close' }],
         })
         .then((value) => {
           if (value && value === 'logout') {

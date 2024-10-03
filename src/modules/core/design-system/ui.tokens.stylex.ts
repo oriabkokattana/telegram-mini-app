@@ -45,7 +45,7 @@ export const colors = stylex.defineVars({
 
   // Backgrounds
   violetBackground: 'rgba(225, 219, 250, 1)',
-  greenBackground: 'rgba(21, 56, 46, 1)',
+  greenBackground: 'rgba(207, 246, 227, 1)',
 
   // Icon Colors
   primaryIcon: 'rgba(12, 6, 18, 1)',
@@ -103,7 +103,7 @@ export const darkTheme = stylex.createTheme(colors, {
 
   // Backgrounds
   violetBackground: 'rgba(26, 15, 56, 1)',
-  greenBackground: 'rgba(207, 246, 227, 1)',
+  greenBackground: 'rgba(21, 56, 46, 1)',
 
   // Icon Colors
   primaryIcon: 'rgba(254, 254, 254, 1)',
