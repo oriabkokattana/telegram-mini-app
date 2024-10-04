@@ -9,7 +9,7 @@ export const styles = stylex.create({
     },
   },
   transition: {
-    transition: 'translate 0.5s cubic-bezier(0.25, 0.8, 0.5, 1)',
+    transition: 'translate 0.3s cubic-bezier(0.25, 0.8, 0.5, 1)',
   },
   tabContent: {
     width: '100%',

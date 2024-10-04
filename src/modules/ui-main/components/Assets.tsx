@@ -3,16 +3,14 @@ import Link from '@/modules/core/components/Link';
 import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
 import { TokenIcon } from '@/modules/core/design-system/token-icon';
+import { useBalancesVisibleStore } from '@/store/balance-visible-store';
 import { useBalancesStore } from '@/store/balances-store';
 import { useSystemCurrencyStore } from '@/store/system-currency-store';
 import { getBalanceFontSize } from '@/utils/balances';
 import { formatNumber, formatNumberWithSpaces, formatPercent } from '@/utils/numbers';
 
-interface AssetsProps {
-  visible: boolean;
-}
-
-const Assets = ({ visible }: AssetsProps) => {
+const Assets = () => {
+  const visible = useBalancesVisibleStore((state) => state.visible);
   const balances = useBalancesStore((state) => state.balances);
   const currency = useSystemCurrencyStore((state) => state.currency);
   const currencyRate = useSystemCurrencyStore((state) => state.currencyRate);

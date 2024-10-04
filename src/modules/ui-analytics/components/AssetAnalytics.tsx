@@ -33,7 +33,7 @@ const AssetAnalytics = () => {
           </Text>
           <Icon name='search' size={24} />
         </Flex>
-        <Assets visible />
+        <Assets />
       </Flex>
     </Flex>
   );

@@ -13,6 +13,7 @@ import {
   DropdownTrigger,
 } from '@/modules/core/design-system/ui-dropdown';
 import { useProfitChart } from '@/services/user/profit-chart/api';
+import { useBalancesVisibleStore } from '@/store/balance-visible-store';
 import { useBalancesStore } from '@/store/balances-store';
 import { useSystemCurrencyStore } from '@/store/system-currency-store';
 import { useTimeframeStore } from '@/store/timeframe-store';
@@ -20,14 +21,10 @@ import { getTotalBalanceFontSize } from '@/utils/balances';
 import { formatNumberWithCommas, formatPercent } from '@/utils/numbers';
 import { periodToTimeframe } from '@/utils/timeframe';
 
-interface TotalBalanceProps {
-  visible: boolean;
-  setVisible(value: boolean): void;
-}
-
-const TotalBalance = ({ visible, setVisible }: TotalBalanceProps) => {
+const TotalBalance = () => {
   const [period, setPeriod] = useState(EPeriod.day);
 
+  const { visible, setVisible } = useBalancesVisibleStore();
   const { currency, currencyRate, currencies, setCurrency } = useSystemCurrencyStore();
   const { total_balance_usd, pnl_usd, pnl_percent } = useBalancesStore();
   const setBalanceTimeframe = useTimeframeStore((state) => state.setBalanceTimeframe);

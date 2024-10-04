@@ -6,11 +6,7 @@ import { useBalancesStore } from '@/store/balances-store';
 import { useThemeStore } from '@/store/theme-store';
 import Assets from './Assets';
 
-interface TablesProps {
-  visible: boolean;
-}
-
-const Tables = ({ visible }: TablesProps) => {
+const Tables = () => {
   const theme = useThemeStore((state) => state.theme);
   const balances = useBalancesStore((state) => state.balances);
 
@@ -60,7 +56,7 @@ const Tables = ({ visible }: TablesProps) => {
           My Assets
         </Text>
       </Flex>
-      <Assets visible={visible} />
+      <Assets />
     </Flex>
   );
 };

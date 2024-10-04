@@ -22,7 +22,7 @@ export type AnimatedTabsProps = {
 export const AnimatedTabs = forwardRef<HTMLDivElement, AnimatedTabsProps>(
   ({ pt, tabs, tab, children, setTab, ...props }, forwardedRef) => {
     const [tabIndex, setTabIndex] = useState(0);
-    const [transition, setTransition] = useState(false);
+    const [stopScroll, setStopScroll] = useState(false);
     const contentRef = useRef<HTMLDivElement>(null);
 
     const viewport = useViewport();
@@ -35,8 +35,6 @@ export const AnimatedTabs = forwardRef<HTMLDivElement, AnimatedTabsProps>(
       if (contentRef.current) {
         contentRef.current.style.translate = translate(width * index);
       }
-      setTransition(true);
-      window.setTimeout(() => setTransition(false), 500);
     };
 
     useEffect(() => {
@@ -49,26 +47,33 @@ export const AnimatedTabs = forwardRef<HTMLDivElement, AnimatedTabsProps>(
       onSwiping: (eventData) => {
         if (contentRef.current) {
           if (eventData.dir === 'Right' && tabIndex) {
+            setStopScroll(true);
             contentRef.current.style.translate = translate(width * tabIndex - eventData.absX); // Set the pull distance
           } else if (eventData.dir === 'Left' && tabIndex !== tabs.length - 1) {
+            setStopScroll(true);
             contentRef.current.style.translate = translate(width * tabIndex + eventData.absX); // Set the pull distance
           }
         }
       },
       onSwipedRight: (eventData) => {
         if (tabIndex && width && eventData.absX / width > 0.1) {
+          setStopScroll(false);
           onValueChange(tabs[tabIndex - 1]);
         } else {
+          setStopScroll(false);
           onValueChange(tabs[tabIndex]);
         }
       },
       onSwipedLeft: (eventData) => {
         if (tabIndex < tabs.length - 1 && width && eventData.absX / width > 0.1) {
+          setStopScroll(false);
           onValueChange(tabs[tabIndex + 1]);
         } else {
+          setStopScroll(false);
           onValueChange(tabs[tabIndex]);
         }
       },
+      preventScrollOnSwipe: stopScroll,
     });
 
     return (
@@ -87,11 +92,7 @@ export const AnimatedTabs = forwardRef<HTMLDivElement, AnimatedTabsProps>(
             ))}
           </Tabs.List>
           <Box width='100%' overflow='hidden' {...swipeHandlers}>
-            <Flex
-              ref={contentRef}
-              width='max-content'
-              {...stylex.props(transition && styles.transition)}
-            >
+            <Flex ref={contentRef} width='max-content' {...stylex.props(styles.transition)}>
               {children}
             </Flex>
           </Box>
