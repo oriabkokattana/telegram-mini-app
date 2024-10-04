@@ -10,7 +10,7 @@ import { styles } from './Dialog.styles';
 
 type Animation = 'appear' | 'hide';
 
-type DialogProps = {
+export type DialogProps = {
   open: boolean;
   trigger: ReactNode;
   setOpen(value: boolean): void;

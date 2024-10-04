@@ -1,4 +1,5 @@
 import { Flex } from '@radix-ui/themes';
+import { useCheckBottomGap } from '@/hooks/use-check-bottom-gap';
 import Link from '@/modules/core/components/Link';
 import NoDataPlaceholder from '@/modules/core/components/NoDataPlaceholder';
 import { Icon } from '@/modules/core/design-system/icon';
@@ -76,6 +77,7 @@ interface OwnTokensProps {
 
 const OwnTokens = ({ data, loading, onSelect }: OwnTokensProps) => {
   const balances = useBalancesStore((state) => state.balances);
+  const isBottomGap = useCheckBottomGap();
 
   const mergedBalances = { ...DEFAULT_YOUR_TOKENS, ...balances };
 
@@ -102,7 +104,7 @@ const OwnTokens = ({ data, loading, onSelect }: OwnTokensProps) => {
   );
 
   return (
-    <Flex direction='column' gap='5' pt='6'>
+    <Flex direction='column' gap='5' pt='6' pb={isBottomGap ? '6' : '4'}>
       <Flex height='20px' justify='between' align='center'>
         <Text color='gray' size='2' lineHeight='12px'>
           Asset
@@ -140,7 +142,11 @@ const OwnTokens = ({ data, loading, onSelect }: OwnTokensProps) => {
                 </Flex>
                 <Flex direction='column' align='end' gap='1'>
                   <Flex align='center' gap='2'>
-                    <Text weight='bold' lineHeight='14px' {...getBalanceFontSize(balanceString)}>
+                    <Text
+                      weight='bold'
+                      lineHeight='14px'
+                      {...getBalanceFontSize(balanceString, 14)}
+                    >
                       {balanceString}
                     </Text>
                     <Text

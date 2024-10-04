@@ -43,7 +43,7 @@ const PullToUpdate = (props: FlexProps) => {
   const handlers = useSwipeable({
     onSwiping: (eventData) => {
       // Check if we are at the top of the scrollable content
-      if (eventData.dir === 'Down' && isTopRef.current && eventData.deltaY > 20) {
+      if (eventData.dir === 'Down' && isTopRef.current) {
         setTranslateY(eventData.deltaY); // Set the pull distance
       }
     },
@@ -54,6 +54,7 @@ const PullToUpdate = (props: FlexProps) => {
       setTranslateY(0);
     },
     trackTouch: true,
+    trackMouse: true,
   });
 
   // Set up the scroll listener
@@ -91,8 +92,9 @@ const PullToUpdate = (props: FlexProps) => {
           height='100vh'
           overflow='auto'
           {...stylex.props(
-            styles.content,
-            (refreshing || translateY === 0) && styles.transition,
+            styles.hideScroll,
+            styles.shortTransition,
+            (refreshing || translateY === 0) && styles.longTransition,
             styles.translate(refreshing ? LOADER_HEIGHT : translateY)
           )}
         />

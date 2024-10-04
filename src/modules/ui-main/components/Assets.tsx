@@ -46,7 +46,7 @@ const Assets = ({ visible }: AssetsProps) => {
               </Flex>
               <Flex direction='column' align='end' gap='1'>
                 <Flex align='center' gap='2'>
-                  <Text weight='bold' lineHeight='14px' {...getBalanceFontSize(balanceString)}>
+                  <Text weight='bold' lineHeight='14px' {...getBalanceFontSize(balanceString, 14)}>
                     {visible ? balanceString : balanceString.replace(/./g, '*')}
                   </Text>
                   <Text

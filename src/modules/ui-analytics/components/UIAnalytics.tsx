@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Flex, Tabs } from '@radix-ui/themes';
+import { AnimatedTabs, AnimatedTabsContent } from '@/modules/core/design-system/animated-tabs';
 import AssetAnalytics from './AssetAnalytics';
 import BalanceAnalytics from './BalanceAnalytics';
 import History from './History';
@@ -10,34 +10,23 @@ enum Tab {
   history = 'History',
 }
 
+const TABS = [Tab.assets, Tab.balance, Tab.history];
+
 const UIAnalytics = () => {
   const [tab, setTab] = useState(Tab.assets);
 
   return (
-    <Flex asChild direction='column' px='4' py='2'>
-      <Tabs.Root value={tab} onValueChange={(value) => setTab(value as Tab)}>
-        <Tabs.List size='2'>
-          <Flex asChild flexGrow='1' flexShrink='1' flexBasis='0'>
-            <Tabs.Trigger value={Tab.assets}>{Tab.assets}</Tabs.Trigger>
-          </Flex>
-          <Flex asChild flexGrow='1' flexShrink='1' flexBasis='0'>
-            <Tabs.Trigger value={Tab.balance}>{Tab.balance}</Tabs.Trigger>
-          </Flex>
-          <Flex asChild flexGrow='1' flexShrink='1' flexBasis='0'>
-            <Tabs.Trigger value={Tab.history}>{Tab.history}</Tabs.Trigger>
-          </Flex>
-        </Tabs.List>
-        <Tabs.Content value={Tab.assets}>
-          <AssetAnalytics />
-        </Tabs.Content>
-        <Tabs.Content value={Tab.balance}>
-          <BalanceAnalytics />
-        </Tabs.Content>
-        <Tabs.Content value={Tab.history}>
-          <History />
-        </Tabs.Content>
-      </Tabs.Root>
-    </Flex>
+    <AnimatedTabs pt='2' tabs={TABS} tab={tab} setTab={(value) => setTab(value as Tab)}>
+      <AnimatedTabsContent gap={8} value={Tab.assets}>
+        <AssetAnalytics />
+      </AnimatedTabsContent>
+      <AnimatedTabsContent gap={8} value={Tab.balance}>
+        <BalanceAnalytics />
+      </AnimatedTabsContent>
+      <AnimatedTabsContent gap={8} value={Tab.history}>
+        <History />
+      </AnimatedTabsContent>
+    </AnimatedTabs>
   );
 };
 

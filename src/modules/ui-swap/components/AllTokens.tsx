@@ -1,4 +1,5 @@
 import { Flex } from '@radix-ui/themes';
+import { useCheckBottomGap } from '@/hooks/use-check-bottom-gap';
 import Link from '@/modules/core/components/Link';
 import NoDataPlaceholder from '@/modules/core/components/NoDataPlaceholder';
 import { Icon } from '@/modules/core/design-system/icon';
@@ -15,6 +16,8 @@ interface AllTokensProps {
 }
 
 const AllTokens = ({ data, loading, onSelect }: AllTokensProps) => {
+  const isBottomGap = useCheckBottomGap();
+
   if (!data?.length && !loading) {
     return (
       <Flex direction='column' gap='5' pt='6'>
@@ -28,7 +31,7 @@ const AllTokens = ({ data, loading, onSelect }: AllTokensProps) => {
   }
 
   return (
-    <Flex direction='column' gap='5' pt='6'>
+    <Flex direction='column' gap='5' pt='6' pb={isBottomGap ? '6' : '4'}>
       <Flex height='20px' justify='between' align='center'>
         <Text color='gray' size='2' lineHeight='12px'>
           Asset
