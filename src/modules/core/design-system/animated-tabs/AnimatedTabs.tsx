@@ -20,10 +20,10 @@ export type AnimatedTabsProps = {
 export const AnimatedTabs = forwardRef<HTMLDivElement, AnimatedTabsProps>(
   ({ pt, tabs, tab, children, setTab, ...props }, forwardedRef) => {
     const [tabIndex, setTabIndex] = useState(getTabIndex(tab, tabs));
-    const [translateX, setTranslateX] = useState(0);
-    const [selecting, setSlecting] = useState(false);
     const viewport = useViewport();
     const width = viewport?.width ? viewport.width : 0;
+    const [translateX, setTranslateX] = useState(width * getTabIndex(tab, tabs));
+    const [selecting, setSlecting] = useState(false);
 
     const onValueChange = (value: string) => {
       const index = getTabIndex(value, tabs);
