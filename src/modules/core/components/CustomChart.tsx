@@ -164,7 +164,7 @@ const CustomChart = ({
           strokeWidth={2}
           fill={getChartFillColor(variant)}
           baseValue='dataMin'
-          fillOpacity={1}
+          fillOpacity={theme === 'dark' ? 1 : undefined}
         />
       </AreaChart>
     </ResponsiveContainer>
