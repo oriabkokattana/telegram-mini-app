@@ -40,7 +40,7 @@ export const AnimatedTabs = forwardRef<HTMLDivElement, AnimatedTabsProps>(
     };
 
     useEffect(() => {
-      setTabIndex(getTabIndex(tab, tabs));
+      onValueChange(tab);
     }, [tab]);
 
     const swipeHandlers = useSwipeable({
