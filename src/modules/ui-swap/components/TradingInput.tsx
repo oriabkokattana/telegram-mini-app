@@ -100,7 +100,7 @@ const TradingInput = ({
             size={16}
           />
           <Text size='1' weight='medium' lineHeight='10px'>
-            {formatPercent(priceChangePercent.toNumber())}%
+            {formatPercent(priceChangePercent.times(100).toNumber())}%
           </Text>
         </Flex>
         <Text color='gray' size='1' weight='medium' lineHeight='10px' truncate>
