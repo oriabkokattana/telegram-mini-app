@@ -2,7 +2,7 @@ import { Flex } from '@radix-ui/themes';
 import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
 import { TokenIcon } from '@/modules/core/design-system/token-icon';
-import { getBalanceUSDFontSize } from '@/utils/balances';
+import { getBalanceFontSize } from '@/utils/balances';
 import { formatNumber, formatNumberWithSpaces, formatPercent } from '@/utils/numbers';
 
 const ASSETS_PLACEHOLDER_DATA = [
@@ -127,7 +127,7 @@ const AssetsPlaceholder = () => {
             </Flex>
             <Flex direction='column' align='end' gap='1'>
               <Flex align='center' gap='2'>
-                <Text size='3' weight='bold'>
+                <Text weight='bold' lineHeight='14px' {...getBalanceFontSize(balanceString)}>
                   {balanceString}
                 </Text>
                 <Text
@@ -135,7 +135,7 @@ const AssetsPlaceholder = () => {
                   weight='bold'
                   align='right'
                   lineHeight='14px'
-                  {...getBalanceUSDFontSize(balanceString)}
+                  {...getBalanceFontSize(balanceString)}
                 >
                   {balanceInSystemCurrecnyString}
                 </Text>

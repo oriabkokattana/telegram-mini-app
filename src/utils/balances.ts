@@ -16,7 +16,7 @@ export const getTotalBalanceFontSize = (balanceString: string): TextProps => {
   return { size: '8' };
 };
 
-export const getBalanceUSDFontSize = (balanceString: string): TextProps => {
+export const getBalanceFontSize = (balanceString: string): TextProps => {
   if (balanceString.length > 8) {
     return { size: '1' };
   }

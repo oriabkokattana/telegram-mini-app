@@ -5,7 +5,7 @@ export const styles = stylex.create({
   base: {
     borderRadius: '16px',
     backgroundColor: colors.tradingInputBackground,
-    zIndex: '1',
+    zIndex: '2',
     border: '1px solid',
     borderColor: {
       default: colors.tradingInputBackground,

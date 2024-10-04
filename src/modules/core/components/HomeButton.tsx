@@ -17,7 +17,7 @@ const HomeButton = ({ top = 0 }: HomeButtonProps) => {
       height='48px'
       justify='center'
       align='center'
-      position='fixed'
+      position='absolute'
       left='100%'
       top={`${top}px`}
       {...stylex.props(styles.base)}

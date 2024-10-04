@@ -11,9 +11,10 @@ export const styles = stylex.create({
     borderColor: colors.tradingRotateBorder,
     backgroundColor: colors.tradingRotateBackground,
     cursor: 'pointer',
-    zIndex: '2',
+    zIndex: '3',
   },
   sample: {
+    zIndex: '1',
     backgroundColor: colors.themeBackground,
     display: 'none',
   },

@@ -58,7 +58,12 @@ const TradingInput = ({
       p='4'
       {...stylex.props(styles.base, error && styles.baseError)}
       ref={tradingInputRef}
-      onFocus={() => tradingInputRef.current?.scrollIntoView({ behavior: 'smooth' })}
+      onFocus={() =>
+        setTimeout(
+          () => document.querySelector('#root')?.scrollTo({ top: 27, behavior: 'smooth' }),
+          500
+        )
+      }
     >
       <Flex justify='between' align='center'>
         <Text color='gray' size='1' weight='medium' lineHeight='10px'>

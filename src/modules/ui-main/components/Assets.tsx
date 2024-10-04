@@ -5,7 +5,7 @@ import { Text } from '@/modules/core/design-system/text';
 import { TokenIcon } from '@/modules/core/design-system/token-icon';
 import { useBalancesStore } from '@/store/balances-store';
 import { useSystemCurrencyStore } from '@/store/system-currency-store';
-import { getBalanceUSDFontSize } from '@/utils/balances';
+import { getBalanceFontSize } from '@/utils/balances';
 import { formatNumber, formatNumberWithSpaces, formatPercent } from '@/utils/numbers';
 
 interface AssetsProps {
@@ -46,7 +46,7 @@ const Assets = ({ visible }: AssetsProps) => {
               </Flex>
               <Flex direction='column' align='end' gap='1'>
                 <Flex align='center' gap='2'>
-                  <Text size='3' weight='bold'>
+                  <Text weight='bold' lineHeight='14px' {...getBalanceFontSize(balanceString)}>
                     {visible ? balanceString : balanceString.replace(/./g, '*')}
                   </Text>
                   <Text
@@ -54,7 +54,7 @@ const Assets = ({ visible }: AssetsProps) => {
                     weight='bold'
                     align='right'
                     lineHeight='14px'
-                    {...getBalanceUSDFontSize(balanceString)}
+                    {...getBalanceFontSize(balanceString)}
                   >
                     {visible
                       ? balanceInSystemCurrecnyString

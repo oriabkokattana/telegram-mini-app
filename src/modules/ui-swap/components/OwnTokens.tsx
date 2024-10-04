@@ -5,7 +5,7 @@ import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
 import { TokenIcon } from '@/modules/core/design-system/token-icon';
 import { useBalancesStore } from '@/store/balances-store';
-import { getBalanceUSDFontSize } from '@/utils/balances';
+import { getBalanceFontSize } from '@/utils/balances';
 import { formatNumber, formatNumberWithSpaces, formatPercent } from '@/utils/numbers';
 
 import { BalanceItem, SwapTokenItem } from '@/types';
@@ -140,7 +140,7 @@ const OwnTokens = ({ data, loading, onSelect }: OwnTokensProps) => {
                 </Flex>
                 <Flex direction='column' align='end' gap='1'>
                   <Flex align='center' gap='2'>
-                    <Text size='3' weight='bold'>
+                    <Text weight='bold' lineHeight='14px' {...getBalanceFontSize(balanceString)}>
                       {balanceString}
                     </Text>
                     <Text
@@ -148,7 +148,7 @@ const OwnTokens = ({ data, loading, onSelect }: OwnTokensProps) => {
                       weight='bold'
                       align='right'
                       lineHeight='14px'
-                      {...getBalanceUSDFontSize(balanceString)}
+                      {...getBalanceFontSize(balanceString)}
                     >
                       {balanceInSystemCurrecnyString}
                     </Text>

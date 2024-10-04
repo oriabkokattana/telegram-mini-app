@@ -198,7 +198,15 @@ const UISwap = () => {
   };
 
   return (
-    <Flex minHeight='100vh' direction='column' gap='5' px='4' pt='4' pb={isBottomGap ? '6' : '4'}>
+    <Flex
+      id='swap-screen'
+      minHeight='100vh'
+      direction='column'
+      gap='5'
+      px='4'
+      pt='4'
+      pb={isBottomGap ? '6' : '4'}
+    >
       <HomeButton top={12} />
       <Flex height='40px' align='center' px='7'>
         <Text size='4' weight='bold' lineHeight='16px' mx='auto'>
