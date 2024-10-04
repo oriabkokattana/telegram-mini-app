@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, useRef } from 'react';
+import { InputHTMLAttributes } from 'react';
 import Big from 'big.js';
 import * as Label from '@radix-ui/react-label';
 import { Flex } from '@radix-ui/themes';
@@ -36,8 +36,6 @@ const TradingInput = ({
   onChange,
   ...props
 }: TradingInputProps) => {
-  const tradingInputRef = useRef<HTMLDivElement>(null);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
 
@@ -57,7 +55,6 @@ const TradingInput = ({
       gap='4'
       p='4'
       {...stylex.props(styles.base, error && styles.baseError)}
-      ref={tradingInputRef}
       onFocus={() =>
         setTimeout(
           () => document.querySelector('#root')?.scrollTo({ top: 27, behavior: 'smooth' }),
