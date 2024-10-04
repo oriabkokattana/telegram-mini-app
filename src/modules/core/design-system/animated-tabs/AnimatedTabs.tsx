@@ -21,7 +21,7 @@ export type AnimatedTabsProps = {
 
 export const AnimatedTabs = forwardRef<HTMLDivElement, AnimatedTabsProps>(
   ({ pt, tabs, tab, children, setTab, ...props }, forwardedRef) => {
-    const [tabIndex, setTabIndex] = useState(getTabIndex(tab, tabs));
+    const [tabIndex, setTabIndex] = useState(0);
     const [transition, setTransition] = useState(false);
     const contentRef = useRef<HTMLDivElement>(null);
 
@@ -29,6 +29,8 @@ export const AnimatedTabs = forwardRef<HTMLDivElement, AnimatedTabsProps>(
     const width = viewport?.width ? viewport.width : 0;
 
     const onValueChange = (value: string) => {
+      console.log(1);
+
       const index = getTabIndex(value, tabs);
       setTab(value);
       setTabIndex(index);
@@ -40,7 +42,9 @@ export const AnimatedTabs = forwardRef<HTMLDivElement, AnimatedTabsProps>(
     };
 
     useEffect(() => {
-      onValueChange(tab);
+      if (tab !== tabs[tabIndex]) {
+        onValueChange(tab);
+      }
     }, [tab]);
 
     const swipeHandlers = useSwipeable({
