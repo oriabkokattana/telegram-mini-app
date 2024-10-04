@@ -29,8 +29,6 @@ export const AnimatedTabs = forwardRef<HTMLDivElement, AnimatedTabsProps>(
     const width = viewport?.width ? viewport.width : 0;
 
     const onValueChange = (value: string) => {
-      console.log(1);
-
       const index = getTabIndex(value, tabs);
       setTab(value);
       setTabIndex(index);
