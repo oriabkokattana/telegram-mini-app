@@ -103,6 +103,7 @@ const UIWithdraw = () => {
         id={withdraw.data?.id}
         token={token?.symbol}
         networkName={network?.name}
+        networkDescription={network?.description}
         amount={tokenAmount}
         amountUSD={tokenAmountUSD}
         fee={fee}
