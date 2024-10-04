@@ -11,7 +11,7 @@ import Footer from './Footer';
 
 import { styles } from './PullToUpdate.styles';
 
-const TRESHOLD = 150; // Minimum pull distance to trigger refresh
+const TRESHOLD = 135; // Minimum pull distance to trigger refresh
 const LOADER_HEIGHT = 80;
 
 const PullToUpdate = (props: FlexProps) => {
@@ -24,16 +24,18 @@ const PullToUpdate = (props: FlexProps) => {
 
   // Function to handle refresh
   const refreshContent = async () => {
-    try {
-      setRefreshing(true);
-      // wait for user to see balances are refreshing
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      const data = await getBalances({ params: { period: timeframe } });
-      setBalances(data);
-    } catch (error) {
-      toast.error('Oops, Something went wrong...');
-    } finally {
-      setRefreshing(false);
+    if (!refreshing) {
+      try {
+        setRefreshing(true);
+        // wait for user to see balances are refreshing
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        const data = await getBalances({ params: { period: timeframe } });
+        setBalances(data);
+      } catch (error) {
+        toast.error('Oops, Something went wrong...');
+      } finally {
+        setRefreshing(false);
+      }
     }
   };
 
@@ -41,7 +43,7 @@ const PullToUpdate = (props: FlexProps) => {
   const handlers = useSwipeable({
     onSwiping: (eventData) => {
       // Check if we are at the top of the scrollable content
-      if (eventData.dir === 'Down' && isTopRef.current) {
+      if (eventData.dir === 'Down' && isTopRef.current && eventData.deltaY > 40) {
         setTranslateY(eventData.deltaY); // Set the pull distance
       }
     },
