@@ -1,7 +1,7 @@
 import { Flex } from '@radix-ui/themes';
 import { useCheckBottomGap } from '@/hooks/use-check-bottom-gap';
 import NoDataPlaceholder from '@/modules/core/components/NoDataPlaceholder';
-import { Icon } from '@/modules/core/design-system/icon';
+// import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
 import Assets from '@/modules/ui-main/components/Assets';
 import { useBalancesStore } from '@/store/balances-store';
@@ -31,7 +31,7 @@ const AssetAnalytics = () => {
           <Text size='3' weight='bold'>
             All Assets
           </Text>
-          <Icon name='search' size={24} />
+          {/* <Icon name='search' size={24} /> */}
         </Flex>
         <Assets />
       </Flex>
