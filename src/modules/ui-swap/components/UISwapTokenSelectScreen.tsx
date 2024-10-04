@@ -27,7 +27,7 @@ const UISwapTokenSelectScreen = () => {
 
   const { base, setBase, quote, setQuote, rotate } = useTradingStore();
 
-  const { data: swapTokensData, isLoading } = useSwapTokens(type, type === 'base' ? quote : base);
+  const { data: swapTokensData, isLoading } = useSwapTokens(type === 'base' ? quote : base);
 
   const onSelect = (symbol: string, name: string) => {
     if (type) {

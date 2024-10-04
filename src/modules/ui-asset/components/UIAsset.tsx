@@ -39,7 +39,7 @@ const UIAsset = () => {
   const { data: assetSummaryData } = useAssetSummary(asset);
   const { data: assetChartData, isLoading } = useAssetChart(timeframe, asset);
   const { data: assetPriceData } = useAssetPrice(asset);
-  const { data: swapTokensData } = useSwapTokens('base');
+  const { data: swapTokensData } = useSwapTokens();
 
   const priceUSD = Number(assetPriceData?.price_usd || 0);
   const profitPositive = Number(assetChartData?.pnl_percent || 0) >= 0;

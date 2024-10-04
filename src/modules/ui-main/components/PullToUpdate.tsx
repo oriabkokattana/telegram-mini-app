@@ -14,11 +14,13 @@ import { styles } from './PullToUpdate.styles';
 const TRESHOLD = 135; // Minimum pull distance to trigger refresh
 const LOADER_HEIGHT = 80;
 
+const translate = (y: number) => `0 ${y}px`;
+
 const PullToUpdate = (props: FlexProps) => {
-  const [translateY, setTranslateY] = useState(0);
   const [refreshing, setRefreshing] = useState(false);
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const [transition, setTransition] = useState(false);
   const isTopRef = useRef(true); // Ref to track the scroll position
+  const contentRef = useRef<HTMLDivElement>(null);
   const timeframe = useTimeframeStore((state) => state.balanceTimeframe);
   const setBalances = useBalancesStore((state) => state.setBalances);
 
@@ -26,6 +28,7 @@ const PullToUpdate = (props: FlexProps) => {
   const refreshContent = async () => {
     if (!refreshing) {
       try {
+        setTransition(true);
         setRefreshing(true);
         // wait for user to see balances are refreshing
         await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -35,6 +38,7 @@ const PullToUpdate = (props: FlexProps) => {
         toast.error('Oops, Something went wrong...');
       } finally {
         setRefreshing(false);
+        window.setTimeout(() => setTransition(false), 300);
       }
     }
   };
@@ -43,30 +47,42 @@ const PullToUpdate = (props: FlexProps) => {
   const handlers = useSwipeable({
     onSwiping: (eventData) => {
       // Check if we are at the top of the scrollable content
-      if (eventData.dir === 'Down' && isTopRef.current) {
-        setTranslateY(eventData.deltaY); // Set the pull distance
+      if (eventData.dir === 'Down' && isTopRef.current && contentRef.current && !refreshing) {
+        contentRef.current.style.translate = translate(eventData.deltaY); // Set the pull distance
       }
     },
     onSwipedDown: (eventData) => {
       if (eventData.deltaY > TRESHOLD) {
         refreshContent();
       }
-      setTranslateY(0);
+      if (contentRef.current && !refreshing) {
+        contentRef.current.style.translate = translate(0);
+      }
     },
     trackTouch: true,
     trackMouse: true,
   });
 
+  useEffect(() => {
+    if (contentRef.current) {
+      if (refreshing) {
+        contentRef.current.style.translate = translate(LOADER_HEIGHT);
+      } else {
+        contentRef.current.style.translate = translate(0);
+      }
+    }
+  }, [refreshing]);
+
   // Set up the scroll listener
   useEffect(() => {
     const handleScroll = () => {
-      if (scrollRef.current) {
-        isTopRef.current = scrollRef.current.scrollTop <= 0; // Update scroll position
+      if (contentRef.current) {
+        isTopRef.current = contentRef.current.scrollTop <= 0; // Update scroll position
       }
     };
-    scrollRef.current?.addEventListener('scroll', handleScroll);
+    contentRef.current?.addEventListener('scroll', handleScroll);
     return () => {
-      scrollRef.current?.removeEventListener('scroll', handleScroll);
+      contentRef.current?.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
@@ -88,15 +104,10 @@ const PullToUpdate = (props: FlexProps) => {
         )}
         <Flex
           {...props}
-          ref={scrollRef}
+          ref={contentRef}
           height='100vh'
           overflow='auto'
-          {...stylex.props(
-            styles.hideScroll,
-            styles.shortTransition,
-            (refreshing || translateY === 0) && styles.longTransition,
-            styles.translate(refreshing ? LOADER_HEIGHT : translateY)
-          )}
+          {...stylex.props(styles.hideScroll, transition && styles.transition)}
         />
       </Box>
       <Footer />

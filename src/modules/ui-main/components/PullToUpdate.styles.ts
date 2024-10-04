@@ -8,11 +8,7 @@ export const styles = stylex.create({
       display: 'none',
     },
   },
-  longTransition: {
+  transition: {
     transition: 'translate 0.3s cubic-bezier(0.25, 0.8, 0.5, 1)',
   },
-  shortTransition: {
-    transition: 'translate 0.02s linear',
-  },
-  translate: (y: number) => ({ translate: `0 ${y}px` }),
 });

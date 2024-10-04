@@ -1,11 +1,9 @@
 import { AxiosError } from 'axios';
 import { z } from 'zod';
-import { skipToken, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { api } from '@/utils/api';
 import { Endpoints } from '@/utils/endpoints-constants';
 import { SwapTokensAPIRequestSchema, SwapTokensAPIResponseSchema } from './schema';
-
-import { SwapTokenType } from '@/types';
 
 const SwapTokensAPIRequest = SwapTokensAPIRequestSchema;
 
@@ -26,9 +24,9 @@ const getSwapTokens = api<
   type: 'public',
 });
 
-export function useSwapTokens(direction?: SwapTokenType, token?: string) {
+export function useSwapTokens(token?: string) {
   return useQuery<z.infer<typeof SwapTokensAPIResponseSchema>, AxiosError<ErrorResponse>>({
-    queryKey: ['swap-tokens', direction, token],
-    queryFn: direction ? () => getSwapTokens({ params: { direction, token } }) : skipToken,
+    queryKey: ['swap-tokens', token],
+    queryFn: () => getSwapTokens({ params: { token } }),
   });
 }
