@@ -43,7 +43,7 @@ const PullToUpdate = (props: FlexProps) => {
   const handlers = useSwipeable({
     onSwiping: (eventData) => {
       // Check if we are at the top of the scrollable content
-      if (eventData.dir === 'Down' && isTopRef.current && eventData.deltaY > 40) {
+      if (eventData.dir === 'Down' && isTopRef.current && eventData.deltaY > 20) {
         setTranslateY(eventData.deltaY); // Set the pull distance
       }
     },
@@ -71,7 +71,7 @@ const PullToUpdate = (props: FlexProps) => {
 
   return (
     <>
-      <Box {...handlers} style={{ touchAction: 'none' }}>
+      <Box {...handlers} style={{ touchAction: 'none' }} height='100vh' overflow='hidden'>
         {refreshing && (
           <Flex
             width='100%'
