@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useState } from 'react';
+import { forwardRef, useEffect, useRef, useState } from 'react';
 import { useSwipeable } from 'react-swipeable';
 import { Box, Flex, Tabs } from '@radix-ui/themes';
 import * as stylex from '@stylexjs/stylex';
@@ -8,6 +8,8 @@ import { styles } from './AnimatedTabs.styles';
 
 const getTabIndex = (tab: string, tabs: string[]) =>
   tabs.indexOf(tab) === -1 ? 0 : tabs.indexOf(tab);
+
+const translate = (x: number) => `-${x}px`;
 
 export type AnimatedTabsProps = {
   pt: string;
@@ -20,18 +22,21 @@ export type AnimatedTabsProps = {
 export const AnimatedTabs = forwardRef<HTMLDivElement, AnimatedTabsProps>(
   ({ pt, tabs, tab, children, setTab, ...props }, forwardedRef) => {
     const [tabIndex, setTabIndex] = useState(getTabIndex(tab, tabs));
+    const [transition, setTransition] = useState(false);
+    const contentRef = useRef<HTMLDivElement>(null);
+
     const viewport = useViewport();
     const width = viewport?.width ? viewport.width : 0;
-    const [translateX, setTranslateX] = useState(width * getTabIndex(tab, tabs));
-    const [selecting, setSlecting] = useState(false);
 
     const onValueChange = (value: string) => {
       const index = getTabIndex(value, tabs);
       setTab(value);
       setTabIndex(index);
-      setTranslateX(width * index);
-      setSlecting(true);
-      window.setTimeout(() => setSlecting(false), 500);
+      if (contentRef.current) {
+        contentRef.current.style.translate = translate(width * index);
+      }
+      setTransition(true);
+      window.setTimeout(() => setTransition(false), 500);
     };
 
     useEffect(() => {
@@ -40,10 +45,12 @@ export const AnimatedTabs = forwardRef<HTMLDivElement, AnimatedTabsProps>(
 
     const swipeHandlers = useSwipeable({
       onSwiping: (eventData) => {
-        if (eventData.dir === 'Right' && tabIndex) {
-          setTranslateX(width * tabIndex - eventData.absX); // Set the pull distance
-        } else if (eventData.dir === 'Left' && tabIndex !== tabs.length - 1) {
-          setTranslateX(width * tabIndex + eventData.absX); // Set the pull distance
+        if (contentRef.current) {
+          if (eventData.dir === 'Right' && tabIndex) {
+            contentRef.current.style.translate = translate(width * tabIndex - eventData.absX); // Set the pull distance
+          } else if (eventData.dir === 'Left' && tabIndex !== tabs.length - 1) {
+            contentRef.current.style.translate = translate(width * tabIndex + eventData.absX); // Set the pull distance
+          }
         }
       },
       onSwipedRight: (eventData) => {
@@ -79,12 +86,9 @@ export const AnimatedTabs = forwardRef<HTMLDivElement, AnimatedTabsProps>(
           </Tabs.List>
           <Box width='100%' overflow='hidden' {...swipeHandlers}>
             <Flex
+              ref={contentRef}
               width='max-content'
-              {...stylex.props(
-                styles.shortTransition,
-                selecting && styles.longTransition,
-                styles.translate(translateX)
-              )}
+              {...stylex.props(transition && styles.transition)}
             >
               {children}
             </Flex>
