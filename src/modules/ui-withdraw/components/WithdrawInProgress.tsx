@@ -9,8 +9,9 @@ import { Text } from '@/modules/core/design-system/text';
 import { TokenIcon } from '@/modules/core/design-system/token-icon';
 import { useTransactionStatus } from '@/services/user/transaction-status/api';
 import { useWithdrawStore } from '@/store/withdraw-store';
-import { formatAddressShort } from '@/utils/address';
+import { NETWORK_TX_SCAN_MAP } from '@/utils/networks';
 import { formatNumber, formatNumberWithCommas } from '@/utils/numbers';
+import { openExternalLink } from '@/utils/open-link';
 
 import { styles } from './WithdrawInProgress.styles';
 
@@ -19,7 +20,8 @@ import { ShortDuration } from '@/types';
 interface WithdrawInProgressProps {
   id?: string;
   token?: string;
-  network?: string;
+  networkName?: string;
+  networkDescription?: string;
   amount: number;
   amountUSD: number;
   fee: number;
@@ -31,7 +33,8 @@ interface WithdrawInProgressProps {
 const WithdrawInProgress = ({
   id,
   token,
-  network,
+  networkName,
+  networkDescription,
   amount,
   amountUSD,
   fee,
@@ -44,6 +47,9 @@ const WithdrawInProgress = ({
   const reset = useWithdrawStore((state) => state.reset);
   const { data: transactionStatusData } = useTransactionStatus('withdraw', id);
 
+  const txCompleted = transactionStatusData?.status === 'completed';
+  const txHash = transactionStatusData?.tx_hash;
+
   const onCopyAddress = async () => {
     if (address) {
       await navigator.clipboard.writeText(address);
@@ -53,10 +59,11 @@ const WithdrawInProgress = ({
     }
   };
 
-  const onCopyTxHash = async () => {
-    if (transactionStatusData?.tx_hash) {
-      await navigator.clipboard.writeText(transactionStatusData?.tx_hash);
-      toast.success('Transaction hash copied to clipboard!');
+  const onOpenScan = () => {
+    if (txHash && networkName && NETWORK_TX_SCAN_MAP[networkName]) {
+      openExternalLink(NETWORK_TX_SCAN_MAP[networkName] + txHash);
+    } else {
+      toast.error('Wrong network or transaction hash');
     }
   };
 
@@ -71,23 +78,17 @@ const WithdrawInProgress = ({
             align='center'
             {...stylex.props(
               styles.statusIconWrapper,
-              transactionStatusData?.status === 'completed'
-                ? styles.greenWrapper
-                : styles.violetWrapper
+              txCompleted ? styles.greenWrapper : styles.violetWrapper
             )}
           >
             <Icon
-              name={
-                transactionStatusData?.status === 'completed' ? 'circle-check' : 'progress-clock'
-              }
-              variant={transactionStatusData?.status === 'completed' ? 'mint' : 'plum'}
+              name={txCompleted ? 'circle-check' : 'progress-clock'}
+              variant={txCompleted ? 'mint' : 'plum'}
               size={44}
             />
           </Flex>
           <Text size='5' weight='bold' lineHeight='18px'>
-            {transactionStatusData?.status === 'completed'
-              ? 'Withdrawal Successful!'
-              : 'Withdrawal In Progress'}
+            {txCompleted ? 'Withdrawal Successful!' : 'Withdrawal In Progress'}
           </Text>
           <Flex align='center' gap='1'>
             <TokenIcon name={token} size='ui-xs' />
@@ -108,17 +109,23 @@ const WithdrawInProgress = ({
                 </Text>
                 <Flex py='1' px='2' {...stylex.props(styles.networkWrapper, styles.violetWrapper)}>
                   <Text color='violet' size='2' weight='bold' lineHeight='12px'>
-                    {network}
+                    {networkDescription}
                   </Text>
                 </Flex>
               </Flex>
-              <Flex height='20px' justify='between' align='center'>
+              <Flex height='20px' justify='between' align='center' gap='4'>
                 <Text size='2' weight='medium' lineHeight='12px'>
                   To
                 </Text>
                 <Flex align='center' gap='2'>
-                  <Text size='2' weight='bold' lineHeight='12px'>
-                    {formatAddressShort(address)}
+                  <Text
+                    size='2'
+                    weight='bold'
+                    align='right'
+                    lineHeight='12px'
+                    wordBreak='break-word'
+                  >
+                    {address}
                   </Text>
                   <IconButton size='1' variant='ghost' onClick={onCopyAddress}>
                     <Icon name='copy' variant='secondary' />
@@ -174,9 +181,13 @@ const WithdrawInProgress = ({
           asChild
           open={txOpen}
           trigger={
-            <Button size='4' loading={!transactionStatusData?.tx_hash}>
-              Transaction Hash
-            </Button>
+            txHash ? (
+              <Button size='4'>
+                <Text color='sky' size='3' weight='bold'>
+                  Transaction Hash
+                </Text>
+              </Button>
+            ) : null
           }
           setOpen={setTxOpen}
         >
@@ -190,13 +201,13 @@ const WithdrawInProgress = ({
               <Card size='2' variant='classic'>
                 <Flex width='300px' justify='center' mx='auto'>
                   <Text size='3' weight='medium' align='center' wordBreak='break-word'>
-                    {transactionStatusData?.tx_hash}
+                    {txHash}
                   </Text>
                 </Flex>
               </Card>
-              <Button size='4' onClick={onCopyTxHash}>
+              <Button size='4' onClick={onOpenScan}>
                 <Text color='sky' size='3' weight='bold'>
-                  Copy
+                  Open in scanner
                 </Text>
               </Button>
             </Flex>
