@@ -11,14 +11,14 @@ import Footer from './Footer';
 
 import { styles } from './PullToUpdate.styles';
 
-const TRESHOLD = 120; // Minimum pull distance to trigger refresh
+const TRESHOLD = 150; // Minimum pull distance to trigger refresh
 const LOADER_HEIGHT = 80;
 
 const PullToUpdate = (props: FlexProps) => {
   const [translateY, setTranslateY] = useState(0);
   const [refreshing, setRefreshing] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const isTop = useRef(true); // Ref to track the scroll position
+  const isTopRef = useRef(true); // Ref to track the scroll position
   const timeframe = useTimeframeStore((state) => state.balanceTimeframe);
   const setBalances = useBalancesStore((state) => state.setBalances);
 
@@ -41,7 +41,7 @@ const PullToUpdate = (props: FlexProps) => {
   const handlers = useSwipeable({
     onSwiping: (eventData) => {
       // Check if we are at the top of the scrollable content
-      if (eventData.dir === 'Down' && isTop) {
+      if (eventData.dir === 'Down' && isTopRef.current) {
         setTranslateY(eventData.deltaY); // Set the pull distance
       }
     },
@@ -58,7 +58,7 @@ const PullToUpdate = (props: FlexProps) => {
   useEffect(() => {
     const handleScroll = () => {
       if (scrollRef.current) {
-        isTop.current = scrollRef.current.scrollTop <= 0; // Update scroll position
+        isTopRef.current = scrollRef.current.scrollTop <= 0; // Update scroll position
       }
     };
     scrollRef.current?.addEventListener('scroll', handleScroll);
