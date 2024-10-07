@@ -2,14 +2,14 @@ import { useState } from 'react';
 import { Flex, IconButton } from '@radix-ui/themes';
 import { useCheckBottomGap } from '@/hooks/use-check-bottom-gap';
 import TransactionList from '@/modules/core/components/TransactionList';
-import { Icon } from '@/modules/core/design-system/icon';
-import { Text } from '@/modules/core/design-system/text';
 import {
   Dropdown,
   DropdownContent,
   DropdownItem,
   DropdownTrigger,
-} from '@/modules/core/design-system/ui-dropdown';
+} from '@/modules/core/design-system/dropdown';
+import { Icon } from '@/modules/core/design-system/icon';
+import { Text } from '@/modules/core/design-system/text';
 import { useTransactions } from '@/services/user/transactions/api';
 
 import { TransactionType } from '@/types';

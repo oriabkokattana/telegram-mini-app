@@ -7,15 +7,15 @@ import { useUtils } from '@telegram-apps/sdk-react';
 import { useCheckBottomGap } from '@/hooks/use-check-bottom-gap';
 import Link from '@/modules/core/components/Link';
 import { Dialog } from '@/modules/core/design-system/dialog';
-import { Icon } from '@/modules/core/design-system/icon';
-import { QrCode } from '@/modules/core/design-system/qr-code';
-import { Text } from '@/modules/core/design-system/text';
 import {
   Dropdown,
   DropdownContent,
   DropdownItem,
   DropdownTrigger,
-} from '@/modules/core/design-system/ui-dropdown';
+} from '@/modules/core/design-system/dropdown';
+import { Icon } from '@/modules/core/design-system/icon';
+import { QrCode } from '@/modules/core/design-system/qr-code';
+import { Text } from '@/modules/core/design-system/text';
 import { useCustodialWallet } from '@/services/user/custodial-wallet/api';
 import { useDepositStore } from '@/store/deposit-store';
 import { transformAddress } from '@/utils/address';

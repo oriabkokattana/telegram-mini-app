@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
 import * as Label from '@radix-ui/react-label';
-import { Box, Button, Flex, IconButton } from '@radix-ui/themes';
+import { Box, Button, Flex, IconButton, Skeleton } from '@radix-ui/themes';
 import { EPeriod } from '@/enums';
 import CustomChart from '@/modules/core/components/CustomChart';
 import Link from '@/modules/core/components/Link';
-import { Icon } from '@/modules/core/design-system/icon';
-import { Text } from '@/modules/core/design-system/text';
 import {
   Dropdown,
   DropdownContent,
   DropdownItem,
   DropdownTrigger,
-} from '@/modules/core/design-system/ui-dropdown';
+} from '@/modules/core/design-system/dropdown';
+import { Icon } from '@/modules/core/design-system/icon';
+import { Text } from '@/modules/core/design-system/text';
 import { useProfitChart } from '@/services/user/profit-chart/api';
 import { useBalancesVisibleStore } from '@/store/balance-visible-store';
 import { useBalancesStore } from '@/store/balances-store';
@@ -41,32 +41,34 @@ const TotalBalance = () => {
   return (
     <Box>
       <Flex direction='column' gap='2' justify='center'>
-        <Dropdown>
-          <DropdownTrigger>
-            <Flex align='center' gap='2'>
-              <Text color='gray' size='1' weight='medium' textTransform='uppercase'>
-                Total Balance ({currency === 'USD' ? 'USD' : currency})
-              </Text>
-              <Icon name='chevron-down' variant='secondary' />
-            </Flex>
-          </DropdownTrigger>
-          <DropdownContent width='124px' align='end' alignOffset={-50} sideOffset={8}>
-            {currencies.map((item) => (
-              <DropdownItem key={item} onClick={() => setCurrency(item)}>
-                <Text
-                  color='bronze'
-                  size='2'
-                  weight={currency === item ? 'bold' : 'regular'}
-                  lineHeight='12px'
-                >
-                  {item}
-                </Text>
-              </DropdownItem>
-            ))}
-          </DropdownContent>
-        </Dropdown>
         <Flex justify='between' align='center'>
           <Flex direction='column' gap='2px'>
+            <Skeleton loading>
+              <Dropdown>
+                <DropdownTrigger>
+                  <Flex align='center' gap='2' pb='6px'>
+                    <Text color='gray' size='1' weight='medium' textTransform='uppercase'>
+                      Total Balance ({currency === 'USD' ? 'USD' : currency})
+                    </Text>
+                    <Icon name='chevron-down' variant='secondary' />
+                  </Flex>
+                </DropdownTrigger>
+                <DropdownContent width='124px' align='end' alignOffset={-50} sideOffset={2}>
+                  {currencies.map((item) => (
+                    <DropdownItem key={item} onClick={() => setCurrency(item)}>
+                      <Text
+                        color='bronze'
+                        size='2'
+                        weight={currency === item ? 'bold' : 'regular'}
+                        lineHeight='12px'
+                      >
+                        {item}
+                      </Text>
+                    </DropdownItem>
+                  ))}
+                </DropdownContent>
+              </Dropdown>
+            </Skeleton>
             <Flex align='center' gap='3'>
               <Text {...getTotalBalanceFontSize(balanceString)} weight='bold' lineHeight='34px'>
                 {visible ? balanceString : balanceString.replace(/./g, '*')}
