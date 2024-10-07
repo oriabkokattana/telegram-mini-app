@@ -35,8 +35,7 @@ export type Colors = keyof typeof colors.__tokens;
 
 // Font Families
 export const fontFamilies = stylex.defineVars({
-  roobertPro: '"Roobert PRO", Helvetica',
-  roboto: '"Roboto", Helvetica',
+  roobertPro: '"Helvetica Neue", sans-serif',
 });
 
 // Font Sizes
