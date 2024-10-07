@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 import { QRCode } from 'react-qrcode-logo';
-import qrCodeLogo from '@/assets/ui/qr-code-logo.png';
+import qrCodeLogo from '@/assets/qr-code-logo.png';
 
 export type QrCodeProps = {
   value: string;
