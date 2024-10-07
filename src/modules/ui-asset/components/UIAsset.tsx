@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import * as Label from '@radix-ui/react-label';
-import { Card, Flex, IconButton } from '@radix-ui/themes';
+import { Card, Flex, IconButton, Skeleton } from '@radix-ui/themes';
 import { ETimeframe } from '@/enums';
 import { useCheckBottomGap } from '@/hooks/use-check-bottom-gap';
 import CustomChart from '@/modules/core/components/CustomChart';
@@ -36,9 +36,9 @@ const UIAsset = () => {
   const isBottomGap = useCheckBottomGap();
 
   const { asset } = useParams();
-  const { data: assetSummaryData } = useAssetSummary(asset);
-  const { data: assetChartData, isLoading } = useAssetChart(timeframe, asset);
-  const { data: assetPriceData } = useAssetPrice(asset);
+  const { data: assetSummaryData, isLoading: assetSummaryLoading } = useAssetSummary(asset);
+  const { data: assetChartData, isLoading: assetChartLoading } = useAssetChart(timeframe, asset);
+  const { data: assetPriceData, isLoading: assetPriceLoading } = useAssetPrice(asset);
   const { data: swapTokensData } = useSwapTokens();
 
   const priceUSD = Number(assetPriceData?.price_usd || 0);
@@ -74,29 +74,39 @@ const UIAsset = () => {
     <Flex direction='column' gap='5' px='4' pt='2' pb={isBottomGap ? '100px' : '72px'}>
       <Flex direction='column' align='center' gap='2'>
         <Flex width='100%' align='center' pl='5'>
-          <Flex width='44px' height='44px' justify='center' align='center' mx='auto'>
-            <TokenIcon customSize='30px' name={asset} />
-          </Flex>
+          <Skeleton loading={assetSummaryLoading} style={{ borderRadius: '6px' }}>
+            <Flex width='44px' height='44px' justify='center' align='center' mx='auto'>
+              <TokenIcon customSize='30px' name={asset} />
+            </Flex>
+          </Skeleton>
           <Icon name='bell' />
         </Flex>
-        <Text size='7' weight='bold' lineHeight='26px'>
-          {formatNumberWithCommas(Number(assetSummaryData?.total_balance || 0), 12)} {asset}
-        </Text>
-        <Flex align='center' justify='center' gap='2'>
-          <Text color='gray' size='3' weight='bold'>
-            ≈ $ {formatNumberWithCommas(Number(assetSummaryData?.total_balance_usd || 0))}
+        {assetSummaryLoading ? (
+          <Skeleton width='130px' height='26px' />
+        ) : (
+          <Text size='7' weight='bold' lineHeight='26px'>
+            {formatNumberWithCommas(Number(assetSummaryData?.total_balance || 0), 12)} {asset}
           </Text>
-          <Flex align='center' gap='1'>
-            <Icon
-              name={profitPositive ? 'top-right-arrow' : 'bottom-right-arrow'}
-              variant={profitPositive ? 'accent-violet' : 'accent-pink'}
-              size={20}
-            />
-            <Text color={profitPositive ? 'violet' : 'crimson'} size='3' weight='bold'>
-              {profitString}
+        )}
+        {assetSummaryLoading ? (
+          <Skeleton width='200px' height='20px' />
+        ) : (
+          <Flex align='center' justify='center' gap='2'>
+            <Text color='gray' size='3' weight='bold'>
+              ≈ $ {formatNumberWithCommas(Number(assetSummaryData?.total_balance_usd || 0))}
             </Text>
+            <Flex align='center' gap='1'>
+              <Icon
+                name={profitPositive ? 'top-right-arrow' : 'bottom-right-arrow'}
+                variant={profitPositive ? 'accent-violet' : 'accent-pink'}
+                size={20}
+              />
+              <Text color={profitPositive ? 'violet' : 'crimson'} size='3' weight='bold'>
+                {profitString}
+              </Text>
+            </Flex>
           </Flex>
-        </Flex>
+        )}
       </Flex>
       <Flex direction='column' gap='3'>
         <CustomChart
@@ -105,7 +115,7 @@ const UIAsset = () => {
           token={asset}
           height={108}
           data={assetChartData?.chard_data}
-          loading={isLoading}
+          loading={assetChartLoading}
         />
         <TimeframeRange timeframe={timeframe} setTimeframe={setTimeframe} />
       </Flex>
@@ -159,26 +169,28 @@ const UIAsset = () => {
           </Link>
         </Flex>
       </Flex>
-      <Card size='2'>
-        <Flex direction='column' gap='2'>
-          <Flex height='24px' justify='between' align='center'>
-            <Text color='gray' size='3' weight='medium' lineHeight='14px'>
-              Purchased on:
-            </Text>
-            <Text color='gold' size='3' weight='bold'>
-              {formatDate(assetSummaryData?.first_purchase_date)}
-            </Text>
+      <Skeleton loading={assetPriceLoading || assetSummaryLoading}>
+        <Card size='2'>
+          <Flex direction='column' gap='2'>
+            <Flex height='24px' justify='between' align='center'>
+              <Text color='gray' size='3' weight='medium' lineHeight='14px'>
+                Purchased on:
+              </Text>
+              <Text color='gold' size='3' weight='bold'>
+                {formatDate(assetSummaryData?.first_purchase_date)}
+              </Text>
+            </Flex>
+            <Flex height='24px' justify='between' align='center'>
+              <Text color='gray' size='3' weight='medium' lineHeight='14px'>
+                Purchase Price:
+              </Text>
+              <Text color='gold' size='3' weight='bold'>
+                ${formatNumberWithCommas(priceUSD)} per {asset}
+              </Text>
+            </Flex>
           </Flex>
-          <Flex height='24px' justify='between' align='center'>
-            <Text color='gray' size='3' weight='medium' lineHeight='14px'>
-              Purchase Price:
-            </Text>
-            <Text color='gold' size='3' weight='bold'>
-              ${formatNumberWithCommas(priceUSD)} per {asset}
-            </Text>
-          </Flex>
-        </Flex>
-      </Card>
+        </Card>
+      </Skeleton>
       <Flex direction='column' gap='5' pb='2'>
         <Flex asChild height='24px' justify='between' align='center' style={{ cursor: 'pointer' }}>
           <Label.Root>

@@ -25,10 +25,13 @@ const TotalBalance = () => {
   const [period, setPeriod] = useState(EPeriod.day);
 
   const { visible, setVisible } = useBalancesVisibleStore();
-  const { currency, currencyRate, currencies, setCurrency } = useSystemCurrencyStore();
-  const { total_balance_usd, pnl_usd, pnl_percent } = useBalancesStore();
+  const { currency, currencyRate, currencies, currencyLoading, setCurrency } =
+    useSystemCurrencyStore();
+  const { total_balance_usd, pnl_usd, pnl_percent, balancesLoading } = useBalancesStore();
   const setBalanceTimeframe = useTimeframeStore((state) => state.setBalanceTimeframe);
-  const { data: profitChartData, isLoading } = useProfitChart(periodToTimeframe(period));
+  const { data: profitChartData, isLoading: profitChartLoading } = useProfitChart(
+    periodToTimeframe(period)
+  );
 
   useEffect(() => {
     setBalanceTimeframe(periodToTimeframe(period));
@@ -42,11 +45,13 @@ const TotalBalance = () => {
     <Box>
       <Flex direction='column' gap='2' justify='center'>
         <Flex justify='between' align='center'>
-          <Flex direction='column' gap='2px'>
-            <Skeleton loading>
+          <Flex direction='column'>
+            {currencyLoading ? (
+              <Skeleton width='160px' height='16px' mb='2' />
+            ) : (
               <Dropdown>
                 <DropdownTrigger>
-                  <Flex align='center' gap='2' pb='6px'>
+                  <Flex align='center' gap='2' pb='2'>
                     <Text color='gray' size='1' weight='medium' textTransform='uppercase'>
                       Total Balance ({currency === 'USD' ? 'USD' : currency})
                     </Text>
@@ -68,25 +73,33 @@ const TotalBalance = () => {
                   ))}
                 </DropdownContent>
               </Dropdown>
-            </Skeleton>
-            <Flex align='center' gap='3'>
-              <Text {...getTotalBalanceFontSize(balanceString)} weight='bold' lineHeight='34px'>
-                {visible ? balanceString : balanceString.replace(/./g, '*')}
-              </Text>
-              <IconButton variant='ghost' onClick={() => setVisible(!visible)}>
-                <Icon name={visible ? 'eye' : 'eye-closed'} variant='tertiary' />
-              </IconButton>
-            </Flex>
-            <Flex align='center' gap='1'>
-              <Icon
-                name={profitPositive ? 'top-right-arrow' : 'bottom-right-arrow'}
-                variant={profitPositive ? 'accent-violet' : 'accent-pink'}
-                size={20}
-              />
-              <Text color={profitPositive ? 'violet' : 'crimson'} size='3' weight='bold'>
-                {visible ? profitString : profitString.replace(/./g, '*')}
-              </Text>
-            </Flex>
+            )}
+            {balancesLoading ? (
+              <Skeleton width='220px' height='34px' />
+            ) : (
+              <Flex align='center' gap='3'>
+                <Text {...getTotalBalanceFontSize(balanceString)} weight='bold' lineHeight='34px'>
+                  {visible ? balanceString : balanceString.replace(/./g, '*')}
+                </Text>
+                <IconButton variant='ghost' onClick={() => setVisible(!visible)}>
+                  <Icon name={visible ? 'eye' : 'eye-closed'} variant='tertiary' />
+                </IconButton>
+              </Flex>
+            )}
+            {balancesLoading ? (
+              <Skeleton width='160px' height='16px' my='2px' />
+            ) : (
+              <Flex align='center' gap='1'>
+                <Icon
+                  name={profitPositive ? 'top-right-arrow' : 'bottom-right-arrow'}
+                  variant={profitPositive ? 'accent-violet' : 'accent-pink'}
+                  size={20}
+                />
+                <Text color={profitPositive ? 'violet' : 'crimson'} size='3' weight='bold'>
+                  {visible ? profitString : profitString.replace(/./g, '*')}
+                </Text>
+              </Flex>
+            )}
           </Flex>
           <Button
             size='3'
@@ -104,7 +117,7 @@ const TotalBalance = () => {
           variant={profitPositive ? 'violet-to-pink' : 'pink-to-violet'}
           height={92}
           data={profitChartData?.chard_data}
-          loading={isLoading}
+          loading={profitChartLoading}
         />
         <Flex>
           <Flex asChild flexGrow='1' flexShrink='1' flexBasis='0'>

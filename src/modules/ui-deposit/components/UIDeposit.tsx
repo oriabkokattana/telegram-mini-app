@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { DialogTitle } from '@radix-ui/react-dialog';
 import * as Label from '@radix-ui/react-label';
-import { Box, Button, Card, Flex, IconButton } from '@radix-ui/themes';
+import { Button, Card, Flex, IconButton, Skeleton } from '@radix-ui/themes';
 import { useUtils } from '@telegram-apps/sdk-react';
 import { useCheckBottomGap } from '@/hooks/use-check-bottom-gap';
 import Link from '@/modules/core/components/Link';
@@ -31,7 +31,7 @@ const UIDeposit = () => {
 
   const isBottomGap = useCheckBottomGap();
   const utils = useUtils();
-  const { data: custodialWalletData } = useCustodialWallet(network?.name);
+  const { data: custodialWalletData, isLoading } = useCustodialWallet(network?.name);
 
   const onCopyAddress = async (notify?: boolean) => {
     if (custodialWalletData?.address) {
@@ -60,54 +60,58 @@ const UIDeposit = () => {
         <Text size='4' align='center' weight='bold' lineHeight='16px'>
           Deposit {token?.name}
         </Text>
-        <Box width='200px' height='200px'>
-          {custodialWalletData?.address && (
-            <QrCode value={custodialWalletData.address} size={200} />
-          )}
-        </Box>
+        <QrCode value={custodialWalletData?.address} size={200} loading={isLoading} />
       </Flex>
       <Flex direction='column' align='center' gap='4'>
-        <Flex height='16px'>
+        {!custodialWalletData?.address || isLoading ? (
+          <Skeleton width='200px' height='16px' />
+        ) : (
           <Text size='3' weight='bold'>
             {transformAddress(custodialWalletData?.address)}
           </Text>
-        </Flex>
+        )}
         <Flex justify='center' align='center' gap='2'>
-          <Button
-            color={copied ? 'mint' : 'violet'}
-            size='3'
-            style={{ pointerEvents: copied ? 'none' : 'auto' }}
-            onClick={() => onCopyAddress()}
-          >
-            <Icon name={copied ? 'circle-check' : 'copy'} variant={copied ? 'black' : 'white'} />
-            <Text color={copied ? 'amber' : 'sky'} size='2' weight='bold' lineHeight='12px'>
-              {copied ? 'Address Copied' : 'Copy Address'}
-            </Text>
-          </Button>
-          <Dropdown>
-            <DropdownTrigger>
-              <IconButton
-                color='gray'
-                variant='soft'
-                size='2'
-                style={{ height: '36px', width: '36px' }}
-              >
-                <Icon name='ellipsis' variant='tertiary' />
-              </IconButton>
-            </DropdownTrigger>
-            <DropdownContent width='182px' align='center' sideOffset={12}>
-              <DropdownItem onClick={() => setAddressOpen(true)}>
-                <Text color='bronze' size='2' lineHeight='12px'>
-                  View full address
-                </Text>
-              </DropdownItem>
-              <DropdownItem onClick={onShare}>
-                <Text color='bronze' size='2' lineHeight='12px'>
-                  Share Info
-                </Text>
-              </DropdownItem>
-            </DropdownContent>
-          </Dropdown>
+          <Skeleton loading={isLoading}>
+            <Button
+              color={copied ? 'mint' : 'violet'}
+              size='3'
+              style={{ pointerEvents: copied ? 'none' : 'auto' }}
+              onClick={() => onCopyAddress()}
+            >
+              <Icon name={copied ? 'circle-check' : 'copy'} variant={copied ? 'black' : 'white'} />
+              <Text color={copied ? 'amber' : 'sky'} size='2' weight='bold' lineHeight='12px'>
+                {copied ? 'Address Copied' : 'Copy Address'}
+              </Text>
+            </Button>
+          </Skeleton>
+          {isLoading ? (
+            <Skeleton width='36px' height='36px' style={{ borderRadius: 'var(--radius-full)' }} />
+          ) : (
+            <Dropdown>
+              <DropdownTrigger>
+                <IconButton
+                  color='gray'
+                  variant='soft'
+                  size='2'
+                  style={{ height: '36px', width: '36px' }}
+                >
+                  <Icon name='ellipsis' variant='tertiary' />
+                </IconButton>
+              </DropdownTrigger>
+              <DropdownContent width='182px' align='center' sideOffset={12}>
+                <DropdownItem onClick={() => setAddressOpen(true)}>
+                  <Text color='bronze' size='2' lineHeight='12px'>
+                    View full address
+                  </Text>
+                </DropdownItem>
+                <DropdownItem onClick={onShare}>
+                  <Text color='bronze' size='2' lineHeight='12px'>
+                    Share Info
+                  </Text>
+                </DropdownItem>
+              </DropdownContent>
+            </Dropdown>
+          )}
           <Dialog asChild open={addressOpen} trigger={null} setOpen={setAddressOpen}>
             <Flex direction='column' gap='4' px='4'>
               <DialogTitle asChild>

@@ -1,10 +1,11 @@
-import { Flex } from '@radix-ui/themes';
+import { Flex, Skeleton } from '@radix-ui/themes';
 import { useCheckBottomGap } from '@/hooks/use-check-bottom-gap';
 import Link from '@/modules/core/components/Link';
 import NoDataPlaceholder from '@/modules/core/components/NoDataPlaceholder';
 import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
 import { TokenIcon } from '@/modules/core/design-system/token-icon';
+import AssetsSkeleton from '@/modules/core/skeletons/AssetsSkeleton';
 import { formatNumber, formatPercent } from '@/utils/numbers';
 
 import { SwapTokenItem } from '@/types';
@@ -18,7 +19,23 @@ interface AllTokensProps {
 const AllTokens = ({ data, loading, onSelect }: AllTokensProps) => {
   const isBottomGap = useCheckBottomGap();
 
-  if (!data?.length && !loading) {
+  if (loading) {
+    return (
+      <Flex direction='column' gap='5' pt='6' pb={isBottomGap ? '6' : '4'}>
+        <Flex height='20px' justify='between' align='center'>
+          <Text color='gray' size='2' lineHeight='12px'>
+            <Skeleton>Asset</Skeleton>
+          </Text>
+          <Text color='gray' size='2' lineHeight='12px'>
+            <Skeleton>Price</Skeleton>
+          </Text>
+        </Flex>
+        <AssetsSkeleton gap='5' />
+      </Flex>
+    );
+  }
+
+  if (!data?.length) {
     return (
       <Flex direction='column' gap='5' pt='6'>
         <NoDataPlaceholder

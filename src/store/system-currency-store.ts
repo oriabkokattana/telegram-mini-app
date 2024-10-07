@@ -10,11 +10,13 @@ type SystemCurrencyState = {
   currencyRate: number;
   currencies: string[];
   rates: Record<string, number>;
+  currencyLoading: boolean;
 };
 
 type SystemCurrencyAction = {
   setCurrency: (currency: SystemCurrencyState['currency']) => void;
   setRates: (rates: SystemCurrencyState['rates']) => void;
+  setCurrencyLoading: (currencyLoading: SystemCurrencyState['currencyLoading']) => void;
 };
 
 const systemCurrencySlice: StateCreator<SystemCurrencyState & SystemCurrencyAction> = (set) => ({
@@ -22,6 +24,7 @@ const systemCurrencySlice: StateCreator<SystemCurrencyState & SystemCurrencyActi
   currencyRate: 1,
   currencies: [],
   rates: { USD: 1 },
+  currencyLoading: false,
   setCurrency: (currency) =>
     set((state) => ({ currency, currencyRate: 1 / state.rates[currency] })),
   setRates: (data) => {
@@ -33,6 +36,7 @@ const systemCurrencySlice: StateCreator<SystemCurrencyState & SystemCurrencyActi
       currencyRate: 1 / rates[state.currency],
     }));
   },
+  setCurrencyLoading: (currencyLoading) => ({ currencyLoading }),
 });
 
 const systemCurrencyStore = persist<SystemCurrencyState & SystemCurrencyAction>(

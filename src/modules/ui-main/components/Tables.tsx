@@ -2,6 +2,7 @@ import { Box, Flex } from '@radix-ui/themes';
 import NoDataPlaceholder from '@/modules/core/components/NoDataPlaceholder';
 import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
+import AssetsSkeleton from '@/modules/core/skeletons/AssetsSkeleton';
 import { useBalancesStore } from '@/store/balances-store';
 import { useThemeStore } from '@/store/theme-store';
 import Assets from './Assets';
@@ -9,6 +10,20 @@ import Assets from './Assets';
 const Tables = () => {
   const theme = useThemeStore((state) => state.theme);
   const balances = useBalancesStore((state) => state.balances);
+  const balancesLoading = useBalancesStore((state) => state.balancesLoading);
+
+  if (balancesLoading) {
+    return (
+      <Flex direction='column' gap='5'>
+        <Flex height='32px' align='center'>
+          <Text size='3' weight='bold'>
+            My Assets
+          </Text>
+        </Flex>
+        <AssetsSkeleton gap='4' />
+      </Flex>
+    );
+  }
 
   if (!Object.keys(balances).length) {
     return (

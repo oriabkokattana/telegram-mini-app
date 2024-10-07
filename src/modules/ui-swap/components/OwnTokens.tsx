@@ -1,10 +1,11 @@
-import { Flex } from '@radix-ui/themes';
+import { Flex, Skeleton } from '@radix-ui/themes';
 import { useCheckBottomGap } from '@/hooks/use-check-bottom-gap';
 import Link from '@/modules/core/components/Link';
 import NoDataPlaceholder from '@/modules/core/components/NoDataPlaceholder';
 import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
 import { TokenIcon } from '@/modules/core/design-system/token-icon';
+import AssetsSkeleton from '@/modules/core/skeletons/AssetsSkeleton';
 import { useBalancesStore } from '@/store/balances-store';
 import { getBalanceFontSize } from '@/utils/balances';
 import { formatNumber, formatNumberWithSpaces, formatPercent } from '@/utils/numbers';
@@ -85,7 +86,23 @@ const OwnTokens = ({ data, loading, onSelect }: OwnTokensProps) => {
     data?.some((swapToken) => swapToken.symbol === item)
   );
 
-  if (!assetList.length && !loading) {
+  if (loading) {
+    return (
+      <Flex direction='column' gap='5' pt='6' pb={isBottomGap ? '6' : '4'}>
+        <Flex height='20px' justify='between' align='center'>
+          <Text color='gray' size='2' lineHeight='12px'>
+            <Skeleton>Asset</Skeleton>
+          </Text>
+          <Text color='gray' size='2' lineHeight='12px'>
+            <Skeleton>Balance</Skeleton>
+          </Text>
+        </Flex>
+        <AssetsSkeleton gap='5' />
+      </Flex>
+    );
+  }
+
+  if (!assetList.length) {
     return (
       <Flex direction='column' gap='5' pt='6'>
         <NoDataPlaceholder

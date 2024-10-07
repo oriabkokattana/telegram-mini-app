@@ -28,6 +28,6 @@ export function useSystemRates() {
   return useQuery<z.infer<typeof SystemRatesAPIResponseSchema>, AxiosError<ErrorResponse>>({
     queryKey: ['system-rates'],
     queryFn: () => getSystemRates(),
-    refetchInterval: 10000,
+    refetchInterval: 60000,
   });
 }

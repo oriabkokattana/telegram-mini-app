@@ -115,6 +115,9 @@ a {
   --crimson-a11: #ff65b3;
 
   --plum-a11: #583be8;
+
+  --skeleton-from: #e8e8eb;
+  --skeleton-to: #f0f0f2;
 }
 
 .dark-theme {
@@ -148,6 +151,18 @@ a {
   --crimson-a11: #ff65b3;
 
   --plum-a11: #ae9aff;
+
+  --skeleton-from: #211b28;
+  --skeleton-to: #342b3e;
+}
+
+@keyframes rt-skeleton-pulse {
+  0% {
+    background-color: var(--skeleton-from);
+  }
+  100% {
+    background-color: var(--skeleton-to);
+  }
 }
 
 .rt-TextFieldRoot.rt-r-size-2 > .rt-TextFieldSlot:first-of-type {

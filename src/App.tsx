@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { Outlet, Route, Router, Routes } from 'react-router-dom';
 import { Flex, Heading, Text, Theme } from '@radix-ui/themes';
 import { useIntegration } from '@telegram-apps/react-router-integration';
@@ -32,6 +32,7 @@ import { useBalances } from './services/user/balances/api';
 import { useSystemRates } from './services/user/system-rates/api';
 import { useBalancesStore } from './store/balances-store';
 import { useSystemCurrencyStore } from './store/system-currency-store';
+import { useTimeframeStore } from './store/timeframe-store';
 
 function App() {
   const miniApp = useMiniApp();
@@ -130,16 +131,39 @@ function App() {
 }
 
 function Layout() {
-  const balances = useBalances();
+  const timeframe = useTimeframeStore((state) => state.balanceTimeframe);
+  const balances = useBalances(timeframe);
   const setBalances = useBalancesStore((state) => state.setBalances);
+  const setBalancesLoading = useBalancesStore((state) => state.setBalancesLoading);
+  const balancesLoadingRef = useRef(true);
   const systemRates = useSystemRates();
   const setRates = useSystemCurrencyStore((state) => state.setRates);
+  const setCurrencyLoading = useSystemCurrencyStore((state) => state.setCurrencyLoading);
+  const currencyLoadingRef = useRef(true);
+
+  useEffect(() => {
+    balancesLoadingRef.current = true;
+  }, [timeframe]);
+
+  useEffect(() => {
+    if (balancesLoadingRef.current || !balances.isLoading) {
+      setBalancesLoading(balances.isLoading);
+      balancesLoadingRef.current = balances.isLoading;
+    }
+  }, [balances.isLoading]);
 
   useEffect(() => {
     if (balances.data && balances.isSuccess) {
       setBalances(balances.data);
     }
   }, [balances.data, balances.isSuccess]);
+
+  useEffect(() => {
+    if (currencyLoadingRef.current || !systemRates.isLoading) {
+      setCurrencyLoading(systemRates.isLoading);
+      currencyLoadingRef.current = systemRates.isLoading;
+    }
+  }, [systemRates.isLoading]);
 
   useEffect(() => {
     if (systemRates.data && systemRates.isSuccess) {

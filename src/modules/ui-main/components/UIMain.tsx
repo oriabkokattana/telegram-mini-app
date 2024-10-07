@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { usePopup } from '@telegram-apps/sdk-react';
 import { useCheckBottomGap } from '@/hooks/use-check-bottom-gap';
-import { useProfile } from '@/services/user/profile/api';
 import Profile from './Profile';
 import PullToUpdate from './PullToUpdate';
 import Tables from './Tables';
@@ -11,7 +10,6 @@ import TotalBalance from './TotalBalance';
 const UIMain = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const popup = usePopup();
-  const profile = useProfile();
   const isBottomGap = useCheckBottomGap();
   const navigate = useNavigate();
 
@@ -35,7 +33,7 @@ const UIMain = () => {
 
   return (
     <PullToUpdate direction='column' gap='5' px='4' pt='2' pb={isBottomGap ? '102px' : '78px'}>
-      <Profile avatar={profile.data?.avatar_image} nickname={profile.data?.nickname} />
+      <Profile />
       <TotalBalance />
       <Tables />
     </PullToUpdate>

@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import {
   Area,
   AreaChart,
@@ -8,7 +9,7 @@ import {
   TooltipProps,
 } from 'recharts';
 import { Margin } from 'recharts/types/util/types';
-import { Flex } from '@radix-ui/themes';
+import { Flex, Skeleton } from '@radix-ui/themes';
 import * as stylex from '@stylexjs/stylex';
 import { useThemeStore } from '@/store/theme-store';
 import { formatDateWithTimeShort } from '@/utils/date';
@@ -107,6 +108,17 @@ const CustomChart = ({
   margin,
 }: CustomChartProps) => {
   const theme = useThemeStore((state) => state.theme);
+  const loadingRef = useRef(true);
+
+  if (loading && loadingRef.current) {
+    return (
+      <Flex width='100%' height={`${height}px`} align='center'>
+        <Skeleton width='100%' height={`${height - 24}px`} />
+      </Flex>
+    );
+  }
+
+  loadingRef.current = false;
 
   if ((!data?.length || data.length === 1) && !loading) {
     return (
