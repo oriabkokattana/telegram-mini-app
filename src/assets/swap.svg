@@ -1,10 +1,8 @@
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7D7D7D"  xmlns="http://www.w3.org/2000/svg">
-<g id="vuesax/linear/arrow-swap-horizontal">
-<g id="arrow-swap-horizontal">
-<path id="Vector" d="M20.5 14.99L15.49 20.01" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="Vector_2" d="M3.5 14.99H20.5" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="Vector_3" d="M3.5 9.00999L8.51 3.98999" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="Vector_4" d="M20.5 9.01001H3.5" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+<g id="Icons">
+<g id="Vector">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M10.0068 3.44714C10.3121 3.72703 10.3328 4.20146 10.0529 4.5068L5.70493 9.25H20C20.4142 9.25 20.75 9.58579 20.75 10C20.75 10.4142 20.4142 10.75 20 10.75H4C3.70257 10.75 3.43325 10.5742 3.31349 10.302C3.19373 10.0298 3.24616 9.71246 3.44713 9.49321L8.94713 3.49321C9.22703 3.18787 9.70145 3.16724 10.0068 3.44714Z"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M20.6865 13.698C20.5667 13.4258 20.2974 13.25 20 13.25L4 13.25C3.58579 13.25 3.25 13.5858 3.25 14C3.25 14.4142 3.58579 14.75 4 14.75L18.2951 14.75L13.9471 19.4932C13.6672 19.7985 13.6879 20.273 13.9932 20.5529C14.2985 20.8328 14.773 20.8121 15.0529 20.5068L20.5529 14.5068C20.7538 14.2876 20.8063 13.9703 20.6865 13.698Z"/>
 </g>
 </g>
 </svg>
