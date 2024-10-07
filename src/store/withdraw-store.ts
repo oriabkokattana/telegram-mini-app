@@ -1,4 +1,5 @@
 import { create, StateCreator } from 'zustand';
+import { createJSONStorage, persist } from 'zustand/middleware';
 
 import { NetworkItem, WithdrawDepositToken } from '@/types';
 
@@ -21,4 +22,9 @@ const withdrawStoreSlice: StateCreator<WithdrawState & WithdrawAction> = (set) =
   reset: () => set({ token: null, network: null }),
 });
 
-export const useWithdrawStore = create(withdrawStoreSlice);
+const persistedWithdrawStore = persist<WithdrawState & WithdrawAction>(withdrawStoreSlice, {
+  name: 'withdraw',
+  storage: createJSONStorage(() => sessionStorage),
+});
+
+export const useWithdrawStore = create(persistedWithdrawStore);
