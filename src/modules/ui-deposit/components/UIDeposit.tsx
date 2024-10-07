@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { DialogTitle } from '@radix-ui/react-dialog';
 import * as Label from '@radix-ui/react-label';
 import { Button, Card, Flex, IconButton, Skeleton } from '@radix-ui/themes';
-import { useUtils } from '@telegram-apps/sdk-react';
+import { usePopup, useUtils } from '@telegram-apps/sdk-react';
 import { useCheckBottomGap } from '@/hooks/use-check-bottom-gap';
 import Link from '@/modules/core/components/Link';
 import { Dialog } from '@/modules/core/design-system/dialog';
@@ -29,9 +30,24 @@ const UIDeposit = () => {
   const network = useDepositStore((state) => state.network);
   const reset = useDepositStore((state) => state.reset);
 
+  const { data: custodialWalletData, isLoading } = useCustodialWallet(network?.name);
   const isBottomGap = useCheckBottomGap();
   const utils = useUtils();
-  const { data: custodialWalletData, isLoading } = useCustodialWallet(network?.name);
+  const popup = usePopup();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (popup.supports('open') && (!network || !token)) {
+      popup
+        .open({
+          title: 'Oops, something went wrong',
+          message: "It seems you didn't select network or token!",
+        })
+        .then(() => {
+          navigate('/');
+        });
+    }
+  }, []);
 
   const onCopyAddress = async (notify?: boolean) => {
     if (custodialWalletData?.address) {

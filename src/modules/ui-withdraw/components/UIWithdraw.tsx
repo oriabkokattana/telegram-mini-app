@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { isAddress } from 'viem';
 import * as Label from '@radix-ui/react-label';
 import { Button, Flex, IconButton, Separator } from '@radix-ui/themes';
-import { useQRScanner } from '@telegram-apps/sdk-react';
+import { usePopup, useQRScanner } from '@telegram-apps/sdk-react';
 import { useCheckBottomGap } from '@/hooks/use-check-bottom-gap';
 import Link from '@/modules/core/components/Link';
 import { Icon } from '@/modules/core/design-system/icon';
@@ -31,6 +32,21 @@ const UIWithdraw = () => {
   const withdraw = useWithdraw();
   const qrScanner = useQRScanner();
   const isBottomGap = useCheckBottomGap();
+  const popup = usePopup();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (popup.supports('open') && (!network || !token)) {
+      popup
+        .open({
+          title: 'Oops, something went wrong!',
+          message: "It seems you didn't select network or token",
+        })
+        .then(() => {
+          navigate('/');
+        });
+    }
+  }, []);
 
   useEffect(() => {
     if (withdraw.isSuccess) {

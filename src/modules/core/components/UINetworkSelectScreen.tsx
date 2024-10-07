@@ -1,6 +1,8 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, Flex } from '@radix-ui/themes';
 import * as stylex from '@stylexjs/stylex';
+import { usePopup } from '@telegram-apps/sdk-react';
 import { useBalancesStore } from '@/store/balances-store';
 import { convertSeconds } from '@/utils/duration';
 import { getAvailableBalance } from '@/utils/token-with-balance';
@@ -31,6 +33,9 @@ const UINetworkSelectScreen = ({
 }: UINetworkSelectScreenProps) => {
   const balances = useBalancesStore((state) => state.balances);
 
+  const popup = usePopup();
+  const navigate = useNavigate();
+
   const networkList = useMemo<Network[]>(() => {
     if (!token || !data?.length) {
       return [];
@@ -45,6 +50,19 @@ const UINetworkSelectScreen = ({
     }
     return items;
   }, [data, token, balances, direction]);
+
+  useEffect(() => {
+    if (popup.supports('open') && !token) {
+      popup
+        .open({
+          title: 'Oops, something went wrong!',
+          message: "It seems you didn't select the correct token",
+        })
+        .then(() => {
+          navigate('/');
+        });
+    }
+  }, []);
 
   if (!networkList.length && !loading) {
     return (
