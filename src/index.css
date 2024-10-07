@@ -116,6 +116,7 @@ a {
 
   --plum-a11: #583be8;
 
+  --primary-button-hover: #472fb7;
   --skeleton-from: #e8e8eb;
   --skeleton-to: #f0f0f2;
 }
@@ -152,6 +153,7 @@ a {
 
   --plum-a11: #ae9aff;
 
+  --primary-button-hover: #472fb7;
   --skeleton-from: #211b28;
   --skeleton-to: #342b3e;
 }
@@ -229,6 +231,12 @@ a {
 .rt-BaseButton.rt-variant-solid:is([data-disabled]) {
   background-color: var(--accent-9);
   opacity: 0.5;
+}
+
+@media (hover: hover) {
+  .rt-BaseButton.rt-variant-solid:hover {
+    background-color: var(--primary-button-hover);
+  }
 }
 
 .rt-TabNavItem {
