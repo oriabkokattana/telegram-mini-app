@@ -16,7 +16,6 @@ import { useGlobalSideEffects } from './hooks/use-global-side-effects';
 import Authorization from './modules/authorization/components/Authorization';
 import { PrivateRoute } from './modules/core/components/PrivateRoute';
 import { PublicRoute } from './modules/core/components/PublicRoute';
-import ScanQrCode from './modules/core/components/ScanQrCode';
 import UIAnalytics from './modules/ui-analytics/components/UIAnalytics';
 import UIAsset from './modules/ui-asset/components/UIAsset';
 import UIDeposit from './modules/ui-deposit/components/UIDeposit';
@@ -93,8 +92,6 @@ function App() {
               </PrivateRoute>
             }
           >
-            <Route path='qr-code' element={<ScanQrCode />} />
-
             <Route index element={<UIMain />} />
             <Route path='deposit-token-select' element={<UIDepositTokenSelect />} />
             <Route path='deposit-network-select' element={<UIDepositNetworkSelect />} />
