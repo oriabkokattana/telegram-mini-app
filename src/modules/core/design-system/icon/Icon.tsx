@@ -66,7 +66,7 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(
       // dynamically import the mentioned svg icon name in props
       const importSvgIcon = async (): Promise<void> => {
         try {
-          const module = await import(`@/assets/ui/${name}.svg?react`);
+          const module = await import(`@/assets/${name}.svg?react`);
           setSvgIcon(() => module.default); // svgr provides ReactComponent for given svg path
         } catch (err) {
           console.error(err);
