@@ -9,7 +9,7 @@ import './polyfill.ts';
 
 import Root from './Root.tsx';
 
-import '@rainbow-me/rainbowkit/styles.css';
+// import '@rainbow-me/rainbowkit/styles.css';
 import '@radix-ui/themes/styles.css';
 import './index.css';
 

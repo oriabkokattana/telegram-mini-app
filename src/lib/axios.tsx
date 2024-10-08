@@ -1,8 +1,8 @@
 import axios, { AxiosError, CreateAxiosDefaults, InternalAxiosRequestConfig } from 'axios';
-import { disconnect, getAccount } from 'wagmi/actions';
+// import { disconnect, getAccount } from 'wagmi/actions';
 import { getRefreshToken } from '@/services/auth/refresh-token/api';
 import { useUserStore } from '@/store/user-store';
-import { config } from '@/utils/config';
+// import { config } from '@/utils/config';
 
 interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
   _retry?: boolean;
@@ -84,10 +84,10 @@ instance.interceptors.response.use(
         isRefreshing = false;
         if (error instanceof AxiosError && error.response?.status === 400) {
           useUserStore.getState().removeCredentials();
-          const { connector, isConnected } = getAccount(config);
-          if (isConnected) {
-            await disconnect(config, { connector });
-          }
+          // const { connector, isConnected } = getAccount(config);
+          // if (isConnected) {
+          //   await disconnect(config, { connector });
+          // }
           return;
         }
       }
