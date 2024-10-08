@@ -16,7 +16,7 @@ import { TransactionType } from '@/types';
 
 const History = () => {
   const [type, setType] = useState<TransactionType>();
-  const { data: transactionsData } = useTransactions();
+  const { data: transactionsData, isLoading } = useTransactions();
   const isBottomGap = useCheckBottomGap();
 
   const transactions = type
@@ -25,72 +25,74 @@ const History = () => {
 
   return (
     <Flex direction='column' gap='4' pt='4' pb={isBottomGap ? '6' : '4'}>
-      <Dropdown>
-        <DropdownTrigger>
-          <IconButton
-            color='gray'
-            variant='soft'
-            size='2'
-            style={{ width: 'max-content', padding: '0 var(--space-3)' }}
-          >
-            <Flex align='center' gap='2'>
+      <Flex height='40px' align='center'>
+        <Dropdown>
+          <DropdownTrigger>
+            <IconButton
+              color='gray'
+              variant='soft'
+              size='2'
+              style={{ width: 'max-content', padding: '0 var(--space-3)' }}
+            >
+              <Flex align='center' gap='2'>
+                <Text
+                  color='brown'
+                  size='2'
+                  weight='bold'
+                  lineHeight='12px'
+                  textTransform='capitalize'
+                >
+                  {type ? type : 'all'}
+                </Text>
+                <Icon name='chevron-down' variant='tertiary' size={16} />
+              </Flex>
+            </IconButton>
+          </DropdownTrigger>
+          <DropdownContent width='124px' align='start' sideOffset={8}>
+            <DropdownItem onClick={() => setType(undefined)}>
               <Text
-                color='brown'
+                color='bronze'
                 size='2'
-                weight='bold'
+                weight={type === undefined ? 'bold' : 'regular'}
                 lineHeight='12px'
-                textTransform='capitalize'
               >
-                {type ? type : 'all'}
+                All
               </Text>
-              <Icon name='chevron-down' variant='tertiary' size={16} />
-            </Flex>
-          </IconButton>
-        </DropdownTrigger>
-        <DropdownContent width='124px' align='start' sideOffset={8}>
-          <DropdownItem onClick={() => setType(undefined)}>
-            <Text
-              color='bronze'
-              size='2'
-              weight={type === undefined ? 'bold' : 'regular'}
-              lineHeight='12px'
-            >
-              All
-            </Text>
-          </DropdownItem>
-          <DropdownItem onClick={() => setType('deposit')}>
-            <Text
-              color='bronze'
-              size='2'
-              weight={type === 'deposit' ? 'bold' : 'regular'}
-              lineHeight='12px'
-            >
-              Deposit
-            </Text>
-          </DropdownItem>
-          <DropdownItem onClick={() => setType('withdraw')}>
-            <Text
-              color='bronze'
-              size='2'
-              weight={type === 'withdraw' ? 'bold' : 'regular'}
-              lineHeight='12px'
-            >
-              Withdraw
-            </Text>
-          </DropdownItem>
-          <DropdownItem onClick={() => setType('swap')}>
-            <Text
-              color='bronze'
-              size='2'
-              weight={type === 'swap' ? 'bold' : 'regular'}
-              lineHeight='12px'
-            >
-              Swap
-            </Text>
-          </DropdownItem>
-        </DropdownContent>
-      </Dropdown>
-      <TransactionList data={transactions} />
+            </DropdownItem>
+            <DropdownItem onClick={() => setType('deposit')}>
+              <Text
+                color='bronze'
+                size='2'
+                weight={type === 'deposit' ? 'bold' : 'regular'}
+                lineHeight='12px'
+              >
+                Deposit
+              </Text>
+            </DropdownItem>
+            <DropdownItem onClick={() => setType('withdraw')}>
+              <Text
+                color='bronze'
+                size='2'
+                weight={type === 'withdraw' ? 'bold' : 'regular'}
+                lineHeight='12px'
+              >
+                Withdraw
+              </Text>
+            </DropdownItem>
+            <DropdownItem onClick={() => setType('swap')}>
+              <Text
+                color='bronze'
+                size='2'
+                weight={type === 'swap' ? 'bold' : 'regular'}
+                lineHeight='12px'
+              >
+                Swap
+              </Text>
+            </DropdownItem>
+          </DropdownContent>
+        </Dropdown>
+      </Flex>
+      <TransactionList data={transactions} loading={isLoading} />
     </Flex>
   );
 };

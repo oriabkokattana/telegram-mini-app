@@ -212,7 +212,11 @@ const UIAsset = () => {
           </Label.Root>
         </Flex>
         {transactionsOpen && (
-          <TransactionList data={assetSummaryData?.recent_transactions} ref={transactionListRef} />
+          <TransactionList
+            ref={transactionListRef}
+            data={assetSummaryData?.recent_transactions}
+            loading={assetSummaryLoading}
+          />
         )}
       </Flex>
       <AssetPriceChange asset={asset} priceUSD={priceUSD} onSwap={onSwap} />
