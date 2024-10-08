@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { Toaster } from 'sonner';
-import { WagmiProvider } from 'wagmi';
-import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
+// import { WagmiProvider } from 'wagmi';
+// import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { SDKProvider, useLaunchParams } from '@telegram-apps/sdk-react';
 import ErrorBoundaryPlaceholder from './modules/core/components/ErrorBoundary';
-import { config } from './utils/config';
+// import { config } from './utils/config';
 import App from './App';
 
 const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
@@ -24,15 +24,15 @@ function Root() {
   return (
     <ErrorBoundaryPlaceholder>
       <SDKProvider acceptCustomStyles debug={debug}>
-        <WagmiProvider config={config}>
-          <QueryClientProvider client={queryClient}>
-            <RainbowKitProvider>
-              <App />
-              <Toaster richColors position='top-center' closeButton duration={5000} />
-              {/* <ReactQueryDevtools initialIsOpen={false} position='bottom' /> */}
-            </RainbowKitProvider>
-          </QueryClientProvider>
-        </WagmiProvider>
+        {/* <WagmiProvider config={config}> */}
+        <QueryClientProvider client={queryClient}>
+          {/* <RainbowKitProvider> */}
+          <App />
+          <Toaster richColors position='top-center' closeButton duration={5000} />
+          {/* <ReactQueryDevtools initialIsOpen={false} position='bottom' /> */}
+          {/* </RainbowKitProvider> */}
+        </QueryClientProvider>
+        {/* </WagmiProvider> */}
       </SDKProvider>
     </ErrorBoundaryPlaceholder>
   );

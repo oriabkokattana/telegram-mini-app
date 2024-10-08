@@ -10,13 +10,13 @@ import { darkTheme } from '@/modules/core/design-system/ui.tokens.stylex';
 import { useOauthLogin } from '@/services/auth/oauth-login/api';
 import { useThemeStore } from '@/store/theme-store';
 import { useUserStoreHydration } from '@/store/user-store';
-import { useSignAuth } from './use-sign-auth';
+// import { useSignAuth } from './use-sign-auth';
 
 const darkThemeClassNames = stylex.props(darkTheme).className?.split(' ') || [];
 
 export const useGlobalSideEffects = () => {
   useOauthLogin();
-  useSignAuth();
+  // useSignAuth();
 
   const userHydrated = useUserStoreHydration();
   const setTheme = useThemeStore((state) => state.setTheme);

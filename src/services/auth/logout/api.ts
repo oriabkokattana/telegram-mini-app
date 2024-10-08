@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
-import { useAccount, useDisconnect } from 'wagmi';
+// import { useAccount, useDisconnect } from 'wagmi';
 import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
 import { useUserStore } from '@/store/user-store';
@@ -29,15 +29,15 @@ const logout = api<z.infer<typeof LogoutRequest>, z.infer<typeof LogoutResponse>
 export function useLogout() {
   const navigate = useNavigate();
 
-  const { connector, isConnected } = useAccount();
-  const { disconnectAsync } = useDisconnect();
+  // const { connector, isConnected } = useAccount();
+  // const { disconnectAsync } = useDisconnect();
   const { user, removeCredentials } = useUserStore();
 
   return useMutation<z.infer<typeof LogoutAPIResponseSchema>, AxiosError<ErrorResponse>>({
     mutationFn: async () => {
-      if (isConnected) {
-        await disconnectAsync({ connector });
-      }
+      // if (isConnected) {
+      //   await disconnectAsync({ connector });
+      // }
       return logout({ params: { token: user?.refreshToken } });
     },
     onSuccess: (success) => {
