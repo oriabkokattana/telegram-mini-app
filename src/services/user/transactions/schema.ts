@@ -4,7 +4,19 @@ export const TransactionsAPIRequestSchema = z.void();
 
 export const TransactionTypeSchema = z.enum(['deposit', 'withdraw', 'swap']);
 
-export const TransactionStatusSchema = z.enum(['new', 'pending', 'completed']);
+export const TransactionStatusSchema = z.enum([
+  'new',
+  'pending',
+  'completed',
+  'failed',
+  'open',
+  'canceled',
+  'partial_canceled',
+  'partial_filled',
+  'filled',
+  'expired',
+  'in_process',
+]);
 
 export const TransactionSchema = z.object({
   destination_amount: z.string().optional(),

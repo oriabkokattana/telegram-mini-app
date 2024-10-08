@@ -59,23 +59,38 @@ const getTransactionAmount = (transaction: TransactionItem) => {
 const getTransactionStatus = (transaction: TransactionItem) => {
   switch (transaction.status) {
     case 'new':
+    case 'open':
       return 'New';
     case 'completed':
+    case 'filled':
       return 'Success';
     case 'pending':
-      return 'In Progress';
+    case 'in_process':
+      return 'in Progress';
+    case 'partial_canceled':
+      return 'partially canceled';
+    case 'partial_filled':
+      return 'partially filled';
     default:
-      return '—';
+      return transaction.status;
   }
 };
 
 const getTransactionStatusColor = (transaction: TransactionItem) => {
   switch (transaction.status) {
-    case 'new':
+    case 'canceled':
+    case 'expired':
+    case 'failed':
       return 'rgba(255, 101, 179, 1)';
     case 'completed':
+    case 'filled':
+    case 'partial_filled':
+    case 'partial_canceled':
       return 'rgba(53, 219, 140, 1)';
     case 'pending':
+    case 'in_process':
+    case 'new':
+    case 'open':
       return 'rgba(88, 59, 232, 1)';
     default:
       return 'rgba(0, 0, 0, 0)';
@@ -143,7 +158,13 @@ const TransactionRow = ({ item }: TransactionRow) => {
                   backgroundColor: getTransactionStatusColor(item),
                 }}
               />
-              <Text color='gray' size='2' weight='medium' lineHeight='12px'>
+              <Text
+                color='gray'
+                size='2'
+                weight='medium'
+                lineHeight='12px'
+                textTransform='capitalize'
+              >
                 {getTransactionStatus(item)}
               </Text>
             </Flex>
