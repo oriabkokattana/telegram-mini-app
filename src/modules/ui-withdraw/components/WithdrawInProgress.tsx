@@ -115,14 +115,14 @@ const WithdrawInProgress = ({
               </Flex>
               <Flex minHeight='20px' justify='between' align='center' gap='4'>
                 <Text size='2' weight='medium' lineHeight='12px'>
-                  To
+                  Address
                 </Text>
-                <Flex maxWidth='250px' align='center' gap='2'>
+                <Flex maxWidth='166px' align='center' gap='3'>
                   <Text
                     size='2'
                     weight='bold'
                     align='right'
-                    lineHeight='16px'
+                    lineHeight='18px'
                     wordBreak='break-word'
                   >
                     {address}
