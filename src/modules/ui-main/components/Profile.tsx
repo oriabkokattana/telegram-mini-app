@@ -47,7 +47,7 @@ const Profile = () => {
             {isLoading ? (
               <Skeleton width='59px' height='16px' />
             ) : (
-              <Flex align='center' gap='2px'>
+              <Flex height='16px' align='center' gap='2px'>
                 <Text
                   color='gray'
                   size='2'

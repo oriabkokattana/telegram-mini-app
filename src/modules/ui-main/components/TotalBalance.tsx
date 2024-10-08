@@ -52,7 +52,13 @@ const TotalBalance = () => {
               <Dropdown>
                 <DropdownTrigger>
                   <Flex align='center' gap='2' pb='2'>
-                    <Text color='gray' size='1' weight='medium' textTransform='uppercase'>
+                    <Text
+                      color='gray'
+                      size='1'
+                      weight='medium'
+                      textTransform='uppercase'
+                      lineHeight='16px'
+                    >
                       Total Balance ({currency === 'USD' ? 'USD' : currency})
                     </Text>
                     <Icon name='chevron-down' variant='secondary' />
@@ -89,7 +95,7 @@ const TotalBalance = () => {
             {balancesLoading ? (
               <Skeleton width='160px' height='16px' my='2px' />
             ) : (
-              <Flex align='center' gap='1'>
+              <Flex height='20px' align='center' gap='1'>
                 <Icon
                   name={profitPositive ? 'top-right-arrow' : 'bottom-right-arrow'}
                   variant={profitPositive ? 'accent-violet' : 'accent-pink'}

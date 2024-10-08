@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import * as Label from '@radix-ui/react-label';
-import { Card, Flex, IconButton, Skeleton } from '@radix-ui/themes';
+import { Box, Card, Flex, IconButton, Skeleton } from '@radix-ui/themes';
 import { ETimeframe } from '@/enums';
 import { useCheckBottomGap } from '@/hooks/use-check-bottom-gap';
 import CustomChart from '@/modules/core/components/CustomChart';
@@ -79,7 +79,11 @@ const UIAsset = () => {
               <TokenIcon customSize='30px' name={asset} />
             </Flex>
           </Skeleton>
-          <Icon name='bell' />
+          <Skeleton loading={assetSummaryLoading}>
+            <Box width='24px' height='24px'>
+              <Icon name='bell' />
+            </Box>
+          </Skeleton>
         </Flex>
         {assetSummaryLoading ? (
           <Skeleton width='130px' height='26px' />
@@ -91,7 +95,7 @@ const UIAsset = () => {
         {assetSummaryLoading ? (
           <Skeleton width='200px' height='20px' />
         ) : (
-          <Flex align='center' justify='center' gap='2'>
+          <Flex height='20px' align='center' justify='center' gap='2'>
             <Text color='gray' size='3' weight='bold'>
               ≈ $ {formatNumberWithCommas(Number(assetSummaryData?.total_balance_usd || 0))}
             </Text>

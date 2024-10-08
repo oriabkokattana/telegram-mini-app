@@ -120,7 +120,7 @@ const TransactionRow = ({ item }: TransactionRow) => {
       trigger={
         <Flex justify='between' align='center'>
           <Flex direction='column' gap='2'>
-            <Flex align='center' gap='1'>
+            <Flex height='20px' align='center' gap='1'>
               <Icon name={getTransactionIconName(item)} variant='secondary' size={20} />
               <Text size='3' weight='bold'>
                 {getTransactionTitle(item)}
