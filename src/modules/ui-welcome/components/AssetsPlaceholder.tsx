@@ -115,7 +115,9 @@ const AssetsPlaceholder = () => {
         return (
           <Flex key={item.id} justify='between' align='center' gap='2'>
             <Flex gap='2' align='center'>
-              <TokenIcon name={item.symbol} size='ui-md' />
+              <Flex width='36px' height='36px' justify='center' align='center'>
+                <TokenIcon name={item.symbol} size='sm' variant='monochrome' />
+              </Flex>
               <Flex direction='column' gap='1'>
                 <Text size='3' weight='bold'>
                   {item.symbol}

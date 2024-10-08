@@ -85,7 +85,7 @@ const UINetworkSelectScreen = ({
         {direction === 'deposit' ? 'Deposit' : 'Withdraw'} {token?.name}
       </Text>
       <Flex direction='column' align='center' gap='2' px='6'>
-        <TokenIcon name={token?.symbol} size='md' />
+        <TokenIcon name={token?.symbol} size='lg' variant='colored' />
         <Text size='4' align='center' weight='bold' lineHeight='16px'>
           Select Network
         </Text>

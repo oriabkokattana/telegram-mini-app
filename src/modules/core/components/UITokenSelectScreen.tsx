@@ -279,8 +279,8 @@ const AssetRow = ({ token, onClick }: AssetRowProps) => {
       onClick={onClick}
     >
       <Flex align='center' gap='2'>
-        <Flex p='6px'>
-          <TokenIcon name={token.symbol} size='ui-sm' />
+        <Flex width='36px' height='36px' justify='center' align='center'>
+          <TokenIcon name={token.symbol} size='sm' variant='colored' />
         </Flex>
         <Flex direction='column' gap='1'>
           <Text size='3' weight='bold'>

@@ -32,7 +32,9 @@ const Assets = () => {
           <Flex key={item} asChild justify='between' align='center' gap='2'>
             <Link to={`/asset/${item}`}>
               <Flex gap='2' align='center'>
-                <TokenIcon name={item} size='ui-md' />
+                <Flex width='36px' height='36px' justify='center' align='center'>
+                  <TokenIcon name={item} size='sm' variant='monochrome' />
+                </Flex>
                 <Flex direction='column' gap='1'>
                   <Text size='3' weight='bold'>
                     {item}

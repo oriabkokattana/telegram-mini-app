@@ -73,7 +73,9 @@ const AllTokens = ({ data, loading, onSelect }: AllTokensProps) => {
             >
               <Link to='/swap'>
                 <Flex gap='2' align='center'>
-                  <TokenIcon name={item.symbol} size='ui-md' />
+                  <Flex width='36px' height='36px' justify='center' align='center'>
+                    <TokenIcon name={item.symbol} size='sm' variant='monochrome' />
+                  </Flex>
                   <Flex direction='column' gap='1'>
                     <Text size='3' weight='bold'>
                       {item.symbol}

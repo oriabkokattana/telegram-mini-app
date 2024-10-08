@@ -1,6 +1,4 @@
 import * as stylex from '@stylexjs/stylex';
-import { colors, fontFamilies, fontSizes, fontWeights } from '../tokens.stylex';
-import { colors as uiColors } from '../ui.tokens.stylex';
 
 export const styles = stylex.create({
   base: {
@@ -10,7 +8,7 @@ export const styles = stylex.create({
     verticalAlign: 'middle',
     overflow: 'hidden',
     userSelect: 'none',
-    backgroundColor: colors.grey1000,
+    backgroundColor: 'transparent',
     borderRadius: '100%',
   },
   image: {
@@ -25,53 +23,24 @@ export const styles = stylex.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: uiColors.dropdownBackground,
-    color: uiColors.primaryIcon,
-    fontWeight: fontWeights.medium,
-    fontFamily: fontFamilies.roobertPro,
-    fontSize: fontSizes.text2,
-    rotate: '8deg',
+    backgroundColor: 'transparent',
+    rotate: '4deg',
     borderRadius: 'inherit',
   },
-  size: (size) => ({
-    width: size,
-    height: size,
-  }),
-  'ui-xs': {
+  xs: {
     width: '16px',
     height: '16px',
-    fontSize: fontSizes.text1,
-  },
-  'ui-sm': {
-    width: '24px',
-    height: '24px',
-    fontSize: fontSizes.text2,
   },
   sm: {
-    width: '32px',
-    height: '32px',
-    fontSize: fontSizes.text2,
-  },
-  'ui-md': {
-    width: '36px',
-    height: '36px',
-    fontSize: fontSizes.text2,
+    width: '24px',
+    height: '24px',
   },
   md: {
-    width: '44px',
-    height: '44px',
-    fontSize: fontSizes.headingH6,
+    width: '30px',
+    height: '30px',
   },
   lg: {
-    width: '64px',
-    height: '64px',
-    fontSize: fontSizes.headingH1,
-  },
-  default: {
-    backgroundColor: colors.grey100Background,
-  },
-  'with-border': {
-    padding: '4px',
-    backgroundColor: colors.grey100Border,
+    width: '44px',
+    height: '44px',
   },
 });

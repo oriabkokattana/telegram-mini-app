@@ -76,7 +76,7 @@ const UIAsset = () => {
         <Flex width='100%' align='center' pl='5'>
           <Skeleton loading={assetSummaryLoading} style={{ borderRadius: '6px' }}>
             <Flex width='44px' height='44px' justify='center' align='center' mx='auto'>
-              <TokenIcon customSize='30px' name={asset} />
+              <TokenIcon size='md' name={asset} variant='monochrome' />
             </Flex>
           </Skeleton>
           <Skeleton loading={assetSummaryLoading}>
