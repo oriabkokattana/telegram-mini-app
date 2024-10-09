@@ -15,6 +15,7 @@ import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
 import { useAssetPrice } from '@/services/user/asset-price/api';
 import { useSwap } from '@/services/user/swap/api';
+import { useTransactionStatus } from '@/services/user/transaction-status/api';
 import { useBalancesStore } from '@/store/balances-store';
 import { useDepositStore } from '@/store/deposit-store';
 import { useTradingStore } from '@/store/trading-store';
@@ -66,6 +67,7 @@ const UISwap = () => {
   const { data: basePriceData } = useAssetPrice(base);
   const { data: quotePriceData } = useAssetPrice(quote);
   const swap = useSwap();
+  const { data: transactionStatusData } = useTransactionStatus('swap', swap.data?.id);
   const isBottomGap = useCheckBottomGap();
   const navigate = useNavigate();
 
@@ -140,6 +142,24 @@ const UISwap = () => {
       }
     }
   }, []);
+
+  useEffect(() => {
+    if (transactionStatusData?.status) {
+      const status = transactionStatusData.status;
+      if (status === 'open' || status === 'in_process') {
+        toast.info('Submitted for Execution');
+      }
+      if (status === 'partial_filled' || status === 'partial_canceled') {
+        toast.warning('Order Partially Filled');
+      }
+      if (status === 'filled') {
+        toast.success('Order Completed');
+      }
+      if (status === 'failed' || status === 'canceled') {
+        toast.error('Oooops... Order Failed');
+      }
+    }
+  }, [transactionStatusData?.status]);
 
   useEffect(() => {
     if (fundEnabled && !baseInputFocused && !quoteInputFocused && fundsEnabledRef.current) {

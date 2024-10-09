@@ -5,6 +5,8 @@ import { api } from '@/utils/api';
 import { Endpoints } from '@/utils/endpoints-constants';
 import { TransactionStatusAPIRequestSchema, TransactionStatusAPIResponseSchema } from './schema';
 
+import { TransactionStatus } from '@/types';
+
 const TransactionStatusAPIRequest = TransactionStatusAPIRequestSchema;
 
 const TransactionStatusAPIResponse = TransactionStatusAPIResponseSchema;
@@ -24,10 +26,13 @@ const getTransactionStatus = api<
   type: 'private',
 });
 
+const stopStatuses: TransactionStatus[] = ['canceled', 'completed', 'expired', 'failed', 'filled'];
+
 export function useTransactionStatus(type: 'deposit' | 'withdraw' | 'swap', id?: string) {
   return useQuery<z.infer<typeof TransactionStatusAPIResponseSchema>, AxiosError<ErrorResponse>>({
     queryKey: ['transaction', 'status', id, type],
     queryFn: id ? () => getTransactionStatus({ params: { id, type } }) : skipToken,
-    refetchInterval: (data) => (data.state.data?.status === 'completed' ? false : 3000),
+    refetchInterval: (data) =>
+      data.state.data?.status && stopStatuses.includes(data.state.data?.status) ? false : 2000,
   });
 }

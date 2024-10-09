@@ -105,6 +105,13 @@ const UIWithdraw = () => {
       return;
     }
 
+    if (Number(amount) < network.token_min_withdraw) {
+      toast.error(
+        `Oooops... You can't withdraw less than ${network.token_min_withdraw} ${token.symbol}`
+      );
+      return;
+    }
+
     withdraw.mutate({
       token: token.symbol,
       amount: Number(amount),
