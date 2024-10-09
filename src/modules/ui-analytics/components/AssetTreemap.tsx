@@ -247,7 +247,7 @@ const CustomTreemapNode = ({ node }: NodeProps<TreemapData>) => {
           </Text>
         </Flex>
         <Flex width='100%' align='center' gap='2' style={description}>
-          <Flex align='center' gap='1'>
+          <Flex height='16px' align='center' gap='1'>
             <Icon
               name={positiveProfit ? 'top-right-arrow' : 'bottom-right-arrow'}
               variant='white'

@@ -62,7 +62,7 @@ export const Dialog = forwardRef<HTMLButtonElement, DialogProps>(
               {...stylex.props(styles.content, isBottomGap && styles.bottomGap, styles[animation])}
               aria-describedby={undefined}
             >
-              <Flex width='100%' justify='center' py='4' {...swipeHandlers}>
+              <Flex width='100%' height='37px' justify='center' py='4' {...swipeHandlers}>
                 <Icon name='collapse' variant='fill' />
               </Flex>
               {children}

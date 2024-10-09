@@ -142,7 +142,7 @@ const AssetsPlaceholder = () => {
                   {balanceInSystemCurrecnyString}
                 </Text>
               </Flex>
-              <Flex align='center' gap='1'>
+              <Flex height='16px' align='center' gap='1'>
                 <Icon
                   name={positiveProfit ? 'top-right-arrow' : 'bottom-right-arrow'}
                   variant={positiveProfit ? 'accent-violet' : 'accent-pink'}

@@ -71,7 +71,7 @@ const AssetPriceChange = ({ asset, priceUSD, onSwap }: AssetPriceChangeProps) =>
               <Text size='4' weight='bold' lineHeight='16px'>
                 {formatNumberWithSpaces(priceUSD)} $
               </Text>
-              <Flex align='center' gap='1'>
+              <Flex height='16px' align='center' gap='1'>
                 <Icon
                   name={priceChangePositive ? 'top-right-arrow' : 'bottom-right-arrow'}
                   variant={priceChangePositive ? 'accent-violet' : 'accent-pink'}
@@ -158,7 +158,7 @@ const Header = ({
                 <Text size='2' weight='bold' lineHeight='12px'>
                   {formatNumberWithSpaces(priceUSD)} $
                 </Text>
-                <Flex align='center' gap='1'>
+                <Flex height='16px' align='center' gap='1'>
                   <Icon
                     name={priceChangePositive ? 'top-right-arrow' : 'bottom-right-arrow'}
                     variant={priceChangePositive ? 'accent-violet' : 'accent-pink'}

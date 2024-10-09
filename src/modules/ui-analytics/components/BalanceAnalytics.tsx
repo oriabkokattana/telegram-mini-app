@@ -39,7 +39,7 @@ const BalanceAnalytics = () => {
           <Text {...getTotalBalanceFontSize(balanceString)} weight='bold' lineHeight='34px'>
             {balanceString}
           </Text>
-          <Flex align='center' gap='1'>
+          <Flex height='20px' align='center' gap='1'>
             <Icon
               name={profitPositive ? 'top-right-arrow' : 'bottom-right-arrow'}
               variant={profitPositive ? 'accent-violet' : 'accent-pink'}
