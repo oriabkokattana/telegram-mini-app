@@ -36,7 +36,6 @@ export function useSwap() {
     onSuccess: () => {
       setBaseAmount('');
       setQuoteAmount('');
-      toast.success('Swap successful!');
     },
     onError: (error) => {
       const errorMessage = error.response?.data.error;

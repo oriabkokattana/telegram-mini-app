@@ -146,13 +146,13 @@ const UISwap = () => {
   useEffect(() => {
     if (transactionStatusData?.status) {
       const status = transactionStatusData.status;
-      if (status === 'open' || status === 'in_process') {
+      if (status === 'open' || status === 'in_process' || status === 'pending') {
         toast.info('Submitted for Execution');
       }
       if (status === 'partial_filled' || status === 'partial_canceled') {
         toast.warning('Order Partially Filled');
       }
-      if (status === 'filled') {
+      if (status === 'filled' || status === 'completed') {
         toast.success('Order Completed');
       }
       if (status === 'failed' || status === 'canceled') {
