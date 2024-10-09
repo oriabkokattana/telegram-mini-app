@@ -32,11 +32,11 @@ const getTransactionTitle = (transaction: TransactionItem) => {
 const getTransactionAmount = (transaction: TransactionItem) => {
   switch (transaction.transaction_type) {
     case 'deposit':
-      return `+ ${formatNumber(Number(transaction.source_amount || 0))} ${transaction.source_token}`;
+      return `+ ${formatNumber(Number(transaction.source_amount || 0))}`;
     case 'withdraw':
-      return `- ${formatNumber(Number(transaction.source_amount || 0))} ${transaction.source_token}`;
+      return `- ${formatNumber(Number(transaction.source_amount || 0))}`;
     case 'swap':
-      return `- ${formatNumber(Number(transaction.source_amount || 0), 6)} ${transaction.source_token}  + ${formatNumber(Number(transaction.destination_amount || 0), 6)} ${transaction.destination_token || ''}`;
+      return `+ ${formatNumber(Number(transaction.destination_amount || 0))}`;
     default:
       return '—';
   }
@@ -121,7 +121,7 @@ const TransactionRow = ({ item }: TransactionRow) => {
           style={{ borderBottom: '1px solid rgba(154, 148, 170, 0.10)' }}
         >
           <Flex direction='column' gap='2'>
-            <Text size='3' weight='bold'>
+            <Text size='3' weight='medium'>
               {getTransactionTitle(item)}
             </Text>
             <Text color='gray' size='2' weight='medium' lineHeight='12px'>
