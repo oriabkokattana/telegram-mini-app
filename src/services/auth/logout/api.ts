@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
 import { useUserStore } from '@/store/user-store';
+import { trackUserLoggedOut } from '@/utils/amplitude-events';
 import { api } from '@/utils/api';
 import { Endpoints } from '@/utils/endpoints-constants';
 import { Routes } from '@/utils/routes-constants';
@@ -38,6 +39,7 @@ export function useLogout() {
       // if (isConnected) {
       //   await disconnectAsync({ connector });
       // }
+      trackUserLoggedOut();
       return logout({ params: { token: user?.refreshToken } });
     },
     onSuccess: (success) => {

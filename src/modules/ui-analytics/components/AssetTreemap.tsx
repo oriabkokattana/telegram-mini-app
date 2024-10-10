@@ -6,6 +6,7 @@ import Link from '@/modules/core/components/Link';
 import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
 import { useBalancesStore } from '@/store/balances-store';
+import { trackTreemapChartClicked } from '@/utils/amplitude-events';
 import { formatNumberWithSpaces, formatPercent, trimToPrecision } from '@/utils/numbers';
 
 type Rank = 'small' | 'medium' | 'big';
@@ -236,6 +237,7 @@ const CustomTreemapNode = ({ node }: NodeProps<TreemapData>) => {
         backgroundColor: node.color,
         ...base,
       }}
+      onClick={() => trackTreemapChartClicked(node.data.name)}
     >
       <Link to={`/asset/${node.data.name}`}>
         <Flex align='center' style={header}>

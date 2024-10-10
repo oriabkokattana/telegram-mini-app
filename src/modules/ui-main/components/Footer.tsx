@@ -7,6 +7,7 @@ import { useCheckBottomGap } from '@/hooks/use-check-bottom-gap';
 import Link from '@/modules/core/components/Link';
 import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
+import { trackSwapIconButtonClicked } from '@/utils/amplitude-events';
 
 import { styles } from './Footer.styles';
 
@@ -32,7 +33,11 @@ const Footer = () => {
             </Text>
           </Label.Root>
         </NavigationMenuLink>
-        <NavigationMenuLink to='/swap' {...stylex.props(styles.link)}>
+        <NavigationMenuLink
+          to='/swap'
+          {...stylex.props(styles.link)}
+          onClick={() => trackSwapIconButtonClicked()}
+        >
           <Label.Root>
             <IconButton size='4'>
               <Icon name='swap' variant='white' />

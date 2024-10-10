@@ -3,6 +3,7 @@ import { toast } from 'sonner';
 import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
 import { useTradingStore } from '@/store/trading-store';
+import { trackTokenSwapped } from '@/utils/amplitude-events';
 import { api } from '@/utils/api';
 import { Endpoints } from '@/utils/endpoints-constants';
 import { SwapAPIRequestSchema, SwapAPIResponseSchema } from './schema';
@@ -33,7 +34,8 @@ export function useSwap() {
     z.infer<typeof SwapAPIRequestSchema>
   >({
     mutationFn: (payload) => swap({ data: payload }),
-    onSuccess: () => {
+    onSuccess: (_, payload) => {
+      trackTokenSwapped(payload.tokenA, payload.tokenB, payload.amountA);
       setBaseAmount('');
       setQuoteAmount('');
     },

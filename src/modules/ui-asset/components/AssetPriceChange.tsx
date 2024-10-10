@@ -10,6 +10,7 @@ import TimeframeRange from '@/modules/core/components/TimeframeRange';
 import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
 import { useAssetPriceChange } from '@/services/user/asset-price-change/api';
+import { trackCurrentTokenPriceChecked } from '@/utils/amplitude-events';
 import { formatNumberWithSpaces, formatPercent } from '@/utils/numbers';
 import { getPriceChangePercent } from '@/utils/price';
 
@@ -134,6 +135,13 @@ const Header = ({
 }: HeaderProps) => {
   const priceChangePositive = priceChangePercent >= 0;
 
+  const onOpen = () => {
+    if (open === false) {
+      trackCurrentTokenPriceChecked();
+    }
+    setOpen(!open);
+  };
+
   return (
     <Flex
       asChild
@@ -186,7 +194,7 @@ const Header = ({
             </Box>
           </Flex>
         )}
-        <IconButton size='1' variant='ghost' onClick={() => setOpen(!open)}>
+        <IconButton size='1' variant='ghost' onClick={onOpen}>
           <Icon
             name='chevron-up'
             variant='secondary'

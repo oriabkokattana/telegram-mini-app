@@ -14,11 +14,16 @@ import { TokenIcon } from '@/modules/core/design-system/token-icon';
 import { useAssetChart } from '@/services/user/asset-chart/api';
 import { useAssetPrice } from '@/services/user/asset-price/api';
 import { useAssetSummary } from '@/services/user/asset-summary/api';
-import { useSwapTokens } from '@/services/user/swap-tokens/api';
 import { useBalancesStore } from '@/store/balances-store';
 import { useDepositStore } from '@/store/deposit-store';
 import { useTradingStore } from '@/store/trading-store';
 import { useWithdrawStore } from '@/store/withdraw-store';
+import {
+  trackDepositIconButtonClicked,
+  trackSwapIconButtonClicked,
+  trackTradeButtonClicked,
+  trackWithdrawIconButtonClicked,
+} from '@/utils/amplitude-events';
 import { formatDate } from '@/utils/date';
 import { formatNumberWithCommas, formatPercent } from '@/utils/numbers';
 import AssetPriceChange from './AssetPriceChange';
@@ -39,7 +44,6 @@ const UIAsset = () => {
   const { data: assetSummaryData, isLoading: assetSummaryLoading } = useAssetSummary(asset);
   const { data: assetChartData, isLoading: assetChartLoading } = useAssetChart(timeframe, asset);
   const { data: assetPriceData, isLoading: assetPriceLoading } = useAssetPrice(asset);
-  const { data: swapTokensData } = useSwapTokens();
 
   const priceUSD = Number(assetPriceData?.price_usd || 0);
   const profitPositive = Number(assetChartData?.pnl_percent || 0) >= 0;
@@ -48,18 +52,25 @@ const UIAsset = () => {
 
   const onDeposit = () => {
     if (actionPossible) {
+      trackDepositIconButtonClicked();
       setDepositToken({ symbol: asset, name: balances[asset].currency_name || asset });
     }
   };
 
   const onWithdraw = () => {
     if (actionPossible) {
+      trackWithdrawIconButtonClicked();
       setWithdrawToken({ symbol: asset, name: balances[asset].currency_name || asset });
     }
   };
 
-  const onSwap = () => {
-    if (actionPossible && swapTokensData?.some((item) => item.symbol === asset)) {
+  const onSwap = (trackIcon?: boolean) => {
+    if (actionPossible) {
+      if (trackIcon) {
+        trackSwapIconButtonClicked();
+      } else {
+        trackTradeButtonClicked();
+      }
       setTradingBase(asset, balances[asset].currency_name || asset);
       setTradingQuote(undefined, undefined);
     }
@@ -159,7 +170,7 @@ const UIAsset = () => {
           </Link>
         </Flex>
         <Flex asChild flexGrow='1' flexShrink='1' flexBasis='0'>
-          <Link to='/swap' onClick={onSwap}>
+          <Link to='/swap' onClick={() => onSwap(true)}>
             <Flex asChild flexGrow='1' direction='column' align='center' gap='2'>
               <Label.Root>
                 <IconButton color='gray' variant='soft' size='4'>

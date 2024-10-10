@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { skipToken, useQuery } from '@tanstack/react-query';
 import { useInitData } from '@telegram-apps/sdk-react';
 import { useUserStore } from '@/store/user-store';
+import { trackOnboardingSignUpCompleted } from '@/utils/amplitude-events';
 import { api } from '@/utils/api';
 import { Endpoints } from '@/utils/endpoints-constants';
 import { OAuthLoginAPIRequestSchema, OAuthLoginAPIResponseSchema } from './schema';
@@ -46,6 +47,7 @@ export function useOauthLogin() {
       const { access_token, refresh_token } = query.data;
       setCredentials({ accessToken: access_token, refreshToken: refresh_token });
       toast.success('Successfully logged in!');
+      trackOnboardingSignUpCompleted();
     } else if (query.isError) {
       const errorMessage = query.error.response?.data.error;
       console.error(errorMessage);

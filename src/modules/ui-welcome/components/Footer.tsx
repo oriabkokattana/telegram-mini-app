@@ -8,6 +8,8 @@ import { Text } from '@/modules/core/design-system/text';
 
 import { styles } from './Footer.styles';
 
+import { OnboardingButtons } from '@/types';
+
 enum ETab {
   home = 'Home',
   swap = 'Swap',
@@ -15,7 +17,7 @@ enum ETab {
 }
 
 interface FooterProps {
-  toggleWelcomed(): void;
+  toggleWelcomed(name: OnboardingButtons): void;
 }
 
 const Footer = ({ toggleWelcomed }: FooterProps) => {
@@ -24,7 +26,12 @@ const Footer = ({ toggleWelcomed }: FooterProps) => {
   return (
     <NavigationMenu.Root {...stylex.props(styles.base, isBottomGap && styles.bottomGap)}>
       <NavigationMenu.List {...stylex.props(styles.navigationList)}>
-        <NavigationMenu.Link asChild active {...stylex.props(styles.link)} onClick={toggleWelcomed}>
+        <NavigationMenu.Link
+          asChild
+          active
+          {...stylex.props(styles.link)}
+          onClick={() => toggleWelcomed('Home')}
+        >
           <Flex
             asChild
             height='100%'
@@ -46,7 +53,11 @@ const Footer = ({ toggleWelcomed }: FooterProps) => {
             </Label.Root>
           </Flex>
         </NavigationMenu.Link>
-        <NavigationMenu.Link asChild {...stylex.props(styles.link)} onClick={toggleWelcomed}>
+        <NavigationMenu.Link
+          asChild
+          {...stylex.props(styles.link)}
+          onClick={() => toggleWelcomed('Swap')}
+        >
           <Flex
             asChild
             height='100%'
@@ -65,7 +76,11 @@ const Footer = ({ toggleWelcomed }: FooterProps) => {
             </Label.Root>
           </Flex>
         </NavigationMenu.Link>
-        <NavigationMenu.Link asChild {...stylex.props(styles.link)} onClick={toggleWelcomed}>
+        <NavigationMenu.Link
+          asChild
+          {...stylex.props(styles.link)}
+          onClick={() => toggleWelcomed('Account')}
+        >
           <Flex
             asChild
             height='100%'

@@ -3,6 +3,7 @@ import { toast } from 'sonner';
 import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
 import { useUserStore } from '@/store/user-store';
+import { trackOnboardingSignUpCompleted } from '@/utils/amplitude-events';
 import { api } from '@/utils/api';
 import { Endpoints } from '@/utils/endpoints-constants';
 import { EmailPasswordAPIRequestSchema, EmailPasswordAPIResponseSchema } from './schema';
@@ -39,6 +40,7 @@ export function useEmailPassword() {
       const { access_token, refresh_token } = resp;
       setCredentials({ accessToken: access_token, refreshToken: refresh_token });
       toast.success('Successfully logged in!');
+      trackOnboardingSignUpCompleted();
     },
     onError: (error) => {
       const errorMessage = error.response?.data.error;

@@ -2,6 +2,7 @@ import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
+import { trackFundsWithdrawn } from '@/utils/amplitude-events';
 import { api } from '@/utils/api';
 import { Endpoints } from '@/utils/endpoints-constants';
 import { WithdrawAPIRequestSchema, WithdrawAPIResponseSchema } from './schema';
@@ -29,6 +30,9 @@ export function useWithdraw() {
     z.infer<typeof WithdrawAPIRequestSchema>
   >({
     mutationFn: (payload) => withdraw({ data: payload }),
+    onSuccess: (_, payload) => {
+      trackFundsWithdrawn(payload.token, payload.network, payload.amount);
+    },
     onError: (error) => {
       const errorMessage = error.response?.data.error;
       toast.error(errorMessage);

@@ -6,12 +6,15 @@ import ReactDOM from 'react-dom/client';
 // the Telegram application, just in your browser.
 import './mockEnv.ts';
 import './polyfill.ts';
+import { initAmplitude } from './amplitude.ts';
 
 import Root from './Root.tsx';
 
 // import '@rainbow-me/rainbowkit/styles.css';
 import '@radix-ui/themes/styles.css';
 import './index.css';
+
+initAmplitude();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

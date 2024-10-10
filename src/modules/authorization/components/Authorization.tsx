@@ -12,18 +12,19 @@ import {
   getTwitterOAuth,
 } from '@/services/auth/oauth-provider/api';
 import { OAuthProviderAPIResponseSchema } from '@/services/auth/oauth-provider/schema';
+import { trackOnboardingSignUpMethodChosen } from '@/utils/amplitude-events';
 import { openExternalLink } from '@/utils/open-link';
 import monkey from '../media/monkey.png';
 import EmailPassword from './EmailPassword';
 
 const Authorization = () => {
-  const miniApp = useMiniApp();
-  const queryClient = useQueryClient();
-
   const [emailPassword, setEmailPassword] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [facebookLoading, setFacebookLoading] = useState(false);
   const [twitterLoading, setTwitterLoading] = useState(false);
+
+  const miniApp = useMiniApp();
+  const queryClient = useQueryClient();
 
   const onGoogleOAuth = async () => {
     try {
@@ -35,6 +36,7 @@ const Authorization = () => {
         }
       );
       openExternalLink(uri.redirect_url);
+      trackOnboardingSignUpMethodChosen('Google');
       miniApp.close();
     } catch (error) {
       toast.error('Oops! Something went wrong...');
@@ -53,6 +55,7 @@ const Authorization = () => {
         }
       );
       openExternalLink(uri.redirect_url);
+      trackOnboardingSignUpMethodChosen('SpaceX');
       miniApp.close();
     } catch (error) {
       toast.error('Oops! Something went wrong...');
@@ -71,6 +74,7 @@ const Authorization = () => {
         }
       );
       openExternalLink(uri.redirect_url);
+      trackOnboardingSignUpMethodChosen('Facebook');
       miniApp.close();
     } catch (error) {
       toast.error('Oops! Something went wrong...');

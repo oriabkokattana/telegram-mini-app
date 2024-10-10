@@ -2,12 +2,18 @@ import { useState } from 'react';
 import * as Label from '@radix-ui/react-label';
 import { Button, Flex, TextField } from '@radix-ui/themes';
 import { useEmailPassword } from '@/services/auth/email-password/api';
+import { trackOnboardingSignUpMethodChosen } from '@/utils/amplitude-events';
 
 const EmailPassword = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const emailPassword = useEmailPassword();
+
+  const onLogin = () => {
+    emailPassword.mutate({ email, password });
+    trackOnboardingSignUpMethodChosen('Email');
+  };
 
   return (
     <Flex direction='column' gap='4' pb='2'>
@@ -33,7 +39,7 @@ const EmailPassword = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
       </Flex>
-      <Button onClick={() => emailPassword.mutate({ email, password })}>Login</Button>
+      <Button onClick={onLogin}>Login</Button>
     </Flex>
   );
 };

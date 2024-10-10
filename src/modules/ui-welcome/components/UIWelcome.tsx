@@ -6,18 +6,22 @@ import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
 import { useThemeStore } from '@/store/theme-store';
 import { useUserStore } from '@/store/user-store';
+import { trackOnboardingWelcomeScreenButtonClicked } from '@/utils/amplitude-events';
 import AssetsPlaceholder from './AssetsPlaceholder';
 import Footer from './Footer';
 
 import { styles } from './UIWelcome.styles';
+
+import { OnboardingButtons } from '@/types';
 
 const UIWelcome = () => {
   const toggleWelcomed = useUserStore((state) => state.toggleWelcomed);
   const navigate = useNavigate();
   const theme = useThemeStore((state) => state.theme);
 
-  const onToggleWelcomed = () => {
+  const onToggleWelcomed = (name: OnboardingButtons) => {
     toggleWelcomed();
+    trackOnboardingWelcomeScreenButtonClicked(name);
     navigate('/auth');
   };
 
@@ -38,7 +42,7 @@ const UIWelcome = () => {
               </Text>
             </Flex>
           </Flex>
-          <Button size='3' onClick={onToggleWelcomed}>
+          <Button size='3' onClick={() => onToggleWelcomed('Get Started')}>
             <Text color='sky' size='2' weight='bold' lineHeight='12px'>
               Get Started
             </Text>
@@ -56,7 +60,12 @@ const UIWelcome = () => {
             style={{ cursor: 'pointer' }}
           >
             <Label.Root>
-              <IconButton color='gray' variant='soft' size='4' onClick={onToggleWelcomed}>
+              <IconButton
+                color='gray'
+                variant='soft'
+                size='4'
+                onClick={() => onToggleWelcomed('Deposit')}
+              >
                 <Icon name='arrow-down-half-circle' variant='tertiary' />
               </IconButton>
               <Text size='2' lineHeight='12px'>
@@ -75,7 +84,12 @@ const UIWelcome = () => {
             style={{ cursor: 'pointer' }}
           >
             <Label.Root>
-              <IconButton color='gray' variant='soft' size='4' onClick={onToggleWelcomed}>
+              <IconButton
+                color='gray'
+                variant='soft'
+                size='4'
+                onClick={() => onToggleWelcomed('Withdraw')}
+              >
                 <Icon name='arrow-up-half-circle' variant='tertiary' />
               </IconButton>
               <Text size='2' lineHeight='12px'>
@@ -115,7 +129,7 @@ const UIWelcome = () => {
         <Box
           position='absolute'
           inset='0'
-          onClick={onToggleWelcomed}
+          onClick={() => onToggleWelcomed('Lock Icon')}
           {...stylex.props(styles.placeholder, theme === 'dark' ? styles.dark : styles.light)}
         />
         <Flex

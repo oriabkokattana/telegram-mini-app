@@ -1,5 +1,10 @@
 import { useState } from 'react';
 import { AnimatedTabs, AnimatedTabsContent } from '@/modules/core/design-system/animated-tabs';
+import {
+  trackAssetsTabClicked,
+  trackHistoryTabClicked,
+  trackYourBalanceTabClicked,
+} from '@/utils/amplitude-events';
 import AssetAnalytics from './AssetAnalytics';
 import BalanceAnalytics from './BalanceAnalytics';
 import History from './History';
@@ -12,11 +17,29 @@ enum Tab {
 
 const TABS = [Tab.assets, Tab.balance, Tab.history];
 
+const trackTabs = (tab: string) => {
+  switch (tab) {
+    case Tab.assets:
+      return trackAssetsTabClicked();
+    case Tab.balance:
+      return trackYourBalanceTabClicked();
+    case Tab.history:
+      return trackHistoryTabClicked();
+  }
+};
+
 const UIAnalytics = () => {
   const [tab, setTab] = useState(Tab.assets);
 
+  const onSetTab = (value: string) => {
+    if (tab !== value) {
+      trackTabs(value);
+      setTab(value as Tab);
+    }
+  };
+
   return (
-    <AnimatedTabs pt='2' tabs={TABS} tab={tab} setTab={(value) => setTab(value as Tab)}>
+    <AnimatedTabs pt='2' tabs={TABS} tab={tab} setTab={onSetTab}>
       <AnimatedTabsContent gap={8} value={Tab.assets}>
         <AssetAnalytics />
       </AnimatedTabsContent>

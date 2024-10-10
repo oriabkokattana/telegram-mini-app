@@ -5,6 +5,7 @@ import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
 import { useLogout } from '@/services/auth/logout/api';
 import { useProfile } from '@/services/user/profile/api';
+import { trackPortfolioIconClicked } from '@/utils/amplitude-events';
 
 const Profile = () => {
   const logout = useLogout();
@@ -63,7 +64,7 @@ const Profile = () => {
           </Flex>
         </Flex>
       </Card>
-      <IconButton asChild variant='ghost' size='4'>
+      <IconButton asChild variant='ghost' size='4' onClick={() => trackPortfolioIconClicked()}>
         <Link to='/analytics'>
           <Icon name='analytics' />
         </Link>

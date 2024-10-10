@@ -17,6 +17,10 @@ import { useBalancesVisibleStore } from '@/store/balance-visible-store';
 import { useBalancesStore } from '@/store/balances-store';
 import { useSystemCurrencyStore } from '@/store/system-currency-store';
 import { useTimeframeStore } from '@/store/timeframe-store';
+import {
+  trackDepositIconButtonClicked,
+  trackWithdrawIconButtonClicked,
+} from '@/utils/amplitude-events';
 import { getTotalBalanceFontSize } from '@/utils/balances';
 import { formatNumberWithCommas, formatPercent } from '@/utils/numbers';
 import { periodToTimeframe } from '@/utils/timeframe';
@@ -127,7 +131,7 @@ const TotalBalance = () => {
         />
         <Flex>
           <Flex asChild flexGrow='1' flexShrink='1' flexBasis='0'>
-            <Link to='/deposit-token-select'>
+            <Link to='/deposit-token-select' onClick={() => trackDepositIconButtonClicked()}>
               <Flex asChild flexGrow='1' direction='column' align='center' gap='2'>
                 <Label.Root>
                   <IconButton size='4'>
@@ -140,7 +144,13 @@ const TotalBalance = () => {
               </Flex>
             </Link>
           </Flex>
-          <Flex asChild flexGrow='1' flexShrink='1' flexBasis='0'>
+          <Flex
+            asChild
+            flexGrow='1'
+            flexShrink='1'
+            flexBasis='0'
+            onClick={() => trackWithdrawIconButtonClicked()}
+          >
             <Link to='/withdraw-token-select'>
               <Flex asChild flexGrow='1' direction='column' align='center' gap='2'>
                 <Label.Root>

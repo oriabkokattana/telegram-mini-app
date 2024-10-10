@@ -20,6 +20,12 @@ import { Text } from '@/modules/core/design-system/text';
 import { useCustodialWallet } from '@/services/user/custodial-wallet/api';
 import { useDepositStore } from '@/store/deposit-store';
 import { transformAddress } from '@/utils/address';
+import {
+  trackCoinAndNetworkForDepositSelected,
+  trackWalletAddressForDepositCopied,
+  trackWalletAddressShared,
+  trackWalletFullAddressViewed,
+} from '@/utils/amplitude-events';
 import { convertSeconds } from '@/utils/duration';
 
 const UIDeposit = () => {
@@ -58,9 +64,15 @@ const UIDeposit = () => {
         setCopied(true);
         window.setTimeout(() => setCopied(false), 2000);
       }
+      trackWalletAddressForDepositCopied();
     } else {
       toast.error('Custody wallet address not defined');
     }
+  };
+
+  const onViewFullAddress = () => {
+    setAddressOpen(true);
+    trackWalletFullAddressViewed();
   };
 
   const onShare = () => {
@@ -68,6 +80,12 @@ const UIDeposit = () => {
       't.me/CryptoBrokerTGBot/app',
       `🏦 Wallet: ${custodialWalletData?.address}\n🌐 Network: ${network?.description} (${network?.name})`
     );
+    trackWalletAddressShared();
+  };
+
+  const onDone = () => {
+    trackCoinAndNetworkForDepositSelected(token?.symbol, network?.name);
+    reset();
   };
 
   return (
@@ -115,7 +133,7 @@ const UIDeposit = () => {
                 </IconButton>
               </DropdownTrigger>
               <DropdownContent width='182px' align='center' sideOffset={12}>
-                <DropdownItem onClick={() => setAddressOpen(true)}>
+                <DropdownItem onClick={onViewFullAddress}>
                   <Text color='bronze' size='2' lineHeight='12px'>
                     View full address
                   </Text>
@@ -215,7 +233,7 @@ const UIDeposit = () => {
           </Text>
         </Flex>
       </Flex>
-      <Button asChild color='gray' variant='soft' size='4' mt='auto' onClick={reset}>
+      <Button asChild color='gray' variant='soft' size='4' mt='auto' onClick={onDone}>
         <Link to='/'>
           <Text color='brown' size='3' weight='bold'>
             Done
