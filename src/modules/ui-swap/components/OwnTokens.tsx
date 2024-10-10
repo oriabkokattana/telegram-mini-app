@@ -24,17 +24,17 @@ const DEFAULT_YOUR_TOKENS: Record<string, { currency_name: string; total_balance
     },
     currency_name: 'Binance Coin',
   },
-  BTC: {
-    total_balance: {
-      balance: '0',
-      reserved_balance: '0',
-      balance_usd: '0',
-      reserved_balance_usd: '0',
-      pnl_usd: '0',
-      pnl_percent: '0',
-    },
-    currency_name: 'Bitcoin',
-  },
+  // BTC: {
+  //   total_balance: {
+  //     balance: '0',
+  //     reserved_balance: '0',
+  //     balance_usd: '0',
+  //     reserved_balance_usd: '0',
+  //     pnl_usd: '0',
+  //     pnl_percent: '0',
+  //   },
+  //   currency_name: 'Bitcoin',
+  // },
   ETH: {
     total_balance: {
       balance: '0',
