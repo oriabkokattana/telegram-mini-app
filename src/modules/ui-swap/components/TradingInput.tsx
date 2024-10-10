@@ -93,7 +93,7 @@ const TradingInput = ({
         </Text>
       </Flex>
       <Flex justify='between' align='center' gap='2'>
-        <Flex align='center' gap='1'>
+        <Flex height='16px' align='center' gap='1'>
           <Text color='gray' size='1' weight='medium' lineHeight='10px'>
             ${formatNumberWithCommas(priceUSD.toNumber())}
           </Text>
