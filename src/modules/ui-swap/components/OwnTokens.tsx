@@ -76,15 +76,13 @@ interface OwnTokensProps {
   onSelect(symbol: string, name: string): void;
 }
 
-const OwnTokens = ({ data, loading, onSelect }: OwnTokensProps) => {
+const OwnTokens = ({ loading, onSelect }: OwnTokensProps) => {
   const balances = useBalancesStore((state) => state.balances);
   const isBottomGap = useCheckBottomGap();
 
   const mergedBalances = { ...DEFAULT_YOUR_TOKENS, ...balances };
 
-  const assetList = Object.keys(mergedBalances).filter((item) =>
-    data?.some((swapToken) => swapToken.symbol === item)
-  );
+  const assetList = Object.keys(mergedBalances);
 
   if (loading) {
     return (
