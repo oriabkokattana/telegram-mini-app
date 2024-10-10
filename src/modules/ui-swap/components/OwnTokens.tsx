@@ -10,7 +10,7 @@ import { useBalancesStore } from '@/store/balances-store';
 import { getBalanceFontSize } from '@/utils/balances';
 import { formatNumber, formatNumberWithSpaces, formatPercent } from '@/utils/numbers';
 
-import { BalanceItem, SwapTokenItem } from '@/types';
+import { BalanceItem, SwapTokenItem, SwapTokenType } from '@/types';
 
 const DEFAULT_YOUR_TOKENS: Record<string, { currency_name: string; total_balance: BalanceItem }> = {
   BNB: {
@@ -72,17 +72,23 @@ const DEFAULT_YOUR_TOKENS: Record<string, { currency_name: string; total_balance
 
 interface OwnTokensProps {
   data?: SwapTokenItem[];
+  type: SwapTokenType;
   loading: boolean;
   onSelect(symbol: string, name: string): void;
 }
 
-const OwnTokens = ({ loading, onSelect }: OwnTokensProps) => {
+const OwnTokens = ({ data, type, loading, onSelect }: OwnTokensProps) => {
   const balances = useBalancesStore((state) => state.balances);
   const isBottomGap = useCheckBottomGap();
 
   const mergedBalances = { ...DEFAULT_YOUR_TOKENS, ...balances };
 
-  const assetList = Object.keys(mergedBalances);
+  const assetList =
+    type === 'base'
+      ? Object.keys(mergedBalances)
+      : Object.keys(mergedBalances).filter((item) =>
+          data?.some((swapToken) => swapToken.symbol === item)
+        );
 
   if (loading) {
     return (

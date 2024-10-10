@@ -67,7 +67,7 @@ const UISwapTokenSelectScreen = () => {
           <AllTokens data={filteredTokenList} loading={isLoading} onSelect={onSelect} />
         </AnimatedTabsContent>
         <AnimatedTabsContent gap={80} value={Tab.own}>
-          <OwnTokens data={filteredTokenList} loading={isLoading} onSelect={onSelect} />
+          <OwnTokens data={filteredTokenList} type={type} loading={isLoading} onSelect={onSelect} />
         </AnimatedTabsContent>
       </AnimatedTabs>
     </Flex>
