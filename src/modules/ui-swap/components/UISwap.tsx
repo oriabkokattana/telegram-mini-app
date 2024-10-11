@@ -42,11 +42,11 @@ const BALANCE_PERCENTS = [
   BalancePercent.oneHundred,
 ];
 
-const getButtonName = (fundsEnabled: boolean, minExceededEnabled: boolean) => {
-  if (minExceededEnabled) {
+const getButtonName = (funds: boolean, minExceeded: boolean) => {
+  if (minExceeded) {
     return 'Okay!';
   }
-  if (fundsEnabled) {
+  if (funds) {
     return 'Add Funds';
   }
   return 'Swap';
@@ -104,8 +104,8 @@ const UISwap = () => {
     ? quoteAmountNumber.div(quoteBalance).times(100)
     : Big(0);
 
-  const fundsEnabled = !!base && !!baseAmount && baseAmountNumber.gt(baseBalance);
-  const minExceededEnabled = !!base && !!baseAmount && baseAmountUSD.lt(5);
+  const fundsEnabled = !!base && !!quote && !!baseAmount && baseAmountNumber.gt(baseBalance);
+  const minExceededEnabled = !!base && !!quote && !!baseAmount && baseAmountUSD.lt(5);
   const swapEnabled = !!base && !!quote && !!Number(baseAmount);
 
   const saveOnTrade = useMemo(() => {
@@ -123,28 +123,30 @@ const UISwap = () => {
       toast.error('Please check if parameters are valid');
       return;
     }
-
+    if (minExceededEnabled) {
+      setDialog('min-exceeded');
+      return;
+    }
     swap.mutate({ amountA: amount, tokenA: base, tokenB: quote });
-  }, [baseAmount, base, quote]);
+  }, [minExceededEnabled, baseAmount, base, quote]);
 
   const onSideAction = useCallback(() => {
-    if (minExceededEnabled) {
+    if (dialog === 'min-exceeded') {
       setDialog(undefined);
-    }
-    if (fundsEnabled) {
+    } else if (fundsEnabled) {
       if (base) {
         setDepositToken({ symbol: base, name: baseName || base });
         navigate('/?fund=true');
       }
     }
-  }, [base, baseName, fundsEnabled, minExceededEnabled]);
+  }, [base, baseName, fundsEnabled, dialog]);
 
   useShowMainButton({
-    variant: swapEnabled || fundsEnabled || minExceededEnabled ? 'default' : 'disabled',
-    text: getButtonName(fundsEnabled, minExceededEnabled),
-    enabled: swapEnabled || fundsEnabled || minExceededEnabled,
+    variant: swapEnabled || fundsEnabled ? 'default' : 'disabled',
+    text: getButtonName(fundsEnabled, dialog === 'min-exceeded'),
+    enabled: swapEnabled || fundsEnabled,
     loading: swap.isPending,
-    callback: fundsEnabled || minExceededEnabled ? onSideAction : onSwap,
+    callback: fundsEnabled || dialog === 'min-exceeded' ? onSideAction : onSwap,
   });
 
   useEffect(() => {
@@ -178,16 +180,12 @@ const UISwap = () => {
   }, [transactionStatusData?.status]);
 
   useEffect(() => {
-    if (!baseInputFocused && !quoteInputFocused) {
-      if (minExceededEnabled) {
-        setDialog('min-exceeded');
-      } else if (fundsEnabled && fundsEnabledRef.current) {
+    if (!minExceededEnabled) {
+      if (!baseInputFocused && !quoteInputFocused && fundsEnabled && fundsEnabledRef.current) {
         setDialog('funds');
       } else {
         setDialog(undefined);
       }
-    } else {
-      setDialog(undefined);
     }
   }, [minExceededEnabled, fundsEnabled, baseInputFocused, quoteInputFocused]);
 
@@ -258,7 +256,7 @@ const UISwap = () => {
       <Flex direction='column' gap='2' position='relative'>
         <TradingInput
           type='base'
-          error={baseAmountNumber.gt(baseBalance)}
+          error={baseAmountNumber.gt(baseBalance) || dialog === 'min-exceeded'}
           balance={baseBalance}
           priceUSD={basePriceUSD}
           priceChangePercent={basePriceChangePercent}

@@ -8,6 +8,7 @@ import { styles } from './TextField.styles';
 
 export type TextFieldProps = {
   clear?: boolean;
+  error?: boolean;
   style?: null | undefined | CompiledStyles | boolean | Readonly<[CompiledStyles, InlineStyles]>;
   value?: string;
   readOnly?: boolean;
@@ -15,16 +16,16 @@ export type TextFieldProps = {
 } & Omit<RootTextField.RootProps, 'style' | 'className' | 'value' | 'readOnly' | 'onChange'>;
 
 export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
-  ({ clear, style, value, readOnly, onChange, children, ...props }, forwardedRef) => {
+  ({ clear, error, style, value, readOnly, onChange, children, ...props }, forwardedRef) => {
     return (
       <RootTextField.Root
         onMouseDown={readOnly ? (e) => e.preventDefault() : undefined}
         {...props}
-        {...stylex.props(style)}
+        {...stylex.props(style, !error && styles.error)}
         ref={forwardedRef}
+        readOnly={readOnly}
         value={value}
         onChange={(e) => onChange?.(e.target.value)}
-        readOnly={readOnly}
       >
         {children}
         {clear && (
