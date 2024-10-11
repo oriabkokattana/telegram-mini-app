@@ -146,7 +146,12 @@ const UIWithdraw = () => {
         <Text asChild size='1' weight='medium' lineHeight='10px'>
           <Label.Root htmlFor='address'>Address</Label.Root>
         </Text>
-        <TextField value={address} onChange={setAddress} placeholder='Scan or paste address'>
+        <TextField
+          error={!!address && !isAddress(address)}
+          value={address}
+          onChange={setAddress}
+          placeholder='Scan or paste address'
+        >
           <TextFieldSlot />
           {qrScanner.supports('open') && (
             <TextFieldSlot>
@@ -187,6 +192,13 @@ const UIWithdraw = () => {
           </Text>
         </Flex>
         <TextField
+          error={
+            !!Number(amount) &&
+            !!network &&
+            (Number(amount) > balance ||
+              Number(amount) > availableLiquidity ||
+              Number(amount) < network.token_min_withdraw)
+          }
           value={amount}
           onChange={onAmountChange}
           placeholder={`Min ${network?.token_min_withdraw || 0}`}
