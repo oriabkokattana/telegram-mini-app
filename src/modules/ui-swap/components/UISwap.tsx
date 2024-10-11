@@ -42,10 +42,20 @@ const BALANCE_PERCENTS = [
   BalancePercent.oneHundred,
 ];
 
+const getButtonName = (fundsEnabled: boolean, minExceededEnabled: boolean) => {
+  if (minExceededEnabled) {
+    return 'Okay!';
+  }
+  if (fundsEnabled) {
+    return 'Add Funds';
+  }
+  return 'Swap';
+};
+
 const UISwap = () => {
   const [baseInputFocused, setBaseInputFocused] = useState(false);
   const [quoteInputFocused, setQuoteInputFocused] = useState(false);
-  const [fundOpen, setFundOpen] = useState(false);
+  const [dialog, setDialog] = useState<'funds' | 'min-exceeded'>();
   const [savingsOpen, setSavingsOpen] = useState(false);
   const rotateRef = useRef<HTMLDivElement>(null);
   const fundsEnabledRef = useRef(true);
@@ -94,7 +104,8 @@ const UISwap = () => {
     ? quoteAmountNumber.div(quoteBalance).times(100)
     : Big(0);
 
-  const fundEnabled = !!base && !!baseAmount && baseAmountNumber.gt(baseBalance);
+  const fundsEnabled = !!base && !!baseAmount && baseAmountNumber.gt(baseBalance);
+  const minExceededEnabled = !!base && !!baseAmount && baseAmountUSD.lt(5);
   const swapEnabled = !!base && !!quote && !!Number(baseAmount);
 
   const saveOnTrade = useMemo(() => {
@@ -116,19 +127,24 @@ const UISwap = () => {
     swap.mutate({ amountA: amount, tokenA: base, tokenB: quote });
   }, [baseAmount, base, quote]);
 
-  const onFund = useCallback(() => {
-    if (base) {
-      setDepositToken({ symbol: base, name: baseName || base });
-      navigate('/?fund=true');
+  const onSideAction = useCallback(() => {
+    if (minExceededEnabled) {
+      setDialog(undefined);
     }
-  }, [base, baseName]);
+    if (fundsEnabled) {
+      if (base) {
+        setDepositToken({ symbol: base, name: baseName || base });
+        navigate('/?fund=true');
+      }
+    }
+  }, [base, baseName, fundsEnabled, minExceededEnabled]);
 
   useShowMainButton({
-    variant: swapEnabled || fundEnabled ? 'default' : 'disabled',
-    text: fundEnabled ? 'Add Funds' : 'Swap',
-    enabled: swapEnabled || fundEnabled,
+    variant: swapEnabled || fundsEnabled || minExceededEnabled ? 'default' : 'disabled',
+    text: getButtonName(fundsEnabled, minExceededEnabled),
+    enabled: swapEnabled || fundsEnabled || minExceededEnabled,
     loading: swap.isPending,
-    callback: fundEnabled ? onFund : onSwap,
+    callback: fundsEnabled || minExceededEnabled ? onSideAction : onSwap,
   });
 
   useEffect(() => {
@@ -162,12 +178,18 @@ const UISwap = () => {
   }, [transactionStatusData?.status]);
 
   useEffect(() => {
-    if (fundEnabled && !baseInputFocused && !quoteInputFocused && fundsEnabledRef.current) {
-      setFundOpen(true);
+    if (!baseInputFocused && !quoteInputFocused) {
+      if (minExceededEnabled) {
+        setDialog('min-exceeded');
+      } else if (fundsEnabled && fundsEnabledRef.current) {
+        setDialog('funds');
+      } else {
+        setDialog(undefined);
+      }
     } else {
-      setFundOpen(false);
+      setDialog(undefined);
     }
-  }, [fundEnabled, baseInputFocused, quoteInputFocused]);
+  }, [minExceededEnabled, fundsEnabled, baseInputFocused, quoteInputFocused]);
 
   useEffect(() => {
     if (baseAmount) {
@@ -352,25 +374,30 @@ const UISwap = () => {
       </Flex>
       <Dialog
         asChild
-        open={fundOpen}
+        open={!!dialog}
         trigger={null}
         setOpen={(value) => {
           if (!value) {
-            fundsEnabledRef.current = false;
+            if (dialog === 'funds') {
+              fundsEnabledRef.current = false;
+            }
+            setDialog(undefined);
+          } else {
+            setDialog(dialog);
           }
-          setFundOpen(value);
         }}
       >
         <Flex direction='column' gap='4' px='4'>
           <DialogTitle asChild>
             <Text size='4' align='center' weight='bold' lineHeight='16px'>
-              Fund your account
+              {dialog === 'funds' ? 'Fund your account' : 'Oooops...'}
             </Text>
           </DialogTitle>
           <DialogDescription asChild>
             <Text size='2' align='center' lineHeight='12px'>
-              Make a {formatNumberWithCommas(baseAmountNumber.minus(baseBalance).toNumber())} {base}{' '}
-              deposit to continue the swap
+              {dialog === 'funds'
+                ? `Make a ${formatNumberWithCommas(baseAmountNumber.minus(baseBalance).toNumber())} ${base} deposit to continue the swap`
+                : 'Minimum amount for swap 5 USD'}
             </Text>
           </DialogDescription>
         </Flex>

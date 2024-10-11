@@ -80,6 +80,8 @@ interface TransactionListProps {
 
 const TransactionList = forwardRef<HTMLDivElement, TransactionListProps>(
   ({ data, loading }, forwardedRef) => {
+    const [tx, setTx] = useState<TransactionItem>();
+
     if (loading) {
       return <TransactionsSkeleton />;
     }
@@ -94,9 +96,40 @@ const TransactionList = forwardRef<HTMLDivElement, TransactionListProps>(
       );
     }
 
+    const onOpnenTx = (value: boolean) => {
+      if (!value) {
+        setTx(undefined);
+      } else {
+        setTx(tx);
+      }
+    };
+
     return (
       <Flex direction='column' gap='2' ref={forwardedRef}>
-        {data?.map((item) => <TransactionRow key={item.id} item={item} />)}
+        {data?.map((item) => <TransactionRow key={item.id} item={item} setTx={setTx} />)}
+        <Dialog asChild open={!!tx} trigger={null} setOpen={onOpnenTx}>
+          <Flex direction='column' gap='4' px='4'>
+            <DialogTitle asChild>
+              <Text size='4' align='center' weight='bold' lineHeight='16px'>
+                Transaction Hash
+              </Text>
+            </DialogTitle>
+            <Flex direction='column' gap='2'>
+              <Card size='2' variant='classic'>
+                <Flex width='300px' justify='center' mx='auto'>
+                  <Text size='3' weight='medium' align='center' wordBreak='break-word'>
+                    {tx?.tx_hash}
+                  </Text>
+                </Flex>
+              </Card>
+              <Button size='4' onClick={() => onCopyTxHash(tx?.tx_hash)}>
+                <Text color='sky' size='3' weight='bold'>
+                  Copy
+                </Text>
+              </Button>
+            </Flex>
+          </Flex>
+        </Dialog>
       </Flex>
     );
   }
@@ -104,77 +137,45 @@ const TransactionList = forwardRef<HTMLDivElement, TransactionListProps>(
 
 type TransactionRow = {
   item: TransactionItem;
+  setTx(tx: TransactionItem): void;
 };
 
-const TransactionRow = ({ item }: TransactionRow) => {
-  const [txOpen, setTxOpen] = useState(false);
-
+const TransactionRow = ({ item, setTx }: TransactionRow) => {
   return (
-    <Dialog
-      asChild
-      open={txOpen}
-      trigger={
-        <Flex
-          height='56px'
-          justify='between'
-          align='center'
-          style={{ borderBottom: '1px solid rgba(154, 148, 170, 0.10)' }}
-        >
-          <Flex direction='column' gap='2'>
-            <Text size='3' weight='medium'>
-              {getTransactionTitle(item)}
-            </Text>
-            <Text color='gray' size='2' weight='medium' lineHeight='12px'>
-              {formatDateWithTime(item.timestamp)}
-            </Text>
-          </Flex>
-          <Flex direction='column' gap='2' align='end'>
-            <Text
-              color={getTransactionAmountColor(item)}
-              size='3'
-              weight='bold'
-              truncate
-              style={{ maxWidth: '200px' }}
-            >
-              {getTransactionAmount(item)}
-            </Text>
-            <Text
-              color='gray'
-              size='2'
-              weight='medium'
-              lineHeight='12px'
-              textTransform='capitalize'
-            >
-              {getTransactionStatus(item)}
-            </Text>
-          </Flex>
-        </Flex>
-      }
-      setOpen={setTxOpen}
-      style={{ cursor: 'pointer', pointerEvents: item.tx_hash ? 'auto' : 'none' }}
+    <Flex
+      height='56px'
+      justify='between'
+      align='center'
+      style={{
+        borderBottom: '1px solid rgba(154, 148, 170, 0.10)',
+        cursor: 'pointer',
+        pointerEvents: item.tx_hash ? 'auto' : 'none',
+      }}
+      onClick={() => setTx(item)}
     >
-      <Flex direction='column' gap='4' px='4'>
-        <DialogTitle asChild>
-          <Text size='4' align='center' weight='bold' lineHeight='16px'>
-            Transaction Hash
-          </Text>
-        </DialogTitle>
-        <Flex direction='column' gap='2'>
-          <Card size='2' variant='classic'>
-            <Flex width='300px' justify='center' mx='auto'>
-              <Text size='3' weight='medium' align='center' wordBreak='break-word'>
-                {item.tx_hash}
-              </Text>
-            </Flex>
-          </Card>
-          <Button size='4' onClick={() => onCopyTxHash(item.tx_hash)}>
-            <Text color='sky' size='3' weight='bold'>
-              Copy
-            </Text>
-          </Button>
-        </Flex>
+      <Flex direction='column' gap='2'>
+        <Text size='3' weight='medium'>
+          {getTransactionTitle(item)}
+        </Text>
+        <Text color='gray' size='2' weight='medium' lineHeight='12px'>
+          {formatDateWithTime(item.timestamp)}
+        </Text>
       </Flex>
-    </Dialog>
+      <Flex direction='column' gap='2' align='end'>
+        <Text
+          color={getTransactionAmountColor(item)}
+          size='3'
+          weight='bold'
+          truncate
+          style={{ maxWidth: '200px' }}
+        >
+          {getTransactionAmount(item)}
+        </Text>
+        <Text color='gray' size='2' weight='medium' lineHeight='12px' textTransform='capitalize'>
+          {getTransactionStatus(item)}
+        </Text>
+      </Flex>
+    </Flex>
   );
 };
 
