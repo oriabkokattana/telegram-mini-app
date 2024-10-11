@@ -21,7 +21,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       <RootTextField.Root
         onMouseDown={readOnly ? (e) => e.preventDefault() : undefined}
         {...props}
-        {...stylex.props(style, !error && styles.error)}
+        {...stylex.props(style, error && styles.error)}
         ref={forwardedRef}
         readOnly={readOnly}
         value={value}
