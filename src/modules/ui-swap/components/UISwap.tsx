@@ -180,14 +180,12 @@ const UISwap = () => {
   }, [transactionStatusData?.status]);
 
   useEffect(() => {
-    if (!minExceededEnabled) {
-      if (!baseInputFocused && !quoteInputFocused && fundsEnabled && fundsEnabledRef.current) {
-        setDialog('funds');
-      } else {
-        setDialog(undefined);
-      }
+    if (!baseInputFocused && !quoteInputFocused && fundsEnabled && fundsEnabledRef.current) {
+      setDialog('funds');
+    } else {
+      setDialog(undefined);
     }
-  }, [minExceededEnabled, fundsEnabled, baseInputFocused, quoteInputFocused]);
+  }, [fundsEnabled, baseInputFocused, quoteInputFocused]);
 
   useEffect(() => {
     if (baseAmount) {
