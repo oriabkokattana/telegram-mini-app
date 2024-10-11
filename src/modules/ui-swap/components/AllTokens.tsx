@@ -59,8 +59,8 @@ const AllTokens = ({ data, loading, onSelect }: AllTokensProps) => {
       </Flex>
       <Flex direction='column' gap='5'>
         {data?.map((item) => {
-          const priceString = `$${formatNumber(Number(item.price_usd || 0), 8)}`;
-          const profitPercentString = `${formatPercent(Number(item.price_change_1h || 0) * 100)}%`;
+          const priceString = `$${formatNumber(item.price_usd, 8)}`;
+          const profitPercentString = `${formatPercent(item.price_change_1h)}%`;
           const positiveProfit = Number(item.price_change_1h || 0) >= 0;
           return (
             <Flex

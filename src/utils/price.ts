@@ -1,6 +1,8 @@
-export const getPriceChangePercent = (currentPrice?: number, oldPrice?: number) => {
+import Big from 'big.js';
+
+export const getPriceChangePercent = (currentPrice?: string, oldPrice?: string) => {
   if (!currentPrice || !oldPrice) {
     return 0;
   }
-  return ((currentPrice - oldPrice) / oldPrice) * 100;
+  return Big(currentPrice).minus(oldPrice).div(oldPrice).times(100).toNumber();
 };

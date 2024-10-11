@@ -32,11 +32,11 @@ const getTransactionTitle = (transaction: TransactionItem) => {
 const getTransactionAmount = (transaction: TransactionItem) => {
   switch (transaction.transaction_type) {
     case 'deposit':
-      return `+ ${formatNumber(Number(transaction.source_amount || 0))}`;
+      return `+ ${formatNumber(transaction.source_amount)}`;
     case 'withdraw':
-      return `- ${formatNumber(Number(transaction.source_amount || 0))}`;
+      return `- ${formatNumber(transaction.source_amount)}`;
     case 'swap':
-      return `+ ${formatNumber(Number(transaction.destination_amount || 0))}`;
+      return `+ ${formatNumber(transaction.destination_amount)}`;
     default:
       return '—';
   }

@@ -199,7 +199,7 @@ const CustomTooltip = ({ valueType, token, payload }: CustomTooltipProps) => {
       </Text>
       {valueType === 'percent' ? (
         <Text color={value >= 0 ? 'violet' : 'crimson'} size='1' weight='medium' lineHeight='10px'>
-          {formatPercent(value * 100)}%
+          {formatPercent(value)}%
         </Text>
       ) : (
         <Text color='gray' size='1' weight='medium' lineHeight='10px'>

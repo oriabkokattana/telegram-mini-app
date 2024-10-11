@@ -1,43 +1,53 @@
-export const formatNumber = (number?: number, fractionDigits = 12) => {
+import Big from 'big.js';
+
+type FormatterNumber = string | Big | number;
+
+const removeTrailingZeros = (number: string) =>
+  number.replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
+
+export const formatNumber = (number?: FormatterNumber, fractionDigits = 12) => {
   if (!number) {
     return '0';
   }
-  return number % 1 === 0
-    ? number.toString()
-    : number.toFixed(fractionDigits).replace(/\.?0+$/, '');
+  const big = Big(number);
+  return removeTrailingZeros(big.toFixed(fractionDigits));
 };
 
-export const formatNumberWithSpaces = (number?: number, fractionDigits = 5) => {
+export const formatNumberWithSpaces = (number?: FormatterNumber, fractionDigits = 5) => {
   if (!number) {
     return '0';
   }
+  const big = Big(number);
+  const formatted = new Intl.NumberFormat('en-US', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: fractionDigits,
+  }).format(big.toNumber());
   // Format the number using 'en-US' or any locale that uses commas or spaces as thousands separators
-  return new Intl.NumberFormat('en-US', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: fractionDigits,
-  })
-    .format(number)
-    .replace(/,/g, ' ');
+  return formatted.replace(/,/g, ' ');
 };
 
-export const formatNumberWithCommas = (number?: number, fractionDigits = 5) => {
+export const formatNumberWithCommas = (number?: FormatterNumber, fractionDigits = 5) => {
   if (number === undefined || number === null) {
     return '0';
   }
-  return new Intl.NumberFormat('en-US', {
+  const big = Big(number);
+  const formatted = new Intl.NumberFormat('en-US', {
     minimumFractionDigits: 0,
     maximumFractionDigits: fractionDigits,
-  }).format(number);
+  }).format(big.toNumber());
+  return formatted;
 };
 
-export const formatPercent = (number?: number) => {
+export const formatPercent = (number?: FormatterNumber) => {
   if (number === undefined || number === null) {
     return '0';
   }
-  return new Intl.NumberFormat('en-US', {
+  const big = Big(number).times(100);
+  const formatted = new Intl.NumberFormat('en-US', {
     minimumFractionDigits: 0,
     maximumFractionDigits: 2,
-  }).format(number);
+  }).format(big.toNumber());
+  return formatted;
 };
 
 export const transformCommaToDot = (input: string): string => {
@@ -61,24 +71,9 @@ export const transformCommaToDot = (input: string): string => {
 };
 
 export const trimToPrecision = (value: number, precision: number): number => {
-  const [integerPart, fractionalPart] = value.toString().split('.');
-  const integerLength = integerPart.length;
+  // Convert the value to scientific notation using toPrecision to ensure significant digits are retained
+  const trimmedValue = value.toPrecision(precision);
 
-  // If the total digits are within the precision limit, return the number as is
-  if (integerLength >= precision) {
-    return Math.floor(value); // Only integer part fits the precision, truncate after decimal
-  }
-
-  const allowedFractionDigits = precision - integerLength;
-
-  if (!fractionalPart || fractionalPart.length <= allowedFractionDigits) {
-    return value; // No trimming needed
-  }
-
-  // Trim the fractional part based on the allowed digits
-  const trimmedFraction = fractionalPart.slice(0, allowedFractionDigits);
-
-  return parseFloat(`${integerPart}.${trimmedFraction}`);
+  // Convert back to a float to ensure it's not a string representation
+  return parseFloat(trimmedValue);
 };
-
-export const roundNumber = (number: number) => Math.round(number * 10 ** 8) / 10 ** 8;

@@ -110,15 +110,12 @@ const UISwap = () => {
 
   const saveOnTrade = useMemo(() => {
     return swapEnabled
-      ? formatNumberWithCommas(
-          baseAmountUSD.times((Math.random() * (1 - 0.5) + 0.5) / 100).toNumber(),
-          4
-        )
+      ? formatNumberWithCommas(baseAmountUSD.times((Math.random() * (1 - 0.5) + 0.5) / 100), 4)
       : 0;
   }, [baseAmountUSD.toString(), swapEnabled]);
 
   const onSwap = useCallback(() => {
-    const amount = Number(baseAmount);
+    const amount = Big(baseAmount).toNumber();
     if (!amount || !base || !quote) {
       toast.error('Please check if parameters are valid');
       return;
@@ -333,7 +330,7 @@ const UISwap = () => {
       </Flex>
       {base && quote && (
         <Text color='gray' size='2' weight='medium' align='center' lineHeight='20px'>
-          1 {base} = {formatNumberWithCommas(basePrice.toNumber())} {quote}
+          1 {base} = {formatNumberWithCommas(basePrice)} {quote}
         </Text>
       )}
       <Flex direction='column' gap='2'>
@@ -392,7 +389,7 @@ const UISwap = () => {
           <DialogDescription asChild>
             <Text size='2' align='center' lineHeight='12px'>
               {dialog === 'funds'
-                ? `Make a ${formatNumberWithCommas(baseAmountNumber.minus(baseBalance).toNumber())} ${base} deposit to continue the swap`
+                ? `Make a ${formatNumberWithCommas(baseAmountNumber.minus(baseBalance))} ${base} deposit to continue the swap`
                 : 'Minimum amount for swap 5 USD'}
             </Text>
           </DialogDescription>

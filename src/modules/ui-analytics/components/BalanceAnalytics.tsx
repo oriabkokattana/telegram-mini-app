@@ -22,12 +22,12 @@ const BalanceAnalytics = () => {
     setBalanceTimeframe(timeframe);
   }, [timeframe]);
 
-  const balanceString = `$ ${formatNumberWithCommas(Number(total_balance_usd))}`;
+  const balanceString = `$ ${formatNumberWithCommas(total_balance_usd)}`;
   const profitPositive = Number(pnl_percent) >= 0;
-  const profitString = `${formatNumberWithCommas(Number(pnl_usd))} $ (${formatPercent(Number(pnl_percent) * 100)}%)`;
-  const depositsString = `+ ${formatNumberWithCommas(Number(profitChartData?.total_deposit_usd || 0))} $`;
-  const withdrawalsString = `- ${formatNumberWithCommas(Number(profitChartData?.total_withdraw_usd || 0))} $`;
-  const saveString = `+ ${formatNumberWithCommas(Number(profitChartData?.total_savings_usd || 0))} $`;
+  const profitString = `${formatNumberWithCommas(pnl_usd)} $ (${formatPercent(pnl_percent)}%)`;
+  const depositsString = `+ ${formatNumberWithCommas(profitChartData?.total_deposit_usd)} $`;
+  const withdrawalsString = `- ${formatNumberWithCommas(profitChartData?.total_withdraw_usd)} $`;
+  const saveString = `+ ${formatNumberWithCommas(profitChartData?.total_savings_usd)} $`;
 
   return (
     <Flex direction='column' gap='5' pt='5'>

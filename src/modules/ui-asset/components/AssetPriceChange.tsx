@@ -20,7 +20,7 @@ import { ChartEntity } from '@/types/chart';
 
 interface AssetPriceChangeProps {
   asset?: string;
-  priceUSD: number;
+  priceUSD?: string;
   onSwap(): void;
 }
 
@@ -33,9 +33,7 @@ const AssetPriceChange = ({ asset, priceUSD, onSwap }: AssetPriceChangeProps) =>
 
   const priceChangePercent = getPriceChangePercent(
     priceUSD,
-    assetPriceChangeData
-      ? Number(assetPriceChangeData[assetPriceChangeData.length - 1]?.value || 0)
-      : priceUSD
+    assetPriceChangeData ? assetPriceChangeData[assetPriceChangeData.length - 1]?.value : priceUSD
   );
   const priceChangePositive = priceChangePercent >= 0;
 
@@ -116,7 +114,7 @@ const AssetPriceChange = ({ asset, priceUSD, onSwap }: AssetPriceChangeProps) =>
 
 type HeaderProps = {
   asset?: string;
-  priceUSD: number;
+  priceUSD?: string;
   priceChangePercent: number;
   chartData?: ChartEntity[];
   loading: boolean;

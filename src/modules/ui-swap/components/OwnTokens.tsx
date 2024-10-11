@@ -136,9 +136,9 @@ const OwnTokens = ({ data, type, loading, onSelect }: OwnTokensProps) => {
       </Flex>
       <Flex direction='column' gap='5'>
         {sortedAssetList.map((item) => {
-          const balanceString = formatNumber(Number(mergedBalances[item].total_balance.balance));
-          const balanceInSystemCurrecnyString = `$${formatNumberWithSpaces(Number(mergedBalances[item].total_balance.balance_usd))}`;
-          const profitPercentString = `${formatPercent(Number(mergedBalances[item].total_balance.pnl_percent) * 100)}%`;
+          const balanceString = formatNumber(mergedBalances[item].total_balance.balance);
+          const balanceInSystemCurrecnyString = `$${formatNumberWithSpaces(mergedBalances[item].total_balance.balance_usd)}`;
+          const profitPercentString = `${formatPercent(mergedBalances[item].total_balance.pnl_percent)}%`;
           const positiveProfit = Number(mergedBalances[item].total_balance.pnl_percent) >= 0;
           return (
             <Flex

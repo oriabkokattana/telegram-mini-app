@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import Big from 'big.js';
 import * as Label from '@radix-ui/react-label';
 import { Box, Button, Flex, IconButton, Skeleton } from '@radix-ui/themes';
 import { EPeriod } from '@/enums';
@@ -41,9 +42,9 @@ const TotalBalance = () => {
     setBalanceTimeframe(periodToTimeframe(period));
   }, [period]);
 
-  const balanceString = `${currency === 'USD' ? '$ ' : ''}${formatNumberWithCommas(Number(total_balance_usd) * currencyRate)}${currency === 'USD' ? '' : ` ${currency}`}`;
+  const balanceString = `${currency === 'USD' ? '$ ' : ''}${formatNumberWithCommas(Big(total_balance_usd).times(currencyRate))}${currency === 'USD' ? '' : ` ${currency}`}`;
   const profitPositive = Number(pnl_percent) >= 0;
-  const profitString = `${formatNumberWithCommas(Number(pnl_usd))} $ (${formatPercent(Number(pnl_percent) * 100)}%)`;
+  const profitString = `${formatNumberWithCommas(pnl_usd)} $ (${formatPercent(pnl_percent)}%)`;
 
   return (
     <Box>

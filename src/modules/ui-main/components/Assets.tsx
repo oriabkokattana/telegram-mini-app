@@ -1,3 +1,4 @@
+import Big from 'big.js';
 import { Flex } from '@radix-ui/themes';
 import Link from '@/modules/core/components/Link';
 import { Icon } from '@/modules/core/design-system/icon';
@@ -24,9 +25,9 @@ const Assets = () => {
   return (
     <Flex direction='column' gap='4'>
       {sortedAssetList.map((item) => {
-        const balanceString = formatNumber(Number(balances[item].total_balance.balance));
-        const balanceInSystemCurrecnyString = `${currency === 'USD' ? '$' : ''}${formatNumberWithSpaces(Number(balances[item].total_balance.balance_usd) * currencyRate)}${currency === 'USD' ? '' : ` ${currency}`}`;
-        const profitPercentString = `${formatPercent(Number(balances[item].total_balance.pnl_percent) * 100)}%`;
+        const balanceString = formatNumber(balances[item].total_balance.balance);
+        const balanceInSystemCurrecnyString = `${currency === 'USD' ? '$' : ''}${formatNumberWithSpaces(Big(balances[item].total_balance.balance_usd).times(currencyRate))}${currency === 'USD' ? '' : ` ${currency}`}`;
+        const profitPercentString = `${formatPercent(balances[item].total_balance.pnl_percent)}%`;
         const positiveProfit = Number(balances[item].total_balance.pnl_percent) >= 0;
         return (
           <Flex key={item} asChild justify='between' align='center' gap='2'>

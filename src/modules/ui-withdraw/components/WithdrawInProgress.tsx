@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Big from 'big.js';
 import { toast } from 'sonner';
 import { Box, Button, Card, Flex, IconButton } from '@radix-ui/themes';
 import * as stylex from '@stylexjs/stylex';
@@ -22,9 +23,9 @@ interface WithdrawInProgressProps {
   token?: string;
   networkName?: string;
   networkDescription?: string;
-  amount: number;
-  amountUSD: number;
-  fee: number;
+  amount: Big;
+  amountUSD: Big;
+  fee: Big;
   duration: ShortDuration;
   address?: string;
   isBottomGap: boolean;
@@ -137,7 +138,7 @@ const WithdrawInProgress = ({
                   Fee
                 </Text>
                 <Text size='2' weight='bold' lineHeight='12px'>
-                  {fee}{' '}
+                  {fee.toString()}{' '}
                   <Text color='gray' size='2' weight='bold' lineHeight='12px'>
                     {token}
                   </Text>

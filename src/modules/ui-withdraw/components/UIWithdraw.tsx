@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Big from 'big.js';
 import { toast } from 'sonner';
 import { isAddress } from 'viem';
 import * as Label from '@radix-ui/react-label';
@@ -56,12 +57,11 @@ const UIWithdraw = () => {
 
   const balance =
     token && network ? getAvailableBalance(balances[token.symbol]?.total_balance).balance : 0;
-  const priceUSD = Number(assetPriceData?.price_usd || 0);
-  const tokenAmount = Number(amount) || 0;
-  const tokenAmountUSD = tokenAmount * priceUSD;
+  const tokenAmount = Big(amount || 0);
+  const tokenAmountUSD = tokenAmount.times(assetPriceData?.price_usd || 0);
   const duration = convertSecondsShort(network?.processing_time_seconds);
-  const fee = tokenAmount * (network?.token_fee_percent || 0);
-  const availableLiquidity = Number(network?.available_liquidity || 0);
+  const fee = tokenAmount.times(network?.token_fee_percent || 0);
+  const availableLiquidity = Big(network?.available_liquidity || 0).toNumber();
 
   const onQrScan = () => {
     qrScanner.open('Scan wallet address').then((text) => {
@@ -114,7 +114,7 @@ const UIWithdraw = () => {
 
     withdraw.mutate({
       token: token.symbol,
-      amount: Number(amount),
+      amount: Big(amount).toNumber(),
       network: network.name,
       destination_address: address,
     });
@@ -229,10 +229,10 @@ const UIWithdraw = () => {
             </Text>
             <Flex maxWidth='250px'>
               <Text size='2' weight='bold' truncate>
-                {tokenAmount}{' '}
+                {tokenAmount.toString()}{' '}
                 <Text color='gray' size='2' weight='bold' lineHeight='12px'>
                   {token?.symbol}
-                  {tokenAmountUSD ? ` (~$${formatNumberWithCommas(tokenAmountUSD)})` : ''}
+                  {tokenAmountUSD.eq(0) ? '' : ` (~$${formatNumberWithCommas(tokenAmountUSD)})`}
                 </Text>
               </Text>
             </Flex>

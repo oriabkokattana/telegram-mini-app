@@ -45,9 +45,9 @@ const UIAsset = () => {
   const { data: assetChartData, isLoading: assetChartLoading } = useAssetChart(timeframe, asset);
   const { data: assetPriceData, isLoading: assetPriceLoading } = useAssetPrice(asset);
 
-  const priceUSD = Number(assetPriceData?.price_usd || 0);
+  const priceUSD = assetPriceData?.price_usd;
   const profitPositive = Number(assetChartData?.pnl_percent || 0) >= 0;
-  const profitString = `${formatPercent(Number(assetChartData?.pnl_percent || 0) * 100)}%`;
+  const profitString = `${formatPercent(assetChartData?.pnl_percent)}%`;
   const actionPossible = !!asset && !!balances[asset];
 
   const onDeposit = () => {
@@ -100,7 +100,7 @@ const UIAsset = () => {
           <Skeleton width='130px' height='26px' />
         ) : (
           <Text size='7' weight='bold' lineHeight='26px'>
-            {formatNumberWithCommas(Number(assetSummaryData?.total_balance || 0), 12)} {asset}
+            {formatNumberWithCommas(assetSummaryData?.total_balance, 12)} {asset}
           </Text>
         )}
         {assetSummaryLoading ? (
@@ -108,7 +108,7 @@ const UIAsset = () => {
         ) : (
           <Flex height='20px' align='center' justify='center' gap='2'>
             <Text color='gray' size='3' weight='bold'>
-              ≈ $ {formatNumberWithCommas(Number(assetSummaryData?.total_balance_usd || 0))}
+              ≈ $ {formatNumberWithCommas(assetSummaryData?.total_balance_usd)}
             </Text>
             <Flex align='center' gap='1'>
               <Icon
