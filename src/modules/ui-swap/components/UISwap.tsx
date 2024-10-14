@@ -19,6 +19,7 @@ import { useTransactionStatus } from '@/services/user/transaction-status/api';
 import { useBalancesStore } from '@/store/balances-store';
 import { useDepositStore } from '@/store/deposit-store';
 import { useTradingStore } from '@/store/trading-store';
+import { DEFAULT_PRECISION } from '@/utils/balances';
 import { formatNumberWithCommas } from '@/utils/numbers';
 import { getAvailableBalance } from '@/utils/token-with-balance';
 import TradingInput from './TradingInput';
@@ -155,8 +156,8 @@ const UISwap = () => {
         const tradingBaseToken = assets[0];
         setBase(
           tradingBaseToken,
-          balances[tradingBaseToken].currency_name || tradingBaseToken,
-          balances[tradingBaseToken].precision
+          balances[tradingBaseToken]?.currency_name || tradingBaseToken,
+          balances[tradingBaseToken]?.precision || DEFAULT_PRECISION
         );
       } else {
         setBase(

@@ -37,7 +37,16 @@ const tradingStoreSlice: StateCreator<TradingState & TradingAction> = (set) => (
   quoteName: undefined,
   quotePrecision: DEFAULT_PRECISION,
   quoteAmount: '',
-  setBase: (base, baseName, basePrecision) => set({ base, baseName, basePrecision }),
+  setBase: (base, baseName, basePrecision) =>
+    set({
+      base,
+      baseName,
+      basePrecision,
+      quote: undefined,
+      quoteName: undefined,
+      quotePrecision: DEFAULT_PRECISION,
+      quoteAmount: '',
+    }),
   setBaseAmount: (baseAmount) => set({ baseAmount }),
   setQuote: (quote, quoteName, quotePrecision) => set({ quote, quoteName, quotePrecision }),
   setQuoteAmount: (quoteAmount) => set({ quoteAmount }),

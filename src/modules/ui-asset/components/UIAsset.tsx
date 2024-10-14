@@ -38,7 +38,6 @@ const UIAsset = () => {
   const setDepositToken = useDepositStore((state) => state.setToken);
   const setWithdrawToken = useWithdrawStore((state) => state.setToken);
   const setTradingBase = useTradingStore((state) => state.setBase);
-  const setTradingQuote = useTradingStore((state) => state.setQuote);
   const isBottomGap = useCheckBottomGap();
 
   const { asset } = useParams();
@@ -56,8 +55,8 @@ const UIAsset = () => {
       trackDepositIconButtonClicked();
       setDepositToken({
         symbol: asset,
-        name: balances[asset].currency_name || asset,
-        precision: balances[asset].precision || DEFAULT_PRECISION,
+        name: balances[asset]?.currency_name || asset,
+        precision: balances[asset]?.precision || DEFAULT_PRECISION,
       });
     }
   };
@@ -67,8 +66,8 @@ const UIAsset = () => {
       trackWithdrawIconButtonClicked();
       setWithdrawToken({
         symbol: asset,
-        name: balances[asset].currency_name || asset,
-        precision: balances[asset].precision || DEFAULT_PRECISION,
+        name: balances[asset]?.currency_name || asset,
+        precision: balances[asset]?.precision || DEFAULT_PRECISION,
       });
     }
   };
@@ -82,10 +81,9 @@ const UIAsset = () => {
       }
       setTradingBase(
         asset,
-        balances[asset].currency_name || asset,
-        balances[asset].precision || DEFAULT_PRECISION
+        balances[asset]?.currency_name || asset,
+        balances[asset]?.precision || DEFAULT_PRECISION
       );
-      setTradingQuote(undefined, undefined, DEFAULT_PRECISION);
     }
   };
 
