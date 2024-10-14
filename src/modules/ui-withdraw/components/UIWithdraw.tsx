@@ -15,8 +15,14 @@ import { useAssetPrice } from '@/services/user/asset-price/api';
 import { useWithdraw } from '@/services/user/withdraw/api';
 import { useBalancesStore } from '@/store/balances-store';
 import { useWithdrawStore } from '@/store/withdraw-store';
+import { DEFAULT_PRECISION } from '@/utils/balances';
 import { convertSecondsShort } from '@/utils/duration';
-import { formatNumber, formatNumberWithCommas, transformCommaToDot } from '@/utils/numbers';
+import {
+  formatNumber,
+  formatNumberWithCommas,
+  replaceAfterDot,
+  transformCommaToDot,
+} from '@/utils/numbers';
 import { getAvailableBalance } from '@/utils/token-with-balance';
 import WithdrawInProgress from './WithdrawInProgress';
 
@@ -75,13 +81,18 @@ const UIWithdraw = () => {
   };
 
   const onAmountChange = (value: string) => {
+    const precision = token?.precision || DEFAULT_PRECISION;
+
     // Allow only numbers, commas, and dots
     const cleanedInput = value.replace(/[^0-9.,]/g, '');
 
     // Format the cleaned input: remove all commas except the last one and replace it with a dot
     const formattedValue = transformCommaToDot(cleanedInput);
 
-    setAmount(formattedValue);
+    // Limit to precision
+    const limitedValue = replaceAfterDot(formattedValue, precision - 1);
+
+    setAmount(limitedValue);
   };
 
   const onSend = async () => {
@@ -114,7 +125,7 @@ const UIWithdraw = () => {
 
     withdraw.mutate({
       token: token.symbol,
-      amount: Big(amount).toNumber(),
+      amount: amount,
       network: network.name,
       destination_address: address,
     });

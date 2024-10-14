@@ -29,19 +29,19 @@ const UISwapTokenSelectScreen = () => {
 
   const { data: swapTokensData, isLoading } = useSwapTokens(type === 'base' ? quote : base);
 
-  const onSelect = (symbol: string, name: string) => {
+  const onSelect = (symbol: string, name: string, precision: number) => {
     if (type) {
       if (type === 'base') {
         if (quote === symbol) {
           rotate();
         } else {
-          setBase(symbol, name);
+          setBase(symbol, name, precision);
         }
       } else {
         if (base === symbol) {
           rotate();
         } else {
-          setQuote(symbol, name);
+          setQuote(symbol, name, precision);
         }
       }
     }

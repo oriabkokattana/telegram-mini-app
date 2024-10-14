@@ -27,6 +27,7 @@ import { styles } from './UISwap.styles';
 
 const DEFAULT_TRADING_BASE_TOKEN = 'USDT';
 const DEFAULT_TRADING_BASE_TOKEN_NAME = 'Tether USD';
+const DEFAULT_TRADING_BASE_TOKEN_PRECISION = 2;
 
 enum BalancePercent {
   twenty = '20',
@@ -65,8 +66,10 @@ const UISwap = () => {
   const {
     base,
     baseName,
+    basePrecision,
     baseAmount,
     quote,
+    quotePrecision,
     quoteAmount,
     setBase,
     setBaseAmount,
@@ -115,8 +118,7 @@ const UISwap = () => {
   }, [baseAmountUSD.toString(), swapEnabled]);
 
   const onSwap = useCallback(() => {
-    const amount = Big(baseAmount).toNumber();
-    if (!amount || !base || !quote) {
+    if (isNaN(Number(baseAmount)) || !base || !quote) {
       toast.error('Please check if parameters are valid');
       return;
     }
@@ -124,7 +126,7 @@ const UISwap = () => {
       setDialog('min-exceeded');
       return;
     }
-    swap.mutate({ amountA: amount, tokenA: base, tokenB: quote });
+    swap.mutate({ amountA: baseAmount, tokenA: base, tokenB: quote });
   }, [minExceededEnabled, baseAmount, base, quote]);
 
   const onSideAction = useCallback(() => {
@@ -132,11 +134,11 @@ const UISwap = () => {
       setDialog(undefined);
     } else if (fundsEnabled) {
       if (base) {
-        setDepositToken({ symbol: base, name: baseName || base });
+        setDepositToken({ symbol: base, name: baseName || base, precision: basePrecision });
         navigate('/?fund=true');
       }
     }
-  }, [base, baseName, fundsEnabled, dialog]);
+  }, [base, baseName, basePrecision, fundsEnabled, dialog]);
 
   useShowMainButton({
     variant: swapEnabled || fundsEnabled ? 'default' : 'disabled',
@@ -151,9 +153,17 @@ const UISwap = () => {
       const assets = Object.keys(balances);
       if (assets.length && !assets.includes(DEFAULT_TRADING_BASE_TOKEN)) {
         const tradingBaseToken = assets[0];
-        setBase(tradingBaseToken, balances[tradingBaseToken].currency_name || tradingBaseToken);
+        setBase(
+          tradingBaseToken,
+          balances[tradingBaseToken].currency_name || tradingBaseToken,
+          balances[tradingBaseToken].precision
+        );
       } else {
-        setBase(DEFAULT_TRADING_BASE_TOKEN, DEFAULT_TRADING_BASE_TOKEN_NAME);
+        setBase(
+          DEFAULT_TRADING_BASE_TOKEN,
+          DEFAULT_TRADING_BASE_TOKEN_NAME,
+          DEFAULT_TRADING_BASE_TOKEN_PRECISION
+        );
       }
     }
   }, []);
@@ -177,16 +187,18 @@ const UISwap = () => {
   }, [transactionStatusData?.status]);
 
   useEffect(() => {
-    if (!baseInputFocused && !quoteInputFocused && fundsEnabled && fundsEnabledRef.current) {
-      setDialog('funds');
-    } else {
-      setDialog(undefined);
+    if (dialog !== 'min-exceeded') {
+      if (!baseInputFocused && !quoteInputFocused && fundsEnabled && fundsEnabledRef.current) {
+        setDialog('funds');
+      } else {
+        setDialog(undefined);
+      }
     }
   }, [fundsEnabled, baseInputFocused, quoteInputFocused]);
 
   useEffect(() => {
     if (baseAmount) {
-      setQuoteAmount(Big(baseAmount).times(basePrice).prec(12).toString());
+      setQuoteAmount(Big(baseAmount).times(basePrice).round(quotePrecision, 0).toString());
     } else {
       setQuoteAmount(baseAmount);
     }
@@ -195,7 +207,7 @@ const UISwap = () => {
   const onSetBaseAmount = (value: string) => {
     setBaseAmount(value);
     if (value) {
-      setQuoteAmount(Big(value).times(basePrice).prec(18).toString());
+      setQuoteAmount(Big(value).times(basePrice).round(quotePrecision, 0).toString());
     } else {
       setQuoteAmount(value);
     }
@@ -204,7 +216,7 @@ const UISwap = () => {
   const onSetQuoteAmount = (value: string) => {
     setQuoteAmount(value);
     if (value) {
-      setBaseAmount(Big(value).times(quotePrice).prec(18).toString());
+      setBaseAmount(Big(value).times(quotePrice).round(basePrecision, 0).toString());
     } else {
       setBaseAmount(value);
     }
@@ -257,6 +269,7 @@ const UISwap = () => {
           priceChangePercent={basePriceChangePercent}
           amountUSD={baseAmountUSD}
           token={base}
+          precision={basePrecision}
           value={baseAmount}
           onChange={onSetBaseAmount}
           onFocus={() => setBaseInputFocused(true)}
@@ -283,6 +296,7 @@ const UISwap = () => {
           priceChangePercent={quotePriceChangePercent}
           amountUSD={quoteAmountUSD}
           token={quote}
+          precision={quotePrecision}
           value={quoteAmount}
           onChange={onSetQuoteAmount}
           onFocus={() => setQuoteInputFocused(true)}

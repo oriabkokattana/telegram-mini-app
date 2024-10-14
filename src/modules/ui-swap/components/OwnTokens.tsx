@@ -12,7 +12,10 @@ import { formatNumber, formatNumberWithSpaces, formatPercent } from '@/utils/num
 
 import { BalanceItem, SwapTokenItem, SwapTokenType } from '@/types';
 
-const DEFAULT_YOUR_TOKENS: Record<string, { currency_name: string; total_balance: BalanceItem }> = {
+const DEFAULT_YOUR_TOKENS: Record<
+  string,
+  { currency_name: string; precision: number; total_balance: BalanceItem }
+> = {
   BNB: {
     total_balance: {
       balance: '0',
@@ -23,6 +26,7 @@ const DEFAULT_YOUR_TOKENS: Record<string, { currency_name: string; total_balance
       pnl_percent: '0',
     },
     currency_name: 'Binance Coin',
+    precision: 7,
   },
   // BTC: {
   //   total_balance: {
@@ -45,6 +49,7 @@ const DEFAULT_YOUR_TOKENS: Record<string, { currency_name: string; total_balance
       pnl_percent: '0',
     },
     currency_name: 'Ethereum',
+    precision: 7,
   },
   USDC: {
     total_balance: {
@@ -56,6 +61,7 @@ const DEFAULT_YOUR_TOKENS: Record<string, { currency_name: string; total_balance
       pnl_percent: '0',
     },
     currency_name: 'USD Coin',
+    precision: 2,
   },
   USDT: {
     total_balance: {
@@ -67,6 +73,7 @@ const DEFAULT_YOUR_TOKENS: Record<string, { currency_name: string; total_balance
       pnl_percent: '0',
     },
     currency_name: 'Tether USD',
+    precision: 2,
   },
 };
 
@@ -74,7 +81,7 @@ interface OwnTokensProps {
   data?: SwapTokenItem[];
   type: SwapTokenType;
   loading: boolean;
-  onSelect(symbol: string, name: string): void;
+  onSelect(symbol: string, name: string, precision: number): void;
 }
 
 const OwnTokens = ({ data, type, loading, onSelect }: OwnTokensProps) => {
@@ -147,7 +154,13 @@ const OwnTokens = ({ data, type, loading, onSelect }: OwnTokensProps) => {
               justify='between'
               align='center'
               gap='2'
-              onClick={() => onSelect(item, mergedBalances[item].currency_name || item)}
+              onClick={() =>
+                onSelect(
+                  item,
+                  mergedBalances[item].currency_name || item,
+                  mergedBalances[item].precision
+                )
+              }
             >
               <Link to='/swap'>
                 <Flex gap='2' align='center'>

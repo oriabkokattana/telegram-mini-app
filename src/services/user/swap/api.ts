@@ -1,4 +1,5 @@
 import { AxiosError } from 'axios';
+import Big from 'big.js';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
@@ -35,7 +36,7 @@ export function useSwap() {
   >({
     mutationFn: (payload) => swap({ data: payload }),
     onSuccess: (_, payload) => {
-      trackTokenSwapped(payload.tokenA, payload.tokenB, payload.amountA);
+      trackTokenSwapped(payload.tokenA, payload.tokenB, Big(payload.amountA).toNumber());
       setBaseAmount('');
       setQuoteAmount('');
     },

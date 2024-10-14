@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const SwapAPIRequestSchema = z.object({
-  amountA: z.number(),
+  amountA: z.string(),
   tokenA: z.string(),
   tokenB: z.string(),
 });

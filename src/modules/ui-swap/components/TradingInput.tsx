@@ -5,7 +5,12 @@ import { Flex } from '@radix-ui/themes';
 import * as stylex from '@stylexjs/stylex';
 import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
-import { formatNumberWithCommas, formatPercent, transformCommaToDot } from '@/utils/numbers';
+import {
+  formatNumberWithCommas,
+  formatPercent,
+  replaceAfterDot,
+  transformCommaToDot,
+} from '@/utils/numbers';
 import TokenSelectButton from './TokenSelectButton';
 
 import { styles } from './TradingInput.styles';
@@ -20,6 +25,7 @@ type TradingInputProps = {
   priceChangePercent: Big;
   amountUSD: Big;
   token?: string;
+  precision: number;
   value: string;
   onChange(value: string): void;
 } & Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'value' | 'onChange'>;
@@ -32,6 +38,7 @@ const TradingInput = ({
   priceChangePercent,
   amountUSD,
   token,
+  precision,
   value,
   onChange,
   ...props
@@ -45,7 +52,10 @@ const TradingInput = ({
     // Format the cleaned input: remove all commas except the last one and replace it with a dot
     const formattedValue = transformCommaToDot(cleanedInput);
 
-    onChange(formattedValue);
+    // Limit to precision
+    const limitedValue = replaceAfterDot(formattedValue, precision - 1);
+
+    onChange(limitedValue);
   };
 
   return (

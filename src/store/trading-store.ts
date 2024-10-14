@@ -1,18 +1,29 @@
 import { create, StateCreator } from 'zustand';
+import { DEFAULT_PRECISION } from '@/utils/balances';
 
 type TradingState = {
   base?: string;
   baseName?: string;
+  basePrecision: number;
   baseAmount: string;
   quote?: string;
   quoteName?: string;
+  quotePrecision: number;
   quoteAmount: string;
 };
 
 type TradingAction = {
-  setBase: (base: TradingState['base'], baseName: TradingState['baseName']) => void;
+  setBase: (
+    base: TradingState['base'],
+    baseName: TradingState['baseName'],
+    basePrecision: TradingState['basePrecision']
+  ) => void;
   setBaseAmount: (baseAmount: TradingState['quoteAmount']) => void;
-  setQuote: (quote: TradingState['quote'], quoteName: TradingState['quoteName']) => void;
+  setQuote: (
+    quote: TradingState['quote'],
+    quoteName: TradingState['quoteName'],
+    quotePrecision: TradingState['quotePrecision']
+  ) => void;
   setQuoteAmount: (quoteAmount: TradingState['baseAmount']) => void;
   rotate: () => void;
 };
@@ -20,23 +31,27 @@ type TradingAction = {
 const tradingStoreSlice: StateCreator<TradingState & TradingAction> = (set) => ({
   base: undefined,
   baseName: undefined,
+  basePrecision: DEFAULT_PRECISION,
   baseBalance: 270,
   baseAmount: '',
   quote: undefined,
   quoteName: undefined,
+  quotePrecision: DEFAULT_PRECISION,
   quoteBalance: 2800,
   quoteAmount: '',
-  setBase: (base, baseName) => set({ base, baseName }),
+  setBase: (base, baseName, basePrecision) => set({ base, baseName, basePrecision }),
   setBaseAmount: (baseAmount) => set({ baseAmount }),
-  setQuote: (quote, quoteName) => set({ quote, quoteName }),
+  setQuote: (quote, quoteName, quotePrecision) => set({ quote, quoteName, quotePrecision }),
   setQuoteAmount: (quoteAmount) => set({ quoteAmount }),
   rotate: () =>
     set((state) => ({
       base: state.quote,
       baseName: state.quoteName,
+      basePrecision: state.quotePrecision,
       baseAmount: state.quoteAmount,
       quote: state.base,
-      quoteName: state.quoteName,
+      quoteName: state.baseName,
+      quotePrecision: state.basePrecision,
       quoteAmount: state.baseAmount,
     })),
 });

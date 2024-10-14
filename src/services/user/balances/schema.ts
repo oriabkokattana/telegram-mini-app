@@ -13,6 +13,7 @@ export const BalanceSchema = z.object({
 
 const CurrencySchema = z.object({
   currency_name: z.string(),
+  precision: z.number(),
   total_balance: BalanceSchema,
 });
 

@@ -6,7 +6,10 @@ type BalancesState = {
   pnl_percent: string;
   pnl_usd: string;
   total_balance_usd: string;
-  balances: Record<string, { currency_name: string; total_balance: BalanceItem }>;
+  balances: Record<
+    string,
+    { currency_name: string; precision: number; total_balance: BalanceItem }
+  >;
   balancesLoading: boolean;
 };
 

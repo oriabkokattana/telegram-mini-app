@@ -70,6 +70,18 @@ export const transformCommaToDot = (input: string): string => {
   return result === '.' ? '0.' : result;
 };
 
+export const replaceAfterDot = (str: string, n: number): string => {
+  const [integerPart, decimalPart] = str.split('.');
+
+  if (!decimalPart || decimalPart.length <= n) {
+    return str; // No change needed if no decimal or length is within limit
+  }
+
+  const newDecimalPart = decimalPart.substring(0, n) + decimalPart[decimalPart.length - 1];
+
+  return `${integerPart}.${newDecimalPart}`;
+};
+
 export const trimToPrecision = (value: number, precision: number): number => {
   // Convert the value to scientific notation using toPrecision to ensure significant digits are retained
   const trimmedValue = value.toPrecision(precision);

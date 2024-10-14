@@ -1,4 +1,5 @@
 import { AxiosError } from 'axios';
+import Big from 'big.js';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
@@ -31,7 +32,7 @@ export function useWithdraw() {
   >({
     mutationFn: (payload) => withdraw({ data: payload }),
     onSuccess: (_, payload) => {
-      trackFundsWithdrawn(payload.token, payload.network, payload.amount);
+      trackFundsWithdrawn(payload.token, payload.network, Big(payload.amount).toNumber());
     },
     onError: (error) => {
       const errorMessage = error.response?.data.error;

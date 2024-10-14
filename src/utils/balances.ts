@@ -22,3 +22,5 @@ export const getBalanceFontSize = (balanceString: string, limit = 8): TextProps 
   }
   return { size: '3' };
 };
+
+export const DEFAULT_PRECISION = 8;

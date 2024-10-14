@@ -24,6 +24,7 @@ import {
   trackTradeButtonClicked,
   trackWithdrawIconButtonClicked,
 } from '@/utils/amplitude-events';
+import { DEFAULT_PRECISION } from '@/utils/balances';
 import { formatDate } from '@/utils/date';
 import { formatNumberWithCommas, formatPercent } from '@/utils/numbers';
 import AssetPriceChange from './AssetPriceChange';
@@ -53,14 +54,22 @@ const UIAsset = () => {
   const onDeposit = () => {
     if (actionPossible) {
       trackDepositIconButtonClicked();
-      setDepositToken({ symbol: asset, name: balances[asset].currency_name || asset });
+      setDepositToken({
+        symbol: asset,
+        name: balances[asset].currency_name || asset,
+        precision: balances[asset].precision || DEFAULT_PRECISION,
+      });
     }
   };
 
   const onWithdraw = () => {
     if (actionPossible) {
       trackWithdrawIconButtonClicked();
-      setWithdrawToken({ symbol: asset, name: balances[asset].currency_name || asset });
+      setWithdrawToken({
+        symbol: asset,
+        name: balances[asset].currency_name || asset,
+        precision: balances[asset].precision || DEFAULT_PRECISION,
+      });
     }
   };
 
@@ -71,8 +80,12 @@ const UIAsset = () => {
       } else {
         trackTradeButtonClicked();
       }
-      setTradingBase(asset, balances[asset].currency_name || asset);
-      setTradingQuote(undefined, undefined);
+      setTradingBase(
+        asset,
+        balances[asset].currency_name || asset,
+        balances[asset].precision || DEFAULT_PRECISION
+      );
+      setTradingQuote(undefined, undefined, DEFAULT_PRECISION);
     }
   };
 

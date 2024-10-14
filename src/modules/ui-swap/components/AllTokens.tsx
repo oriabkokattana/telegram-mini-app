@@ -13,7 +13,7 @@ import { SwapTokenItem } from '@/types';
 interface AllTokensProps {
   data?: SwapTokenItem[];
   loading: boolean;
-  onSelect(symbol: string, name: string): void;
+  onSelect(symbol: string, name: string, precision: number): void;
 }
 
 const AllTokens = ({ data, loading, onSelect }: AllTokensProps) => {
@@ -69,7 +69,7 @@ const AllTokens = ({ data, loading, onSelect }: AllTokensProps) => {
               justify='between'
               align='center'
               gap='2'
-              onClick={() => onSelect(item.symbol, item.name)}
+              onClick={() => onSelect(item.symbol, item.name, item.precision)}
             >
               <Link to='/swap'>
                 <Flex gap='2' align='center'>
