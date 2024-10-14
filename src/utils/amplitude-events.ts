@@ -8,14 +8,10 @@ export const trackOnboardingWelcomeScreenButtonClicked = (buttonName: Onboarding
   });
 };
 
-export const trackOnboardingSignUpMethodChosen = (signUpMethod: SignUpMethods) => {
-  trackEvent('Onboarding_Sign_Up_Method_Choosen', {
+export const trackOnboardingSignUpCompleted = (signUpMethod: SignUpMethods) => {
+  trackEvent('Onboarding_Sign_Up_Completed', {
     sign_up_method: signUpMethod,
   });
-};
-
-export const trackOnboardingSignUpCompleted = () => {
-  trackEvent('Onboarding_Sign_Up_Completed');
 };
 
 export const trackDepositIconButtonClicked = () => {

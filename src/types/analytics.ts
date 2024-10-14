@@ -7,4 +7,4 @@ export type OnboardingButtons =
   | 'Swap'
   | 'Account';
 
-export type SignUpMethods = 'Email' | 'Google' | 'Facebook' | 'SpaceX';
+export type SignUpMethods = 'Email' | 'Google' | 'Facebook' | 'SpaceX' | 'unknown';

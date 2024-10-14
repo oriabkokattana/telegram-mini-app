@@ -14,7 +14,10 @@ type SearchHistoryAction = {
   clearHistory: () => void;
 };
 
-const searchHistorySlice: StateCreator<SearchHistoryState & SearchHistoryAction> = (set, get) => ({
+const searchHistoryStoreSlice: StateCreator<SearchHistoryState & SearchHistoryAction> = (
+  set,
+  get
+) => ({
   history: [],
   addToHistory: (item) => {
     const history = get().history.filter((current) => current !== item);
@@ -28,10 +31,13 @@ const searchHistorySlice: StateCreator<SearchHistoryState & SearchHistoryAction>
   clearHistory: () => set({ history: [] }),
 });
 
-const searchHistoryStore = persist<SearchHistoryState & SearchHistoryAction>(searchHistorySlice, {
-  name: 'search-history',
-  storage: createJSONStorage(() => customStorage),
-});
+const searchHistoryStore = persist<SearchHistoryState & SearchHistoryAction>(
+  searchHistoryStoreSlice,
+  {
+    name: 'search-history',
+    storage: createJSONStorage(() => customStorage),
+  }
+);
 
 export const useSearchHistoryStore = create(searchHistoryStore);
 

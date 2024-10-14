@@ -2,7 +2,6 @@ import { useState } from 'react';
 import * as Label from '@radix-ui/react-label';
 import { Button, Flex, TextField } from '@radix-ui/themes';
 import { useEmailPassword } from '@/services/auth/email-password/api';
-import { trackOnboardingSignUpMethodChosen } from '@/utils/amplitude-events';
 
 const EmailPassword = () => {
   const [email, setEmail] = useState('');
@@ -12,7 +11,6 @@ const EmailPassword = () => {
 
   const onLogin = () => {
     emailPassword.mutate({ email, password });
-    trackOnboardingSignUpMethodChosen('Email');
   };
 
   return (

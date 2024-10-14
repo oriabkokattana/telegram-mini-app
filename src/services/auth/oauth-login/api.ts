@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import { z } from 'zod';
 import { skipToken, useQuery } from '@tanstack/react-query';
 import { useInitData } from '@telegram-apps/sdk-react';
+import { useAnalyticsStore } from '@/store/analytics-store';
 import { useUserStore } from '@/store/user-store';
 import { trackOnboardingSignUpCompleted } from '@/utils/amplitude-events';
 import { api } from '@/utils/api';
@@ -47,7 +48,7 @@ export function useOauthLogin() {
       const { access_token, refresh_token } = query.data;
       setCredentials({ accessToken: access_token, refreshToken: refresh_token });
       toast.success('Successfully logged in!');
-      trackOnboardingSignUpCompleted();
+      trackOnboardingSignUpCompleted(useAnalyticsStore.getState().signUpMethod);
     } else if (query.isError) {
       const errorMessage = query.error.response?.data.error;
       console.error(errorMessage);

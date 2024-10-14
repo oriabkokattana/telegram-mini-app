@@ -19,7 +19,9 @@ type SystemCurrencyAction = {
   setCurrencyLoading: (currencyLoading: SystemCurrencyState['currencyLoading']) => void;
 };
 
-const systemCurrencySlice: StateCreator<SystemCurrencyState & SystemCurrencyAction> = (set) => ({
+const systemCurrencyStoreSlice: StateCreator<SystemCurrencyState & SystemCurrencyAction> = (
+  set
+) => ({
   currency: 'USD',
   currencyRate: 1,
   currencies: [],
@@ -40,7 +42,7 @@ const systemCurrencySlice: StateCreator<SystemCurrencyState & SystemCurrencyActi
 });
 
 const systemCurrencyStore = persist<SystemCurrencyState & SystemCurrencyAction>(
-  systemCurrencySlice,
+  systemCurrencyStoreSlice,
   {
     name: 'system-currency',
     storage: createJSONStorage(() => customStorage),

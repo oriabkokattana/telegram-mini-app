@@ -40,7 +40,7 @@ export function useEmailPassword() {
       const { access_token, refresh_token } = resp;
       setCredentials({ accessToken: access_token, refreshToken: refresh_token });
       toast.success('Successfully logged in!');
-      trackOnboardingSignUpCompleted();
+      trackOnboardingSignUpCompleted('Email');
     },
     onError: (error) => {
       const errorMessage = error.response?.data.error;
