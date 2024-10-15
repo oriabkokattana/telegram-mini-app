@@ -10,72 +10,7 @@ import { useBalancesStore } from '@/store/balances-store';
 import { getBalanceFontSize } from '@/utils/balances';
 import { formatNumber, formatNumberWithSpaces, formatPercent } from '@/utils/numbers';
 
-import { BalanceItem, SwapTokenItem, SwapTokenType } from '@/types';
-
-const DEFAULT_YOUR_TOKENS: Record<
-  string,
-  { currency_name: string; precision: number; total_balance: BalanceItem }
-> = {
-  BNB: {
-    total_balance: {
-      balance: '0',
-      reserved_balance: '0',
-      balance_usd: '0',
-      reserved_balance_usd: '0',
-      pnl_usd: '0',
-      pnl_percent: '0',
-    },
-    currency_name: 'Binance Coin',
-    precision: 7,
-  },
-  // BTC: {
-  //   total_balance: {
-  //     balance: '0',
-  //     reserved_balance: '0',
-  //     balance_usd: '0',
-  //     reserved_balance_usd: '0',
-  //     pnl_usd: '0',
-  //     pnl_percent: '0',
-  //   },
-  //   currency_name: 'Bitcoin',
-  // },
-  ETH: {
-    total_balance: {
-      balance: '0',
-      reserved_balance: '0',
-      balance_usd: '0',
-      reserved_balance_usd: '0',
-      pnl_usd: '0',
-      pnl_percent: '0',
-    },
-    currency_name: 'Ethereum',
-    precision: 7,
-  },
-  USDC: {
-    total_balance: {
-      balance: '0',
-      reserved_balance: '0',
-      balance_usd: '0',
-      reserved_balance_usd: '0',
-      pnl_usd: '0',
-      pnl_percent: '0',
-    },
-    currency_name: 'USD Coin',
-    precision: 2,
-  },
-  USDT: {
-    total_balance: {
-      balance: '0',
-      reserved_balance: '0',
-      balance_usd: '0',
-      reserved_balance_usd: '0',
-      pnl_usd: '0',
-      pnl_percent: '0',
-    },
-    currency_name: 'Tether USD',
-    precision: 2,
-  },
-};
+import { SwapTokenItem, SwapTokenType } from '@/types';
 
 interface OwnTokensProps {
   data?: SwapTokenItem[];
@@ -88,12 +23,10 @@ const OwnTokens = ({ data, type, loading, onSelect }: OwnTokensProps) => {
   const balances = useBalancesStore((state) => state.balances);
   const isBottomGap = useCheckBottomGap();
 
-  const mergedBalances = { ...DEFAULT_YOUR_TOKENS, ...balances };
-
   const assetList =
     type === 'base'
-      ? Object.keys(mergedBalances)
-      : Object.keys(mergedBalances).filter((item) =>
+      ? Object.keys(balances)
+      : Object.keys(balances).filter((item) =>
           data?.some((swapToken) => swapToken.symbol === item)
         );
 
@@ -127,8 +60,7 @@ const OwnTokens = ({ data, type, loading, onSelect }: OwnTokensProps) => {
 
   const sortedAssetList = assetList.sort(
     (a, b) =>
-      Number(mergedBalances[b].total_balance.balance_usd) -
-      Number(mergedBalances[a].total_balance.balance_usd)
+      Number(balances[b].total_balance.balance_usd) - Number(balances[a].total_balance.balance_usd)
   );
 
   return (
@@ -143,10 +75,10 @@ const OwnTokens = ({ data, type, loading, onSelect }: OwnTokensProps) => {
       </Flex>
       <Flex direction='column' gap='5'>
         {sortedAssetList.map((item) => {
-          const balanceString = formatNumber(mergedBalances[item].total_balance.balance);
-          const balanceInSystemCurrecnyString = `$${formatNumberWithSpaces(mergedBalances[item].total_balance.balance_usd)}`;
-          const profitPercentString = `${formatPercent(mergedBalances[item].total_balance.pnl_percent)}%`;
-          const positiveProfit = Number(mergedBalances[item].total_balance.pnl_percent) >= 0;
+          const balanceString = formatNumber(balances[item].total_balance.balance);
+          const balanceInSystemCurrecnyString = `$${formatNumberWithSpaces(balances[item].total_balance.balance_usd)}`;
+          const profitPercentString = `${formatPercent(balances[item].total_balance.pnl_percent)}%`;
+          const positiveProfit = Number(balances[item].total_balance.pnl_percent) >= 0;
           return (
             <Flex
               key={`own-${item}`}
@@ -155,11 +87,7 @@ const OwnTokens = ({ data, type, loading, onSelect }: OwnTokensProps) => {
               align='center'
               gap='2'
               onClick={() =>
-                onSelect(
-                  item,
-                  mergedBalances[item].currency_name || item,
-                  mergedBalances[item].precision
-                )
+                onSelect(item, balances[item].currency_name || item, balances[item].precision)
               }
             >
               <Link to='/swap'>
@@ -172,7 +100,7 @@ const OwnTokens = ({ data, type, loading, onSelect }: OwnTokensProps) => {
                       {item}
                     </Text>
                     <Text color='gray' size='2' lineHeight='12px'>
-                      {mergedBalances[item].currency_name || item}
+                      {balances[item].currency_name || item}
                     </Text>
                   </Flex>
                 </Flex>
