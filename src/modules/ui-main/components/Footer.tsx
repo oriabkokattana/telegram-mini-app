@@ -1,4 +1,4 @@
-import { LinkProps, useLocation } from 'react-router-dom';
+import { To, useLocation } from 'react-router-dom';
 import * as Label from '@radix-ui/react-label';
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
 import { Flex, IconButton } from '@radix-ui/themes';
@@ -44,9 +44,9 @@ const Footer = () => {
             </IconButton>
           </Label.Root>
         </NavigationMenuLink>
-        <NavigationMenuLink to='/analytics' {...stylex.props(styles.link)}>
+        <NavigationMenuLink to='/account' {...stylex.props(styles.link)} disabled>
           <Label.Root>
-            <IconButton size='1' variant='ghost'>
+            <IconButton size='1' variant='ghost' disabled>
               <Icon name='account' variant='secondary' />
             </IconButton>
             <Text customSize='10px' weight='medium' letterSpacing='-0.1px' lineHeight='8px'>
@@ -59,13 +59,37 @@ const Footer = () => {
   );
 };
 
-const NavigationMenuLink = ({ to, children, ...props }: LinkProps) => {
+type NavigationMenuLinkProps = {
+  to: To;
+  disabled?: boolean;
+} & NavigationMenu.NavigationMenuLinkProps;
+
+const NavigationMenuLink = ({ to, disabled, children, ...props }: NavigationMenuLinkProps) => {
   const location = useLocation();
   const isActive = to === location.pathname;
 
+  if (disabled) {
+    return (
+      <NavigationMenu.Link {...props} asChild active={false}>
+        <Flex
+          asChild
+          height='100%'
+          flexGrow='1'
+          direction='column'
+          justify='center'
+          align='center'
+          gap='1'
+          style={{ cursor: 'not-allowed' }}
+        >
+          {children}
+        </Flex>
+      </NavigationMenu.Link>
+    );
+  }
+
   return (
-    <NavigationMenu.Link asChild active={isActive}>
-      <Link {...props} to={to}>
+    <NavigationMenu.Link {...props} asChild active={isActive}>
+      <Link to={to}>
         <Flex
           asChild
           height='100%'

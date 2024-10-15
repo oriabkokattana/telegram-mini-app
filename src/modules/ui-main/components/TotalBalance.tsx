@@ -93,7 +93,10 @@ const TotalBalance = () => {
                   {visible ? balanceString : balanceString.replace(/./g, '*')}
                 </Text>
                 <IconButton variant='ghost' onClick={() => setVisible(!visible)}>
-                  <Icon name={visible ? 'eye' : 'eye-closed'} variant='tertiary' />
+                  <Icon
+                    name={visible ? 'eye' : 'eye-closed'}
+                    variant={visible ? 'tertiary' : 'secondary'}
+                  />
                 </IconButton>
               </Flex>
             )}

@@ -56,7 +56,7 @@ const Profile = () => {
                   lineHeight='14px'
                   letterSpacing='-0.14px'
                 >
-                  Profile
+                  Logout
                 </Text>
                 <Icon name='chevron-forward' variant='secondary' />
               </Flex>
