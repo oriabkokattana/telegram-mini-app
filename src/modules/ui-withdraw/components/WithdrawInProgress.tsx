@@ -118,7 +118,7 @@ const WithdrawInProgress = ({
                 <Text size='2' weight='medium' lineHeight='12px'>
                   Address
                 </Text>
-                <Flex maxWidth='166px' align='center' gap='3'>
+                <Flex maxWidth='190px' align='center' gap='3'>
                   <Text
                     size='2'
                     weight='bold'

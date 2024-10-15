@@ -71,12 +71,12 @@ a {
 }
 
 .radix-themes {
-  --default-font-family: 'Helvetica Neue', sans-serif; /* Your custom default font */
-  --heading-font-family: 'Helvetica Neue', sans-serif; /* Your custom font for <Heading> components */
-  --code-font-family: 'Helvetica Neue', sans-serif; /* Your custom font for <Code> components */
-  --strong-font-family: 'Helvetica Neue', sans-serif; /* Your custom font for <Strong> components */
-  --em-font-family: 'Helvetica Neue', sans-serif; /* Your custom font for <Em> components */
-  --quote-font-family: 'Helvetica Neue', sans-serif; /* Your custom font for <Quote> components */
+  --default-font-family: 'HelveticaNeue', sans-serif; /* Your custom default font */
+  --heading-font-family: 'HelveticaNeue', sans-serif; /* Your custom font for <Heading> components */
+  --code-font-family: 'HelveticaNeue', sans-serif; /* Your custom font for <Code> components */
+  --strong-font-family: 'HelveticaNeue', sans-serif; /* Your custom font for <Strong> components */
+  --em-font-family: 'HelveticaNeue', sans-serif; /* Your custom font for <Em> components */
+  --quote-font-family: 'HelveticaNeue', sans-serif; /* Your custom font for <Quote> components */
   --cursor-button: pointer;
   --color-surface: var(--gray-a3);
   --color-background: var(--gray-1);
