@@ -120,6 +120,7 @@ const Authorization = () => {
           variant='soft'
           loading={facebookLoading}
           onClick={onFacebookOAuth}
+          style={{ display: 'none' }}
         >
           <Flex width='100%' align='center' pl='4' pr='7'>
             <Icon name='auth-facebook' variant='tertiary' />
