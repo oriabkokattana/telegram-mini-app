@@ -2,11 +2,11 @@ export const transformAddress = (address?: string): string => {
   if (!address) {
     return '';
   }
-  if (address.length <= 20) {
+  if (address.length <= 12) {
     return address;
   }
-  const start = address.slice(0, 10);
-  const end = address.slice(-10);
+  const start = address.slice(0, 7);
+  const end = address.slice(-5);
   return `${start}...${end}`;
 };
 
