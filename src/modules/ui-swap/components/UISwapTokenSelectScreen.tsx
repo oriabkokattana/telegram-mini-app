@@ -5,6 +5,7 @@ import { AnimatedTabs, AnimatedTabsContent } from '@/modules/core/design-system/
 import { Icon } from '@/modules/core/design-system/icon';
 import { TextField, TextFieldSlot } from '@/modules/core/design-system/text-field';
 import { useSwapTokens } from '@/services/user/swap-tokens/api';
+import { useBalancesStore } from '@/store/balances-store';
 import { useTradingStore } from '@/store/trading-store';
 import AllTokens from './AllTokens';
 import OwnTokens from './OwnTokens';
@@ -21,9 +22,12 @@ const TABS = [Tab.all, Tab.own];
 const UISwapTokenSelectScreen = () => {
   const params = useParams();
   const type = params.type as SwapTokenType;
+  const balances = useBalancesStore((state) => state.balances);
 
   const [search, setSearch] = useState('');
-  const [tab, setTab] = useState(type === 'base' ? Tab.own : Tab.all);
+  const [tab, setTab] = useState(
+    type === 'base' && !!Object.keys(balances).length ? Tab.own : Tab.all
+  );
 
   const { base, setBase, quote, setQuote, rotate } = useTradingStore();
 
