@@ -155,17 +155,6 @@ const WithdrawInProgress = ({
                   </Text>
                 </Text>
               </Flex>
-              <Flex height='20px' justify='between' align='center'>
-                <Text size='2' weight='medium' lineHeight='12px'>
-                  Total
-                </Text>
-                <Text size='2' weight='bold' lineHeight='12px'>
-                  {formatNumber(amount)}{' '}
-                  <Text color='gray' size='2' weight='bold' lineHeight='12px'>
-                    {token} (~${formatNumberWithCommas(amountUSD)})
-                  </Text>
-                </Text>
-              </Flex>
             </Flex>
           </Card>
         </Box>
