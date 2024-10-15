@@ -28,13 +28,7 @@ function Root() {
         <QueryClientProvider client={queryClient}>
           {/* <RainbowKitProvider> */}
           <App />
-          <Toaster
-            richColors
-            position='top-center'
-            closeButton
-            // duration={5000}
-            toastOptions={{ classNames: {} }}
-          />
+          <Toaster richColors position='top-center' closeButton duration={5000} />
           {/* <ReactQueryDevtools initialIsOpen={false} position='bottom' /> */}
           {/* </RainbowKitProvider> */}
         </QueryClientProvider>
