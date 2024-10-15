@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Big from 'big.js';
 import { toast } from 'sonner';
 import { Box, Button, Card, Flex, IconButton } from '@radix-ui/themes';
@@ -44,12 +44,24 @@ const WithdrawInProgress = ({
   isBottomGap,
 }: WithdrawInProgressProps) => {
   const [txOpen, setTxOpen] = useState(false);
+  const [addressWidth, setAddressWidth] = useState<number>();
+  const addressRef = useRef<HTMLSpanElement>(null);
 
   const reset = useWithdrawStore((state) => state.reset);
   const { data: transactionStatusData } = useTransactionStatus('withdraw', id);
 
   const txCompleted = transactionStatusData?.status === 'completed';
   const txHash = transactionStatusData?.tx_hash;
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      if (addressRef.current) {
+        setAddressWidth(Math.ceil(addressRef.current.offsetWidth / 2) + 4);
+      }
+    }, 0);
+
+    return () => window.clearTimeout(timer);
+  }, []);
 
   const onCopyAddress = async () => {
     if (address) {
@@ -114,17 +126,23 @@ const WithdrawInProgress = ({
                   </Text>
                 </Flex>
               </Flex>
-              <Flex minHeight='20px' justify='between' align='center' gap='4'>
+              <Flex height='36px' justify='between' align='center' gap='4'>
                 <Text size='2' weight='medium' lineHeight='12px'>
                   Address
                 </Text>
-                <Flex maxWidth='190px' align='center' gap='3'>
+                <Flex align='center' gap='3'>
                   <Text
+                    ref={addressRef}
                     size='2'
                     weight='bold'
                     align='right'
                     lineHeight='18px'
                     wordBreak='break-word'
+                    style={{
+                      display: 'inline-block',
+                      width: addressWidth || 'max-content',
+                      wordBreak: addressWidth ? 'break-word' : 'normal',
+                    }}
                   >
                     {address}
                   </Text>
