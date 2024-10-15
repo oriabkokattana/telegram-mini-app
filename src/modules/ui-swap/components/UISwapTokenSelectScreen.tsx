@@ -29,7 +29,7 @@ const UISwapTokenSelectScreen = () => {
     type === 'base' && !!Object.keys(balances).length ? Tab.own : Tab.all
   );
 
-  const { base, setBase, quote, setQuote, rotate } = useTradingStore();
+  const { base, setBase, setBaseWithQuoteReset, quote, setQuote, rotate } = useTradingStore();
 
   const { data: swapTokensData, isLoading } = useSwapTokens(type === 'base' ? quote : base);
 
@@ -39,7 +39,11 @@ const UISwapTokenSelectScreen = () => {
         if (quote === symbol) {
           rotate();
         } else {
-          setBase(symbol, name, precision);
+          if (swapTokensData?.some((item) => item.symbol === symbol)) {
+            setBase(symbol, name, precision);
+          } else {
+            setBaseWithQuoteReset(symbol, name, precision);
+          }
         }
       } else {
         if (base === symbol) {

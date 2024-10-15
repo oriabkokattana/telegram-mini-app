@@ -37,7 +37,7 @@ const UIAsset = () => {
   const balances = useBalancesStore((state) => state.balances);
   const setDepositToken = useDepositStore((state) => state.setToken);
   const setWithdrawToken = useWithdrawStore((state) => state.setToken);
-  const setTradingBase = useTradingStore((state) => state.setBase);
+  const setTradingBaseWithQuoteReset = useTradingStore((state) => state.setBaseWithQuoteReset);
   const isBottomGap = useCheckBottomGap();
 
   const { asset } = useParams();
@@ -79,7 +79,7 @@ const UIAsset = () => {
       } else {
         trackTradeButtonClicked();
       }
-      setTradingBase(
+      setTradingBaseWithQuoteReset(
         asset,
         balances[asset]?.currency_name || asset,
         balances[asset]?.precision || DEFAULT_PRECISION

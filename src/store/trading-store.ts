@@ -18,6 +18,11 @@ type TradingAction = {
     baseName: TradingState['baseName'],
     basePrecision: TradingState['basePrecision']
   ) => void;
+  setBaseWithQuoteReset: (
+    base: TradingState['base'],
+    baseName: TradingState['baseName'],
+    basePrecision: TradingState['basePrecision']
+  ) => void;
   setBaseAmount: (baseAmount: TradingState['quoteAmount']) => void;
   setQuote: (
     quote: TradingState['quote'],
@@ -37,7 +42,8 @@ const tradingStoreSlice: StateCreator<TradingState & TradingAction> = (set) => (
   quoteName: undefined,
   quotePrecision: DEFAULT_PRECISION,
   quoteAmount: '',
-  setBase: (base, baseName, basePrecision) =>
+  setBase: (base, baseName, basePrecision) => set({ base, baseName, basePrecision }),
+  setBaseWithQuoteReset: (base, baseName, basePrecision) =>
     set({
       base,
       baseName,
