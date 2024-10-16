@@ -6,14 +6,7 @@ import { Text } from '../design-system/text';
 
 import { styles } from './TimeframeRange.styles';
 
-const TIMEFRAME_RANGE = [
-  ETimeframe.h,
-  ETimeframe.d,
-  ETimeframe.w,
-  ETimeframe.m,
-  ETimeframe.tm,
-  ETimeframe.y,
-];
+const TIMEFRAME_RANGE = [ETimeframe.d, ETimeframe.w, ETimeframe.m, ETimeframe.tm, ETimeframe.y];
 
 interface TimeframeRangeProps {
   variant?: 'default' | 'transparent';
