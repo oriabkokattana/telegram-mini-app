@@ -85,6 +85,7 @@ a {
 }
 
 .light-theme {
+  /* Radix theme */
   --gray-1: #fefefe;
   --gray-12: #0c0612;
   --gray-a3: #f3f4f7;
@@ -117,12 +118,26 @@ a {
 
   --plum-a11: #583be8;
 
+  /* Buttons */
   --primary-button-hover: #472fb7;
+
+  /* Skeletons */
   --skeleton-from: #e8e8eb;
   --skeleton-to: #f0f0f2;
+
+  /* Notifications */
+  --toaster-success-bg: rgba(236, 253, 243, 1);
+  --toaster-success-text: rgba(0, 138, 46, 1);
+  --toaster-warning-bg: rgba(255, 252, 240, 1);
+  --toaster-warning-text: rgba(220, 118, 9, 1);
+  --toaster-info-bg: rgba(240, 248, 255, 1);
+  --toaster-info-text: rgba(9, 115, 220, 1);
+  --toaster-error-bg: rgba(255, 240, 240, 1);
+  --toaster-error-text: rgba(230, 0, 0, 1);
 }
 
 .dark-theme {
+  /* Radix theme */
   --gray-1: #0c0612;
   --gray-12: #fafafa;
   --gray-a3: #221d2e;
@@ -155,9 +170,22 @@ a {
 
   --plum-a11: #ae9aff;
 
+  /* Buttons */
   --primary-button-hover: #472fb7;
+
+  /* Skeletons */
   --skeleton-from: #211b28;
   --skeleton-to: #342b3e;
+
+  /* Notifications */
+  --toaster-success-bg: rgba(19, 40, 38, 1);
+  --toaster-success-text: rgba(53, 219, 140, 1);
+  --toaster-warning-bg: rgba(36, 28, 26, 1);
+  --toaster-warning-text: rgba(255, 232, 102, 1);
+  --toaster-info-bg: rgba(18, 25, 39, 1);
+  --toaster-info-text: rgba(72, 202, 228, 1);
+  --toaster-error-bg: rgba(31, 14, 31, 1);
+  --toaster-error-text: rgba(255, 101, 179, 1);
 }
 
 @keyframes rt-skeleton-pulse {
@@ -167,6 +195,27 @@ a {
   100% {
     background-color: var(--skeleton-to);
   }
+}
+
+.toaster-success {
+  background-color: var(--toaster-success-bg) !important;
+  border-color: var(--toaster-success-bg) !important;
+  color: var(--toaster-success-text) !important;
+}
+.toaster-warning {
+  background-color: var(--toaster-warning-bg) !important;
+  border-color: var(--toaster-warning-bg) !important;
+  color: var(--toaster-warning-text) !important;
+}
+.toaster-error {
+  background-color: var(--toaster-error-bg) !important;
+  border-color: var(--toaster-error-bg) !important;
+  color: var(--toaster-error-text) !important;
+}
+.toaster-info {
+  background-color: var(--toaster-info-bg) !important;
+  border-color: var(--toaster-info-bg) !important;
+  color: var(--toaster-info-text) !important;
 }
 
 .rt-TextFieldRoot.rt-r-size-2 > .rt-TextFieldSlot:first-of-type {
