@@ -1,11 +1,12 @@
 import { useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { z } from 'zod';
 import * as Label from '@radix-ui/react-label';
 import { Box, Card, Flex, IconButton, Skeleton } from '@radix-ui/themes';
+import { useQueryClient } from '@tanstack/react-query';
 import { ETimeframe } from '@/enums';
 import { useCheckBottomGap } from '@/hooks/use-check-bottom-gap';
 import CustomChart from '@/modules/core/components/CustomChart';
-import Link from '@/modules/core/components/Link';
 import TimeframeRange from '@/modules/core/components/TimeframeRange';
 import TransactionList from '@/modules/core/components/TransactionList';
 import { Icon } from '@/modules/core/design-system/icon';
@@ -14,6 +15,10 @@ import { TokenIcon } from '@/modules/core/design-system/token-icon';
 import { useAssetChart } from '@/services/user/asset-chart/api';
 import { useAssetPrice } from '@/services/user/asset-price/api';
 import { useAssetSummary } from '@/services/user/asset-summary/api';
+import { getSwapTokens } from '@/services/user/swap-tokens/api';
+import { SwapTokensAPIResponseSchema } from '@/services/user/swap-tokens/schema';
+import { getTokens } from '@/services/user/tokens/api';
+import { TokensAPIResponseSchema } from '@/services/user/tokens/schema';
 import { useBalancesStore } from '@/store/balances-store';
 import { useDepositStore } from '@/store/deposit-store';
 import { useTradingStore } from '@/store/trading-store';
@@ -21,7 +26,6 @@ import { useWithdrawStore } from '@/store/withdraw-store';
 import {
   trackDepositIconButtonClicked,
   trackSwapIconButtonClicked,
-  trackTradeButtonClicked,
   trackWithdrawIconButtonClicked,
 } from '@/utils/amplitude-events';
 import { DEFAULT_PRECISION } from '@/utils/balances';
@@ -35,12 +39,16 @@ const UIAsset = () => {
   const transactionListRef = useRef<HTMLDivElement>(null);
 
   const balances = useBalancesStore((state) => state.balances);
+  const tradingQuote = useTradingStore((state) => state.quote);
   const setDepositToken = useDepositStore((state) => state.setToken);
   const setWithdrawToken = useWithdrawStore((state) => state.setToken);
+  const setTradingBase = useTradingStore((state) => state.setBase);
   const setTradingBaseWithQuoteReset = useTradingStore((state) => state.setBaseWithQuoteReset);
   const isBottomGap = useCheckBottomGap();
 
+  const queryClient = useQueryClient();
   const { asset } = useParams();
+  const navigate = useNavigate();
   const { data: assetSummaryData, isLoading: assetSummaryLoading } = useAssetSummary(asset);
   const { data: assetChartData, isLoading: assetChartLoading } = useAssetChart(timeframe, asset);
   const { data: assetPriceData, isLoading: assetPriceLoading } = useAssetPrice(asset);
@@ -50,41 +58,70 @@ const UIAsset = () => {
   const profitString = `${formatPercent(assetChartData?.pnl_percent)}%`;
   const actionPossible = !!asset && !!balances[asset];
 
-  const onDeposit = () => {
+  const onDeposit = async () => {
     if (actionPossible) {
-      trackDepositIconButtonClicked();
-      setDepositToken({
-        symbol: asset,
-        name: balances[asset]?.currency_name || asset,
-        precision: balances[asset]?.precision || DEFAULT_PRECISION,
+      const tokens = await queryClient.ensureQueryData<z.infer<typeof TokensAPIResponseSchema>>({
+        queryKey: ['tokens', 'deposit'],
+        queryFn: () => getTokens({ params: { direction: 'deposit' } }),
       });
-    }
-  };
 
-  const onWithdraw = () => {
-    if (actionPossible) {
-      trackWithdrawIconButtonClicked();
-      setWithdrawToken({
-        symbol: asset,
-        name: balances[asset]?.currency_name || asset,
-        precision: balances[asset]?.precision || DEFAULT_PRECISION,
-      });
-    }
-  };
-
-  const onSwap = (trackIcon?: boolean) => {
-    if (actionPossible) {
-      if (trackIcon) {
-        trackSwapIconButtonClicked();
-      } else {
-        trackTradeButtonClicked();
+      if (tokens.some((item) => item.symbol === asset)) {
+        setDepositToken({
+          symbol: asset,
+          name: balances[asset]?.currency_name || asset,
+          precision: balances[asset]?.precision || DEFAULT_PRECISION,
+        });
+        navigate('/deposit-network-select');
+        return;
       }
-      setTradingBaseWithQuoteReset(
-        asset,
-        balances[asset]?.currency_name || asset,
-        balances[asset]?.precision || DEFAULT_PRECISION
-      );
     }
+    navigate('/deposit-token-select');
+  };
+
+  const onWithdraw = async () => {
+    if (actionPossible) {
+      const tokens = await queryClient.ensureQueryData<z.infer<typeof TokensAPIResponseSchema>>({
+        queryKey: ['tokens', 'withdraw'],
+        queryFn: () => getTokens({ params: { direction: 'withdraw' } }),
+      });
+
+      if (tokens.some((item) => item.symbol === asset)) {
+        setWithdrawToken({
+          symbol: asset,
+          name: balances[asset]?.currency_name || asset,
+          precision: balances[asset]?.precision || DEFAULT_PRECISION,
+        });
+        navigate('/withdraw-network-select');
+        return;
+      }
+    }
+    navigate('/withdraw-token-select');
+  };
+
+  const onSwap = async () => {
+    if (actionPossible) {
+      const swapTokens = await queryClient.ensureQueryData<
+        z.infer<typeof SwapTokensAPIResponseSchema>
+      >({
+        queryKey: ['swap-tokens', tradingQuote],
+        queryFn: () => getSwapTokens({ params: { token: tradingQuote } }),
+      });
+
+      if (swapTokens.some((item) => item.symbol === asset)) {
+        setTradingBase(
+          asset,
+          balances[asset]?.currency_name || asset,
+          balances[asset]?.precision || DEFAULT_PRECISION
+        );
+      } else {
+        setTradingBaseWithQuoteReset(
+          asset,
+          balances[asset]?.currency_name || asset,
+          balances[asset]?.precision || DEFAULT_PRECISION
+        );
+      }
+    }
+    navigate('/swap');
   };
 
   const onOpenTransactions = () => {
@@ -146,53 +183,84 @@ const UIAsset = () => {
         <TimeframeRange timeframe={timeframe} setTimeframe={setTimeframe} />
       </Flex>
       <Flex>
-        <Flex asChild flexGrow='1' flexShrink='1' flexBasis='0'>
-          <Link
-            to={actionPossible ? '/deposit-network-select' : '/deposit-token-select'}
-            onClick={onDeposit}
-          >
-            <Flex asChild flexGrow='1' direction='column' align='center' gap='2'>
-              <Label.Root>
-                <IconButton size='4'>
-                  <Icon name='arrow-down-half-circle' variant='white' />
-                </IconButton>
-                <Text size='2' lineHeight='12px'>
-                  Deposit
-                </Text>
-              </Label.Root>
-            </Flex>
-          </Link>
+        <Flex
+          asChild
+          flexGrow='1'
+          flexShrink='1'
+          flexBasis='0'
+          direction='column'
+          align='center'
+          gap='2'
+          style={{ cursor: 'pointer' }}
+        >
+          <Label.Root>
+            <IconButton
+              size='4'
+              onClick={() => {
+                trackDepositIconButtonClicked();
+                onDeposit();
+              }}
+            >
+              <Icon name='arrow-down-half-circle' variant='white' />
+            </IconButton>
+            <Text size='2' lineHeight='12px'>
+              Deposit
+            </Text>
+          </Label.Root>
         </Flex>
-        <Flex asChild flexGrow='1' flexShrink='1' flexBasis='0'>
-          <Link
-            to={actionPossible ? '/withdraw-network-select' : '/withdraw-token-select'}
-            onClick={onWithdraw}
-          >
-            <Flex asChild flexGrow='1' direction='column' align='center' gap='2'>
-              <Label.Root>
-                <IconButton color='gray' variant='soft' size='4'>
-                  <Icon name='arrow-up-half-circle' variant='tertiary' />
-                </IconButton>
-                <Text size='2' lineHeight='12px'>
-                  Withdraw
-                </Text>
-              </Label.Root>
-            </Flex>
-          </Link>
+        <Flex
+          asChild
+          flexGrow='1'
+          flexShrink='1'
+          flexBasis='0'
+          direction='column'
+          align='center'
+          gap='2'
+          style={{ cursor: 'pointer' }}
+        >
+          <Label.Root>
+            <IconButton
+              color='gray'
+              variant='soft'
+              size='4'
+              onClick={() => {
+                trackWithdrawIconButtonClicked();
+                onWithdraw();
+              }}
+            >
+              <Icon name='arrow-up-half-circle' variant='tertiary' />
+            </IconButton>
+            <Text size='2' lineHeight='12px'>
+              Withdraw
+            </Text>
+          </Label.Root>
         </Flex>
-        <Flex asChild flexGrow='1' flexShrink='1' flexBasis='0'>
-          <Link to='/swap' onClick={() => onSwap(true)}>
-            <Flex asChild flexGrow='1' direction='column' align='center' gap='2'>
-              <Label.Root>
-                <IconButton color='gray' variant='soft' size='4'>
-                  <Icon name='swap' variant='tertiary' />
-                </IconButton>
-                <Text size='2' lineHeight='12px'>
-                  Swap
-                </Text>
-              </Label.Root>
-            </Flex>
-          </Link>
+        <Flex
+          asChild
+          flexGrow='1'
+          flexShrink='1'
+          flexBasis='0'
+          direction='column'
+          align='center'
+          gap='2'
+          style={{ cursor: 'pointer' }}
+        >
+          <Label.Root>
+            <IconButton
+              color='gray'
+              variant='soft'
+              size='4'
+              onClick={() => {
+                trackSwapIconButtonClicked();
+                onSwap();
+              }}
+            >
+              <Icon name='swap' variant='tertiary' />
+            </IconButton>
+            <Text size='2' lineHeight='12px'>
+              Swap
+            </Text>
+          </Label.Root>
         </Flex>
       </Flex>
       <Skeleton loading={assetPriceLoading || assetSummaryLoading}>

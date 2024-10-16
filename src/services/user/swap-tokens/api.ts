@@ -13,7 +13,7 @@ interface ErrorResponse {
   error: string;
 }
 
-const getSwapTokens = api<
+export const getSwapTokens = api<
   z.infer<typeof SwapTokensAPIRequest>,
   z.infer<typeof SwapTokensAPIResponse>
 >({

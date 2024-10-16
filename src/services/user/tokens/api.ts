@@ -15,7 +15,7 @@ interface ErrorResponse {
   error: string;
 }
 
-const getTokens = api<z.infer<typeof TokensAPIRequest>, z.infer<typeof TokensAPIResponse>>({
+export const getTokens = api<z.infer<typeof TokensAPIRequest>, z.infer<typeof TokensAPIResponse>>({
   method: 'GET',
   path: Endpoints.TOKENS,
   requestSchema: TokensAPIRequest,

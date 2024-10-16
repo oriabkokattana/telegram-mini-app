@@ -5,12 +5,11 @@ import * as stylex from '@stylexjs/stylex';
 import { ETimeframe } from '@/enums';
 import { useCheckBottomGap } from '@/hooks/use-check-bottom-gap';
 import CustomChart from '@/modules/core/components/CustomChart';
-import Link from '@/modules/core/components/Link';
 import TimeframeRange from '@/modules/core/components/TimeframeRange';
 import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
 import { useAssetPriceChange } from '@/services/user/asset-price-change/api';
-import { trackCurrentTokenPriceChecked } from '@/utils/amplitude-events';
+import { trackCurrentTokenPriceChecked, trackTradeButtonClicked } from '@/utils/amplitude-events';
 import { formatNumberWithSpaces, formatPercent } from '@/utils/numbers';
 import { getPriceChangePercent } from '@/utils/price';
 
@@ -100,10 +99,14 @@ const AssetPriceChange = ({ asset, priceUSD, onSwap }: AssetPriceChangeProps) =>
                 setTimeframe={setTimeframe}
               />
             </Box>
-            <Button asChild size='4' onClick={onSwap}>
-              <Link to='/swap'>
-                <Text color='sky'>Trade</Text>
-              </Link>
+            <Button
+              size='4'
+              onClick={() => {
+                trackTradeButtonClicked();
+                onSwap();
+              }}
+            >
+              <Text color='sky'>Trade</Text>
             </Button>
           </Flex>
         )}
