@@ -9,6 +9,9 @@ import { useBalancesStore } from '@/store/balances-store';
 import { trackTreemapChartClicked } from '@/utils/amplitude-events';
 import { formatNumberWithSpaces, formatPercent, trimToPrecision } from '@/utils/numbers';
 
+const MAX_GROUP_GAP = 0.7;
+const MAX_OTHERS_GAP = 0.2;
+
 type Rank = 'small' | 'medium' | 'big';
 
 type Asset = {
@@ -27,11 +30,14 @@ const assignColorsAndRank = (assets: Asset[]): AssetWithColorAndRank[] => {
 
   // Sort assets by balanceUSD in descending order
   const sortedAssets = [...assets].sort((a, b) => b.balanceUSD - a.balanceUSD);
+  const largestBalanceUSD = sortedAssets[0].balanceUSD;
+  const threshold = largestBalanceUSD * MAX_OTHERS_GAP; // 5% of the largest asset's balanceUSD
 
   const groups = {
     high: [] as Asset[],
     medium: [] as Asset[],
     low: [] as Asset[],
+    others: [] as Asset[],
   };
 
   const assignToGroup = (asset: Asset, group: Asset[]) => {
@@ -39,7 +45,7 @@ const assignColorsAndRank = (assets: Asset[]): AssetWithColorAndRank[] => {
       group.push(asset);
     } else {
       const highestInGroup = group[0].balanceUSD;
-      const lowestAllowed = highestInGroup * 0.7; // 30% less than the highest
+      const lowestAllowed = highestInGroup * MAX_GROUP_GAP; // 30% less than the highest
       if (asset.balanceUSD >= lowestAllowed) {
         group.push(asset);
       } else {
@@ -49,20 +55,58 @@ const assignColorsAndRank = (assets: Asset[]): AssetWithColorAndRank[] => {
     return true;
   };
 
+  // Separate assets into the "Others" group if they are below the 5% threshold
+  const filteredAssets = sortedAssets.filter((asset) => {
+    if (asset.balanceUSD < threshold) {
+      groups.others.push(asset);
+      return false; // Exclude from the main assets
+    }
+    return true; // Keep in the main assets
+  });
+
   // Fill the "high" group first
-  for (const asset of sortedAssets) {
+  for (const asset of filteredAssets) {
     if (!assignToGroup(asset, groups.high)) break;
   }
 
   // Then fill the "medium" group
-  for (let i = groups.high.length; i < sortedAssets.length; i++) {
-    if (!assignToGroup(sortedAssets[i], groups.medium)) break;
+  for (let i = groups.high.length; i < filteredAssets.length; i++) {
+    if (!assignToGroup(filteredAssets[i], groups.medium)) break;
   }
 
   // The remaining assets go into the "low" group
-  groups.low = sortedAssets.slice(groups.high.length + groups.medium.length);
+  groups.low = filteredAssets.slice(groups.high.length + groups.medium.length);
 
-  return sortedAssets.map((asset) => {
+  // Check if "Others" contains only one asset
+  if (groups.others.length === 1) {
+    // If yes, move that asset back to the filtered assets
+    filteredAssets.push(groups.others[0]);
+    groups.others = [];
+  }
+
+  // Calculate "Others" balanceUSD and pnlPercent if it's a valid group
+  let others: AssetWithColorAndRank | null = null;
+  if (groups.others.length > 1) {
+    const othersBalanceUSD = groups.others.reduce((sum, asset) => sum + asset.balanceUSD, 0);
+    others = {
+      name: 'Others',
+      balance: 0,
+      balanceUSD: othersBalanceUSD,
+      pnlPercent: 0,
+      color: 'var(--amber-a11)',
+      rank: 'small', // Default, will adjust below based on rank logic
+    };
+
+    // Determine the rank of "Others" based on its balanceUSD
+    if (othersBalanceUSD >= groups.high[0]?.balanceUSD * MAX_GROUP_GAP) {
+      others.rank = 'big';
+    } else if (othersBalanceUSD >= groups.medium[0]?.balanceUSD * MAX_GROUP_GAP) {
+      others.rank = 'medium';
+    }
+  }
+
+  // Map assets to their ranks and colors
+  const rankedAssets = filteredAssets.map((asset) => {
     let color: string;
     let rank: Rank;
 
@@ -79,6 +123,9 @@ const assignColorsAndRank = (assets: Asset[]): AssetWithColorAndRank[] => {
 
     return { ...asset, color, rank };
   });
+
+  // Add the "Others" asset if it exists and has more than one asset
+  return others ? [...rankedAssets, others] : rankedAssets;
 };
 
 const AssetTreemap = () => {
@@ -92,6 +139,7 @@ const AssetTreemap = () => {
       balanceUSD: Number(balances[item].total_balance.balance_usd),
       pnlPercent: Number(balances[item].total_balance.pnl_percent),
     }));
+
     return {
       name: 'root',
       balance: 0,
@@ -234,6 +282,7 @@ const CustomTreemapNode = ({ node }: NodeProps<TreemapData>) => {
         overflow: 'hidden',
         borderRadius: '8px',
         backgroundColor: node.color,
+        pointerEvents: node.data.name === 'Others' ? 'none' : 'auto',
         ...base,
       }}
       onClick={() => trackTreemapChartClicked(node.data.name)}
@@ -241,7 +290,9 @@ const CustomTreemapNode = ({ node }: NodeProps<TreemapData>) => {
       <Link to={`/asset/${node.data.name}`}>
         <Flex align='center' style={header}>
           <Text color='sky' weight='medium' truncate {...headerFontSize}>
-            {trimToPrecision(node.data.balance, 2)}
+            {node.data.name === 'Others'
+              ? `$${trimToPrecision(node.data.balanceUSD, 2)}`
+              : trimToPrecision(node.data.balance, 2)}
           </Text>
           <Text color='sky' weight='medium' truncate {...headerFontSize}>
             {node.data.name}
