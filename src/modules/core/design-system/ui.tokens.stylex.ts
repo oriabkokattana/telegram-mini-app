@@ -39,6 +39,8 @@ export const colors = stylex.defineVars({
   // Dropdown Colors
   dropdownBackground: '#F3F4F7',
   dropdownBorder: 'rgba(0, 0, 51, 0.06)',
+  dropdownColor: '#1C2024',
+  dropdownHoverColor: '#FAFAFA',
 
   // Dialog Colors
   dialogBackground: '#F3F4F7',
@@ -105,6 +107,8 @@ export const darkTheme = stylex.createTheme(colors, {
   // Dropdown Colors
   dropdownBackground: 'rgba(34, 29, 46, 0.8)',
   dropdownBorder: 'rgba(221, 234, 248, 0.08)',
+  dropdownColor: '#FAFAFA',
+  dropdownHoverColor: '#FAFAFA',
 
   // Dialog Colors
   dialogBackground: '#110A21',

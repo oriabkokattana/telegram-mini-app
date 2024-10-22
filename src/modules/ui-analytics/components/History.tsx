@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Checkbox, Flex, IconButton } from '@radix-ui/themes';
+import * as stylex from '@stylexjs/stylex';
 import { useCheckBottomGap } from '@/hooks/use-check-bottom-gap';
 import TransactionList from '@/modules/core/components/TransactionList';
 import {
@@ -11,6 +12,8 @@ import {
 import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
 import { useTransactions } from '@/services/user/transactions/api';
+
+import { styles } from './History.styles';
 
 import { TransactionType } from '@/types';
 
@@ -24,18 +27,14 @@ const History = () => {
   const transactions = transactionsData?.filter((item) => types.includes(item.transaction_type));
 
   const onSelectTransactionType = (item: TransactionType) => {
-    if (types.length === allTransactionTypes.length) {
-      setTypes([item]);
-    } else {
-      if (types.includes(item)) {
-        if (types.length === 1) {
-          setTypes(allTransactionTypes);
-        } else {
-          setTypes(types.filter((transactionType) => transactionType !== item));
-        }
+    if (types.includes(item)) {
+      if (types.length === 1) {
+        setTypes(allTransactionTypes);
       } else {
-        setTypes([...types, item]);
+        setTypes(types.filter((transactionType) => transactionType !== item));
       }
+    } else {
+      setTypes([...types, item]);
     }
   };
 
@@ -70,10 +69,11 @@ const History = () => {
                 e.preventDefault();
                 setTypes(allTransactionTypes);
               }}
+              {...stylex.props(styles.dropdownItem)}
             >
               <Flex align='center' gap='2'>
                 <Checkbox size='1' checked={types.length === allTransactionTypes.length} />
-                <Text color='bronze' size='2' weight='medium' lineHeight='20px'>
+                <Text size='2' weight='medium' lineHeight='20px'>
                   All
                 </Text>
               </Flex>
@@ -83,10 +83,11 @@ const History = () => {
                 e.preventDefault();
                 onSelectTransactionType('deposit');
               }}
+              {...stylex.props(styles.dropdownItem)}
             >
               <Flex align='center' gap='2'>
                 <Checkbox size='1' checked={types.includes('deposit')} />
-                <Text color='bronze' size='2' weight='medium' lineHeight='20px'>
+                <Text size='2' weight='medium' lineHeight='20px'>
                   Deposit
                 </Text>
               </Flex>
@@ -96,10 +97,11 @@ const History = () => {
                 e.preventDefault();
                 onSelectTransactionType('withdraw');
               }}
+              {...stylex.props(styles.dropdownItem)}
             >
               <Flex align='center' gap='2'>
                 <Checkbox size='1' checked={types.includes('withdraw')} />
-                <Text color='bronze' size='2' weight='medium' lineHeight='20px'>
+                <Text size='2' weight='medium' lineHeight='20px'>
                   Withdraw
                 </Text>
               </Flex>
@@ -109,10 +111,11 @@ const History = () => {
                 e.preventDefault();
                 onSelectTransactionType('swap');
               }}
+              {...stylex.props(styles.dropdownItem)}
             >
               <Flex align='center' gap='2'>
                 <Checkbox size='1' checked={types.includes('swap')} />
-                <Text color='bronze' size='2' weight='medium' lineHeight='20px'>
+                <Text size='2' weight='medium' lineHeight='20px'>
                   Swap
                 </Text>
               </Flex>
