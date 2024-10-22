@@ -179,7 +179,7 @@ const getTreemapNodeStyles = (
 ): Record<'base' | 'header' | 'description' | 'usd', CSSProperties> => {
   if (width <= 90 || height <= 40) {
     return {
-      base: { gap: 0, paddingLeft: 0, alignItems: 'center' },
+      base: { gap: 0, padding: 0, alignItems: 'center' },
       header: {
         width: rotate === -90 ? height : '100%',
         gap: 4,
@@ -193,7 +193,7 @@ const getTreemapNodeStyles = (
 
   if (width <= 120) {
     return {
-      base: { gap: 9, paddingLeft: 16, alignItems: 'center' },
+      base: { gap: 9, padding: 16, alignItems: 'center' },
       header: {
         width: rotate === -90 ? height : '100%',
         gap: 8,
@@ -208,7 +208,7 @@ const getTreemapNodeStyles = (
   if (rank === 'small') {
     return {
       base: { gap: 9, paddingLeft: 12, alignItems: 'center' },
-      header: { width: '100%', gap: 4, justifyContent: 'center' },
+      header: { width: '100%', gap: 4 },
       description: { justifyContent: 'center' },
       usd: { display: 'none' },
     };
