@@ -281,7 +281,7 @@ const CustomTreemapNode = ({ node }: NodeProps<TreemapData>) => {
           direction={node.width <= 55 ? 'row' : 'column'}
           align='center'
           justify='center'
-          gap={node.width <= 55 ? '1' : '2'}
+          gap={node.width <= 90 ? '1' : '2'}
           pl={node.width <= 55 ? '0' : '3'}
           style={{
             rotate: node.width <= 55 ? '-90deg' : '0deg',
@@ -292,7 +292,7 @@ const CustomTreemapNode = ({ node }: NodeProps<TreemapData>) => {
           <Text weight='medium' {...headerFontSize}>
             {node.data.name}
           </Text>
-          <Text size='1' weight='medium' truncate lineHeight='16px'>
+          <Text size='1' weight='medium' truncate lineHeight='18px'>
             {trimToPrecision(node.data.balanceUSD, 2)} USD
           </Text>
         </Flex>
