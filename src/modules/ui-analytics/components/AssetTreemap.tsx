@@ -242,12 +242,12 @@ const getTreemapNodeFontSizes = (
       headerFontSize: { size: '2', lineHeight: '16px' },
     };
   }
-  if (rank === 'small') {
+  if (rank === 'small' || width <= 110) {
     return {
       headerFontSize: { size: '3', lineHeight: '22px' },
     };
   }
-  if (rank === 'medium' || width <= 130) {
+  if (rank === 'medium' || width <= 140) {
     return {
       headerFontSize: { size: '5', lineHeight: '28px' },
     };
