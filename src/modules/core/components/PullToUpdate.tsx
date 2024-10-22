@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { RefObject, useEffect, useRef, useState } from 'react';
 import { useSwipeable } from 'react-swipeable';
 import { toast } from 'sonner';
 import { Box, Flex, FlexProps } from '@radix-ui/themes';
@@ -7,7 +7,6 @@ import AnimatedGlobe from '@/modules/core/components/AnimatedGlobe';
 import { getBalances } from '@/services/user/balances/api';
 import { useBalancesStore } from '@/store/balances-store';
 import { useTimeframeStore } from '@/store/timeframe-store';
-import Footer from './Footer';
 
 import { styles } from './PullToUpdate.styles';
 
@@ -17,11 +16,11 @@ const LOADER_HEIGHT = 80;
 const translate = (y: number) => `0 ${y}px`;
 
 type PullToUpdateProps = {
-  footer?: boolean;
   enabled?: boolean;
+  scrollableContentRef?: RefObject<HTMLDivElement>;
 } & FlexProps;
 
-const PullToUpdate = ({ footer, enabled, ...props }: PullToUpdateProps) => {
+const PullToUpdate = ({ enabled, scrollableContentRef, ...props }: PullToUpdateProps) => {
   const [refreshing, setRefreshing] = useState(false);
   const [transition, setTransition] = useState(false);
   const isTopRef = useRef(true); // Ref to track the scroll position
@@ -97,42 +96,41 @@ const PullToUpdate = ({ footer, enabled, ...props }: PullToUpdateProps) => {
   // Set up the scroll listener
   useEffect(() => {
     const handleScroll = () => {
-      if (contentRef.current) {
-        isTopRef.current = contentRef.current.scrollTop <= 0; // Update scroll position
+      const scrollable = scrollableContentRef?.current || contentRef.current;
+      if (scrollable) {
+        isTopRef.current = scrollable.scrollTop <= 0; // Update scroll position
       }
     };
-    contentRef.current?.addEventListener('scroll', handleScroll);
+    const scrollable = scrollableContentRef?.current || contentRef.current;
+    scrollable?.addEventListener('scroll', handleScroll);
     return () => {
-      contentRef.current?.removeEventListener('scroll', handleScroll);
+      scrollable?.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [scrollableContentRef?.current, contentRef.current]);
 
   return (
-    <>
-      <Box {...handlers} style={{ touchAction: 'none' }} height='100vh' overflow='hidden'>
-        {refreshing && (
-          <Flex
-            width='100%'
-            height='80px'
-            justify='center'
-            align='center'
-            position='fixed'
-            left='0'
-            top='0'
-          >
-            <AnimatedGlobe />
-          </Flex>
-        )}
+    <Box {...handlers} style={{ touchAction: 'none' }} height='100vh' overflow='hidden'>
+      {refreshing && (
         <Flex
-          {...props}
-          ref={contentRef}
-          height='100vh'
-          overflow='auto'
-          {...stylex.props(styles.hideScroll, transition && styles.transition)}
-        />
-      </Box>
-      {footer && <Footer />}
-    </>
+          width='100%'
+          height='80px'
+          justify='center'
+          align='center'
+          position='fixed'
+          left='0'
+          top='0'
+        >
+          <AnimatedGlobe />
+        </Flex>
+      )}
+      <Flex
+        {...props}
+        ref={contentRef}
+        height='100vh'
+        overflow='auto'
+        {...stylex.props(styles.hideScroll, transition && styles.transition)}
+      />
+    </Box>
   );
 };
 

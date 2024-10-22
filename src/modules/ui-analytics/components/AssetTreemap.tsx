@@ -264,6 +264,7 @@ const CustomTreemapNode = ({ node }: NodeProps<TreemapData>) => {
     return (
       <Flex
         justify={node.width <= 55 ? 'center' : 'start'}
+        align={node.width <= 55 ? 'center' : 'start'}
         position='absolute'
         top='0'
         left='0'
@@ -279,10 +280,10 @@ const CustomTreemapNode = ({ node }: NodeProps<TreemapData>) => {
       >
         <Flex
           direction={node.width <= 55 ? 'row' : 'column'}
-          align='center'
+          align={node.width <= 74 ? 'center' : 'start'}
           justify='center'
-          gap={node.width <= 90 ? '1' : '2'}
-          pl={node.width <= 55 ? '0' : '3'}
+          gap={node.width <= 74 ? '1' : '2'}
+          pl={node.width <= 74 ? '0' : '3'}
           style={{
             rotate: node.width <= 55 ? '-90deg' : '0deg',
             width: node.width <= 55 ? node.height : node.width,

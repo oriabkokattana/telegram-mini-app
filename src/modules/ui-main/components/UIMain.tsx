@@ -2,8 +2,9 @@ import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { usePopup } from '@telegram-apps/sdk-react';
 import { useCheckBottomGap } from '@/hooks/use-check-bottom-gap';
+import PullToUpdate from '../../core/components/PullToUpdate';
+import Footer from './Footer';
 import Profile from './Profile';
-import PullToUpdate from './PullToUpdate';
 import Tables from './Tables';
 import TotalBalance from './TotalBalance';
 
@@ -32,19 +33,21 @@ const UIMain = () => {
   }, [fund]);
 
   return (
-    <PullToUpdate
-      direction='column'
-      gap='5'
-      px='4'
-      pt='2'
-      pb={isBottomGap ? '102px' : '78px'}
-      footer
-      enabled
-    >
-      <Profile />
-      <TotalBalance />
-      <Tables />
-    </PullToUpdate>
+    <>
+      <PullToUpdate
+        direction='column'
+        gap='5'
+        px='4'
+        pt='2'
+        pb={isBottomGap ? '102px' : '78px'}
+        enabled
+      >
+        <Profile />
+        <TotalBalance />
+        <Tables />
+      </PullToUpdate>
+      <Footer />
+    </>
   );
 };
 

@@ -204,7 +204,7 @@ const UISwap = () => {
 
   useEffect(() => {
     if (baseAmount) {
-      setQuoteAmount(Big(baseAmount).times(basePrice).round(quotePrecision, 0).toString());
+      setQuoteAmount(Big(baseAmount).times(basePrice).round(quotePrecision).toString());
     } else {
       setQuoteAmount(baseAmount);
     }
@@ -213,7 +213,7 @@ const UISwap = () => {
   const onSetBaseAmount = (value: string) => {
     setBaseAmount(value);
     if (value) {
-      setQuoteAmount(Big(value).times(basePrice).round(quotePrecision, 0).toString());
+      setQuoteAmount(Big(value).times(basePrice).round(quotePrecision).toString());
     } else {
       setQuoteAmount(value);
     }
@@ -222,7 +222,7 @@ const UISwap = () => {
   const onSetQuoteAmount = (value: string) => {
     setQuoteAmount(value);
     if (value) {
-      setBaseAmount(Big(value).times(quotePrice).round(basePrecision, 0).toString());
+      setBaseAmount(Big(value).times(quotePrice).round(basePrecision).toString());
     } else {
       setBaseAmount(value);
     }

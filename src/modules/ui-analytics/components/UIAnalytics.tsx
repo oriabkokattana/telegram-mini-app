@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import PullToUpdate from '@/modules/core/components/PullToUpdate';
 import { AnimatedTabs, AnimatedTabsContent } from '@/modules/core/design-system/animated-tabs';
-import PullToUpdate from '@/modules/ui-main/components/PullToUpdate';
 import {
   trackAssetsTabClicked,
   trackHistoryTabClicked,
@@ -31,6 +31,7 @@ const trackTabs = (tab: string) => {
 
 const UIAnalytics = () => {
   const [tab, setTab] = useState(Tab.assets);
+  const assetsContentRef = useRef<HTMLDivElement>(null);
 
   const onSetTab = (value: string) => {
     if (tab !== value) {
@@ -40,9 +41,9 @@ const UIAnalytics = () => {
   };
 
   return (
-    <PullToUpdate enabled={tab === Tab.assets}>
+    <PullToUpdate scrollableContentRef={assetsContentRef} enabled={tab === Tab.assets}>
       <AnimatedTabs pt='2' tabs={TABS} tab={tab} setTab={onSetTab}>
-        <AnimatedTabsContent gap={8} value={Tab.assets}>
+        <AnimatedTabsContent ref={assetsContentRef} gap={8} value={Tab.assets}>
           <AssetAnalytics />
         </AnimatedTabsContent>
         <AnimatedTabsContent gap={8} value={Tab.balance}>
