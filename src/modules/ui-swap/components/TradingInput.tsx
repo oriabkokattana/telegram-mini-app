@@ -115,7 +115,7 @@ const TradingInput = ({
             {formatPercent(priceChangePercent)}%
           </Text>
         </Flex>
-        <Text color='gray' size='1' weight='medium' lineHeight='10px' truncate>
+        <Text color='gray' size='1' weight='medium' lineHeight='16px' truncate>
           ~ ${formatNumberWithCommas(amountUSD)}
         </Text>
       </Flex>

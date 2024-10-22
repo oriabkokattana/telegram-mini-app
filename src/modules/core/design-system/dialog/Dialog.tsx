@@ -61,8 +61,9 @@ export const Dialog = forwardRef<HTMLButtonElement, DialogProps>(
             <DialogPrimitive.Content
               {...stylex.props(styles.content, isBottomGap && styles.bottomGap, styles[animation])}
               aria-describedby={undefined}
+              {...swipeHandlers}
             >
-              <Flex width='100%' height='37px' justify='center' py='4' {...swipeHandlers}>
+              <Flex width='100%' height='37px' justify='center' py='4'>
                 <Icon name='collapse' variant='fill' />
               </Flex>
               {children}

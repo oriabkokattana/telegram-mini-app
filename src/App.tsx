@@ -14,6 +14,7 @@ import {
 import Link from '@/modules/core/components/Link';
 import { useGlobalSideEffects } from './hooks/use-global-side-effects';
 import Authorization from './modules/authorization/components/Authorization';
+import BackSwipe from './modules/core/components/GoBackSwipe';
 import { PrivateRoute } from './modules/core/components/PrivateRoute';
 import { PublicRoute } from './modules/core/components/PublicRoute';
 import UIAnalytics from './modules/ui-analytics/components/UIAnalytics';
@@ -171,7 +172,12 @@ function Layout() {
     }
   }, [systemRates.data, systemRates.isSuccess]);
 
-  return <Outlet />;
+  return (
+    <>
+      <Outlet />
+      <BackSwipe />
+    </>
+  );
 }
 
 function NoMatch() {

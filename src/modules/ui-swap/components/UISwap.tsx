@@ -44,6 +44,11 @@ const BALANCE_PERCENTS = [
   BalancePercent.oneHundred,
 ];
 
+const setCursorToTheRight = (event: React.FocusEvent<HTMLInputElement>) => {
+  const input = event.target;
+  input.setSelectionRange(input.value.length, input.value.length);
+};
+
 const getButtonName = (funds: boolean, minExceeded: boolean) => {
   if (minExceeded) {
     return 'Okay!';
@@ -271,9 +276,13 @@ const UISwap = () => {
           amountUSD={baseAmountUSD}
           token={base}
           precision={basePrecision}
+          autoFocus={!!base && !!quote}
           value={baseAmount}
           onChange={onSetBaseAmount}
-          onFocus={() => setBaseInputFocused(true)}
+          onFocus={(e) => {
+            setCursorToTheRight(e);
+            setBaseInputFocused(true);
+          }}
           onBlur={() => setBaseInputFocused(false)}
         />
         <Flex
@@ -300,7 +309,10 @@ const UISwap = () => {
           precision={quotePrecision}
           value={quoteAmount}
           onChange={onSetQuoteAmount}
-          onFocus={() => setQuoteInputFocused(true)}
+          onFocus={(e) => {
+            setCursorToTheRight(e);
+            setQuoteInputFocused(true);
+          }}
           onBlur={() => setQuoteInputFocused(false)}
         />
         <Flex

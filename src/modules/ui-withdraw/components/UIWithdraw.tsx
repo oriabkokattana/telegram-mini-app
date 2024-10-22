@@ -241,7 +241,7 @@ const UIWithdraw = () => {
             <Flex maxWidth='250px'>
               <Text size='2' weight='bold' truncate>
                 {tokenAmount.toString()}{' '}
-                <Text color='gray' size='2' weight='bold' lineHeight='12px'>
+                <Text color='gray' size='2' weight='bold' lineHeight='12px' style={{ top: 0 }}>
                   {token?.symbol}
                   {tokenAmountUSD.eq(0) ? '' : ` (~$${formatNumberWithCommas(tokenAmountUSD)})`}
                 </Text>
@@ -254,7 +254,7 @@ const UIWithdraw = () => {
             </Text>
             <Text size='2' weight='bold' lineHeight='12px'>
               {formatNumber(fee)}{' '}
-              <Text color='gray' size='2' weight='bold' lineHeight='12px'>
+              <Text color='gray' size='2' weight='bold' lineHeight='12px' style={{ top: 0 }}>
                 {token?.symbol}
               </Text>
             </Text>
@@ -265,7 +265,7 @@ const UIWithdraw = () => {
             </Text>
             <Text size='2' weight='bold' lineHeight='12px'>
               {duration.number}{' '}
-              <Text color='gray' size='2' weight='bold' lineHeight='12px'>
+              <Text color='gray' size='2' weight='bold' lineHeight='12px' style={{ top: 0 }}>
                 {duration.of}
               </Text>
             </Text>

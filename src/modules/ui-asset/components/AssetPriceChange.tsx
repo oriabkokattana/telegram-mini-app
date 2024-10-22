@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useSwipeable } from 'react-swipeable';
 import * as Label from '@radix-ui/react-label';
 import { Box, Button, Flex, IconButton } from '@radix-ui/themes';
 import * as stylex from '@stylexjs/stylex';
@@ -30,6 +31,13 @@ const AssetPriceChange = ({ asset, priceUSD, onSwap }: AssetPriceChangeProps) =>
   const { data: assetPriceChangeData, isLoading } = useAssetPriceChange(timeframe, asset);
   const isBottomGap = useCheckBottomGap();
 
+  const swipeHandlers = useSwipeable({
+    onSwipedDown: () => setOpen(false),
+    onSwipedUp: () => setOpen(true),
+    trackMouse: true,
+    preventScrollOnSwipe: true,
+  });
+
   const priceChangePercent = getPriceChangePercent(
     priceUSD,
     assetPriceChangeData ? assetPriceChangeData[assetPriceChangeData.length - 1]?.value : priceUSD
@@ -53,6 +61,7 @@ const AssetPriceChange = ({ asset, priceUSD, onSwap }: AssetPriceChangeProps) =>
           open === false && isBottomGap && styles.hideElongated,
           open === false && !isBottomGap && styles.hide
         )}
+        {...swipeHandlers}
       >
         <Header
           asset={asset}
@@ -66,7 +75,7 @@ const AssetPriceChange = ({ asset, priceUSD, onSwap }: AssetPriceChangeProps) =>
         {open && (
           <Flex direction='column'>
             <Flex direction='column' gap='1'>
-              <Text size='4' weight='bold' lineHeight='16px'>
+              <Text size='4' weight='bold' lineHeight='24px'>
                 {formatNumberWithSpaces(priceUSD)} $
               </Text>
               <Flex height='16px' align='center' gap='1'>
@@ -79,7 +88,7 @@ const AssetPriceChange = ({ asset, priceUSD, onSwap }: AssetPriceChangeProps) =>
                   color={priceChangePositive ? 'violet' : 'crimson'}
                   size='2'
                   weight='bold'
-                  lineHeight='12px'
+                  lineHeight='16px'
                 >
                   {formatPercent(priceChangePercent)}%
                 </Text>
@@ -159,12 +168,12 @@ const Header = ({
           </Text>
         ) : (
           <Flex align='center' gap='2'>
-            <Flex direction='column' gap='2'>
-              <Text color='gray' size='2' weight='medium' lineHeight='12px'>
+            <Flex direction='column' gap='1'>
+              <Text color='gray' size='2' weight='medium' lineHeight='20px'>
                 Current Price {asset}
               </Text>
               <Flex align='center' gap='2'>
-                <Text size='2' weight='bold' lineHeight='12px'>
+                <Text size='2' weight='bold' lineHeight='20px'>
                   {formatNumberWithSpaces(priceUSD)} $
                 </Text>
                 <Flex height='16px' align='center' gap='1'>

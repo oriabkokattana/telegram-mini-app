@@ -3,6 +3,7 @@ import { useSwipeable } from 'react-swipeable';
 import { Box, Flex, Tabs } from '@radix-ui/themes';
 import * as stylex from '@stylexjs/stylex';
 import { useViewport } from '@telegram-apps/sdk-react';
+import { useSwipeBackStore } from '@/store/swipe-back-store';
 
 import { styles } from './AnimatedTabs.styles';
 
@@ -26,6 +27,8 @@ export const AnimatedTabs = forwardRef<HTMLDivElement, AnimatedTabsProps>(
     const contentRef = useRef<HTMLDivElement>(null);
 
     const viewport = useViewport();
+    const setSwipeBackEnabled = useSwipeBackStore((state) => state.setSwipeBackEnabled);
+
     const width = viewport?.width ? viewport.width : 0;
 
     const onValueChange = (value: string) => {
@@ -38,6 +41,12 @@ export const AnimatedTabs = forwardRef<HTMLDivElement, AnimatedTabsProps>(
     };
 
     useEffect(() => {
+      if (getTabIndex(tab, tabs) !== 0) {
+        setSwipeBackEnabled(false);
+      } else {
+        setSwipeBackEnabled(true);
+      }
+
       if (tab !== tabs[tabIndex]) {
         onValueChange(tab);
       }
@@ -73,11 +82,19 @@ export const AnimatedTabs = forwardRef<HTMLDivElement, AnimatedTabsProps>(
           onValueChange(tabs[tabIndex]);
         }
       },
+      onSwipedUp: () => {
+        setStopScroll(false);
+        onValueChange(tabs[tabIndex]);
+      },
+      onSwipedDown: () => {
+        setStopScroll(false);
+        onValueChange(tabs[tabIndex]);
+      },
       preventScrollOnSwipe: stopScroll,
     });
 
     return (
-      <Flex asChild direction='column' pt={pt}>
+      <Flex asChild width='100%' direction='column' pt={pt}>
         <Tabs.Root
           {...props}
           ref={forwardedRef}

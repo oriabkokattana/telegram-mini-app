@@ -11,6 +11,7 @@ import { formatNumberWithSpaces, formatPercent, trimToPrecision } from '@/utils/
 
 const MAX_GROUP_GAP = 0.7;
 const MAX_OTHERS_GAP = 0.2;
+const OTHERS_SECTION = 'Others';
 
 type Rank = 'small' | 'medium' | 'big';
 
@@ -89,11 +90,11 @@ const assignColorsAndRank = (assets: Asset[]): AssetWithColorAndRank[] => {
   if (groups.others.length > 1) {
     const othersBalanceUSD = groups.others.reduce((sum, asset) => sum + asset.balanceUSD, 0);
     others = {
-      name: 'Others',
+      name: OTHERS_SECTION,
       balance: 0,
       balanceUSD: othersBalanceUSD,
       pnlPercent: 0,
-      color: 'var(--amber-a11)',
+      color: 'var(--gray-a3)',
       rank: 'small', // Default, will adjust below based on rank logic
     };
 
@@ -206,7 +207,7 @@ const getTreemapNodeStyles = (
 
   if (rank === 'small') {
     return {
-      base: { gap: 13, padding: 12, alignItems: 'center' },
+      base: { gap: 9, padding: 12, alignItems: 'center' },
       header: { width: '100%', gap: 4, justifyContent: 'center' },
       description: { justifyContent: 'center' },
       usd: { display: 'none' },
@@ -222,7 +223,7 @@ const getTreemapNodeStyles = (
     };
   }
   return {
-    base: { gap: 9, padding: 16 },
+    base: { gap: 6, padding: 16 },
     header: { width: '100%', gap: 8 },
     description: {},
     usd: {},
@@ -238,25 +239,61 @@ const getTreemapNodeFontSizes = (
 > => {
   if (width < 90) {
     return {
-      headerFontSize: { size: '2', lineHeight: '12px' },
+      headerFontSize: { size: '2', lineHeight: '16px' },
     };
   }
   if (rank === 'small') {
     return {
-      headerFontSize: { size: '3', lineHeight: '14px' },
+      headerFontSize: { size: '3', lineHeight: '22px' },
     };
   }
   if (rank === 'medium') {
     return {
-      headerFontSize: { size: '5', lineHeight: '18px' },
+      headerFontSize: { size: '5', lineHeight: '28px' },
     };
   }
   return {
-    headerFontSize: { size: '6', lineHeight: '22px' },
+    headerFontSize: { size: '6', lineHeight: '28px' },
   };
 };
 
 const CustomTreemapNode = ({ node }: NodeProps<TreemapData>) => {
+  if (node.data.name === OTHERS_SECTION) {
+    return (
+      <Flex
+        justify={node.width <= 90 ? 'center' : 'start'}
+        position='absolute'
+        top='0'
+        left='0'
+        style={{
+          width: node.width,
+          height: node.height,
+          translate: `${node.x}px ${node.y}px`,
+          overflow: 'hidden',
+          borderRadius: '8px',
+          backgroundColor: node.color,
+          pointerEvents: 'auto',
+        }}
+      >
+        <Flex
+          direction={node.width <= 90 ? 'row' : 'column'}
+          align='center'
+          justify='center'
+          gap={node.width <= 90 ? '1' : '2'}
+          pl={node.width <= 90 ? '0' : '3'}
+          style={{ rotate: node.width <= 90 ? '-90deg' : '0deg' }}
+        >
+          <Text size='3' weight='medium' truncate lineHeight='22px'>
+            {node.data.name}
+          </Text>
+          <Text size='1' weight='medium' truncate lineHeight='18px'>
+            {trimToPrecision(node.data.balanceUSD, 2)} USD
+          </Text>
+        </Flex>
+      </Flex>
+    );
+  }
+
   const { base, header, description, usd } = getTreemapNodeStyles(
     node.data.rank,
     node.width,
@@ -282,7 +319,7 @@ const CustomTreemapNode = ({ node }: NodeProps<TreemapData>) => {
         overflow: 'hidden',
         borderRadius: '8px',
         backgroundColor: node.color,
-        pointerEvents: node.data.name === 'Others' ? 'none' : 'auto',
+        pointerEvents: 'auto',
         ...base,
       }}
       onClick={() => trackTreemapChartClicked(node.data.name)}
@@ -290,9 +327,7 @@ const CustomTreemapNode = ({ node }: NodeProps<TreemapData>) => {
       <Link to={`/asset/${node.data.name}`}>
         <Flex align='center' style={header}>
           <Text color='sky' weight='medium' truncate {...headerFontSize}>
-            {node.data.name === 'Others'
-              ? `$${trimToPrecision(node.data.balanceUSD, 2)}`
-              : trimToPrecision(node.data.balance, 2)}
+            {trimToPrecision(node.data.balance, 2)}
           </Text>
           <Text color='sky' weight='medium' truncate {...headerFontSize}>
             {node.data.name}

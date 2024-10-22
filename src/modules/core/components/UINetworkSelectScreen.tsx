@@ -111,12 +111,12 @@ const UINetworkSelectScreen = ({
                 {item.description} {item.token_standard}
               </Text>
               <Flex align='center' gap='2'>
-                <Flex asChild px='3' py='2' {...stylex.props(styles.badge)}>
+                <Flex px='3' py='2' {...stylex.props(styles.badge)}>
                   <Text color='gray' size='2' weight='medium' lineHeight='12px'>
                     {convertSeconds(item.processing_time_seconds)}
                   </Text>
                 </Flex>
-                <Flex asChild px='3' py='2' {...stylex.props(styles.badge)}>
+                <Flex px='3' py='2' {...stylex.props(styles.badge)}>
                   <Text color='gray' size='2' weight='medium' lineHeight='12px'>
                     &gt;
                     {direction === 'deposit'

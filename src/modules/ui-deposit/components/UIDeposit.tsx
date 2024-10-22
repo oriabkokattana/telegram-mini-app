@@ -26,6 +26,7 @@ import {
   trackWalletAddressShared,
   trackWalletFullAddressViewed,
 } from '@/utils/amplitude-events';
+import { base64UrlEncode } from '@/utils/base64';
 import { convertSeconds } from '@/utils/duration';
 
 const UIDeposit = () => {
@@ -77,8 +78,8 @@ const UIDeposit = () => {
 
   const onShare = () => {
     utils.shareURL(
-      't.me/CryptoBrokerTGBot/app',
-      `🏦 Wallet: ${custodialWalletData?.address}\n🌐 Network: ${network?.description} (${network?.name})`
+      `https://broker-api.kattana.trade/v1/internal/qr-code?data=${base64UrlEncode(custodialWalletData?.address)}`,
+      `🏦 Wallet: ${'```' + custodialWalletData?.address + '```'}\n🌐 Network: ${network?.description} (${network?.name})`
     );
     trackWalletAddressShared();
   };
@@ -160,7 +161,7 @@ const UIDeposit = () => {
                       size='4'
                       weight='medium'
                       align='center'
-                      lineHeight='16px'
+                      lineHeight='24px'
                       wordBreak='break-word'
                     >
                       {custodialWalletData?.address}
@@ -205,7 +206,7 @@ const UIDeposit = () => {
           <Flex align='center' gap='2'>
             <Text size='2' weight='medium' lineHeight='12px'>
               {network?.token_fee_percent}{' '}
-              <Text color='gray' size='2' weight='medium' lineHeight='12px'>
+              <Text color='gray' size='2' weight='medium' lineHeight='12px' style={{ top: 0 }}>
                 %
               </Text>
             </Text>

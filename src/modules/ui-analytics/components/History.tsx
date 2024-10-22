@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Flex, IconButton } from '@radix-ui/themes';
+import { Checkbox, Flex, IconButton } from '@radix-ui/themes';
 import { useCheckBottomGap } from '@/hooks/use-check-bottom-gap';
 import TransactionList from '@/modules/core/components/TransactionList';
 import {
@@ -14,14 +14,30 @@ import { useTransactions } from '@/services/user/transactions/api';
 
 import { TransactionType } from '@/types';
 
+const allTransactionTypes: TransactionType[] = ['deposit', 'swap', 'withdraw'];
+
 const History = () => {
-  const [type, setType] = useState<TransactionType>();
+  const [types, setTypes] = useState<TransactionType[]>(allTransactionTypes);
   const { data: transactionsData, isLoading } = useTransactions();
   const isBottomGap = useCheckBottomGap();
 
-  const transactions = type
-    ? transactionsData?.filter((item) => item.transaction_type === type)
-    : transactionsData;
+  const transactions = transactionsData?.filter((item) => types.includes(item.transaction_type));
+
+  const onSelectTransactionType = (item: TransactionType) => {
+    if (types.length === allTransactionTypes.length) {
+      setTypes([item]);
+    } else {
+      if (types.includes(item)) {
+        if (types.length === 1) {
+          setTypes(allTransactionTypes);
+        } else {
+          setTypes(types.filter((transactionType) => transactionType !== item));
+        }
+      } else {
+        setTypes([...types, item]);
+      }
+    }
+  };
 
   return (
     <Flex direction='column' gap='4' pt='4' pb={isBottomGap ? '6' : '4'}>
@@ -42,52 +58,44 @@ const History = () => {
                   lineHeight='12px'
                   textTransform='capitalize'
                 >
-                  {type ? type : 'all'}
+                  {types.length === allTransactionTypes.length ? 'all' : types.join(', ')}
                 </Text>
                 <Icon name='chevron-down' variant='tertiary' size={16} />
               </Flex>
             </IconButton>
           </DropdownTrigger>
-          <DropdownContent width='124px' align='start' sideOffset={8}>
-            <DropdownItem onClick={() => setType(undefined)}>
-              <Text
-                color='bronze'
-                size='2'
-                weight={type === undefined ? 'bold' : 'regular'}
-                lineHeight='12px'
-              >
-                All
-              </Text>
+          <DropdownContent width='151px' align='start' sideOffset={8}>
+            <DropdownItem onClick={() => setTypes(allTransactionTypes)}>
+              <Flex align='center' gap='2'>
+                <Checkbox size='1' checked={types.length === allTransactionTypes.length} />
+                <Text color='bronze' size='2' weight='medium' lineHeight='20px'>
+                  All
+                </Text>
+              </Flex>
             </DropdownItem>
-            <DropdownItem onClick={() => setType('deposit')}>
-              <Text
-                color='bronze'
-                size='2'
-                weight={type === 'deposit' ? 'bold' : 'regular'}
-                lineHeight='12px'
-              >
-                Deposit
-              </Text>
+            <DropdownItem onClick={() => onSelectTransactionType('deposit')}>
+              <Flex align='center' gap='2'>
+                <Checkbox size='1' checked={types.includes('deposit')} />
+                <Text color='bronze' size='2' weight='medium' lineHeight='20px'>
+                  Deposit
+                </Text>
+              </Flex>
             </DropdownItem>
-            <DropdownItem onClick={() => setType('withdraw')}>
-              <Text
-                color='bronze'
-                size='2'
-                weight={type === 'withdraw' ? 'bold' : 'regular'}
-                lineHeight='12px'
-              >
-                Withdraw
-              </Text>
+            <DropdownItem onClick={() => onSelectTransactionType('withdraw')}>
+              <Flex align='center' gap='2'>
+                <Checkbox size='1' checked={types.includes('withdraw')} />
+                <Text color='bronze' size='2' weight='medium' lineHeight='20px'>
+                  Withdraw
+                </Text>
+              </Flex>
             </DropdownItem>
-            <DropdownItem onClick={() => setType('swap')}>
-              <Text
-                color='bronze'
-                size='2'
-                weight={type === 'swap' ? 'bold' : 'regular'}
-                lineHeight='12px'
-              >
-                Swap
-              </Text>
+            <DropdownItem onClick={() => onSelectTransactionType('swap')}>
+              <Flex align='center' gap='2'>
+                <Checkbox size='1' checked={types.includes('swap')} />
+                <Text color='bronze' size='2' weight='medium' lineHeight='20px'>
+                  Swap
+                </Text>
+              </Flex>
             </DropdownItem>
           </DropdownContent>
         </Dropdown>

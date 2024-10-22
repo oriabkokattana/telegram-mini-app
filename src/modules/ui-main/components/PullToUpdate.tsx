@@ -16,7 +16,12 @@ const LOADER_HEIGHT = 80;
 
 const translate = (y: number) => `0 ${y}px`;
 
-const PullToUpdate = (props: FlexProps) => {
+type PullToUpdateProps = {
+  footer?: boolean;
+  enabled?: boolean;
+} & FlexProps;
+
+const PullToUpdate = ({ footer, enabled, ...props }: PullToUpdateProps) => {
   const [refreshing, setRefreshing] = useState(false);
   const [transition, setTransition] = useState(false);
   const isTopRef = useRef(true); // Ref to track the scroll position
@@ -46,9 +51,10 @@ const PullToUpdate = (props: FlexProps) => {
   // Use swipeable hook to manage pull gestures
   const handlers = useSwipeable({
     onSwiping: (eventData) => {
+      const positionY = eventData.deltaY;
       // Check if we are at the top of the scrollable content
       if (eventData.dir === 'Down' && isTopRef.current && contentRef.current && !refreshing) {
-        contentRef.current.style.translate = translate(eventData.deltaY); // Set the pull distance
+        contentRef.current.style.translate = translate(positionY); // Set the pull distance
       }
     },
     onSwipedDown: (eventData) => {
@@ -59,8 +65,23 @@ const PullToUpdate = (props: FlexProps) => {
         contentRef.current.style.translate = translate(0);
       }
     },
-    trackTouch: true,
-    trackMouse: true,
+    onSwipedLeft: () => {
+      if (contentRef.current && !refreshing) {
+        contentRef.current.style.translate = translate(0);
+      }
+    },
+    onSwipedRight: () => {
+      if (contentRef.current && !refreshing) {
+        contentRef.current.style.translate = translate(0);
+      }
+    },
+    onSwipedUp: () => {
+      if (contentRef.current && !refreshing) {
+        contentRef.current.style.translate = translate(0);
+      }
+    },
+    trackTouch: enabled,
+    trackMouse: enabled,
   });
 
   useEffect(() => {
@@ -110,7 +131,7 @@ const PullToUpdate = (props: FlexProps) => {
           {...stylex.props(styles.hideScroll, transition && styles.transition)}
         />
       </Box>
-      <Footer />
+      {footer && <Footer />}
     </>
   );
 };

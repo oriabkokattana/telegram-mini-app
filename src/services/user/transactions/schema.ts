@@ -22,6 +22,7 @@ export const TransactionSchema = z.object({
   destination_amount: z.string().optional(),
   destination_token: z.string().optional(),
   id: z.string(),
+  network: z.string(),
   source_amount: z.string(),
   source_token: z.string(),
   status: TransactionStatusSchema,

@@ -32,7 +32,15 @@ const UIMain = () => {
   }, [fund]);
 
   return (
-    <PullToUpdate direction='column' gap='5' px='4' pt='2' pb={isBottomGap ? '102px' : '78px'}>
+    <PullToUpdate
+      direction='column'
+      gap='5'
+      px='4'
+      pt='2'
+      pb={isBottomGap ? '102px' : '78px'}
+      footer
+      enabled
+    >
       <Profile />
       <TotalBalance />
       <Tables />

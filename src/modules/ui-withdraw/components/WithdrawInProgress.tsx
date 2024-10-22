@@ -10,9 +10,8 @@ import { Text } from '@/modules/core/design-system/text';
 import { TokenIcon } from '@/modules/core/design-system/token-icon';
 import { useTransactionStatus } from '@/services/user/transaction-status/api';
 import { useWithdrawStore } from '@/store/withdraw-store';
-import { NETWORK_TX_SCAN_MAP } from '@/utils/networks';
+import { onTxScan } from '@/utils/networks';
 import { formatNumber, formatNumberWithCommas } from '@/utils/numbers';
-import { openExternalLink } from '@/utils/open-link';
 
 import { styles } from './WithdrawInProgress.styles';
 
@@ -69,14 +68,6 @@ const WithdrawInProgress = ({
       toast.success('Copied to clipboard!');
     } else {
       toast.error('Custody wallet address not defined');
-    }
-  };
-
-  const onOpenScan = () => {
-    if (txHash && networkName && NETWORK_TX_SCAN_MAP[networkName]) {
-      openExternalLink(NETWORK_TX_SCAN_MAP[networkName] + txHash);
-    } else {
-      toast.error('Wrong network or transaction hash');
     }
   };
 
@@ -213,7 +204,7 @@ const WithdrawInProgress = ({
                   </Text>
                 </Flex>
               </Card>
-              <Button size='4' onClick={onOpenScan}>
+              <Button size='4' onClick={() => onTxScan(txHash, networkName)}>
                 <Text color='sky' size='3' weight='bold'>
                   Open in scanner
                 </Text>

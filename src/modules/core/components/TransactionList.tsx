@@ -1,7 +1,7 @@
 import { forwardRef, useState } from 'react';
-import { toast } from 'sonner';
 import { Button, Card, Flex } from '@radix-ui/themes';
 import { formatDateWithTime } from '@/utils/date';
+import { onTxScan } from '@/utils/networks';
 import { formatNumber } from '@/utils/numbers';
 import { Dialog, DialogTitle } from '../design-system/dialog';
 import { Text, TextProps } from '../design-system/text';
@@ -9,13 +9,6 @@ import TransactionsSkeleton from '../skeletons/TransactionsSkeleton';
 import NoDataPlaceholder from './NoDataPlaceholder';
 
 import { TransactionItem } from '@/types';
-
-const onCopyTxHash = async (txHash?: string) => {
-  if (txHash) {
-    await navigator.clipboard.writeText(txHash);
-    toast.success('Transaction hash copied to clipboard!');
-  }
-};
 
 const getTransactionTitle = (transaction: TransactionItem) => {
   switch (transaction.transaction_type) {
@@ -117,14 +110,20 @@ const TransactionList = forwardRef<HTMLDivElement, TransactionListProps>(
             <Flex direction='column' gap='2'>
               <Card size='2' variant='classic'>
                 <Flex width='300px' justify='center' mx='auto'>
-                  <Text size='3' weight='medium' align='center' wordBreak='break-word'>
+                  <Text
+                    size='3'
+                    weight='medium'
+                    align='center'
+                    lineHeight='24px'
+                    wordBreak='break-word'
+                  >
                     {tx?.tx_hash}
                   </Text>
                 </Flex>
               </Card>
-              <Button size='4' onClick={() => onCopyTxHash(tx?.tx_hash)}>
+              <Button size='4' onClick={() => onTxScan(tx?.tx_hash, tx?.network)}>
                 <Text color='sky' size='3' weight='bold'>
-                  Copy
+                  Open in scanner
                 </Text>
               </Button>
             </Flex>
