@@ -179,7 +179,7 @@ const getTreemapNodeStyles = (
 ): Record<'base' | 'header' | 'description' | 'usd', CSSProperties> => {
   if (width <= 90 || height <= 40) {
     return {
-      base: { gap: 0, padding: 0, alignItems: 'center' },
+      base: { gap: 0, paddingLeft: 0, alignItems: 'center' },
       header: {
         width: rotate === -90 ? height : '100%',
         gap: 4,
@@ -193,7 +193,7 @@ const getTreemapNodeStyles = (
 
   if (width <= 120) {
     return {
-      base: { gap: 9, padding: 16, alignItems: 'center' },
+      base: { gap: 9, paddingLeft: 16, alignItems: 'center' },
       header: {
         width: rotate === -90 ? height : '100%',
         gap: 8,
@@ -207,7 +207,7 @@ const getTreemapNodeStyles = (
 
   if (rank === 'small') {
     return {
-      base: { gap: 9, padding: 12, alignItems: 'center' },
+      base: { gap: 9, paddingLeft: 12, alignItems: 'center' },
       header: { width: '100%', gap: 4, justifyContent: 'center' },
       description: { justifyContent: 'center' },
       usd: { display: 'none' },
@@ -216,14 +216,14 @@ const getTreemapNodeStyles = (
 
   if (rank === 'medium') {
     return {
-      base: { gap: 9, padding: 16 },
+      base: { gap: 9, paddingLeft: 16 },
       header: { width: '100%', gap: 8 },
       description: {},
       usd: {},
     };
   }
   return {
-    base: { gap: 6, padding: 16 },
+    base: { gap: 6, paddingLeft: 16 },
     header: { width: '100%', gap: 8 },
     description: {},
     usd: {},
@@ -258,6 +258,8 @@ const getTreemapNodeFontSizes = (
 };
 
 const CustomTreemapNode = ({ node }: NodeProps<TreemapData>) => {
+  const { headerFontSize } = getTreemapNodeFontSizes(node.data.rank, node.width);
+
   if (node.data.name === OTHERS_SECTION) {
     return (
       <Flex
@@ -287,10 +289,10 @@ const CustomTreemapNode = ({ node }: NodeProps<TreemapData>) => {
             height: node.width <= 55 ? node.width : node.height,
           }}
         >
-          <Text size='3' weight='medium' lineHeight='22px'>
+          <Text weight='medium' {...headerFontSize}>
             {node.data.name}
           </Text>
-          <Text size='1' weight='medium' truncate lineHeight='18px'>
+          <Text size='1' weight='medium' truncate lineHeight='16px'>
             {trimToPrecision(node.data.balanceUSD, 2)} USD
           </Text>
         </Flex>
@@ -304,7 +306,6 @@ const CustomTreemapNode = ({ node }: NodeProps<TreemapData>) => {
     node.height,
     node.labelRotation
   );
-  const { headerFontSize } = getTreemapNodeFontSizes(node.data.rank, node.width);
 
   const positiveProfit = node.data.pnlPercent >= 0;
 
