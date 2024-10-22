@@ -41,12 +41,14 @@ export const AnimatedTabs = forwardRef<HTMLDivElement, AnimatedTabsProps>(
     };
 
     useEffect(() => {
-      if (getTabIndex(tab, tabs) !== 0) {
+      if (tabIndex) {
         setSwipeBackEnabled(false);
       } else {
         setSwipeBackEnabled(true);
       }
+    }, [tabIndex]);
 
+    useEffect(() => {
       if (tab !== tabs[tabIndex]) {
         onValueChange(tab);
       }
