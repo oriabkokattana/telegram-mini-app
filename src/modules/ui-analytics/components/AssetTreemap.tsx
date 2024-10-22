@@ -247,7 +247,7 @@ const getTreemapNodeFontSizes = (
       headerFontSize: { size: '3', lineHeight: '22px' },
     };
   }
-  if (rank === 'medium') {
+  if (rank === 'medium' || width <= 130) {
     return {
       headerFontSize: { size: '5', lineHeight: '28px' },
     };
@@ -261,7 +261,7 @@ const CustomTreemapNode = ({ node }: NodeProps<TreemapData>) => {
   if (node.data.name === OTHERS_SECTION) {
     return (
       <Flex
-        justify={node.width <= 90 ? 'center' : 'start'}
+        justify={node.width <= 55 ? 'center' : 'start'}
         position='absolute'
         top='0'
         left='0'
@@ -276,14 +276,18 @@ const CustomTreemapNode = ({ node }: NodeProps<TreemapData>) => {
         }}
       >
         <Flex
-          direction={node.width <= 90 ? 'row' : 'column'}
+          direction={node.width <= 55 ? 'row' : 'column'}
           align='center'
           justify='center'
-          gap={node.width <= 90 ? '1' : '2'}
-          pl={node.width <= 90 ? '0' : '3'}
-          style={{ rotate: node.width <= 90 ? '-90deg' : '0deg' }}
+          gap={node.width <= 55 ? '1' : '2'}
+          pl={node.width <= 55 ? '0' : '3'}
+          style={{
+            rotate: node.width <= 55 ? '-90deg' : '0deg',
+            width: node.width <= 55 ? node.height : node.width,
+            height: node.width <= 55 ? node.width : node.height,
+          }}
         >
-          <Text size='3' weight='medium' truncate lineHeight='22px'>
+          <Text size='3' weight='medium' lineHeight='22px'>
             {node.data.name}
           </Text>
           <Text size='1' weight='medium' truncate lineHeight='18px'>
