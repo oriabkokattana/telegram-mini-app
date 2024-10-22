@@ -346,11 +346,11 @@ const CustomTreemapNode = ({ node }: NodeProps<TreemapData>) => {
               variant='white'
               size={16}
             />
-            <Text color='sky' size='1' weight='medium' lineHeight='10px' truncate>
+            <Text color='sky' size='1' weight='medium' lineHeight='18px' truncate>
               {formatPercent(node.data.pnlPercent)}%
             </Text>
           </Flex>
-          <Text color='sky' size='1' weight='medium' lineHeight='10px' truncate style={usd}>
+          <Text color='sky' size='1' weight='medium' lineHeight='18px' truncate style={usd}>
             ${formatNumberWithSpaces(node.data.balanceUSD, 1)}
           </Text>
         </Flex>
