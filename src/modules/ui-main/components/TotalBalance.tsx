@@ -71,7 +71,7 @@ const TotalBalance = () => {
                 </DropdownTrigger>
                 <DropdownContent width='124px' align='end' alignOffset={-50} sideOffset={2}>
                   {currencies.map((item) => (
-                    <DropdownItem key={item} onClick={() => setCurrency(item)}>
+                    <DropdownItem key={item} onSelect={() => setCurrency(item)}>
                       <Text
                         color='bronze'
                         size='2'

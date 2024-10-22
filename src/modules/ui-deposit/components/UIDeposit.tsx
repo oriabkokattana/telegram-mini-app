@@ -134,12 +134,12 @@ const UIDeposit = () => {
                 </IconButton>
               </DropdownTrigger>
               <DropdownContent width='182px' align='center' sideOffset={12}>
-                <DropdownItem onClick={onViewFullAddress}>
+                <DropdownItem onSelect={onViewFullAddress}>
                   <Text color='bronze' size='2' lineHeight='12px'>
                     View full address
                   </Text>
                 </DropdownItem>
-                <DropdownItem onClick={onShare}>
+                <DropdownItem onSelect={onShare}>
                   <Text color='bronze' size='2' lineHeight='12px'>
                     Share Info
                   </Text>

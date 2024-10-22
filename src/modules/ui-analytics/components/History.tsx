@@ -65,7 +65,12 @@ const History = () => {
             </IconButton>
           </DropdownTrigger>
           <DropdownContent width='151px' align='start' sideOffset={8}>
-            <DropdownItem onClick={() => setTypes(allTransactionTypes)}>
+            <DropdownItem
+              onSelect={(e) => {
+                e.preventDefault();
+                setTypes(allTransactionTypes);
+              }}
+            >
               <Flex align='center' gap='2'>
                 <Checkbox size='1' checked={types.length === allTransactionTypes.length} />
                 <Text color='bronze' size='2' weight='medium' lineHeight='20px'>
@@ -73,7 +78,12 @@ const History = () => {
                 </Text>
               </Flex>
             </DropdownItem>
-            <DropdownItem onClick={() => onSelectTransactionType('deposit')}>
+            <DropdownItem
+              onSelect={(e) => {
+                e.preventDefault();
+                onSelectTransactionType('deposit');
+              }}
+            >
               <Flex align='center' gap='2'>
                 <Checkbox size='1' checked={types.includes('deposit')} />
                 <Text color='bronze' size='2' weight='medium' lineHeight='20px'>
@@ -81,7 +91,12 @@ const History = () => {
                 </Text>
               </Flex>
             </DropdownItem>
-            <DropdownItem onClick={() => onSelectTransactionType('withdraw')}>
+            <DropdownItem
+              onSelect={(e) => {
+                e.preventDefault();
+                onSelectTransactionType('withdraw');
+              }}
+            >
               <Flex align='center' gap='2'>
                 <Checkbox size='1' checked={types.includes('withdraw')} />
                 <Text color='bronze' size='2' weight='medium' lineHeight='20px'>
@@ -89,7 +104,12 @@ const History = () => {
                 </Text>
               </Flex>
             </DropdownItem>
-            <DropdownItem onClick={() => onSelectTransactionType('swap')}>
+            <DropdownItem
+              onSelect={(e) => {
+                e.preventDefault();
+                onSelectTransactionType('swap');
+              }}
+            >
               <Flex align='center' gap='2'>
                 <Checkbox size='1' checked={types.includes('swap')} />
                 <Text color='bronze' size='2' weight='medium' lineHeight='20px'>
