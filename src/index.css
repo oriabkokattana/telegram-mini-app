@@ -78,6 +78,7 @@ a {
   --em-font-family: 'HelveticaNeue', sans-serif;
   --quote-font-family: 'HelveticaNeue', sans-serif;
   --cursor-button: pointer;
+  --cursor-checkbox: pointer;
   --color-surface: var(--gray-a3);
   --color-background: var(--gray-1);
   --line-height-3: calc(16px * var(--scaling));

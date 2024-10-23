@@ -16,12 +16,9 @@ import { Text } from '@/modules/core/design-system/text';
 import { useProfitChart } from '@/services/user/profit-chart/api';
 import { useBalancesVisibleStore } from '@/store/balance-visible-store';
 import { useBalancesStore } from '@/store/balances-store';
+import { MAIN_SCREEN_LABELS_MAP, useMainScreenLabelsStore } from '@/store/main-screen-labels-store';
 import { useSystemCurrencyStore } from '@/store/system-currency-store';
 import { useTimeframeStore } from '@/store/timeframe-store';
-import {
-  trackDepositIconButtonClicked,
-  trackWithdrawIconButtonClicked,
-} from '@/utils/amplitude-events';
 import { getTotalBalanceFontSize } from '@/utils/balances';
 import { formatNumberWithCommas, formatPercent } from '@/utils/numbers';
 import { periodToTimeframe } from '@/utils/timeframe';
@@ -29,6 +26,7 @@ import { periodToTimeframe } from '@/utils/timeframe';
 const TotalBalance = () => {
   const [period, setPeriod] = useState(EPeriod.day);
 
+  const selectedLabels = useMainScreenLabelsStore((state) => state.selectedLabels);
   const { visible, setVisible } = useBalancesVisibleStore();
   const { currency, currencyRate, currencies, currencyLoading, setCurrency } =
     useSystemCurrencyStore();
@@ -133,58 +131,46 @@ const TotalBalance = () => {
           loading={profitChartLoading}
         />
         <Flex>
+          {selectedLabels.map((item, index) => (
+            <Flex key={item} asChild flexGrow='1' flexShrink='1' flexBasis='0'>
+              <Link
+                to={MAIN_SCREEN_LABELS_MAP[item].link}
+                onClick={MAIN_SCREEN_LABELS_MAP[item].onClick}
+              >
+                <Flex asChild flexGrow='1' direction='column' align='center' gap='2'>
+                  <Label.Root>
+                    <IconButton
+                      color={index ? 'gray' : undefined}
+                      variant={index ? 'soft' : undefined}
+                      size='4'
+                    >
+                      <Icon
+                        name={MAIN_SCREEN_LABELS_MAP[item].icon}
+                        size={24}
+                        variant={index ? 'tertiary' : 'white'}
+                      />
+                    </IconButton>
+                    <Text size='2' align='center' lineHeight='12px'>
+                      {item}
+                    </Text>
+                  </Label.Root>
+                </Flex>
+              </Link>
+            </Flex>
+          ))}
           <Flex asChild flexGrow='1' flexShrink='1' flexBasis='0'>
-            <Link to='/deposit-token-select' onClick={() => trackDepositIconButtonClicked()}>
-              <Flex asChild flexGrow='1' direction='column' align='center' gap='2'>
-                <Label.Root>
-                  <IconButton size='4'>
-                    <Icon name='arrow-down-half-circle' variant='white' />
-                  </IconButton>
-                  <Text size='2' lineHeight='12px'>
-                    Deposit
-                  </Text>
-                </Label.Root>
-              </Flex>
-            </Link>
-          </Flex>
-          <Flex
-            asChild
-            flexGrow='1'
-            flexShrink='1'
-            flexBasis='0'
-            onClick={() => trackWithdrawIconButtonClicked()}
-          >
-            <Link to='/withdraw-token-select'>
+            <Link to='/label-customize'>
               <Flex asChild flexGrow='1' direction='column' align='center' gap='2'>
                 <Label.Root>
                   <IconButton color='gray' variant='soft' size='4'>
-                    <Icon name='arrow-up-half-circle' variant='tertiary' />
+                    <Icon name='plus' size={24} variant='tertiary' />
                   </IconButton>
                   <Text size='2' lineHeight='12px'>
-                    Withdraw
+                    Add a label
                   </Text>
                 </Label.Root>
               </Flex>
             </Link>
-          </Flex>
-          <Flex
-            asChild
-            flexGrow='1'
-            flexShrink='1'
-            flexBasis='0'
-            direction='column'
-            align='center'
-            gap='2'
-            style={{ cursor: 'not-allowed' }}
-          >
-            <Label.Root>
-              <IconButton color='gray' variant='soft' size='4' disabled>
-                <Icon name='plus' variant='tertiary' />
-              </IconButton>
-              <Text color='gray' size='2' lineHeight='12px'>
-                Add a label
-              </Text>
-            </Label.Root>
           </Flex>
         </Flex>
       </Flex>

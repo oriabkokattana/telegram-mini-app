@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import PullToUpdate from '@/modules/core/components/PullToUpdate';
 import { AnimatedTabs, AnimatedTabsContent } from '@/modules/core/design-system/animated-tabs';
 import {
@@ -30,7 +31,9 @@ const trackTabs = (tab: string) => {
 };
 
 const UIAnalytics = () => {
-  const [tab, setTab] = useState(Tab.assets);
+  const [searchParams] = useSearchParams();
+  const predefinedTab = searchParams.get('tab') as Tab | null;
+  const [tab, setTab] = useState(predefinedTab || Tab.assets);
   const assetsContentRef = useRef<HTMLDivElement>(null);
 
   const onSetTab = (value: string) => {

@@ -22,6 +22,7 @@ import UIAsset from './modules/ui-asset/components/UIAsset';
 import UIDeposit from './modules/ui-deposit/components/UIDeposit';
 import UIDepositNetworkSelect from './modules/ui-deposit/components/UIDepositNetworkSelect';
 import UIDepositTokenSelect from './modules/ui-deposit/components/UIDepositTokenSelect';
+import CustomizeLabel from './modules/ui-main/components/CustomizeLabel';
 import UIMain from './modules/ui-main/components/UIMain';
 import UISwap from './modules/ui-swap/components/UISwap';
 import UISwapTokenSelectScreen from './modules/ui-swap/components/UISwapTokenSelectScreen';
@@ -95,6 +96,7 @@ function App() {
             }
           >
             <Route index element={<UIMain />} />
+            <Route path='label-customize' element={<CustomizeLabel />} />
             <Route path='deposit-token-select' element={<UIDepositTokenSelect />} />
             <Route path='deposit-network-select' element={<UIDepositNetworkSelect />} />
             <Route path='deposit' element={<UIDeposit />} />
