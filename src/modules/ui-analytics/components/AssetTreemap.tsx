@@ -209,7 +209,7 @@ const getTreemapNodeStyles = (
     return {
       base: { gap: 9, paddingLeft: 12, alignItems: 'center' },
       header: { width: '100%', gap: 4 },
-      description: { justifyContent: 'center' },
+      description: {},
       usd: { display: 'none' },
     };
   }
