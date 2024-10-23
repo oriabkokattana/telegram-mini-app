@@ -79,7 +79,7 @@ const UIDeposit = () => {
   const onShare = () => {
     utils.shareURL(
       `https://broker-api.kattana.trade/v1/internal/qr-code?data=${base64UrlEncode(custodialWalletData?.address)}`,
-      `🏦 Wallet: ${'```' + custodialWalletData?.address + '```'}\n🌐 Network: ${network?.description} (${network?.name})`
+      `🏦 Wallet:\n${'```' + custodialWalletData?.address + '```'}\n🌐 Network: ${network?.description} (${network?.name})`
     );
     trackWalletAddressShared();
   };
