@@ -12,5 +12,11 @@ export const styles = stylex.create({
     borderColor: `${colors.dropdownBorder} !important`,
     backdropFilter: 'blur(5px)',
   },
+  dropdownItem: {
+    color: {
+      default: colors.dropdownColor,
+      ':is([data-highlighted])': colors.dropdownHoverColor,
+    },
+  },
   width: (width) => ({ width }),
 });

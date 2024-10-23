@@ -1,14 +1,23 @@
 import { forwardRef } from 'react';
 import { DropdownMenu } from '@radix-ui/themes';
 import * as stylex from '@stylexjs/stylex';
+import { CompiledStyles, InlineStyles } from '@stylexjs/stylex/lib/StyleXTypes';
 
 import { styles } from './Dropdown.styles';
 
 export const Dropdown = DropdownMenu.Root;
 
-export const DropdownTrigger = forwardRef<HTMLButtonElement, DropdownMenu.TriggerProps>(
-  (props, forwardedRef) => (
-    <DropdownMenu.Trigger {...props} {...stylex.props(styles.dropdownTrigger)} ref={forwardedRef} />
+type DropdownTriggerProps = {
+  style?: null | undefined | CompiledStyles | boolean | Readonly<[CompiledStyles, InlineStyles]>;
+} & Omit<DropdownMenu.TriggerProps, 'className' | 'style'>;
+
+export const DropdownTrigger = forwardRef<HTMLButtonElement, DropdownTriggerProps>(
+  ({ style, ...props }, forwardedRef) => (
+    <DropdownMenu.Trigger
+      {...props}
+      {...stylex.props(styles.dropdownTrigger, style)}
+      ref={forwardedRef}
+    />
   )
 );
 
@@ -23,4 +32,16 @@ export const DropdownContent = forwardRef<
   />
 ));
 
-export const DropdownItem = DropdownMenu.Item;
+type DropdownItemProps = {
+  style?: null | undefined | CompiledStyles | boolean | Readonly<[CompiledStyles, InlineStyles]>;
+} & Omit<DropdownMenu.ItemProps, 'className' | 'style'>;
+
+export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
+  ({ style, ...props }, forwardedRef) => (
+    <DropdownMenu.Item
+      {...props}
+      {...stylex.props(styles.dropdownItem, style)}
+      ref={forwardedRef}
+    />
+  )
+);

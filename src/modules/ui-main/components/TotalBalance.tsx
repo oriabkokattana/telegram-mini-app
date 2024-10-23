@@ -73,7 +73,6 @@ const TotalBalance = () => {
                   {currencies.map((item) => (
                     <DropdownItem key={item} onSelect={() => setCurrency(item)}>
                       <Text
-                        color='bronze'
                         size='2'
                         weight={currency === item ? 'bold' : 'regular'}
                         lineHeight='12px'

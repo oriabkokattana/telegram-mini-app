@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Checkbox, Flex, IconButton } from '@radix-ui/themes';
-import * as stylex from '@stylexjs/stylex';
 import { useCheckBottomGap } from '@/hooks/use-check-bottom-gap';
 import TransactionList from '@/modules/core/components/TransactionList';
 import {
@@ -12,8 +11,6 @@ import {
 import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
 import { useTransactions } from '@/services/user/transactions/api';
-
-import { styles } from './History.styles';
 
 import { TransactionType } from '@/types';
 
@@ -69,7 +66,6 @@ const History = () => {
                 e.preventDefault();
                 setTypes(allTransactionTypes);
               }}
-              {...stylex.props(styles.dropdownItem)}
             >
               <Flex align='center' gap='2'>
                 <Checkbox size='1' checked={types.length === allTransactionTypes.length} />
@@ -83,7 +79,6 @@ const History = () => {
                 e.preventDefault();
                 onSelectTransactionType('deposit');
               }}
-              {...stylex.props(styles.dropdownItem)}
             >
               <Flex align='center' gap='2'>
                 <Checkbox size='1' checked={types.includes('deposit')} />
@@ -97,7 +92,6 @@ const History = () => {
                 e.preventDefault();
                 onSelectTransactionType('withdraw');
               }}
-              {...stylex.props(styles.dropdownItem)}
             >
               <Flex align='center' gap='2'>
                 <Checkbox size='1' checked={types.includes('withdraw')} />
@@ -111,7 +105,6 @@ const History = () => {
                 e.preventDefault();
                 onSelectTransactionType('swap');
               }}
-              {...stylex.props(styles.dropdownItem)}
             >
               <Flex align='center' gap='2'>
                 <Checkbox size='1' checked={types.includes('swap')} />
