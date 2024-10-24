@@ -12,10 +12,10 @@ const CircularTimer = ({ interval, onComplete }: CircularTimer) => {
 
   useEffect(() => {
     if (timeLeft > 0) {
-      const timer = setInterval(() => {
+      const timer = window.setInterval(() => {
         setTimeLeft((prev) => prev - 1);
       }, 1000);
-      return () => clearInterval(timer);
+      return () => window.clearInterval(timer);
     } else {
       onComplete();
     }
@@ -23,7 +23,7 @@ const CircularTimer = ({ interval, onComplete }: CircularTimer) => {
 
   const radius = 20; // Adjusted for a 48x48px viewbox
   const circumference = 2 * Math.PI * radius;
-  const progress = ((interval - timeLeft) / interval) * circumference;
+  const progress = ((interval - timeLeft) / (interval - 1)) * circumference;
 
   return (
     <svg width='48' height='48' viewBox='0 0 48 48'>
