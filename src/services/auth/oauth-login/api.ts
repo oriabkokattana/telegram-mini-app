@@ -44,7 +44,9 @@ export function useOauthLogin() {
   useEffect(() => {
     if (query.isSuccess) {
       const { access_token, refresh_token } = query.data;
-      useUserStore.setState({ user: { accessToken: access_token, refreshToken: refresh_token } });
+      window.setTimeout(() => {
+        useUserStore.setState({ user: { accessToken: access_token, refreshToken: refresh_token } });
+      });
       toast.success('Successfully logged in!');
       trackOnboardingSignUpCompleted(useAnalyticsStore.getState().signUpMethod);
     } else if (query.isError) {
