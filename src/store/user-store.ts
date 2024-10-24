@@ -34,7 +34,7 @@ const persistedUserStore = persist<UserState & UserAction>(userStoreSlice, {
 
 export const useUserStore = create(persistedUserStore);
 
-export const useUserStoreHydration = (loading: boolean) => {
+export const useUserStoreHydration = () => {
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
@@ -49,12 +49,5 @@ export const useUserStoreHydration = (loading: boolean) => {
       unsubFinishHydration();
     };
   }, []);
-
-  useEffect(() => {
-    if (!loading) {
-      useUserStore.persist.rehydrate();
-    }
-  }, [loading]);
-
   return hydrated;
 };
