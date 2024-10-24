@@ -19,6 +19,16 @@ import { SwapDialogType } from '@/types';
 
 const CONFIRMATION_INTERVAL_SECONDS = 5;
 
+const getAmountFontSize = (amount: string) => {
+  if (amount.length > 12) {
+    return '3';
+  }
+  if (amount.length > 9) {
+    return '4';
+  }
+  return '5';
+};
+
 interface SwapDialogProps {
   base?: string;
   quote?: string;
@@ -114,7 +124,7 @@ const SwapDialog = ({
                 From
               </Text>
               <TokenIcon name={base} size='lg' variant='monochrome' />
-              <Text size='5' weight='medium' lineHeight='26px'>
+              <Text size={getAmountFontSize(baseAmount)} weight='medium' lineHeight='26px'>
                 {baseAmount}
               </Text>
             </Flex>
@@ -132,7 +142,7 @@ const SwapDialog = ({
                 To
               </Text>
               <TokenIcon name={quote} size='lg' variant='monochrome' />
-              <Text size='5' weight='medium' lineHeight='26px'>
+              <Text size={getAmountFontSize(quoteAmount)} weight='medium' lineHeight='26px'>
                 ~ {formatNumberWithCommas(quoteAmount)}
               </Text>
             </Flex>
