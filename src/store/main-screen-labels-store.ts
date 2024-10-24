@@ -63,7 +63,6 @@ const mainScreenLabelsStoreSlice: StateCreator<MainScreenLabelsState & MainScree
       } else {
         newSelected = [...currentSelected, label];
       }
-      console.log(newSelected);
 
       if (newSelected.length < 3) {
         return {

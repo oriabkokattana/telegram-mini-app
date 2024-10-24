@@ -18,11 +18,11 @@ import useTrackAppExit from './use-track-app-exit';
 const darkThemeClassNames = stylex.props(darkTheme).className?.split(' ') || [];
 
 export const useGlobalSideEffects = () => {
-  useOauthLogin();
+  const oauthLoading = useOauthLogin();
   // useSignAuth();
   useTrackAppExit();
 
-  const userHydrated = useUserStoreHydration();
+  const userHydrated = useUserStoreHydration(oauthLoading);
   const setTheme = useThemeStore((state) => state.setTheme);
 
   const swipeBehavior = useSwipeBehavior();

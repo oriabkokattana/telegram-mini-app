@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -33,6 +33,7 @@ export function useOauthLogin() {
   const { setCredentials } = useUserStore();
 
   const sessionId = initData?.startParam;
+  const [loading, setLoading] = useState(!!sessionId && sessionId !== 'debug');
 
   const query = useQuery<z.infer<typeof OAuthLoginAPIResponseSchema>, AxiosError<ErrorResponse>>({
     queryKey: ['auth', 'oauth', sessionId],
@@ -46,14 +47,16 @@ export function useOauthLogin() {
   useEffect(() => {
     if (query.isSuccess) {
       const { access_token, refresh_token } = query.data;
-      console.log(query.data);
-
       setCredentials({ accessToken: access_token, refreshToken: refresh_token });
+      setLoading(false);
       toast.success('Successfully logged in!');
       trackOnboardingSignUpCompleted(useAnalyticsStore.getState().signUpMethod);
     } else if (query.isError) {
+      setLoading(false);
       const errorMessage = query.error.response?.data.error;
       console.error(errorMessage);
     }
   }, [query.isSuccess, query.isError]);
+
+  return loading;
 }

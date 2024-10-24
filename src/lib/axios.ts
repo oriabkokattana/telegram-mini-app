@@ -21,8 +21,6 @@ instance.interceptors.request.use(
   function (config) {
     const accessToken = useUserStore.getState().user?.accessToken;
 
-    console.log(accessToken);
-
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
