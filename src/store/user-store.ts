@@ -38,7 +38,10 @@ export const useUserStoreHydration = (loading: boolean) => {
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    const unsubFinishHydration = useUserStore.persist.onFinishHydration(() => setHydrated(true));
+    const unsubFinishHydration = useUserStore.persist.onFinishHydration(() => {
+      setHydrated(true);
+      console.log(useUserStore.getState());
+    });
 
     setHydrated(useUserStore.persist.hasHydrated());
 
