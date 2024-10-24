@@ -42,14 +42,13 @@ const getTransactionStatus = (transaction: TransactionItem) => {
       return 'New';
     case 'completed':
     case 'filled':
+    case 'partial_filled':
       return 'Success';
     case 'pending':
     case 'in_process':
       return 'in Progress';
     case 'partial_canceled':
       return 'partially canceled';
-    case 'partial_filled':
-      return 'partially filled';
     default:
       return transaction.status;
   }

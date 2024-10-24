@@ -185,10 +185,10 @@ const UISwap = () => {
       if (status === 'open' || status === 'in_process' || status === 'pending') {
         toast.info('Submitted for Execution');
       }
-      if (status === 'partial_filled' || status === 'partial_canceled') {
+      if (status === 'partial_canceled') {
         toast.warning('Order Partially Filled');
       }
-      if (status === 'filled' || status === 'completed') {
+      if (status === 'partial_filled' || status === 'filled' || status === 'completed') {
         toast.success('Order Completed');
       }
       if (status === 'failed' || status === 'canceled') {
