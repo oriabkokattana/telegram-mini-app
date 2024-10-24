@@ -40,6 +40,10 @@ export const styles = stylex.create({
     height: '30px',
   },
   lg: {
+    width: '32px',
+    height: '32px',
+  },
+  xl: {
     width: '44px',
     height: '44px',
   },

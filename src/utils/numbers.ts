@@ -27,7 +27,7 @@ export const formatNumberWithSpaces = (number?: FormatterNumber, fractionDigits 
 };
 
 export const formatNumberWithCommas = (number?: FormatterNumber, fractionDigits = 5) => {
-  if (number === undefined || number === null) {
+  if (!number) {
     return '0';
   }
   const big = Big(number);
@@ -39,7 +39,7 @@ export const formatNumberWithCommas = (number?: FormatterNumber, fractionDigits 
 };
 
 export const formatPercent = (number?: FormatterNumber) => {
-  if (number === undefined || number === null) {
+  if (!number) {
     return '0';
   }
   const big = Big(number).times(100);

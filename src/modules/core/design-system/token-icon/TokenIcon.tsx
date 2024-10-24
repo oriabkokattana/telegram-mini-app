@@ -6,7 +6,7 @@ import { Text, TextProps } from '../text';
 
 import { styles } from './TokenIcon.styles';
 
-export type TokenIconSizes = 'xs' | 'sm' | 'md' | 'lg';
+export type TokenIconSizes = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export type TokenIconVariants = 'monochrome' | 'colored';
 
 const getFallbackFontSize = (size: TokenIconSizes): TextProps['size'] => {
@@ -16,8 +16,9 @@ const getFallbackFontSize = (size: TokenIconSizes): TextProps['size'] => {
     case 'sm':
       return '3';
     case 'md':
-      return '6';
     case 'lg':
+      return '6';
+    case 'xl':
       return '8';
     default:
       return '3';

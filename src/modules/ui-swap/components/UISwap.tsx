@@ -2,15 +2,12 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Big from 'big.js';
 import { toast } from 'sonner';
-import { DialogTitle } from '@radix-ui/react-dialog';
 import * as Label from '@radix-ui/react-label';
 import * as ToggleGroup from '@radix-ui/react-toggle-group';
 import { Flex, IconButton, Separator } from '@radix-ui/themes';
 import * as stylex from '@stylexjs/stylex';
 import { useCheckBottomGap } from '@/hooks/use-check-bottom-gap';
 import { useShowMainButton } from '@/hooks/use-show-main-button';
-import HomeButton from '@/modules/core/components/HomeButton';
-import { Dialog, DialogDescription } from '@/modules/core/design-system/dialog';
 import { Icon } from '@/modules/core/design-system/icon';
 import { Text } from '@/modules/core/design-system/text';
 import { useAssetPrice } from '@/services/user/asset-price/api';
@@ -22,9 +19,12 @@ import { useTradingStore } from '@/store/trading-store';
 import { DEFAULT_PRECISION } from '@/utils/balances';
 import { formatNumberWithCommas } from '@/utils/numbers';
 import { getAvailableBalance } from '@/utils/token-with-balance';
+import SwapDialog from './SwapDialog';
 import TradingInput from './TradingInput';
 
 import { styles } from './UISwap.styles';
+
+import { SwapDialogType } from '@/types';
 
 const DEFAULT_TRADING_BASE_TOKEN = 'USDT';
 const DEFAULT_TRADING_BASE_TOKEN_NAME = 'Tether USD';
@@ -62,7 +62,7 @@ const getButtonName = (funds: boolean, minExceeded: boolean) => {
 const UISwap = () => {
   const [baseInputFocused, setBaseInputFocused] = useState(false);
   const [quoteInputFocused, setQuoteInputFocused] = useState(false);
-  const [dialog, setDialog] = useState<'funds' | 'min-exceeded'>();
+  const [dialog, setDialog] = useState<SwapDialogType>('none');
   const [savingsOpen, setSavingsOpen] = useState(false);
   const rotateRef = useRef<HTMLDivElement>(null);
   const fundsEnabledRef = useRef(true);
@@ -124,20 +124,24 @@ const UISwap = () => {
   }, [baseAmountUSD.toString(), swapEnabled]);
 
   const onSwap = useCallback(() => {
-    if (isNaN(Number(baseAmount)) || !base || !quote) {
-      toast.error('Please check if parameters are valid');
-      return;
-    }
     if (minExceededEnabled) {
       setDialog('min-exceeded');
       return;
     }
+    setDialog('swap-confirmation');
+  }, [minExceededEnabled]);
+
+  const onSwapConfirm = useCallback(() => {
+    if (isNaN(Number(baseAmount)) || !base || !quote) {
+      toast.error('Please check if parameters are valid');
+      return;
+    }
     swap.mutate({ amountA: baseAmount, tokenA: base, tokenB: quote });
-  }, [minExceededEnabled, baseAmount, base, quote]);
+  }, [baseAmount, base, quote]);
 
   const onSideAction = useCallback(() => {
     if (dialog === 'min-exceeded') {
-      setDialog(undefined);
+      setDialog('none');
     } else if (fundsEnabled) {
       if (base) {
         setDepositToken({ symbol: base, name: baseName || base, precision: basePrecision });
@@ -151,6 +155,7 @@ const UISwap = () => {
     text: getButtonName(fundsEnabled, dialog === 'min-exceeded'),
     enabled: swapEnabled || fundsEnabled,
     loading: swap.isPending,
+    visible: dialog !== 'swap-confirmation',
     callback: fundsEnabled || dialog === 'min-exceeded' ? onSideAction : onSwap,
   });
 
@@ -193,11 +198,11 @@ const UISwap = () => {
   }, [transactionStatusData?.status]);
 
   useEffect(() => {
-    if (dialog !== 'min-exceeded') {
+    if (dialog !== 'min-exceeded' && dialog !== 'swap-confirmation') {
       if (!baseInputFocused && !quoteInputFocused && fundsEnabled && fundsEnabledRef.current) {
         setDialog('funds');
       } else {
-        setDialog(undefined);
+        setDialog('none');
       }
     }
   }, [fundsEnabled, baseInputFocused, quoteInputFocused]);
@@ -260,7 +265,6 @@ const UISwap = () => {
       pt='4'
       pb={isBottomGap ? '6' : '4'}
     >
-      <HomeButton top={12} />
       <Flex height='40px' align='center' px='7'>
         <Text size='4' weight='bold' lineHeight='16px' mx='auto'>
           Market Swap
@@ -392,36 +396,22 @@ const UISwap = () => {
           </>
         )}
       </Flex>
-      <Dialog
-        asChild
-        open={!!dialog}
-        trigger={null}
-        setOpen={(value) => {
-          if (!value) {
-            if (dialog === 'funds') {
-              fundsEnabledRef.current = false;
-            }
-            setDialog(undefined);
-          } else {
-            setDialog(dialog);
+      <SwapDialog
+        base={base}
+        quote={quote}
+        baseAmount={baseAmount}
+        quoteAmount={quoteAmount}
+        basePrice={basePrice}
+        missingFunds={baseAmountNumber.minus(baseBalance)}
+        dialog={dialog}
+        setDialog={setDialog}
+        onDialogClose={() => {
+          if (dialog === 'funds') {
+            fundsEnabledRef.current = false;
           }
         }}
-      >
-        <Flex direction='column' gap='4' px='4'>
-          <DialogTitle asChild>
-            <Text size='4' align='center' weight='bold' lineHeight='16px'>
-              {dialog === 'funds' ? 'Fund your account' : 'Oooops...'}
-            </Text>
-          </DialogTitle>
-          <DialogDescription asChild>
-            <Text size='2' align='center' lineHeight='12px'>
-              {dialog === 'funds'
-                ? `Make a ${formatNumberWithCommas(baseAmountNumber.minus(baseBalance))} ${base} deposit to continue the swap`
-                : 'Minimum amount for swap 5 USD'}
-            </Text>
-          </DialogDescription>
-        </Flex>
-      </Dialog>
+        onSwapConfirm={onSwapConfirm}
+      />
     </Flex>
   );
 };

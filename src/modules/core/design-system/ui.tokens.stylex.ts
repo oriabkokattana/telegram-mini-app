@@ -24,6 +24,7 @@ export const colors = stylex.defineVars({
   tradingTokenSelectBackground: '#FEFEFE',
   tradingPercentBackground: '#F3F4F7',
   tradingPercentBackgroundActive: 'rgba(117, 120, 139, 0.4)',
+  tradingDialogBadge: '#E1DBFA',
 
   // Badge Colors
   badgeBackground: 'rgba(117, 120, 139, 0.1)',
@@ -94,6 +95,7 @@ export const darkTheme = stylex.createTheme(colors, {
   tradingTokenSelectBackground: '#0C0612',
   tradingPercentBackground: '#221D2E',
   tradingPercentBackgroundActive: 'rgba(117, 120, 139, 0.3)',
+  tradingDialogBadge: '#1A0F38',
 
   // Badge Colors
   badgeBackground: 'rgba(250, 250, 250, 0.1)',

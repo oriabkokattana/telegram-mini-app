@@ -25,6 +25,7 @@ type UseMainButtonArgs = {
   text: string;
   loading?: boolean;
   enabled?: boolean;
+  visible?: boolean;
   callback: () => void;
 };
 
@@ -33,6 +34,7 @@ export const useShowMainButton = ({
   text,
   loading,
   enabled,
+  visible,
   callback,
 }: UseMainButtonArgs) => {
   const mainButton = useMainButton();
@@ -50,6 +52,7 @@ export const useShowMainButton = ({
       text,
       isEnabled: enabled,
       isLoaderVisible: loading,
+      isVisible: visible === undefined ? true : visible,
       ...getPalleteByVariant(variant),
     });
 
@@ -58,5 +61,5 @@ export const useShowMainButton = ({
     return () => {
       mainButton.off('click', callback);
     };
-  }, [variant, text, loading, enabled, callback]);
+  }, [variant, text, loading, enabled, visible, callback]);
 };

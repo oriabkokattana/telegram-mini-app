@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Flex } from '@radix-ui/themes';
 import { AnimatedTabs, AnimatedTabsContent } from '@/modules/core/design-system/animated-tabs';
 import { Icon } from '@/modules/core/design-system/icon';
@@ -20,6 +20,7 @@ enum Tab {
 const TABS = [Tab.all, Tab.own];
 
 const UISwapTokenSelectScreen = () => {
+  const navigate = useNavigate();
   const params = useParams();
   const type = params.type as SwapTokenType;
   const balances = useBalancesStore((state) => state.balances);
@@ -53,6 +54,7 @@ const UISwapTokenSelectScreen = () => {
         }
       }
     }
+    navigate(-1);
   };
 
   const filteredTokenList = swapTokensData?.filter((token) => {
