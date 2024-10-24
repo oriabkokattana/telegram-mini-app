@@ -22,7 +22,11 @@ type UserAction = {
 const userStoreSlice: StateCreator<UserState & UserAction> = (set) => ({
   user: null,
   welcomed: false,
-  setCredentials: (user) => set({ user }),
+  setCredentials: (user) =>
+    set(() => {
+      console.log(user);
+      return { user };
+    }),
   toggleWelcomed: () => set((state) => ({ welcomed: !state.welcomed })),
   removeCredentials: () => set({ user: null }),
 });
