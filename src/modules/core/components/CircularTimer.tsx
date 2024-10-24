@@ -32,7 +32,7 @@ const CircularTimer = ({ interval, onComplete }: CircularTimer) => {
         cx='24'
         cy='24'
         r={radius}
-        stroke={theme === 'dark' ? '#221D2E' : '#FAFAFA'}
+        stroke={theme === 'dark' ? '#221D2E' : 'rgba(117, 120, 139, 0.10)'}
         strokeWidth='4'
         fill='none'
       />

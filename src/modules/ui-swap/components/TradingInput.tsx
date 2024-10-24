@@ -104,14 +104,14 @@ const TradingInput = ({
       </Flex>
       <Flex justify='between' align='center' gap='2'>
         <Flex height='16px' align='center' gap='1'>
-          <Text color='gray' size='1' weight='medium' lineHeight='10px'>
+          <Text color='gray' size='1' weight='medium' lineHeight='16px'>
             ${formatNumberWithCommas(priceUSD)}
           </Text>
           <Icon
             name={priceChangePercent.gte(0) ? 'top-right-arrow' : 'bottom-right-arrow'}
             size={16}
           />
-          <Text size='1' weight='medium' lineHeight='10px'>
+          <Text size='1' weight='medium' lineHeight='16px'>
             {formatPercent(priceChangePercent)}%
           </Text>
         </Flex>

@@ -40,19 +40,11 @@ export const useShowMainButton = ({
   const mainButton = useMainButton();
 
   useEffect(() => {
-    mainButton.show().enable();
-
-    return () => {
-      mainButton.hide();
-    };
-  }, []);
-
-  useEffect(() => {
     mainButton.setParams({
       text,
       isEnabled: enabled,
       isLoaderVisible: loading,
-      isVisible: visible === undefined ? true : visible,
+      isVisible: visible,
       ...getPalleteByVariant(variant),
     });
 
@@ -62,4 +54,12 @@ export const useShowMainButton = ({
       mainButton.off('click', callback);
     };
   }, [variant, text, loading, enabled, visible, callback]);
+
+  useEffect(() => {
+    mainButton.show().enable();
+
+    return () => {
+      mainButton.hide();
+    };
+  }, []);
 };

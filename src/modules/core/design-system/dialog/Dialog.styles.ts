@@ -6,6 +6,8 @@ export const styles = stylex.create({
   overlay: {
     position: 'fixed',
     inset: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.40)',
+    backdropFilter: 'blur(5px)',
   },
   content: {
     position: 'fixed',

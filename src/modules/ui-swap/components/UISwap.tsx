@@ -347,10 +347,10 @@ const UISwap = () => {
                   value={item}
                   onMouseDown={(e) => e.preventDefault()}
                 >
-                  <Text color='gold' size='1' weight='medium' lineHeight='10px'>
+                  <Text color='gold' size='1' weight='medium' lineHeight='18px'>
                     {item}
                   </Text>
-                  <Text color='gray' size='1' lineHeight='10px'>
+                  <Text color='gray' size='1' lineHeight='18px'>
                     %
                   </Text>
                 </ToggleGroup.Item>

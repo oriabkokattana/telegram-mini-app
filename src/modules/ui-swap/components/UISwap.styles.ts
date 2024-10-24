@@ -32,6 +32,7 @@ export const styles = stylex.create({
     gap: 'var(--space-2)',
   },
   percent: {
+    height: '26px',
     cursor: 'pointer',
     margin: '0px',
     outline: 'none',
@@ -39,9 +40,8 @@ export const styles = stylex.create({
     flex: '1',
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center',
     gap: 'var(--space-1)',
-    padding: 'var(--space-3) var(--space-2)',
+    padding: '2px var(--space-2) 0',
     borderRadius: '40px',
     backgroundColor: {
       default: colors.tradingPercentBackground,
