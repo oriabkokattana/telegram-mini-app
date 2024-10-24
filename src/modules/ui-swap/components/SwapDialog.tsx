@@ -55,6 +55,7 @@ const SwapDialog = ({
   onSwapConfirm,
 }: SwapDialogProps) => {
   const [success, setSuccess] = useState(false);
+  const [oneTimeDisable, setOneTimeDisable] = useState(false);
   const { enabled, toggleEnabled } = useAutoSwapStore();
 
   const savedBaseAmountRef = useRef('');
@@ -104,7 +105,7 @@ const SwapDialog = ({
         );
       }
       return (
-        <Flex direction='column' gap='4' px='4'>
+        <Flex direction='column' gap='4' px='4' onClick={() => setOneTimeDisable(true)}>
           <DialogTitle asChild>
             <Text size='4' align='center' weight='bold' lineHeight='24px'>
               Confirm Swap
@@ -186,14 +187,14 @@ const SwapDialog = ({
                 </Text>
               </Label.Root>
             </Flex>
-            {enabled && (
+            {enabled && !oneTimeDisable && (
               <CircularTimer
                 interval={CONFIRMATION_INTERVAL_SECONDS}
                 onComplete={handleSwapConfirm}
               />
             )}
           </Flex>
-          {!enabled && (
+          {(!enabled || oneTimeDisable) && (
             <Flex align='center' gap='4'>
               <Button
                 color='gray'
@@ -260,6 +261,7 @@ const SwapDialog = ({
         if (!value) {
           onDialogClose();
           setSuccess(false);
+          setOneTimeDisable(false);
           setDialog('none');
         } else {
           setDialog(dialog);

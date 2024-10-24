@@ -11,7 +11,7 @@ type AutoSwapAction = {
 };
 
 const autoSwapStoreSlice: StateCreator<AutoSwapState & AutoSwapAction> = (set) => ({
-  enabled: false,
+  enabled: true,
   toggleEnabled: () => set((state) => ({ enabled: !state.enabled })),
 });
 
