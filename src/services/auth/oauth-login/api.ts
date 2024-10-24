@@ -46,7 +46,7 @@ export function useOauthLogin() {
       const { access_token, refresh_token } = query.data;
       window.setTimeout(() => {
         useUserStore.setState({ user: { accessToken: access_token, refreshToken: refresh_token } });
-      });
+      }, 100);
       toast.success('Successfully logged in!');
       trackOnboardingSignUpCompleted(useAnalyticsStore.getState().signUpMethod);
     } else if (query.isError) {
