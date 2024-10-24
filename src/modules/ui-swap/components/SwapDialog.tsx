@@ -105,7 +105,7 @@ const SwapDialog = ({
         );
       }
       return (
-        <Flex direction='column' gap='4' px='4' onClick={() => setOneTimeDisable(true)}>
+        <Flex direction='column' gap='4' px='4'>
           <DialogTitle asChild>
             <Text size='4' align='center' weight='bold' lineHeight='24px'>
               Confirm Swap
@@ -267,6 +267,9 @@ const SwapDialog = ({
           setDialog(dialog);
         }
       }}
+      onContentClick={
+        dialog === 'swap-confirmation' && !success ? () => setOneTimeDisable(true) : undefined
+      }
     >
       {dialogContent()}
     </Dialog>

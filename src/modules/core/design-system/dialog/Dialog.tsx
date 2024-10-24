@@ -14,10 +14,11 @@ export type DialogProps = {
   open: boolean;
   trigger: ReactNode;
   setOpen(value: boolean): void;
+  onContentClick?(): void;
 } & DialogPrimitive.DialogTriggerProps;
 
 export const Dialog = forwardRef<HTMLButtonElement, DialogProps>(
-  ({ open, trigger, children, setOpen, ...props }, forwardedRef) => {
+  ({ open, trigger, children, setOpen, onContentClick, ...props }, forwardedRef) => {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [animation, setAnimation] = useState<Animation>('appear');
 
@@ -61,6 +62,7 @@ export const Dialog = forwardRef<HTMLButtonElement, DialogProps>(
             <DialogPrimitive.Content
               {...stylex.props(styles.content, isBottomGap && styles.bottomGap, styles[animation])}
               aria-describedby={undefined}
+              onClick={onContentClick}
               {...swipeHandlers}
             >
               <Flex width='100%' height='37px' justify='center' py='4'>
