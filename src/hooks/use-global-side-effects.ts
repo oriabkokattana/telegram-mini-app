@@ -18,7 +18,7 @@ import useTrackAppExit from './use-track-app-exit';
 const darkThemeClassNames = stylex.props(darkTheme).className?.split(' ') || [];
 
 export const useGlobalSideEffects = () => {
-  useOauthLogin();
+  const oauthLoading = useOauthLogin();
   // useSignAuth();
   useTrackAppExit();
 
@@ -87,5 +87,5 @@ export const useGlobalSideEffects = () => {
     };
   }, [themeParams, miniApp]);
 
-  return !userHydrated;
+  return oauthLoading || !userHydrated;
 };

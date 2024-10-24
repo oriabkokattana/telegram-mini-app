@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -29,6 +29,7 @@ const oauthLogin = api<z.infer<typeof OAuthLoginRequest>, z.infer<typeof OAuthLo
 
 export function useOauthLogin() {
   const initData = useInitData();
+  const [loading, setLoading] = useState(true);
 
   const { setCredentials } = useUserStore();
 
@@ -44,6 +45,7 @@ export function useOauthLogin() {
   });
 
   useEffect(() => {
+    setLoading(true);
     if (query.isSuccess) {
       const { access_token, refresh_token } = query.data;
       setCredentials({ accessToken: access_token, refreshToken: refresh_token });
@@ -53,5 +55,8 @@ export function useOauthLogin() {
       const errorMessage = query.error.response?.data.error;
       console.error(errorMessage);
     }
+    setLoading(false);
   }, [query.isSuccess, query.isError]);
+
+  return loading;
 }
