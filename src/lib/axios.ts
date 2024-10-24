@@ -21,6 +21,8 @@ instance.interceptors.request.use(
   function (config) {
     const accessToken = useUserStore.getState().user?.accessToken;
 
+    console.log(accessToken);
+
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
@@ -63,6 +65,8 @@ instance.interceptors.response.use(
 
       originalRequest._retry = true;
       isRefreshing = true;
+
+      console.log(useUserStore.getState().user?.refreshToken);
 
       try {
         const response = await getRefreshToken({
