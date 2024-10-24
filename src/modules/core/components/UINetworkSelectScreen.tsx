@@ -1,9 +1,10 @@
 import { useEffect, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Card, Flex } from '@radix-ui/themes';
+import { Link, useNavigate } from 'react-router-dom';
+import { Button, Card, Flex } from '@radix-ui/themes';
 import * as stylex from '@stylexjs/stylex';
 import { usePopup } from '@telegram-apps/sdk-react';
 import { useBalancesStore } from '@/store/balances-store';
+import { useWithdrawStore } from '@/store/withdraw-store';
 import { convertSeconds } from '@/utils/duration';
 import { getAvailableBalance } from '@/utils/token-with-balance';
 import { Text } from '../design-system/text';
@@ -12,9 +13,7 @@ import NoDataPlaceholder from './NoDataPlaceholder';
 
 import { styles } from './UINetworkSelectScreen.styles';
 
-import { AvailableBalance, Direction, NetworkItem, WithdrawDepositToken } from '@/types';
-
-type Network = NetworkItem & AvailableBalance;
+import { Direction, NetworkItem, WithdrawDepositToken } from '@/types';
 
 interface UINetworkSelectScreenProps {
   data?: NetworkItem[];
@@ -35,21 +34,21 @@ const UINetworkSelectScreen = ({
 
   const popup = usePopup();
   const navigate = useNavigate();
+  const reset = useWithdrawStore((state) => state.reset);
 
-  const networkList = useMemo<Network[]>(() => {
+  const availableBalance = token
+    ? getAvailableBalance(balances[token.symbol]?.total_balance).balance
+    : 0;
+
+  const networkList = useMemo<NetworkItem[]>(() => {
     if (!token || !data?.length) {
       return [];
     }
-    const items = [...data].map((item) => ({
-      ...item,
-      ...getAvailableBalance(balances[token.symbol]?.total_balance),
-    }));
-    items.sort((a, b) => b.balanceUSD - a.balanceUSD);
     if (direction === 'withdraw') {
-      return items.filter((item) => !!item.balance);
+      return availableBalance ? data : [];
     }
-    return items;
-  }, [data, token, balances, direction]);
+    return data;
+  }, [data, token, availableBalance, direction]);
 
   useEffect(() => {
     if (popup.supports('open') && !token) {
@@ -63,6 +62,28 @@ const UINetworkSelectScreen = ({
         });
     }
   }, []);
+
+  if (direction === 'withdraw' && !!token && !availableBalance) {
+    return (
+      <Flex minHeight='100vh' direction='column' gap='5' p='4'>
+        <Text size='2' align='center' weight='bold' lineHeight='16px'>
+          Withdraw {token.name}
+        </Text>
+        <NoDataPlaceholder
+          variant='sad-smile'
+          title='Balance Empty'
+          description="You've withdrawn all your funds. There's nothing left to withdraw. Please top up your balance to continue."
+        />
+        <Button asChild color='gray' variant='soft' size='4' mt='auto' onClick={reset}>
+          <Link to='/'>
+            <Text color='brown' size='3' weight='bold'>
+              Done
+            </Text>
+          </Link>
+        </Button>
+      </Flex>
+    );
+  }
 
   if (!networkList.length && !loading) {
     return (
