@@ -46,6 +46,8 @@ export function useOauthLogin() {
   useEffect(() => {
     if (query.isSuccess) {
       const { access_token, refresh_token } = query.data;
+      console.log(query.data);
+
       setCredentials({ accessToken: access_token, refreshToken: refresh_token });
       toast.success('Successfully logged in!');
       trackOnboardingSignUpCompleted(useAnalyticsStore.getState().signUpMethod);

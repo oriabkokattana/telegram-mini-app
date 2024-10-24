@@ -66,8 +66,6 @@ instance.interceptors.response.use(
       originalRequest._retry = true;
       isRefreshing = true;
 
-      console.log(useUserStore.getState().user?.refreshToken);
-
       try {
         const response = await getRefreshToken({
           params: { token: useUserStore.getState().user?.refreshToken },
