@@ -33,7 +33,7 @@ export function useOauthLogin() {
   const { setCredentials } = useUserStore();
 
   const sessionId = initData?.startParam;
-  const [loading, setLoading] = useState(sessionId !== 'debug');
+  const [loading, setLoading] = useState(sessionId && sessionId !== 'debug');
 
   const query = useQuery<z.infer<typeof OAuthLoginAPIResponseSchema>, AxiosError<ErrorResponse>>({
     queryKey: ['auth', 'oauth', sessionId],
