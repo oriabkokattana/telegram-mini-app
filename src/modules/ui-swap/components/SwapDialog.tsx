@@ -105,7 +105,7 @@ const SwapDialog = ({
         );
       }
       return (
-        <Flex direction='column' gap='4' px='4' onClick={(e) => e.stopPropagation()}>
+        <Flex direction='column' gap='4' px='4'>
           <DialogTitle asChild>
             <Text size='4' align='center' weight='bold' lineHeight='24px'>
               Confirm Swap
@@ -179,7 +179,14 @@ const SwapDialog = ({
           </Flex>
           <Separator size='4' />
           <Flex justify='between' align='center'>
-            <Flex asChild height='48px' align='center' gap='2' style={{ cursor: 'pointer' }}>
+            <Flex
+              asChild
+              height='48px'
+              align='center'
+              gap='2'
+              style={{ cursor: 'pointer' }}
+              onClick={(e) => e.stopPropagation()}
+            >
               <Label.Root>
                 <Checkbox size='1' checked={!enabled} onCheckedChange={toggleEnabled} />
                 <Text size='2' weight='medium' lineHeight='20px'>
