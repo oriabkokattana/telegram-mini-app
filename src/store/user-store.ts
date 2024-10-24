@@ -22,11 +22,7 @@ type UserAction = {
 const userStoreSlice: StateCreator<UserState & UserAction> = (set) => ({
   user: null,
   welcomed: false,
-  setCredentials: (user) =>
-    set(() => {
-      console.log(user);
-      return { user };
-    }),
+  setCredentials: (user) => set({ user }),
   toggleWelcomed: () => set((state) => ({ welcomed: !state.welcomed })),
   removeCredentials: () => set({ user: null }),
 });
@@ -42,10 +38,7 @@ export const useUserStoreHydration = () => {
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    const unsubFinishHydration = useUserStore.persist.onFinishHydration(() => {
-      setHydrated(true);
-      console.log(useUserStore.getState());
-    });
+    const unsubFinishHydration = useUserStore.persist.onFinishHydration(() => setHydrated(true));
 
     setHydrated(useUserStore.persist.hasHydrated());
 
