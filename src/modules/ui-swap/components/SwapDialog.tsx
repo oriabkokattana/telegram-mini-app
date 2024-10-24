@@ -89,7 +89,7 @@ const SwapDialog = ({
                   Give: {savedBaseAmountRef.current || baseAmount} {base}
                 </Text>
                 <Text color='gray' size='2' align='center' weight='medium' lineHeight='20px'>
-                  Received: ~{formatNumberWithCommas(savedQuoteAmountRef.current || quoteAmount)}{' '}
+                  Receive: ~{formatNumberWithCommas(savedQuoteAmountRef.current || quoteAmount)}{' '}
                   {quote}
                 </Text>
               </Flex>
@@ -105,7 +105,7 @@ const SwapDialog = ({
         );
       }
       return (
-        <Flex direction='column' gap='4' px='4'>
+        <Flex direction='column' gap='4' px='4' onClick={(e) => e.stopPropagation()}>
           <DialogTitle asChild>
             <Text size='4' align='center' weight='bold' lineHeight='24px'>
               Confirm Swap
