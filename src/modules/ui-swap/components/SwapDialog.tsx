@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { MouseEvent, useRef, useState } from 'react';
 import Big from 'big.js';
 import * as Label from '@radix-ui/react-label';
 import { Button, Checkbox, Flex, Separator } from '@radix-ui/themes';
@@ -61,14 +61,16 @@ const SwapDialog = ({
   const savedBaseAmountRef = useRef('');
   const savedQuoteAmountRef = useRef('');
 
-  const handleSwapConfirm = () => {
+  const handleSwapConfirm = (e?: MouseEvent) => {
+    e?.stopPropagation();
     savedBaseAmountRef.current = baseAmount;
     savedQuoteAmountRef.current = quoteAmount;
     setSuccess(true);
     onSwapConfirm();
   };
 
-  const handleSwapCancel = () => {
+  const handleSwapCancel = (e?: MouseEvent) => {
+    e?.stopPropagation();
     setDialog('none');
   };
 
